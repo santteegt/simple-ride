@@ -1,0 +1,36 @@
+@import "../../theme/colorsvar";
+
+.facebook {
+	color: $facebook;
+	// position: absolute;
+	// right: 0;
+	// left: 0;
+	// height: 100%;
+}
+
+.login {
+	background-color: $app;
+	color: $app;
+	text-align: center;
+}
+
+.logo-img {
+	margin-top: 40%;
+	margin-bottom: 5px;
+	width: 200px;
+}
+
+#login-button {
+	margin-top: 30%;
+	color: $app;
+	border-radius: 6px;
+}
+
+#appname {
+	font-size: 30px;
+}
+
+#legend {
+	margin-left: 20%;
+	margin-right: 20%;
+}

@@ -1,0 +1,18 @@
+{
+  "android": {
+    "debug": {
+      "keystore": "platforms/android/simpleride.keystore",
+      "storePassword": "simpleride",
+      "alias": "SimpleRide",
+      "password" : "simpleride",
+      "keystoreType": ""
+    },
+    "release": {
+      "keystore": "platforms/android/simpleride.keystore",
+      "storePassword": "simpleride",
+      "alias": "SimpleRide",
+      "password" : "simpleride",
+      "keystoreType": ""
+    }
+  }
+}

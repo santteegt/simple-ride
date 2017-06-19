@@ -1,0 +1,24 @@
+{
+	"public": {
+		"facebook": {
+			"permissions": [
+				"public_profile",
+				"user_friends",
+				"email"
+			],
+			"profileFields": [
+				"name",
+				"gender",
+				"location"
+			]
+		}
+	},
+	"private": {
+		"oAuth": {
+			"facebook": {
+				"appId": "210372952755567",
+    			"secret": "32fab4a8e446efcac8759133b67779cf"
+			}
+ 		}
+	}
+}
