@@ -60,6 +60,7 @@ ordered-dict@1.0.9
 promise@0.8.8
 random@1.0.10
 rate-limit@1.0.8
+rclai89:cheerio@1.0.0
 reactive-var@1.0.11
 reload@1.1.11
 retry@1.0.9

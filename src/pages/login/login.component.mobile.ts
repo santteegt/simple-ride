@@ -54,6 +54,14 @@ export class LoginMobileComponent implements OnInit, OnDestroy {
   	ngOnInit() {
 		// this.usersSub = MeteorObservable.subscribe("userData").subscribe();
 		this.menuCtrl.enable(false);
+
+		MeteorObservable.autorun().subscribe(() => {
+			if(Meteor.user()) {
+				this.navCtrl.push(HomePage, {});
+			} else {
+				console.log('User not found');
+			}
+		});
 	}
 
 	ngOnDestroy() {
@@ -71,8 +79,6 @@ export class LoginMobileComponent implements OnInit, OnDestroy {
 				// this.navCtrl.push(DashboardMobileComponent, {
 	   //  	});
 			}
-			this.navCtrl.push(HomePage, {
-	    	});
 
   		})
   		.catch((error) => {
