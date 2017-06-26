@@ -1,6 +1,15 @@
 import { Meteor } from 'meteor/meteor';
 
-declare var process;
+import "./imports/publications/users";
+import "./imports/publications/user-records.ts";
+import "./imports/publications/car-records.ts";
+import "./imports/publications/reservations";
+import "./imports/publications/trips";
+import "./imports/publications/places";
+import "./imports/publications/images";
+import "./imports/publications/chat-messages";
+import "./imports/publications/trip-flags";
+import "./imports/publications/notifications";
 
 declare const ServiceConfiguration: any;
 
