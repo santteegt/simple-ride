@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { _ } from 'underscore';
+// TODO:
 // import { Push } from 'meteor/raix:push';
 
 import { Users } from '../../both/collections/users.collection';
@@ -66,6 +67,7 @@ function sendSystemMessage(user_id: string, trip_id: string, is_driver: boolean,
   });
 }
 
+// TODO: Migrate push service
 function sendPushNotification(title: string, text: string, user_id?: string, redirect_component?: string,
   redirect_params?: any, from_user?: string, trip_id?: string) {
 

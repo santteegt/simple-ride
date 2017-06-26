@@ -10,6 +10,7 @@ import "./imports/publications/images";
 import "./imports/publications/chat-messages";
 import "./imports/publications/trip-flags";
 import "./imports/publications/notifications";
+// TODO: Migrate push services
 
 declare const ServiceConfiguration: any;
 
