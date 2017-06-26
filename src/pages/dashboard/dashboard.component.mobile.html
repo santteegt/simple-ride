@@ -1,0 +1,182 @@
+<ion-header>
+  <ion-navbar color="app" style="padding-top: 4px">
+    <ion-buttons left class="menu-buttons">
+      <button ion-button menuToggle icon-only>
+        <ion-icon name='menu'></ion-icon>
+        <!-- <ion-badge class="notifications-badge" color="danger" [hidden]="notificationsCount == null || notificationsCount == 0"><span style="font-size: 0.8em">!</span></ion-badge> -->
+      </button>
+    </ion-buttons>
+
+    <ion-title style="padding-top: 0; text-align: center" showWhen="ios">
+      <img src="/assets/logo.png" style="padding-top: 5px; width: 75px; height: 44px">
+    </ion-title>
+
+    <div style="padding-top: 0; text-align: center" showWhen="android,windows">
+      <img src="/assets/logo.png" style="padding-top: 5px; width: 75px; height: 44px">
+    </div>
+
+    <!-- <ion-buttons end *ngIf="!(user | isDriver)">
+      <button ion-button icon-only (tap)="showSearchbar()">
+        <ion-icon name="search"></ion-icon>
+      </button>
+    </ion-buttons> -->
+
+    <ion-buttons end>
+      <button ion-button icon-only (click)="openNotificationsBoard()">
+        <ion-icon name="notifications"></ion-icon>
+        <ion-badge class="notifications-badge-right" color="danger" [hidden]="notificationsCount == null || notificationsCount == 0"><span style="font-size: 0.8em">{{notificationsCount}}</span></ion-badge>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+<ion-content>
+  <!-- <span class="fa fa-google-wallet"></span> -->
+ <!--  <ion-grid *ngIf="!(user | isDriver)" [@searchBoxHeight]="boxHeightState" class="search-bar">
+    <ion-row *ngIf="!(user | isDriver) && searchBar" [@popSearchBox]="searchState">
+      <ion-col width-50>
+        <ion-item>
+          <button ion-button item-right clear icon-only class="location-button" (tap)="setOrigin()">
+            <ion-icon name="ios-navigate-outline" color="secondary"></ion-icon>
+          </button>
+          <ion-input class="search-input" type="text" placeholder="Origen"></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col width-50>
+        <ion-input class="search-input" type="text" placeholder="Destino"></ion-input>
+      </ion-col>
+    </ion-row>
+  </ion-grid> -->
+  <!-- <div *ngIf="!(user | isDriver)" class="swiper" style="width: 100%; height: 10px; background-color: grey; opacity: 60%" ></div> -->
+
+  <!-- <div style="padding: 0 10px;" [@searchBoxHeight]="boxHeightState"> -->
+    <!-- <div *ngIf="!(user | isDriver) && searchBar" style="border: 1px solid black; border-radius: 5px; padding: 0 5px; margin-top: 10px;" [@popSearchBox]="searchState"> -->
+  <div style="padding: 0 10px;">
+    <div *ngIf="!(user | isDriver)" style="border: 1px solid black; border-radius: 5px; padding: 0 5px; margin-top: 10px;">
+                <!-- <div style="width: 10%; float: left; margin: 6px 0"> -->
+      <div style="width: 15%; float: left;">
+        <!-- <div style="padding: 0 1px; padding-top: 9px; padding-bottom: 5px"><span style="font-size: 8px">Desde</span></div>
+        <div style="padding: 0 10px"><ion-icon name="arrow-round-down"></ion-icon></div>
+        <div style="padding: 0 2px"><span style="font-size: 8px">Hasta</span></div> -->
+        <ion-grid style="margin: 10px 0; padding: 5px 0; text-align: center">
+          <ion-row>
+            <ion-col width-100 style="padding: 0 5px">
+              <div><span style="font-size: .7em">Desde</span></div>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col width-100 style="padding: 0 5px">
+              <ion-icon style="font-size: 1.2em" name="arrow-round-down"></ion-icon>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col width-100 style="padding: 5px 0">
+              <!-- <div><span style="font-size: 8px">Hasta</span></div> -->
+              <div style="font-size: .7em">Hasta</div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
+      <div style="overflow: hidden;">
+        <!-- <ion-searchbar (ionInput)="getLocation($event)" (ionCancel)="onCancel($event)" [showCancelButton]="true" debounce="500" mode="md" placeholder="Origen" autocomplete="on" type="text" animated="true"></ion-searchbar>
+        <ion-searchbar (ionInput)="getLocation($event)" (ionCancel)="onCancel($event)" [showCancelButton]="true" debounce="500" mode="md" placeholder="Origen" autocomplete="on" type="text" animated="true" (ionBlur)="loadMap()"></ion-searchbar> -->
+        
+        <ion-item class="search-input">
+          <button ion-button item-right clear icon-only (click)="clearOrigin();" [hidden]="originSearch.length == 0">
+            <ion-icon name="backspace"></ion-icon>
+          </button>
+          <button ion-button item-right clear icon-only class="location-button" (click)="getCurrentLocation()">
+            <ion-icon name="ios-navigate-outline" color="secondary"></ion-icon>
+          </button>
+          <ion-input type="search" [(ngModel)]="originSearch" (input)="getPlacesOverview()"></ion-input>
+        </ion-item>
+
+        <ion-item class="search-input">
+          <button ion-button item-right clear icon-only (click)="clearDestination();" [hidden]="destinationSearch.length == 0">
+            <ion-icon name="backspace"></ion-icon>
+          </button>
+          <ion-input type="search" [(ngModel)]="destinationSearch" (input)="getPlacesOverview()"></ion-input>
+        </ion-item>
+      </div>
+    </div>
+  </div>
+
+  <ion-toolbar>
+    <ion-title style="text-align: center" *ngIf="user | isDriver">
+      Mis Viajes
+    </ion-title>
+    <ion-title style="text-align: center" *ngIf="!(user | isDriver)">
+      Viajes Disponibles
+    </ion-title>
+  </ion-toolbar>
+
+  <div *ngIf="(user | isDriver)">
+    <p *ngIf="!hasTrips" class="loading-message">No tienes ningún viaje</p>
+    <img *ngIf="!hasTrips" src="assets/not-found.png" class="not-found"/>
+    <ion-card *ngFor="let trip of mytrips | async">
+        <ion-card-title text-center>
+          {{trip.origin.shortName}} - {{trip.destination.shortName}}
+        </ion-card-title>
+      <ion-item tappable (click)="editTripModal(trip)">
+
+        <ion-icon item-left name="car" style="margin-right: 5px"></ion-icon>
+        <ion-icon item-left name="ios-more-outline" style="margin-right: 5px"></ion-icon>
+        <ion-icon item-left name="ios-pin"></ion-icon>
+        <!-- <span></span> -->
+        <p><b>Fecha:</b> <span>{{trip.departureDate.toLocaleDateString()}}</span></p>
+        <p><b>Hora:</b> <span>{{trip.departureTime}}</span></p>
+        <p><b>Lugares disp.:</b> <span *ngIf="trip.available_places > 0">{{trip.available_places}}/{{trip.places}}</span><span *ngIf="trip.available_places == 0" ion-text color="secondary"><strong>Completo</strong></span></p>
+        
+      </ion-item>
+      
+      <!-- <ion-card-content>
+        
+      </ion-card-content> -->
+
+      <ion-row no-padding>
+        <!-- <ion-col no-padding>
+          <button ion-button clear small icon-left>
+            <ion-icon name='ios-open'></ion-icon>
+            Detalle
+          </button>
+        </ion-col> -->
+        <ion-col text-center no-padding>
+          <button ion-text ion-button color="app" clear small icon-left (click)="openTripMessageBoard(trip)">
+            <ion-icon name='text'></ion-icon>
+            Mensajes
+          </button>
+        </ion-col>
+        <ion-col text-center no-padding>
+          <button ion-text ion-button color="app" clear small icon-left (click)="shareTrip(trip)">
+            <ion-icon name='share-alt'></ion-icon>
+            Compartir
+          </button>
+        </ion-col>
+      </ion-row>
+    </ion-card>
+
+  </div>
+
+  <div *ngIf="!(user | isDriver)" class="card-background-page">
+    <div *ngIf="!placesOverview || placesOverview.length == 0" class="loading-message">No existen viajes disponibles</div>
+    <img *ngIf="!placesOverview || placesOverview.length == 0" src="assets/not-found.png" 
+    class="not-found"/>
+    <ion-card *ngFor="let place of placesOverview" tappable (click)="openTripListings(place)">
+
+      <img src="assets/trip-without-image.jpg" [hidden]="loadingImgs[place.place_id]"/>
+      <img src="{{place.photoURL}}" (load)="loadedPlaceImg(place.place_id)" [hidden]="!loadingImgs[place.place_id]"/>
+
+      <div class="card-title">{{place.name}}</div>
+      <div class="card-subtitle">{{place.totalTrips}} viaje{{place.totalTrips > 1 ? 's':''}}</div>
+    </ion-card>
+  </div>
+
+  <ion-fab right bottom>
+    <button ion-fab color="app" [hidden]="!(user | isDriver)" (click)="newTripModal()"><ion-icon name="add"></ion-icon></button>
+  </ion-fab>
+  <!-- <ion-fab right bottom [hidden]="notificationsCount == null || notificationsCount == 0">
+    <button ion-fab color="primary" [hidden]="(user | isDriver)" (click)="openNotificationsBoard()">
+      <ion-icon name="notifications"></ion-icon>
+      <ion-badge class="notifications-badge-bottom" color="danger" [hidden]="notificationsCount == null || notificationsCount == 0"><span style="font-size: 0.8em">{{notificationsCount}}</span></ion-badge>
+    </button>
+  </ion-fab> -->
+</ion-content>

@@ -1,0 +1,109 @@
+.notifications-badge {
+    position: absolute;
+    top: -1px;
+    right: -3px;
+    border-radius: 80%;
+    max-height: 15px;
+    padding: 0.01em 0.4em;
+
+}
+
+.notifications-badge-right {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    border-radius: 80%;
+    min-height: 20px;
+    min-width: 20px;
+    padding: 0.2em 0.4em;
+    text-align: center;
+
+}
+
+.notifications-badge-bottom {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    border-radius: 80%;
+    min-height: 20px;
+    min-width: 20px;
+    padding: 0.4em 0.4em;
+    text-align: center;
+
+}
+
+.card-background-page {
+
+  ion-card {
+    // width: 300px;
+    height: 150px;
+    overflow: hidden;
+    position: relative;
+    text-align: center;
+  }
+
+
+  ion-card img {
+    position: absolute;
+    filter: brightness(50%);
+  }
+
+  .card-title {
+    position: absolute;
+    top: 36%;
+    font-size: 2.0em;
+    width: 100%;
+    font-weight: bold;
+    color: #fff;
+  }
+
+  .card-subtitle {
+    font-size: 1.2em;
+    font-weight: bold;
+    position: absolute;
+    top: 62%;
+    width: 100%;
+    color: #fff;
+  }
+
+  @media screen and (min-device-height: 600px) {
+    ion-card {
+      height: 200px;
+    }
+
+    .card-title {
+      font-size: 2.5em;
+    }
+
+    .card-subtitle {
+      font-size: 1.5em;
+    }
+  }
+
+}
+
+.search-bar {
+  padding-bottom: 0;
+  // background-color: black;
+}
+
+.search-input {
+  height: 30px !important;
+}
+
+.location-button {
+  margin: 2px;
+}
+
+.bar-buttons-md[left] {
+  position: absolute;
+}
+
+.bar-buttons-md[end] {
+  position: absolute;
+  right: 0;
+}
+
+ion-toolbar.toolbar-ios ion-title {
+  padding: 0;
+}

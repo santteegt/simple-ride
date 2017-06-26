@@ -1,0 +1,164 @@
+
+<ion-header>
+  <ion-navbar color="app" style="padding-top: 4px">
+    <ion-title style="padding-top: 0; text-align: center">
+      <img src="/assets/logo.png" style="padding-top: 5px; width: 75px; height: 44px">
+    </ion-title>
+    <ion-buttons start>
+      <button ion-button (click)="dismiss()" *ngIf="isModal">
+        <span showWhen="ios">Cerrar</span>
+        <ion-icon name="md-close" showWhen="android,windows"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+
+    <ion-item>
+      <ion-avatar item-left>
+          <img src="assets/nobody.png" [hidden]="loadingImgs[person.dni]"/>
+          <img src="{{person.profileImg}}" (load)="loadedImg(person.dni)" [hidden]="!loadingImgs[person.dni]"/>
+      </ion-avatar>
+      <h2>{{person.forename}}</h2>
+      <p>{{person.surname}}</p>
+    </ion-item>
+
+    <form [formGroup]="myformGroup" (submit)="registerUser()">
+      <ion-list>
+
+        <!-- <ion-item>
+          <ion-label stacked color="app">DNI</ion-label>
+          <ion-input type="number" [(ngModel)]="person.dni" formControlName="dni" name="dni" value=""></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label stacked>Nombres</ion-label>
+          <ion-input type="text" [(ngModel)]="person.forename" formControlName="forename" name="forename" value=""></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label stacked>Apellidos</ion-label>
+          <ion-input type="text" [(ngModel)]="person.surname" formControlName="surname" name="surname" value=""></ion-input>
+        </ion-item>
+
+
+        <ion-item>
+          <ion-label stacked>Fecha Nacimiento</ion-label>
+          <ion-input type="date" [(ngModel)]="person.birthday" formControlName="birthday" name="birthday" value=""></ion-input>
+        </ion-item>
+
+        <ion-item>
+        <ion-label stacked>País</ion-label>
+          <ion-input type="text" [(ngModel)]="person.birthCountry" formControlName="birthCountry" name="birthCountry" value=""></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label stacked>Provincia</ion-label>
+          <ion-input type="text" [(ngModel)]="person.birthState" formControlName="birthState" name="birthState" value=""></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label stacked>Ciudad</ion-label>
+          <ion-input type="text" [(ngModel)]="person.birthCity" formControlName="birthCity" name="birthCity" value=""></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label stacked>email</ion-label>
+          <ion-input type="email" [(ngModel)]="person.email" formControlName="email" name="email" value=""></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label stacked>Celular</ion-label>
+          <ion-input type="tel" [(ngModel)]="person.phone" formControlName="phone" name="phone" value=""></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Registrar vehículo?</ion-label>
+          <ion-toggle checked="false" [(ngModel)]="isDriver" formControlName="isDriver" name="isDriver" color="royal"></ion-toggle>
+        </ion-item> -->
+
+        <ion-item>
+          <ion-label stacked color="app">Tipo Identificación(*)</ion-label>
+          <ion-select formControlName="typeid" [class.invalid]="!myformGroup.controls.typeid.valid && (myformGroup.controls.typeid.dirty || submitAttempt)" tabindex="1">
+            <ion-option value="dni">Cédula</ion-option>
+            <ion-option value="passport">Pasaporte</ion-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item>
+          <ion-label stacked color="app">Identificación(*)</ion-label>
+          <ion-input type="number" formControlName="dni" [class.invalid]="(!myformGroup.controls.dni.valid || validId == false) && (myformGroup.controls.dni.dirty || submitAttempt)" (blur)="validateId($event)" tabindex="2"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label stacked>Nombres(*)</ion-label>
+          <ion-input type="text" formControlName="forename" [class.invalid]="!myformGroup.controls.forename.valid && (myformGroup.controls.forename.dirty || submitAttempt)" tabindex="3"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label stacked>Apellidos(*)</ion-label>
+          <ion-input type="text" formControlName="surname" [class.invalid]="!myformGroup.controls.surname.valid && (myformGroup.controls.surname.dirty || submitAttempt)" tabindex="4"></ion-input>
+        </ion-item>
+
+
+        <ion-item>
+          <ion-label stacked>Fecha Nacimiento(*)</ion-label>
+          <ion-datetime displayFormat="DD MMM YYYY" formControlName="birthday" [class.invalid]="!myformGroup.controls.birthday.valid && (myformGroup.controls.birthday.dirty || submitAttempt)" tabindex="5" [max]="maxDate" monthNames="enero, febrero, marzo, abril, mayo, junio, julio, agosto, septiembre, octubre, noviembre, diciembre" monthShortNames="ene, feb, mar, abr, may, jun, jul, ago, sep, oct, nov, dic" dayNames="domingo, lunes, martes, miércoles, jueves, viernes, sábado" dayShortNames="dom, lun, mar, mie, jue, vie, sab, dom"></ion-datetime>
+        </ion-item>
+
+        <ion-item>
+        <ion-label stacked>País(*)</ion-label>
+          <ion-input type="text" formControlName="birthCountry" readonly [class.invalid]="!myformGroup.controls.birthCountry.valid && (myformGroup.controls.birthCountry.dirty || submitAttempt)" tabindex="-1"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label stacked>Provincia(*)</ion-label>
+          <ion-input type="text" formControlName="birthState" [class.invalid]="!myformGroup.controls.birthState.valid && (myformGroup.controls.birthState.dirty || submitAttempt)" readonly="isModal" tabindex="6"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label stacked>Ciudad(*)</ion-label>
+          <ion-input type="text" formControlName="birthCity" [class.invalid]="!myformGroup.controls.birthCity.valid && (myformGroup.controls.birthCity.dirty || submitAttempt)" readonly="isModal" tabindex="7"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label stacked>email(*)</ion-label>
+          <ion-input type="email" formControlName="email" [class.invalid]="!myformGroup.controls.email.valid && (myformGroup.controls.email.dirty || submitAttempt)" tabindex="8"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label stacked>Celular(*)</ion-label>
+          <ion-input type="tel" formControlName="phone" [class.invalid]="!myformGroup.controls.phone.valid && (myformGroup.controls.phone.dirty || submitAttempt)" tabindex="9"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label stacked color="app">Conversación(*)</ion-label>
+          <ion-select formControlName="conversation" [class.invalid]="!myformGroup.controls.conversation.valid && (myformGroup.controls.conversation.dirty || submitAttempt)" tabindex="10">
+            <ion-option *ngFor="let style of conversationStyles" [value] = "style.name">{{style.value}}</ion-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item *ngIf="!isModal">
+          <ion-label>Es Conductor?</ion-label>
+          <ion-toggle checked="false" formControlName="isDriver"></ion-toggle>
+        </ion-item>
+
+        <ion-item *ngIf="!isModal">
+          <ion-label><a href="#" tappable (click)="termsOfService()">Acepto Términos y Cond.</a></ion-label>
+          <ion-toggle checked="false" formControlName="terms"></ion-toggle>
+        </ion-item>
+
+      </ion-list>
+
+      <div padding *ngIf="!isModal">
+        <button [disabled]="myformGroup && !myformGroup.value.terms" ion-button type="submit" color="primary" block>
+          Registrarse
+        </button>
+      </div>
+      <div padding *ngIf="isModal">
+        <button ion-button type="submit" color="primary" block>Guardar</button>
+      </div>
+    </form>
+
+</ion-content>

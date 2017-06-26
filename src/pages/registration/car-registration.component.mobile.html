@@ -1,0 +1,207 @@
+
+<ion-header>
+  <ion-navbar color="app" style="padding-top: 4px">
+    <ion-title style="padding-top: 0; text-align: center">
+      <img src="/assets/logo.png" style="padding-top: 5px; width: 75px; height: 44px">
+    </ion-title>
+    <ion-buttons start>
+      <button ion-button (click)="dismiss()" *ngIf="isModal">
+        <span showWhen="ios">Cerrar</span>
+        <ion-icon name="md-close" showWhen="android,windows"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-buttons end *ngIf="!isModal">
+      <button ion-button (click)="skipStep()">
+        Omitir
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+
+    <!-- <form [formGroup]="myformGroup" (submit)="registerCar()"> -->
+      <ion-list style="margin-bottom: 0">
+
+        <ion-item>
+          <ion-label stacked ion-text color="primary">Placa Vehículo(*)</ion-label>
+          <!-- <ion-input type="text" formControlName="carRegister" [class.invalid]="!myformGroup.controls.carRegister.valid && (myformGroup.controls.carRegister.dirty || submitAttempt)" placeholder="ej: ABC-09XX"></ion-input> -->
+          <ion-input type="text" [(ngModel)]="carRegister" [class.invalid]="validRegister == false" placeholder="ej: ABC09XX"></ion-input>
+        </ion-item>
+
+        <div padding>
+          <button ion-button block color="secondary" block (click)="validateCar()">Buscar</button>
+        </div>
+
+      </ion-list>
+
+
+
+      <div padding *ngIf="validRegister">
+        <ion-segment [(ngModel)]="card">
+          <ion-segment-button value="Matricula">
+            Matrícula
+          </ion-segment-button>
+          <ion-segment-button value="Licencia">
+            Licencia
+          </ion-segment-button>
+        </ion-segment>
+      </div>
+
+      <div *ngIf="validRegister" [ngSwitch]="card">
+
+        <ion-card *ngSwitchCase="'Matricula'">
+
+          <ion-item>
+            <ion-icon item-left name="ios-car"></ion-icon>
+            <h2 style="text-align: center">{{carRecord.vehicleData.modelo}}</h2>
+            <p style="text-align: center">{{carRecord.vehicleData.marca}}</p>
+          </ion-item>
+
+          <ion-row>
+            <ion-col width-50 style="text-align: center">
+              <span><b>Año:</b></span>
+            </ion-col>
+            <ion-col width-50 style="text-align: center">
+              <span><b>Color:</b></span>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col width-50 style="text-align: center">
+              <span>{{carRecord.vehicleData.anio}}</span>
+            </ion-col>
+            <ion-col width-50 style="text-align: center">
+              <span>{{carRecord.vehicleData.color}}</span>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col width-50 style="text-align: center">
+              <span><b>Fecha Matricula:</b></span>
+            </ion-col>
+            <ion-col width-50 style="text-align: center">
+              <span><b>Valida Hasta:</b></span>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col width-50 style="text-align: center">
+              <span>{{carRecord.vehicleData.fecha_matricula}}</span>
+            </ion-col>
+            <ion-col width-50 style="text-align: center">
+              <span>{{carRecord.vehicleData.fcaducidad_matricula}}</span>
+            </ion-col>
+          </ion-row>
+
+        </ion-card>
+
+
+        <ion-card *ngSwitchCase="'Licencia'">
+          <div *ngIf="hasLicense">
+            <ion-item>
+              <ion-icon item-left name="ios-person"></ion-icon>
+              <h2>Licencia Tipo {{licenseRecord.license_info.license_type}}</h2>
+              <p><span>{{licenseRecord.license_info.name}}</span></p>
+            </ion-item>
+
+            <ion-row>
+              <ion-col width-10>
+              </ion-col>
+              <ion-col width-40>
+                <span><b>Puntos licencia:</b></span>
+              </ion-col>
+              <ion-col width-10>
+              </ion-col>
+              <ion-col width-40 style="text-align: center">
+                <span>{{licenseRecord.license_info.points}} puntos</span>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col width-10>
+              </ion-col>
+              <ion-col width-40>
+                <span><b>Valida Hasta:</b></span>
+              </ion-col>
+              <ion-col width-10>
+              </ion-col>
+              <ion-col width-40 style="text-align: center">
+                <span>{{licenseRecord.license_info.license_expire}}</span>
+              </ion-col>
+            </ion-row>
+          </div>
+
+          <div *ngIf="!hasLicense">
+            <ion-item>
+              <p>No tienes una licencia</p>
+            </ion-item>
+          </div>
+
+        </ion-card>
+
+      </div>
+
+      <!-- <ion-list>
+
+        <ion-item>
+          <ion-label color="app">Marca(*)</ion-label>
+          <ion-select formControlName="carBrand" [class.invalid]="!myformGroup.controls.carBrand.valid && (myformGroup.controls.carBrand.dirty || submitAttempt)">
+            <ion-option value="Chevrolet">Chevrolet</ion-option>
+            <ion-option value="Toyota">Toyota</ion-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Color(*)</ion-label>
+          <ion-select formControlName="carColor" [class.invalid]="!myformGroup.controls.carColor.valid && (myformGroup.controls.carColor.dirty || submitAttempt)">
+            <ion-option value="white">Blanco</ion-option>
+            <ion-option value="black">Negro</ion-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item>
+          <ion-label stacked>No. Puertas(*)</ion-label>
+          <ion-input type="number" formControlName="noDoors" [class.invalid]="!myformGroup.controls.noDoors.valid && (myformGroup.controls.noDoors.dirty || submitAttempt)"></ion-input>
+        </ion-item>
+
+      </ion-list> -->
+
+      <!-- <ion-item>
+          <ion-label><a href="#" *ngIf="!isModal" (click)="termsOfService()">Acepto Términos y Cond.</a></ion-label>
+          <ion-toggle checked="false" formControlName="terms"></ion-toggle>
+        </ion-item> -->
+
+      <!-- <div padding *ngIf="!isModal">
+        <button [disabled]="myformGroup && !myformGroup.value.terms" ion-button type="submit" color="primary" block>Guardar</button>
+      </div>
+
+      <div padding *ngIf="isModal">
+        <button ion-button type="submit" color="primary" block>Guardar</button>
+      </div> -->
+
+    <!-- </form> -->
+
+    <div [hidden]="!validRegister">
+      <ion-item>
+        <ion-label><a href="#" tappable>¿Tiene seguro tú vehículo?</a></ion-label>
+        <ion-toggle checked="false" [(ngModel)]="hasInsurance"></ion-toggle>
+      </ion-item>
+      <ion-item>
+        <ion-label><a href="#" tappable (click)="termsOfService()">Acepto Términos y Cond.</a></ion-label>
+        <ion-toggle checked="false" [(ngModel)]="terms"></ion-toggle>
+      </ion-item>
+
+      <div padding>
+        <button ion-button (click)="registerCar()" [disabled]="!terms || !validRegister || !hasLicense" color="primary" block>Guardar</button>
+      </div>
+    </div>
+
+</ion-content>
+
+<!-- <ion-footer *ngIf="validRegister">
+  <ion-item >
+    <ion-label><a href="#" (tap)="termsOfService()">Acepto Términos y Cond.</a></ion-label>
+    <ion-toggle checked="false" [(ngModel)]="terms"></ion-toggle>
+  </ion-item>
+
+  <div padding>
+    <button ion-button (tap)="registerCar()" [disabled]="!terms" color="primary" block>Guardar</button>
+  </div>
+</ion-footer> -->
