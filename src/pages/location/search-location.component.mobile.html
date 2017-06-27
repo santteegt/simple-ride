@@ -1,0 +1,72 @@
+<ion-header>
+  <ion-navbar color="app">
+    <ion-buttons start>
+      <button ion-button icon-left (click)="dismiss()">
+        <ion-icon name="md-arrow-back"></ion-icon>
+      </button>
+    </ion-buttons>
+    <!-- <ion-searchbar #searchbar (ionInput)="getLocation($event)" (ionCancel)="onCancel($event)" debounce="500" placeholder="Buscar ubicación" autocomplete="on" type="text"></ion-searchbar> -->
+    <ion-searchbar #searchbar [(ngModel)]="autocomplete.query" (ionInput)="autocompleteLocation($event)" (ionCancel)="onCancel($event)" [showCancelButton]="true" placeholder="Buscar ubicación" autocomplete="on" type="text" debounce="100"></ion-searchbar>
+  </ion-navbar>
+  <ion-toolbar no-border-top>
+    <ion-segment mode="md" [(ngModel)]="location_option">
+      <ion-segment-button value="near">
+        Cerca
+      </ion-segment-button>
+      <ion-segment-button value="favorites" [disabled]="hideToolbar">
+        Favoritos
+      </ion-segment-button>
+      <ion-segment-button value="recent" [disabled]="hideToolbar">
+        Recientes
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+	<div [ngSwitch]="location_option">
+
+	    <ion-list *ngSwitchCase="'near'">
+        <div *ngIf="!hideToolbar">
+          <ion-item *ngFor="let item of nearByItems; let i = index">
+            <ion-icon item-left name="ios-pin-outline"></ion-icon>
+            <ion-label tappable (click)="selectNearbyLocation(item)">{{ item.name }}</ion-label>
+            <button ion-button item-right clear icon-only (click)="saveNBFavoriteLocation(i)">
+              <ion-icon name="ios-star" *ngIf="item.favicon"></ion-icon>
+              <ion-icon name="ios-star-outline" *ngIf="!item.favicon"></ion-icon>
+            </button>
+          </ion-item>
+        </div>
+
+        <div *ngIf="hideToolbar">
+          <ion-item *ngFor="let item of autocompleteItems; let i = index">
+            <ion-icon item-left name="ios-pin-outline"></ion-icon>
+            <ion-label tappable (click)="selectLocation(item)">{{ item.description }}</ion-label>
+            <button ion-button item-right clear icon-only (click)="saveFavoriteLocation(i)">
+              <ion-icon name="ios-star" *ngIf="item.favicon"></ion-icon>
+              <ion-icon name="ios-star-outline" *ngIf="!item.favicon"></ion-icon>
+            </button>
+          </ion-item>
+        </div>
+
+      </ion-list>
+
+      <ion-list *ngSwitchCase="'favorites'">
+        <!-- <ion-item *ngFor="let item of locationList">
+          {{ item }}
+        </ion-item> -->
+      </ion-list>
+
+      <ion-list *ngSwitchCase="'recent'">
+        <!-- <ion-item *ngFor="let item of locationList">
+          {{ item }}
+        </ion-item> -->
+      </ion-list>
+
+	</div>
+
+  <!-- <ion-list *ngIf="hideToolbar">
+    <ion-item *ngFor="let item of autocompleteItems" (click)="selectLocation(item)">
+      {{ item.description }}
+    </ion-item>
+  </ion-list> -->
+</ion-content>

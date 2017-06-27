@@ -8,14 +8,13 @@ import { StatusBar } from "@ionic-native/status-bar";
 import { _ } from 'meteor/underscore';
 
 // TODO: Migrate functionality
-// import { InjectUser } from "angular2-meteor-accounts-ui";
 // import { Counts } from 'meteor/tmeasday:publish-counts';
 
 import { Dashboard } from "../../classes/dashboard.class";
 import { GeolocationService } from "../../classes/services/geolocation.service";
+import { NewTripMobileComponent } from '../trip/new-trip.component.mobile';
 
 // TODO: migrate components
-// import { NewTripMobileComponent } from './pages/trip/new-trip.component.mobile';
 // import { TripMobileComponent } from './pages/trip/trip.component.mobile';
 // import { TripListMobileComponent } from './pages/trip/trip-list.component.mobile';
 // import { TripMessageBoardMobileComponent } from './pages/trip/trip-message-board.component.mobile';
@@ -84,8 +83,8 @@ declare var cordova;
 })
 export class DashboardMobileComponent extends Dashboard implements OnInit, OnDestroy {
 
-	// TODO: migrate components
- //  newTrip: Component = NewTripMobileComponent;
+  newTrip: Component = NewTripMobileComponent;
+  // TODO: migrate components
 	// tripDetail: Component = TripMobileComponent;
 
 	placesSub: Subscription;
@@ -118,6 +117,8 @@ export class DashboardMobileComponent extends Dashboard implements OnInit, OnDes
   hasTripsSub: Subscription;
 
   loadingImgs: any;
+
+  user: any;
 
   constructor(private platform: Platform, private navCtrl: NavController, navParams: NavParams, private viewCtrl: ViewController,
   	private modalCtrl: ModalController, private loadingCtrl: LoadingController, private menuCtrl: MenuController,
@@ -167,6 +168,10 @@ export class DashboardMobileComponent extends Dashboard implements OnInit, OnDes
 
   ngOnInit() {
     this.menuCtrl.enable(true);
+
+    MeteorObservable.autorun().subscribe(() => {
+      this.user = Meteor.user();
+    });
 
     if(this.isDriverSub){
       this.isDriverSub.unsubscribe();
@@ -399,9 +404,8 @@ export class DashboardMobileComponent extends Dashboard implements OnInit, OnDes
 
   newTripModal() {
   	if(Meteor.user()) {
-      // TODO: migrate component
-	  	// let modal = this.modalCtrl.create(this.newTrip, {geolocation: this.currentPosition});
-  		// modal.present();
+	  	let modal = this.modalCtrl.create(this.newTrip, {geolocation: this.currentPosition});
+  		modal.present();
   	} else {
   		alert("Constraint error!");
   	}

@@ -1,1 +1,73 @@
-<ion-nav [root]="rootPage"></ion-nav>
+<ion-menu [content]="content" persistent class="sp-menu">
+  <ion-header>
+    <ion-toolbar color="app" style="padding-top: 5px">
+    	<button class="app-color" ion-item no-lines detail-none (click)="openPage(profile, {isModal: true})">
+	      <ion-avatar item-left>
+          <img src="assets/nobody.png" [hidden]="imgLoaded"/>
+          <img src="{{user | displayImage}}" (load)="imgLoaded = true" [hidden]="!imgLoaded">
+	      </ion-avatar>
+	      	<h2>{{user | displayName}}</h2>
+	      	<p>Status: 
+            <span ion-text *ngIf="!verified" color="danger">No Verificado</span>
+            <span ion-text *ngIf="verified" color="secondary">Verificado</span>
+          </p>
+	    </button>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-list>
+
+      <!-- <button ion-item icon-left detail-none (click)="openPage(driverProfile, {isModal: true})" [hidden]="!(user | isDriver)">
+      	<ion-icon name="car"></ion-icon>
+        Perfil de Conductor
+      </button>
+
+	  <button ion-item icon-left detail-none (click)="openPage(tripsHistory, {isModal: true})" *ngIf="(user | isDriver)">
+      	<ion-icon name="pin"></ion-icon>
+        Historial de Viajes
+      </button>
+      <button ion-item icon-left detail-none (click)="openPage(myTrips, {isModal: true})" *ngIf="!(user | isDriver)">
+      	<ion-icon name="walk"></ion-icon>
+        Mis Viajes
+      </button>
+
+      <button ion-item icon-left detail-none (click)="openPage(paymentInfo, {isModal: true})" *ngIf="!(user | isDriver)">
+      	<ion-icon name="card"></ion-icon>
+        Métodos de Pago
+      </button>
+      <button ion-item icon-left detail-none (click)="openPage(paymentInfo, {isModal: true})" *ngIf="(user | isDriver)">
+      	<ion-icon name="card"></ion-icon>
+        Info de Pagos
+      </button>
+
+      <ion-item tappable (click)="openPage(uploadDocuments, {isModal: true})" *ngIf="!verified && !verifing">
+        <ion-icon name="person"></ion-icon>
+        Verificar Usuario
+      </ion-item>
+
+      <ion-item tappable (click)="openPage(notificationList, {isModal: true})">
+        <ion-icon name="notifications"></ion-icon>
+        Notificaciones
+        <ion-badge color="{{notificationsCount == null || notificationsCount == 0 ? 'primary':'danger'}}" item-right>{{notificationsCount && notificationsCount > 0 ? notificationsCount:0}}</ion-badge>
+      </ion-item>
+
+      <button ion-item icon-left detail-none (click)="openPage(about, {})">
+        <ion-icon name="information-circle"></ion-icon>
+        Acerca de nosotros
+      </button> -->
+
+      <ion-item>
+    		<ion-label>Perfil: <strong>{{isDriver ? 'Conductor':'Viajero'}}</strong></ion-label>
+    		<ion-toggle checked="false" [(ngModel)]="isDriver" color="app" (ionChange)="setActiveProfile()"></ion-toggle>
+  	  </ion-item>
+
+      <button  ion-item icon-left detail-none (click)="logout()">
+      	<ion-icon name="log-out" color="danger"></ion-icon>
+        <span ion-text color="danger">Cerrar Sesión</span>
+      </button>
+    </ion-list>
+    
+  </ion-content>
+</ion-menu>
+
+<ion-nav id="nav" #content [root]="rootPage" swipeBackEnabled="false"></ion-nav>

@@ -101,7 +101,8 @@ export class MyApp {
         this.keyboard.hideKeyboardAccessoryBar(false);
       }
 
-      this.menu.enable(false);
+      // TODO: Why the disabled the menu here ?
+      // this.menu.enable(false);
 
       // TODO: Meteor function in ionic client
 
