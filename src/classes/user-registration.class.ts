@@ -1,10 +1,7 @@
-import { Meteor } from "meteor/meteor";
+import { Meteor } from "meteor-client";
 
-import { User } from "../../api/both/models/user.model";
-import { USER_STATUS } from "../../api/both/models/user-status.model";
-import { DRIVER_STATUS } from "../../api/both/models/driver-status.model";
-import { Person, Driver } from "../../api/both/models/user.model";
-import { Users } from "../../api/both/collections/users.collection";
+import { User, USER_STATUS, DRIVER_STATUS, Person, Driver  } from "../shared/models";
+import { Users } from "../shared/collections";
 
 export class UserRegistration {
 

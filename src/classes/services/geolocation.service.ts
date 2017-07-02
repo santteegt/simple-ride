@@ -1,14 +1,16 @@
 import { Injectable } from '@angular/core';
-import { Meteor } from 'meteor/meteor';
+import { Meteor } from 'meteor-client';
 import { Geolocation } from '@ionic-native/geolocation';
 import { Platform } from 'ionic-angular';
 // TODO: migrate funcitonality
 // import { BackgroundLocation } from 'meteor/mirrorcell:background-geolocation-plus';
 
-import { UserTripFlag, GLocation } from "../../../api/both/models";
-import { UserRideMonitors } from "../../../api/both/collections";
+import { UserTripFlag, GLocation } from "../../shared/models";
+import { UserRideMonitors } from "../../shared/collections";
 
-import { _ } from 'meteor/underscore';
+// TODO:
+// import { _ } from 'meteor/underscore';
+declare var _;
  
 interface GeoPosition {
 	lat: number,

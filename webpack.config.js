@@ -9,17 +9,20 @@ module.exports = {
     filename: process.env.IONIC_OUTPUT_JS_FILE_NAME,
     devtoolModuleFilenameTemplate: ionicWebpackFactory.getSourceMapperFunction(),
   },
-  devtool: process.env.IONIC_GENERATE_SOURCE_MAP ? process.env.IONIC_SOURCE_MAP_TYPE : '',
+  devtool: process.env.IONIC_SOURCE_MAP_TYPE,
  
   resolve: {
     extensions: ['.ts', '.js', '.json'],
     modules: [path.resolve('node_modules')],
     alias: {
-      'api': path.resolve(__dirname, 'api/server')
+      'api': path.resolve(__dirname, 'api/both/')
     }
   },
 
   externals: [
+    {
+      sharp: '{}'
+    },
     resolveExternals
   ],
  
@@ -33,6 +36,10 @@ module.exports = {
         //test: /\.(ts|ngfactory.js)$/,
         test: /\.ts$/,
         loader: process.env.IONIC_WEBPACK_LOADER
+      },
+      {
+        test: /\.js$/,
+        loader: process.env.IONIC_WEBPACK_TRANSPILE_LOADER
       }
     ]
   },

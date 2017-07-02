@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
-import { Meteor } from 'meteor/meteor';
+import { Meteor } from 'meteor-client';
 import {Observable, Subscription, Subject} from "rxjs";
 import {MeteorObservable} from "meteor-rxjs";
 import {NavController, NavParams, ViewController, ToastController, ModalController, LoadingController} from 'ionic-angular';
@@ -11,9 +11,8 @@ import { UserRegistration } from "../../classes/user-registration.class";
 import { CarRegistrationMobileComponent } from "./car-registration.component.mobile";
 import { TermsOfServiceMobileComponent } from "../terms/terms-service.component.mobile";
 
-import { UserRecord } from '../../../api/both/models';
-import { PoliceRecord } from '../../../api/both/models/policy.structures';
-import { CONVERSATIONSTYLES } from '../../../api/both/models';
+import { UserRecord, CONVERSATIONSTYLES } from '../../shared/models';
+import { PoliceRecord } from '../../shared/models/policy.structures';
 
 import { GeolocationService } from "../../classes/services/geolocation.service";
 import { Utils } from '../../classes/shared/utils';

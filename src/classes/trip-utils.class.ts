@@ -1,6 +1,8 @@
 import { Reservation } from '../../api/both/models/reservation.model';
 import { UserRating } from '../../api/both/models/reservation.structure';
-import { _ } from 'meteor/underscore';
+// TODO:
+// import { _ } from 'meteor/underscore';
+declare var _;
 
 export class TripUtils {
 

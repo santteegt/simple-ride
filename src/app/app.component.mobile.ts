@@ -1,4 +1,4 @@
-import { Meteor } from "meteor/meteor";
+import { Meteor } from "meteor-client";
 import { Component } from '@angular/core';
 import { MenuController, Platform, App, NavController, ModalController, Config } from 'ionic-angular';
 import { Subscription, Observable } from "rxjs";
@@ -25,8 +25,10 @@ import { CarRegistrationMobileComponent } from "../pages/registration/car-regist
 // import { OfflinePageMobileComponent } from './pages/terms/offline-page.component.mobile';
 // import { PaymentInfoMobileComponent } from './pages/user/payment-info.component.mobile';
 
-import { UserTripFlags, Users } from "../../api/both/collections";
-import { UserTripFlag, Person, USER_STATUS, DRIVER_STATUS } from "../../api/both/models";
+import { UserTripFlags, Users } from "../shared/collections";
+import { UserTripFlag, Person, USER_STATUS, DRIVER_STATUS } from "../shared/models";
+// import { UserTripFlags, Users } from "api/collections";
+// import { UserTripFlag, Person, USER_STATUS, DRIVER_STATUS } from "api/models";
 
 // TOOD: Migrate functionality
 // import {InjectUser} from "angular2-meteor-accounts-ui";
@@ -57,7 +59,9 @@ export class MyApp {
   autorunSub: Subscription;
 
   tripFlagSub: Subscription;
-  tripFlags: ObservableCursor<UserTripFlag>;
+  // TODO:
+  // tripFlags: ObservableCursor<UserTripFlag>;
+  tripFlags: any;
 
   isDriver: boolean;
 

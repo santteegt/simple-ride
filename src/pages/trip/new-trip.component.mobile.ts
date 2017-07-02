@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
-import { Meteor } from 'meteor/meteor';
+import { Meteor } from 'meteor-client';
 import {NavController, NavParams, ViewController, ToastController, ModalController, Slides,
 	AlertController, LoadingController, Content} from 'ionic-angular';
 
@@ -10,8 +10,8 @@ import { SearchLocationMobileComponent } from '../location/search-location.compo
 import { TermsOfServiceMobileComponent } from "../terms/terms-service.component.mobile";
 import { TripUtils } from '../../classes/trip-utils.class';
 
-import { Trips, ChatMessages } from '../../../api/both/collections';
-import{ MESSAGETYPES } from '../../../api/both/models';
+import { Trips, ChatMessages } from '../../shared/collections';
+import{ MESSAGETYPES } from '../../shared/models';
 
 declare var google;
 

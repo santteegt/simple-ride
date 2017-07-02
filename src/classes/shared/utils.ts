@@ -1,4 +1,3 @@
-import { Meteor } from 'meteor/meteor';
 
 export class Utils{
   public dateToString(date: Date): string {

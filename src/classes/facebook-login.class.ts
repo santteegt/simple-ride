@@ -1,4 +1,4 @@
-import {Meteor} from 'meteor/meteor';
+import {Meteor} from 'meteor-client';
 import {Platform} from 'ionic-angular';
 import {Injectable} from '@angular/core';
 

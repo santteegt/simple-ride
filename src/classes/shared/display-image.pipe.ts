@@ -1,7 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Meteor } from 'meteor/meteor';
- 
-import { User, Person } from '../../../api/both/models/user.model';
+
+import { User, Person } from '../../shared/models';
  
 @Pipe({
   name: 'displayImage'

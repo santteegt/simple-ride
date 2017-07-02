@@ -1,5 +1,6 @@
 import { MongoObservable } from 'meteor-rxjs';
-import { Meteor } from 'meteor/meteor';
+// TODO:
+// import { Meteor } from 'meteor-client';
 
 import { UserRecord } from '../models/user-record.model';
  

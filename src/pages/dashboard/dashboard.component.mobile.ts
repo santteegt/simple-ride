@@ -5,7 +5,9 @@ import { Platform, NavController, NavParams, ViewController, ModalController, Lo
 import { Observable, Subscription, Subject } from "rxjs";
 import { MeteorObservable } from "meteor-rxjs";
 import { StatusBar } from "@ionic-native/status-bar";
-import { _ } from 'meteor/underscore';
+// TODO: 
+// import { _ } from 'meteor/underscore';
+declare var _;
 
 // TODO: Migrate functionality
 // import { Counts } from 'meteor/tmeasday:publish-counts';
@@ -20,8 +22,8 @@ import { NewTripMobileComponent } from '../trip/new-trip.component.mobile';
 // import { TripMessageBoardMobileComponent } from './pages/trip/trip-message-board.component.mobile';
 // import { UserNotificationsMobileComponent } from './pages/user/user-notifications.component.mobile';
 
-import { Places, Trips } from '../../../api/both/collections';
-import { Place, Trip } from '../../../api/both/models';
+import { Places, Trips } from '../../shared/collections';
+import { Place, Trip } from '../../shared/models';
 
 import { IsDriverPipe } from '../../classes/shared/is-driver.pipe';
 
@@ -91,7 +93,9 @@ export class DashboardMobileComponent extends Dashboard implements OnInit, OnDes
 	places;
 
 	myTripsSub: Subscription;
-	mytrips: Observable<Trip[]>;
+  // TODO:
+	// mytrips: Observable<Trip[]>;
+  mytrips: any;
   hasTrips: boolean;
 
 	loader;
@@ -114,7 +118,9 @@ export class DashboardMobileComponent extends Dashboard implements OnInit, OnDes
   isDriverSub: Subscription;
   notificationsCount: number;
 
-  hasTripsSub: Subscription;
+  // TODO:
+  // hasTripsSub: Subscription;
+  hasTripsSub: any;
 
   loadingImgs: any;
 

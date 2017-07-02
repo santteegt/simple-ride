@@ -1,5 +1,6 @@
 import { MongoObservable } from 'meteor-rxjs';
-import { Meteor } from 'meteor/meteor';
+// TODO:
+// import { Meteor } from 'meteor-client';
 import { User } from "../models/user.model";
  
 export const Users = MongoObservable.fromExisting(Meteor.users);

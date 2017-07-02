@@ -1,4 +1,5 @@
-import { Meteor } from 'meteor/meteor';
+// TODO:
+// import { Meteor } from 'meteor-client';
 import { MongoObservable } from 'meteor-rxjs';
 
 import { UserTripFlag } from '../models/user-trip-flag.model';

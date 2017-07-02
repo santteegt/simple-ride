@@ -1,5 +1,6 @@
 import { MongoObservable } from 'meteor-rxjs';
-import { Meteor } from 'meteor/meteor';
+// TODO:
+// import { Meteor } from 'meteor-client';
 
 import { Reservation } from '../models/reservation.model';
  

@@ -1,8 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Meteor } from 'meteor/meteor';
  
-import { User, Person } from '../../../api/both/models/user.model';
-import { DRIVER_STATUS } from '../../../api/both/models/driver-status.model';
+import { User, Person } from '../../shared/models';
+import { DRIVER_STATUS } from '../../shared/models';
  
 @Pipe({
   name: 'isDriver'
