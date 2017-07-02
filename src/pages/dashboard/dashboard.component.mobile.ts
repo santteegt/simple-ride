@@ -8,6 +8,7 @@ import { StatusBar } from "@ionic-native/status-bar";
 // TODO: 
 // import { _ } from 'meteor/underscore';
 declare var _;
+declare var Meteor;
 
 // TODO: Migrate functionality
 // import { Counts } from 'meteor/tmeasday:publish-counts';

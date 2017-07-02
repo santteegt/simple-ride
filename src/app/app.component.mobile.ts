@@ -1,4 +1,6 @@
-import { Meteor } from "meteor-client";
+// TODO:
+// import { Meteor } from "meteor-client";
+declare var Meteor;
 import { Component } from '@angular/core';
 import { MenuController, Platform, App, NavController, ModalController, Config } from 'ionic-angular';
 import { Subscription, Observable } from "rxjs";

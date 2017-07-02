@@ -2,7 +2,9 @@ import { Component, OnDestroy, OnInit, NgZone } from '@angular/core';
 import { Platform, NavController, MenuController, AlertController } from 'ionic-angular';
 import { Subscription } from 'rxjs/Subscription';
 import { MeteorObservable } from 'meteor-rxjs';
-import { Meteor } from 'meteor-client';
+// TODO:
+// import { Meteor } from 'meteor-client';
+declare var Meteor;
 
 import { FacebookLoginManager } from '../../classes/facebook-login.class';
 import { User } from "../../shared/models";

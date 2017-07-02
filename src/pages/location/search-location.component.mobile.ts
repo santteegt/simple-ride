@@ -1,5 +1,7 @@
 import { Component, OnInit, OnDestroy, ViewChild, NgZone } from '@angular/core';
-import { Meteor } from 'meteor-client';
+// TODO:
+// import { Meteor } from 'meteor-client';
+declare var Meteor;
 import {NavController, NavParams, ViewController, LoadingController, Searchbar} from 'ionic-angular';
 
 declare var google;

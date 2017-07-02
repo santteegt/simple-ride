@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Meteor } from 'meteor-client';
+// TODO:
+// import { Meteor } from 'meteor-client';
+declare var Meteor;
 import { Geolocation } from '@ionic-native/geolocation';
 import { Platform } from 'ionic-angular';
 // TODO: migrate funcitonality

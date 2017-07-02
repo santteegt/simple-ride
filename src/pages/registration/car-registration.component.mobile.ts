@@ -1,6 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { Meteor } from 'meteor-client';
+// TODO:
+// import { Meteor } from 'meteor-client';
+declare var Meteor;
 import {NavController, NavParams, ViewController, ToastController,
 	ModalController, LoadingController, AlertController, App} from 'ionic-angular';
 

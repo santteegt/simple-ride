@@ -1,6 +1,8 @@
 import 'meteor-client';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-import { Meteor } from 'meteor-client';
+// TODO:
+// import { Meteor } from 'meteor-client';
+declare var Meteor;
 import { AppModule } from './app.module';
 
 

@@ -1,6 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
-import { Meteor } from 'meteor-client';
+// TODO:
+// import { Meteor } from 'meteor-client';
+declare var Meteor;
 import {Observable, Subscription, Subject} from "rxjs";
 import {MeteorObservable} from "meteor-rxjs";
 import {NavController, NavParams, ViewController, ToastController, ModalController, LoadingController} from 'ionic-angular';
