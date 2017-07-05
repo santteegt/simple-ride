@@ -3,5 +3,20 @@
 .app-color {
 	background-color: color($colors, app);
 	color: white;
+}
 
+a, .item-radio-checked.item-md ion-label, .alert-md .alert-button{
+	color: color($colors, app);
+}
+
+.toggle-md.toggle-checked .toggle-inner, .radio-md .radio-inner {
+  background-color: color($colors, app);
+}
+
+.radio-md .radio-checked {
+	border-color: color($colors, app);
+}
+
+.toggle-md.toggle-checked .toggle-icon{
+	background-color: #ddd;
 }

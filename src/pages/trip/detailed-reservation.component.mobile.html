@@ -1,0 +1,334 @@
+<ion-header>
+	<ion-navbar color="app" style="padding-top: 0; min-height: 64px">
+		<ion-buttons start>
+		  <button ion-button (click)="dismiss()" *ngIf="!isPushNav">
+		    <span showWhen="ios">Cerrar</span>
+		    <ion-icon name="md-close" showWhen="android,windows"></ion-icon>
+		  </button>
+		</ion-buttons>
+		<ion-title style="padding-top: 0; text-align: center;">
+	      <img src="/assets/logo.png" style="padding-top: 5px; width: 75px; height: 44px">
+	    </ion-title>
+	</ion-navbar>
+</ion-header>
+
+<ion-content>
+	<ion-card>
+	  	<ion-card-header no-padding class="trip-card-header">
+	  		<ion-grid class="card-header app-background">
+	  			<ion-row>
+	  				<ion-col style="font-weight: 900; font-size: 1.1em">
+	  					{{trip.origin.shortName}} - {{trip.destination.shortName}}
+	  				</ion-col>
+		  		</ion-row>
+		  		<ion-row>
+	  				<ion-col style="font-size: 0.9em">
+	  					{{trip.departureDate.toLocaleDateString()}} {{trip.departureTime}}
+	  				</ion-col>
+		  		</ion-row>
+	  		</ion-grid>
+	  	</ion-card-header>
+		<ion-grid no-padding>
+			<ion-row>
+				<ion-col width-75>
+					<button ion-item no-lines detail-none (click)="openDriverProfile()">
+						<ion-avatar item-left>
+							<img src="assets/nobody.png" [hidden]="loadingImgs[driver.personData.profileImg]"  style="width: 50px; height: 50px;"/>
+							<img src="{{driver.personData.profileImg}}" (load)="loadedImg(driver.personData.profileImg)" [hidden]="!loadingImgs[driver.personData.profileImg]" style="width: 50px; height: 50px;">
+				      	</ion-avatar>
+				      	<h3>{{driver.personData.forename}}</h3>
+				      	<p>{{driver.personData.surname}}</p>
+				      	<p>{{tripUtils.getDriverAge(driver.personData.birthday)}} años</p>
+				      	<div class="reviews-score">
+					      	<ion-icon name="{{getDriverRating(trip.driver_id) >= 1 ? 'star':(getDriverRating(trip.driver_id) - 1 > 0 && getDriverRating(trip.driver_id) - 1 < 1 ? 'star-half':'star-outline')}}"></ion-icon>
+					      	<ion-icon name="{{getDriverRating(trip.driver_id) >= 2 ? 'star':(getDriverRating(trip.driver_id) - 2 > 0 && getDriverRating(trip.driver_id) - 2 < 1 ? 'star-half':'star-outline')}}"></ion-icon>
+					      	<ion-icon name="{{getDriverRating(trip.driver_id) >= 3 ? 'star':(getDriverRating(trip.driver_id) - 3 > 0 && getDriverRating(trip.driver_id) - 3 < 1 ? 'star-half':'star-outline')}}"></ion-icon>
+					      	<ion-icon name="{{getDriverRating(trip.driver_id) >= 4 ? 'star':(getDriverRating(trip.driver_id) - 4 > 0 && getDriverRating(trip.driver_id) - 4 < 1 ? 'star-half':'star-outline')}}"></ion-icon>
+					      	<ion-icon name="{{getDriverRating(trip.driver_id) == 5 ? 'star':(getDriverRating(trip.driver_id) - 5 > 0 && getDriverRating(trip.driver_id) - 5 < 1 ? 'star-half':'star-outline')}}"></ion-icon>
+				      	</div>
+			      	</button>
+				</ion-col>
+				<ion-col width-25 style="padding-top: 10px">
+					<div class="card-box" style="border-bottom: 0">
+  						<ion-row>
+  							<ion-col ion-text color="app" class="trip-field">${{rsvp != undefined ? rsvp.total:trip.price}}</ion-col>
+  						</ion-row>
+  						<ion-row>
+  							<ion-col ion-text color="app" class="trip-label">{{rsvp ? 'Valor a':'por'}}</ion-col>
+  						</ion-row>
+  						<ion-row>
+  							<ion-col ion-text color="app" class="trip-label" style="margin: 0 5px; border-bottom: 1px solid #C4C4C4; padding-bottom: 10px;">{{rsvp ? 'pagar':'lugar'}}</ion-col>
+  						</ion-row>
+  					</div>
+				</ion-col>
+			</ion-row>
+
+			<ion-row>
+				<ion-col width-50 class="detail-box">
+					<ion-row>
+						<ion-col ion-text color="app" no-padding>
+							<strong>Itinerario</strong>
+						</ion-col>
+					</ion-row>
+					<ion-row>
+						<ion-col width-25 class="trip-detail-box">
+							<strong>{{trip.departureTime}}</strong>
+						</ion-col>
+						<ion-col width-75>
+						</ion-col>
+					</ion-row>
+					<ion-row>
+						<ion-col width-25 style="text-align: center; padding: 2px">
+							<ion-icon name="ios-car-outline"></ion-icon>
+						</ion-col>
+						<ion-col width-75 style="font-size: 0.7em; padding: 2px">
+							<div class="bullet-point"></div>
+							<div style="display: inline-block;padding-left: 5px;">{{trip.origin.shortName}}</div>
+						</ion-col>
+					</ion-row>
+					<ion-row>
+						<ion-col width-25 class="trip-detail-box">
+							|
+						</ion-col>
+						<ion-col width-75 style="text-align: center">
+						</ion-col>
+					</ion-row>
+					<ion-row>
+						<ion-col width-25 class="trip-detail-box">
+							|
+						</ion-col>
+						<ion-col width-75>
+						</ion-col>
+					</ion-row>
+					<ion-row>
+						<ion-col width-25 class="trip-detail-box">
+							|
+						</ion-col>
+						<ion-col width-75>
+						</ion-col>
+					</ion-row>
+					<ion-row>
+						<ion-col width-25 style="text-align: center; padding: 2px">
+							<ion-icon name="ios-pin-outline"></ion-icon>
+						</ion-col>
+						<ion-col width-75 style="font-size: 0.7em; padding: 2px">
+							<div class="bullet-point"></div>
+							<div style="display: inline-block;padding-left: 5px;">{{trip.destination.shortName}}</div>
+						</ion-col>
+					</ion-row>
+					<ion-row>
+						<ion-col width-25 class="trip-detail-box">
+							<strong>{{tripUtils.secondsToHm(trip.estimatedTime)}}</strong>
+						</ion-col>
+						<ion-col width-75>
+						</ion-col>
+					</ion-row>
+
+					<ion-row>
+						<ion-col ion-text color="app" no-padding>
+							<strong>Permitido</strong>
+						</ion-col>
+					</ion-row>
+
+					<div style="font-size: 0.7em">
+						<ion-row>
+							<ion-col no-padding style="padding-left: 10px" width-50 *ngIf="trip.options.handBaggage">
+								<ion-icon name="briefcase"></ion-icon> Maleta de mano
+							</ion-col>
+							<ion-col no-padding style="padding-left: 10px" width-50 *ngIf="trip.options.children">
+								<ion-icon name="man"></ion-icon> Niños
+							</ion-col>
+							<ion-col no-padding style="padding-left: 10px" width-50 *ngIf="trip.options.baggage">
+								<ion-icon name="briefcase"></ion-icon> Maleta
+							</ion-col>
+							<ion-col no-padding style="padding-left: 10px" width-50 *ngIf="trip.options.pets">
+								<ion-icon name="paw"></ion-icon> Mascotas
+							</ion-col>
+							<ion-col no-padding style="padding-left: 10px" width-50 *ngIf="trip.options.smoking">
+								<ion-icon name="no-smoking"></ion-icon> Fumar
+							</ion-col>
+							<ion-col no-padding style="padding-left: 10px" width-50 *ngIf="trip.options.food">
+								<ion-icon name="pizza"></ion-icon> Comer
+							</ion-col>
+
+						</ion-row>
+					</div>
+
+				</ion-col>
+
+				<ion-col width-50 class="app-background">
+
+					<ion-row style="font-size: 0.8em">
+						<ion-col style="padding: 0 5px">
+							<strong>{{driver.driverData.carBrand}}</strong>
+						</ion-col>
+					</ion-row>
+					<ion-row style="font-size: 0.7em">
+						<ion-col style="padding: 0 5px">
+							{{driver.driverData.carRegister.toUpperCase()}}
+						</ion-col>
+					</ion-row>
+					<ion-row style="font-size: 0.7em">
+						<ion-col style="padding: 0 5px">
+							{{driver.driverData.carColor}}
+						</ion-col>
+					</ion-row>
+
+					<!-- *********************************** -->
+					<!-- VISIBLE ONLY FOR SAVED RESERVATIONS -->
+					<!-- *********************************** -->
+
+					<ion-row padding-top *ngIf="rsvp != undefined">
+						<ion-col width-50>
+							<div class="card-box" style="background-color: white; border-radius: 5px">
+		  						<ion-row>
+		  							<ion-col ion-text color="app" class="trip-field">{{rsvp.places}}</ion-col>
+		  						</ion-row>
+		  						<ion-row style="font-size: 0.8em">
+		  							<ion-col ion-text color="app" class="trip-label">lugar{{rsvp.places > 1?'es':''}}</ion-col>
+		  						</ion-row>
+		  						<ion-row style="font-size: 0.8em">
+		  							<ion-col ion-text color="app" class="trip-label">reservado{{rsvp.places > 1?'s':''}}</ion-col>
+		  						</ion-row>
+		  					</div>
+						</ion-col>
+
+						<ion-col width-50 style="text-align: center">
+							<ion-row>
+								<ion-col width-50 no-padding>
+									<ion-icon name="ios-person" color="light"></ion-icon>
+								</ion-col>
+								<ion-col width-50 no-padding no-padding *ngIf="trip.places >=2">
+									<ion-icon name="{{rsvp.places >= 2 ? 'ios-person':'ios-person-outline'}}" color="{{rsvp.places >=2 ?'app':'light'}}"></ion-icon>
+								</ion-col>
+							</ion-row>
+
+							<ion-row *ngIf="trip.places >2">
+								<ion-col width-50 no-padding *ngIf="trip.places >=3">
+									<ion-icon name="{{rsvp.places >= 3 ? 'ios-person':'ios-person-outline'}}" color="{{rsvp.places >=3 ?'app':'light'}}"></ion-icon>
+								</ion-col>
+								<ion-col width-50 no-padding *ngIf="trip.places >=4">
+									<ion-icon name="{{rsvp.places >= 4 ? 'ios-person':'ios-person-outline'}}" color="{{rsvp.places >=4 ?'app':'light'}}"></ion-icon>
+								</ion-col>
+							</ion-row>
+
+							<ion-row *ngIf="trip.places >4">
+								<ion-col width-50 no-padding *ngIf="trip.places >=5">
+									<ion-icon name="{{rsvp.places >= 5 ? 'ios-person':'ios-person-outline'}}" color="{{rsvp.places >=5 ?'app':'light'}}"></ion-icon>
+								</ion-col>
+								<ion-col width-50 no-padding *ngIf="trip.places >=6">
+									<ion-icon name="{{rsvp.places == 6 ? 'ios-person':'ios-person-outline'}}" color="{{rsvp.places ==6 ?'app':'light'}}"></ion-icon>
+								</ion-col>
+							</ion-row>
+						</ion-col>
+					</ion-row>
+
+					<!-- ************************************************** -->
+					<!-- VISIBLE ONLY WHEN USER IS LOOKING FOR TRIP DETAILS -->
+					<!-- ************************************************** -->
+
+					<ion-row padding-top *ngIf="!rsvp">
+						<ion-col width-50>
+							<div class="card-box" style="background-color: white; border-radius: 5px">
+		  						<ion-row>
+		  							<ion-col ion-text color="app" class="trip-field">{{trip.available_places}}</ion-col>
+		  						</ion-row>
+		  						<ion-row style="font-size: 0.8em">
+		  							<ion-col ion-text color="app" class="trip-label">lugar{{trip.available_places > 1 ? 'es':''}}</ion-col>
+		  						</ion-row>
+		  						<ion-row style="font-size: 0.8em">
+		  							<ion-col ion-text color="app" class="trip-label">disponible{{trip.available_places > 1?'s':''}}</ion-col>
+		  						</ion-row>
+		  					</div>
+						</ion-col>
+
+						<ion-col width-50 style="text-align: center">
+							<ion-row>
+								<ion-col width-50 no-padding>
+									<ion-icon name="ios-person" color="light"></ion-icon>
+								</ion-col>
+								<ion-col width-50 no-padding no-padding *ngIf="trip.places >= 2">
+									<ion-icon name="{{trip.available_places >= 2 ? 'ios-person':'ios-person-outline'}}" color="{{trip.available_places >=2 ?'light':''}}"></ion-icon>
+								</ion-col>
+							</ion-row>
+
+							<ion-row *ngIf="trip.places > 2">
+								<ion-col width-50 no-padding *ngIf="trip.places >=3">
+									<ion-icon name="{{trip.available_places >= 3 ? 'ios-person':'ios-person-outline'}}" color="{{trip.available_places >=3 ?'light':''}}"></ion-icon>
+								</ion-col>
+								<ion-col width-50 no-padding *ngIf="trip.places >=4">
+									<ion-icon name="{{trip.available_places >= 4 ? 'ios-person':'ios-person-outline'}}" color="{{trip.available_places >=4 ?'light':''}}"></ion-icon>
+								</ion-col>
+							</ion-row>
+
+							<ion-row *ngIf="trip.places >4">
+								<ion-col width-50 no-padding *ngIf="trip.places >=5">
+									<ion-icon name="{{trip.available_places >= 5 ? 'ios-person':'ios-person-outline'}}" color="{{trip.available_places >=5 ?'light':''}}"></ion-icon>
+								</ion-col>
+								<ion-col width-50 no-padding *ngIf="trip.places >=6">
+									<ion-icon name="{{trip.available_places == 6 ? 'ios-person':'ios-person-outline'}}" color="{{trip.available_places ==6 ?'light':''}}"></ion-icon>
+								</ion-col>
+							</ion-row>
+						</ion-col>
+					</ion-row>
+
+				</ion-col>
+			</ion-row>
+
+		</ion-grid>
+
+		<ion-card-content>
+			<p style="text-align: justify"><b>Lugar de partida:</b> {{trip.departureAddress ? trip.departureAddress: 'No se ha detallado lugar de partida'}}</p>
+			<p style="text-align: center"><b>Comentarios:</b></p>
+			<p style="text-align: justify;"><br/> {{trip.comments ? trip.comments: 'No se han detallado observaciones'}}</p>
+		</ion-card-content>
+	</ion-card>
+
+	<ion-list *ngIf="travellerCount > 0 && rsvp != undefined">
+		<ion-list-header style="text-align: center; padding: 0 9px; border: 0">
+			<ion-label ion-text color="app">Otras Reservas para este Viaje</ion-label>
+		</ion-list-header>
+
+		<div style="border: 0.55px solid #c8c7cc; margin-left: 12px; margin-right: 12px; padding: 0;">
+			<ion-grid no-padding>
+				<ion-row *ngFor="let person of travellers | async ">
+					<ion-col width-75 style="padding: 0 5px">
+						<button ion-item no-lines detail-none>
+							<ion-avatar item-left>
+								<img src="assets/nobody.png" [hidden]="loadingImgs[person.personData.profileImg]"  style="width: 50px; height: 50px;"/>
+					        	<img src="{{person.personData.profileImg}}" (load)="loadedImg(person.personData.profileImg)" [hidden]="!loadingImgs[person.personData.profileImg]" style="width: 50px; height: 50px;">
+					      	</ion-avatar>
+					      	<h4>{{person.personData.forename}}</h4>
+					      	<h4>{{person.personData.surname}}</h4>
+					      	<p>{{tripUtils.getDriverAge(person.personData.birthday)}} años</p>
+					      	<!-- <div class="reviews-score">
+						      	<ion-icon name="{{1 - 1 == 0 ? 'star':(1 - 1 < 0 ? 'star-outline':'star-half')}}"></ion-icon>
+						      	<ion-icon name="{{1 - 1 == 0 ? 'star':(1 - 1 < 0 ? 'star-outline':'star-half')}}"></ion-icon>
+						      	<ion-icon name="{{1 - 1 == 0 ? 'star':(1 - 1 < 0 ? 'star-outline':'star-half')}}"></ion-icon>
+						      	<ion-icon name="{{2 - 1 == 0 ? 'star':(2 - 1 < 0 ? 'star-outline':'star-half')}}"></ion-icon>
+						      	<ion-icon name="{{0 - 1 == 0 ? 'star':(0 - 1 < 0 ? 'star-outline':'star-half')}}"></ion-icon>
+					      	</div> -->
+				      	</button>
+					</ion-col>
+					<ion-col width-25 style="text-align: center;font-size: 1.2em">
+						<ion-row>
+							<ion-col ion-text color="app" style="padding-bottom: 0">
+								{{getTravellerReservedPlaces(person._id)}}
+							</ion-col>
+						</ion-row>
+						<ion-row>
+							<ion-col ion-text color="app" style="padding-top: 0">
+								lugar{{getTravellerReservedPlaces(person._id) > 1 ? 'es':''}}
+							</ion-col>
+						</ion-row>
+					</ion-col>
+				</ion-row>
+			</ion-grid>
+		</div>
+	</ion-list>
+	<ion-row>
+		<ion-col>
+			<button *ngIf="rsvp === undefined" color="app" ion-button block (click)="openCheckout(trip._id)"><ion-icon name='hand'></ion-icon>Unirme</button>
+		</ion-col>
+	</ion-row>
+</ion-content>

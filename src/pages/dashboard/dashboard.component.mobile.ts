@@ -1,11 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { trigger, state, style, transition, animate, keyframes } from '@angular/core';
-import { Platform, NavController, NavParams, ViewController, ModalController, LoadingController, 
+import { Platform, NavController, NavParams, ViewController, ModalController, LoadingController,
   MenuController, AlertController } from 'ionic-angular';
 import { Observable, Subscription, Subject } from "rxjs";
 import { MeteorObservable } from "meteor-rxjs";
 import { StatusBar } from "@ionic-native/status-bar";
-// TODO: 
+// TODO:
 // import { _ } from 'meteor/underscore';
 declare var _;
 declare var Meteor;
@@ -16,10 +16,10 @@ declare var Meteor;
 import { Dashboard } from "../../classes/dashboard.class";
 import { GeolocationService } from "../../classes/services/geolocation.service";
 import { NewTripMobileComponent } from '../trip/new-trip.component.mobile';
+import { TripListMobileComponent } from '../trip/trip-list.component.mobile';
 
 // TODO: migrate components
 // import { TripMobileComponent } from './pages/trip/trip.component.mobile';
-// import { TripListMobileComponent } from './pages/trip/trip-list.component.mobile';
 // import { TripMessageBoardMobileComponent } from './pages/trip/trip-message-board.component.mobile';
 // import { UserNotificationsMobileComponent } from './pages/user/user-notifications.component.mobile';
 
@@ -405,8 +405,7 @@ export class DashboardMobileComponent extends Dashboard implements OnInit, OnDes
   }
 
   openTripListings(place: any) {
-    // TODO: migrate component
-  	// this.navCtrl.push(TripListMobileComponent, {place: place});
+  	this.navCtrl.push(TripListMobileComponent, {place: place});
   }
 
   newTripModal() {

@@ -1,0 +1,44 @@
+<ion-list>
+	<ion-list-header>
+      Fecha Viaje
+    </ion-list-header>
+    <ion-item>
+	  <ion-label>Desde</ion-label>
+	  <ion-datetime displayFormat="DD MMM YYYY" [(ngModel)]="dateFrom" (ionChange)="sendFromSignal()" monthNames="enero, febrero, marzo, abril, mayo, junio, julio, agosto, septiembre, octubre, noviembre, diciembre" monthShortNames="ene, feb, mar, abr, may, jun, jul, ago, sep, oct, nov, dic" dayNames="domingo, lunes, martes, miércoles, jueves, viernes, sábado" dayShortNames="dom, lun, mar, mie, jue, vie, sab, dom" [min]="currentDate" [max]="maxDate"></ion-datetime>
+	</ion-item>
+	<ion-item>
+	  <ion-label>Hasta</ion-label>
+	  <ion-datetime displayFormat="DD MMM YYYY" [(ngModel)]="dateTo" (ionChange)="sendToSignal()" monthNames="enero, febrero, marzo, abril, mayo, junio, julio, agosto, septiembre, octubre, noviembre, diciembre" monthShortNames="ene, feb, mar, abr, may, jun, jul, ago, sep, oct, nov, dic" dayNames="domingo, lunes, martes, miércoles, jueves, viernes, sábado" dayShortNames="dom, lun, mar, mie, jue, vie, sab, dom" [min]="currentDate" [max]="maxDate"></ion-datetime>
+	</ion-item>
+</ion-list>
+
+<ion-list>
+    <ion-list-header>
+      Opciones
+    </ion-list-header>
+
+    <ion-item>
+		<ion-label><ion-icon name="briefcase"></ion-icon>  Equipaje de mano</ion-label>
+		<ion-checkbox [(ngModel)]="tripOptions.handBaggage" (ionChange)="sendOptionsSignal()"></ion-checkbox>
+	</ion-item>
+	<ion-item>
+		<ion-label><ion-icon name="briefcase"></ion-icon>  Maleta</ion-label>
+		<ion-checkbox [(ngModel)]="tripOptions.baggage" (ionChange)="sendOptionsSignal()"></ion-checkbox>
+	</ion-item>
+	<ion-item>
+		<ion-label><ion-icon name="paw"></ion-icon>  Mascotas</ion-label>
+		<ion-checkbox [(ngModel)]="tripOptions.pets" (ionChange)="sendOptionsSignal()"></ion-checkbox>
+	</ion-item>
+	<ion-item>
+		<ion-label><ion-icon name="no-smoking"></ion-icon>  Fumar</ion-label>
+		<ion-checkbox [(ngModel)]="tripOptions.smoking" (ionChange)="sendOptionsSignal()"></ion-checkbox>
+	</ion-item>
+	<ion-item>
+		<ion-label><ion-icon name="pizza"></ion-icon>  Comer</ion-label>
+		<ion-checkbox [(ngModel)]="tripOptions.food" (ionChange)="sendOptionsSignal()"></ion-checkbox>
+	</ion-item>
+	<ion-item>
+		<ion-label><ion-icon name="man"></ion-icon>  Niños</ion-label>
+		<ion-checkbox [(ngModel)]="tripOptions.children" (ionChange)="sendOptionsSignal()"></ion-checkbox>
+	</ion-item>
+</ion-list>
