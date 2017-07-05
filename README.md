@@ -16,6 +16,13 @@ npm install
 npm run meteor-client:bundle # Configure meteor-client.config.json accordingly
 ```
 
+### Android setup
+
+* Generate keystore file
+```
+$HOME/platforms/android $ keytool -genkey -v -keystore simpleride.keystore -alias SimpleRide -keyalg RSA -keysize 2048 -validity 10000
+```
+
 ## Run the mobile app
 
 ```
