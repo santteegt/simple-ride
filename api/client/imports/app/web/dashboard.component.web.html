@@ -1,0 +1,1312 @@
+<div class="app">
+  <div id="menu" class="mobile-hidden">
+    <div class="row">
+      <div class="col-1">
+      </div>
+      <div class="col">
+        <img src="assets/logo.svg" (click)="scrollToTarget('home')" width="167px" height="30px" alt="" class="pointer">
+      </div>
+        <ul>
+          <li><a href="#home" (click)="scrollTo($event)">home</a></li>
+          <li><a href="#simpleride" (click)="scrollTo($event)">SimpleRide</a></li>
+          <li><a href="#funciona" (click)="scrollTo($event)">¿cómo funciona?</a></li>
+          <li><a href="#seguridad" (click)="scrollTo($event)">seguridad</a></li>
+          <li><a href="#contacto" (click)="scrollTo($event)">contáctanos</a></li>
+        </ul>
+      <div class="col-1">
+      </div>
+    </div>
+  </div>
+  <div id="home">
+    <img class="logo-home" src="assets/logo-home.svg" width="387px" height="205px" alt="">
+    </br>
+    <h1 class="slogan-home">Conectamos viajeros con conductores que compartan el mismo destino.</h1>
+    <button id="CTA-home" type="button" class="btn btn-outline-primary center-block mobile-hidden" (click)="scrollToTarget('simpleride')">Aprender más</button>
+  </div>
+  <div id="simpleride" class="row">
+    <div class="col-12 col-md-6 cont-iz">
+      <h1>¿Viajas a menudo y quisieras reducir los costos de tus viajes?</h1>
+    </div>
+    <div class="col-12 col-md-6 cont-der">
+      <div id="back-texto">
+          <p><b>SimpleRide conecta </b>viajeros con conductores que comparten el mismo destino disminuyendo los costos del viaje de los dos al compartir los gastos.</p>
+          <p><b>SimpleRide no brinda un servicio de trasporte, </b>es totalmente legal. A través de nuestro servicio podrás viajar de una manera cómoda, económica y segura en el vehículo de uno de nuestros usuarios mientras conoces gente y ayudas al medio ambiente.</p>
+          <p class="no-margin"><b>SimpleRide genera conciencia y crea redes </b>entre viajeros. SimpleRide no es un negocio, es una forma de compartir gastos y reducir el uso de vehículos.</p>
+      </div>
+    </div>
+  </div>
+  <div id="funciona" class="row">
+    <div class="col-md-1">
+    </div>
+    <div class="col-12 col-md-5 cont-iz">
+      <h1>Conductor</h1>
+       <carousel>
+        <slide *ngFor="let slide of driverSlides">
+          <img class="d-block img-fluid" src="{{slide.img}}">
+          <div class="carousel-caption d-none d-md-block">
+            <p>{{slide.text}}</p>
+          </div>
+        </slide>
+      </carousel>
+    </div>
+    <div class="col-12 col-md-5 cont-der">
+      <h1>Viajero</h1>
+      <carousel>
+       <slide *ngFor="let slide of userSlides">
+         <img class="d-block img-fluid" src="{{slide.img}}">
+         <div class="carousel-caption d-none d-md-block">
+           <p>{{slide.text}}</p>
+         </div>
+       </slide>
+     </carousel>
+    </div>
+  </div>
+
+  <div id="seguridad">
+    <div class="row">
+    <div class="col-12">
+      <h1>¡Tu seguridad es importante para nosotros!</h1>
+    </div>
+    </div>
+    <div class="row">
+    <div class="col-12 cont-der">
+      <div class="row">
+        <div class="col-lg-1">
+        </div>
+        <div class="col-12 col-sm-6 col-lg-2">
+          <img class="img-seg" src="assets/seg-1.svg">
+          <h2>Tu elijes con quien viajar</h2>
+          <p>Al momento de elegir tu viaje o a tus acompañantes, podrás revisar sus perfiles, las reseñas de viajes anteriores y en el caso de los conductores, sus multas de tránsito.</p>
+        </div>
+        <div class="col-12 col-sm-6 col-lg-2">
+          <img class="img-seg" src="assets/seg-2.svg">
+          <h2>Tu opinión cuenta</h2>
+          <p>Cada vez que concluyan tus viajes deberás calificar al conductor y escribir una breve reseña que servirá para los próximos usuarios.</p>
+        </div>
+        <div class="col-12 col-sm-6 col-lg-2">
+          <img class="img-seg" src="assets/seg-3.svg">
+          <h2>Usuarios verificados</h2>
+          <p>SimpleRide se encargará de veríficar los documentos y datos de contacto de nuestros usuarios para tú tranquilidad.</p>
+        </div>
+        <div class="col-12 col-sm-6 col-lg-2">
+          <img class="img-seg" src="assets/seg-4.svg">
+          <h2>Seguro de viaje</h2>
+          <p>Para la tranquilidad de nuestros usuarios, todos los viajes con SimpleRide cuentan con seguro en caso de accidentes.</p>
+        </div>
+        <div class="col-12 col-sm-6 col-lg-2">
+          <img class="img-seg" src="assets/seg-5.svg">
+          <h2>Monitoreamos tus viajes</h2>
+          <p>Para más seguridad, nuestra aplicación cuenta con un sistema de rastreo que puede ser activado por nuestros usuarios. Recibiremos una notificación si nos percatamos de irregularidades en el viaje.</p>
+        </div>
+        <div class="col-lg-1">
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+  <div id="contacto">
+    <div class="row">
+      <div class="col-12 col-md-2 col-lg-3">
+      </div>
+      <div class="col-12 col-md-8 col-lg-6">
+        <h2>Subscribete a nuestra lista y<br />se el primero en usar SimpleRide</h2>
+        <div>
+          <form (ngSubmit)="onSubmit()">
+            <div class="form-group">
+              <input type="text" class="form-control" [(ngModel)]="email" name="EMAIL" placeholder="Ingresa tu correo electrónico" class="email">
+              <button type="submit" class="btn btn-outline-primary">Subscribirse</button>
+            </div>
+            <span>{{response}}</span>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="footer">
+    <div class="row">
+      <div class="col-1"></div>
+      <div class="col-10">
+        <ul>
+          <li><a (click)="tycModal.show()">Terminos y Condiciones</a></li>
+          <li><a (click)="privacityModal.show()">Políticas de Privacidad</a></li>
+          <li><a (click)="faqModal.show()">Preguntas Frecuentes</a></li>
+        </ul>
+        <div class="modal fade" bsModal #tycModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="tycModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title">Terminos y Condiciones</h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="tycModal.hide()">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <p>
+                	1.- DESCRIPCIÓN.
+                </p>
+                <p>
+                	SimpleRide es una aplicación móvil, la cual tiene como finalidad poner en
+                	contacto a viajeros con un mismo destino para compartir sin ánimo de lucro,
+                	los gastos que conlleva realizar un viaje a un lugar determinado, de manera
+                	rápida, segura y económica.
+                </p>
+                <p>
+                	Aplicación Móvil. Apple Store / Play Store. SimpleRide
+                </p>
+                <p>
+                	Website. www.SimpleRide-ec.com
+                </p>
+                <p>
+                	El presente documento de Términos y Condiciones, en adelante T&C, es
+                	aplicable para regular el acceso y los términos de uso de la aplicación, al
+                	acceder a la misma y registrarte, ya siendo conductor o pasajero. Aceptas y
+                	reconoces que has leído los T&C del uso del sistema y las políticas de
+                	privacidad. En caso de no estar de acuerdo con los mismos, no instales la
+                	aplicación, no ingreses al website y no hagas uso de ella.
+                </p>
+                <p>
+                	2.- DEFINICIONES.
+                </p>
+                <p>
+                	Las siguientes definiciones se realizan con la finalidad de evitar
+                	confusiones en los usuarios al momento de usar SimpleRide.
+                </p>
+                <ol>
+                	<li>
+                		<p>
+                			SimpleRide. Es una aplicación web móvil, la cual tiene como
+                			finalidad poner en contacto a viajeros con un mismo destino para
+                			compartir sin ánimo de lucro, los gastos que conlleva realizar un
+                			viaje a un lugar determinado.
+                		</p>
+                	</li>
+                	<li>
+                		<p>
+                			CUENTA. Es la cuenta que creas, ya seas conductor o pasajero para
+                			dar uso a la plataforma de SimpleRide, en donde aceptaras los
+                			T&C previstos y podrás empezar a dar uso de la plataforma.
+                		</p>
+                	</li>
+                	<li>
+                		<p>
+                			CONDUCTOR. Es el usuario que utiliza SimpleRide para ofrecer un
+                			viaje a determinado lugar, sin ánimo de lucro, con la finalidad de
+                			compartir los gastos que genere el mismo, en un día y hora
+                			determinados.
+                		</p>
+                	</li>
+                	<li>
+                		<p>
+                			PASAJERO. Es el usuario que utiliza SimpleRide que acepta compartir
+                			un viaje y los gastos que se generan, con el Conductor señalado en
+                			el literal anterior.
+                		</p>
+                	</li>
+                	<li>
+                		<p>VIAJE. Es el anuncio del trayecto que publica el conductor en la plataforma de SimpleRide.
+                		</p>
+                	</li>
+                	<li>
+                		<p>
+                			RESERVA. Es la aceptación que genera el pasajero para realizar el
+                			viaje con el conductor, tal y como el conductor la haya ofrecido,
+                			la misma que puede sujetarse a cambios dependiendo de la voluntad
+                			del conductor.
+                		</p>
+                	</li>
+                	<li>
+                		<p>
+                			GASTOS COMPARTIDOS. Son los gastos que genere la realización del
+                			viaje, mismos que están determinados en una suma de dinero que se
+                			entrega al Conductor y previamente recomendados por SimpleRide,
+                			estos dichos gastos serán aceptados y cancelados por el Pasajero.
+                			El cálculo de los gastos compartidos será realizado de acuerdo al
+                			número de kilómetros que se recorran.
+                		</p>
+                	</li>
+                	<li>
+                		<p>
+                			PRECIO RECOMENDADO POR SimpleRide. Es el precio analizado por
+                			nosotros, el cual no creara ganancia o utilidad al conductor, dado
+                			que la finalidad de la plataforma, es únicamente para compartir los
+                			gastos que se generen en el viaje, tales como combustible, peajes
+                			determinados, y desgaste del vehículo en general.
+                		</p>
+                	</li>
+                </ol>
+                <br/>
+                <ol start="9">
+                	<li>
+                		<p>
+                			GASTOS DE GESTION. Son los gastos generados por la gestión de
+                			SimpleRide, en los cuales se encuentra incluido el Impuesto al
+                			Valor Agregado (IVA), …………………. y gastos administrativos de la
+                			plataforma.
+                		</p>
+                	</li>
+                	<li>
+                		<p>
+                			PUESTO. Es el asiento dentro del vehículo del Conductor, reservado
+                			por el Pasajero para la realización del viaje.
+                		</p>
+                	</li>
+                </ol>
+                <p>
+                	3.- REGISTRO Y CONDICIONES.
+                </p>
+                <p>
+                	Para acceder al uso de nuestra plataforma, el usuario ya sea Conductor o
+                	Pasajero, deberá ser mayor de edad es decir mayor de 18 años según la
+                	legislación ecuatoriana. Se encuentra prohibido el registro por parte de
+                	una persona menor de 18 años, al momento de acceder al website o a la App
+                	se confirmara la edad del usuario, liberando de todo tipo de
+                	responsabilidad a SimpleRide en caso de datos falsos sobre la edad del
+                	mismo.
+                </p>
+                <p>
+                	3.1 Registro.
+                </p>
+                <p>
+                	Para registrarte deberás iniciar sesión mediante tu cuenta de Facebook,
+                	ingresa tu número de cedula de identidad y rellenar el formulario detallado
+                	a continuación.
+                </p>
+                <p>
+                	Dentro de la aplicación encontraras la verificación opcional de tu cuenta,
+                	en donde deberás, en caso de ser pasajero, enviarnos una foto de cada lado
+                	de tu cédula de identidad; si eres conductor, deberás enviarnos una foto de
+                	tu licencia de conducir y de las dos lados de la matrícula de tu vehículo,
+                	todo esto por motivos de identificación, seguridad y con la finalidad de
+                	crear nuestra base de datos con todos los usuarios de la comunidad de
+                	SimpleRide
+                </p>
+                <p>
+                	Al crear una cuenta y un usuario de SimpleRide, te comprometes con nosotros
+                	a brindar información precisa, clara y verídica, con la finalidad de que tu
+                	información sea usada por nosotros en la verificación de tu identidad y en
+                	la creación de nuestra base de datos. Nos reservamos el derecho de que en
+                	caso de encontrar cualquier tipo de anomalía o falsedad en los datos
+                	proporcionados, eliminarte de nuestro sistema y dar de baja tu cuenta.
+                </p>
+                <p>
+                	3.2 Verificación.
+                </p>
+                <p>
+                	Al crear una cuenta y un usuario de SimpleRide, te comprometes a brindar
+                	información precisa, clara y verídica, con la finalidad de que tu
+                	información sea usada por nosotros en la verificación de tu identidad y en
+                	la creación de nuestra base de datos. Nos reservamos el derecho de que en
+                	caso de encontrar cualquier tipo de anomalía o falsedad en los datos
+                	proporcionados, eliminarte de nuestro sistema y dar de baja tu cuenta.
+                </p>
+                <p>
+                	Una vez que hayas entregado toda la información solicitada, SimpleRide
+                	“VERIFICARA” la misma, lo cual significa que has pasado por todos los
+                	filtros de revisión y que toda la documentación solicitada ha sido
+                	entregada por el usuario. SimpleRide no puede garantizar la veracidad,
+                	validez y autenticidad de la información entregada.
+                </p>
+                <p>
+                	SimpleRide se reserva el derecho de usar cualquier acción legal, búsqueda
+                	en registros públicos y requerir cualquier tipo de datos extras, con la
+                	finalidad de verificar la información personal de los usuarios.
+                </p>
+                <p>
+                	4.- SERVICIOS.
+                </p>
+                <p>
+                	Una vez que te has registrado, podrás empezar a dar uso de la App, ya sea
+                	como conductor o como pasajero. Recomendamos la verificación documental en
+                	la misma.
+                </p>
+                <p>
+                	4.1 Publicación por parte del Conductor.
+                </p>
+                <p>
+                	Una vez que te hayas registrado en SimpleRide podrás publicar y buscar
+                	destinos, viajes, con fecha y hora a tu gusto, puntos de partida y de
+                	llegada, y ciertas características establecidas para que tu viaje sea el
+                	más cómodo y mejor.
+                </p>
+                <p>
+                	A la hora de publicar un viaje, ten presente que deberás cumplir ciertos
+                	requisitos y condiciones, los cuales son:
+                </p>
+                <ol>
+                	<li>
+                		<p>
+                			Poseer una licencia de conducir vigente.
+                		</p>
+                	</li>
+                	<li>
+                		<p>
+                			El auto a ser usado en el viaje deberá ser mismo del cual registras
+                			los datos al crear tu cuenta en la plataforma, en caso de dar uso a
+                			un vehiculo distinto deberas actualizar los datos dentro de la
+                			aplicación.
+                		</p>
+                	</li>
+                	<li>
+                		<p>
+                			Se recomienda que el vehículo con el cual realizaras el viaje,
+                			tenga contratado un seguro particular, de no ser el caso, deberás
+                			notificarnos al momento de realizar el registro.
+                		</p>
+                	</li>
+                	<li>
+                		<p>
+                			No tener ninguna contraindicación ni incapacidad médica para
+                			conducir.
+                		</p>
+                	</li>
+                	<li>
+                		<p>
+                			El auto con el cual realizaras el viaje es exclusivamente de uso
+                			privado, el mismo no puede prestar servicios de transporte, ni
+                			tampoco ser un auto de uso estatal.
+                		</p>
+                	</li>
+                	<li>
+                		<p>
+                			Ofrecer hasta el número de puestos que consten dentro de la
+                			matrícula del vehículo, no puedes excederte de la capacidad de
+                			ocupantes.
+                		</p>
+                	</li>
+                	<li>
+                		<p>
+                			Respetar las leyes de transito
+                		</p>
+                	</li>
+                	<li>
+                		<p>
+                			Mantener el vehículo en buen estado y en condiciones aptas para
+                			realizar un viaje.
+                		</p>
+                	</li>
+                </ol>
+                <br/>
+                <p>
+                	El conductor reconoce que es el único responsable por las publicaciones que
+                	realice en la plataforma de SimpleRide, garantizando así la veracidad de la
+                	información publicada y de igual manera que está dando estricto
+                	cumplimiento a los requisitos y condiciones establecidas en el párrafo
+                	anterior.
+                </p>
+                <p>
+                	SimpleRide revisara y determinara si tu información es válida y cumple con
+                	los requisitos y condiciones establecidos para ser publicada, de ser así,
+                	podrá ser vista por todos los usuarios.
+                </p>
+                <p>
+                	Nos reservamos el derecho a no publicar o a borrar tu viaje, en cualquier
+                	momento y sin previo aviso, si el mismo no cumple con los requisitos y
+                	condiciones antes expuestos.
+                </p>
+                <p>
+                	4.2 Reserva.
+                </p>
+                <p>
+                	Una vez que el viaje se encuentre publicado por parte del conductor, el
+                	pasajero podrá realizar la reserva del mismo.
+                </p>
+                <p>
+                	Como pasajero deberás percatarte de toda la información que ha
+                	proporcionado el conductor para realizar el viaje, una vez que has revisado
+                	la misma, podrás realizar la reserva del viaje, la cual deberá ser aceptada
+                	por parte del conductor o de manera automática.
+                </p>
+                <p>
+                	Una vez que ha sido aceptada por el conductor, podrás realizar el pago de
+                	la misma, cuando el pago sea aprobado, podrás comunicarte con el conductor
+                	mediante mensajes habilitados dentro de la plataforma, para consultar o
+                	coordinar cualquier tipo de información.
+                </p>
+                <p>
+                	Cuando la reserva es automática, podrás proceder con el pago directamente,
+                	el cual sera aprobado y de esta manera podrás comunicarte con el conductor.
+                </p>
+                <p>
+                	El pago será realizado mediante transferencia o depósito bancario, por la
+                	totalidad de los gastos compartidos y los gastos de gestión; una vez que
+                	hemos recibido el pago y con la aceptación del conductor, recibirás la
+                	confirmación del viaje y el respectivo comprobante de pago.
+                </p>
+                <p>
+                	En caso de que el conductor rechace o cancele el viaje, el pasajero
+                	recibirá el reembolso de la totalidad de pago.
+                </p>
+                <p>
+                	Una vez que se haya dado la aceptación por parte de conductor y pasajero,
+                	estos serán los únicos responsables por el cumplimiento del contrato de
+                	viaje, deslindándose SimpleRide E de toda responsabilidad a la hora de la
+                	realización del mismo.
+                </p>
+                <p>
+                	4.3 Disposiciones generales en cuanto a los servicios.
+                </p>
+                <p>
+                	La plataforma está diseñada únicamente para el uso de personas, se
+                	encuentra prohibido el uso distinto de la plataforma, es decir transporte
+                	de objetos, mercaderías, animales, paquetes o cualquier bien material.
+                </p>
+                <p>
+                	SimpleRide es una plataforma que no genera ingresos para sus usuarios, el
+                	pago que realizas a la hora de reservar un viaje corresponde a los gastos
+                	compartidos, a los gastos de gestión y al impuesto al valor agregado. El
+                	conductor que lucrase mediante el uso de la plataforma, será dado de baja
+                	inmediatamente.
+                </p>
+                <p>
+                	¡RECUERDA!
+                </p>
+                <p>
+                	SimpleRide NO BRINDA EN NINGÚN MOMENTO UN SERVICIO DE TRANSPORTE.
+                </p>
+                <p>
+                	No nos responsabilizamos por el uso distinto que se dé a la plataforma.
+                </p>
+                <p>
+                	4.4 Calificación y Comentarios
+                </p>
+                <p>
+                	Una vez realizado el viaje, tanto conductor como pasajero recibirán una
+                	notificación con la opción de valorar y realizar un comentario a tu
+                	compañero de viaje, solamente se habilitara la opción entre conductor y
+                	pasajero o pasajero y conductor, no podrás calificar a otro pasajero.
+                </p>
+                <p>
+                	El sistema de valoración se realizara mediante el uso de ESTRELLAS
+                	SimpleRide, de las cuales 5 es la máxima calificación y 0 es la mínima. Los
+                	usuarios con mejores valoraciones en un tiempo determinado, serán
+                	recompensados por SimpleRide mediante el otorgamiento de promocodes
+                </p>
+                <p>
+                	En caso de que las calificaciones sean inferiores a 3 estrellas por un
+                	periodo de tiempo determinado, y si es que los comentarios y opiniones son
+                	negativos, SimpleRide se reserva el derecho a suspender tu cuenta,
+                	restringir el uso de los servicios de la plataforma o a eliminar la misma.
+                </p>
+                <p>
+                	Las valoraciones y los comentarios serán publicados en tu perfil de
+                	usuario, los mismos que podrán ser revisados por todos los usuarios de la
+                	plataforma.
+                </p>
+                <p>
+                	Los comentarios deberán siempre mantener respeto, deberás usar un lenguaje
+                	adecuado, no insultar ni atentar contra la reputación del resto de
+                	usuarios, SimpleRide se reserva el derecho a borrar los comentarios que
+                	estime innecesarios.
+                </p>
+                <p>
+                	5.- GASTOS COMPARTIDOS Y GASTOS DE GESTION.
+                </p>
+                <p>
+                	El registró, publicación y búsqueda de viajes en SimpleRide es totalmente
+                	gratuito, una vez que realices la reserva del viaje y que la misma sea
+                	aprobada deberás cancelar los valores descritos a continuación:
+                </p>
+                <p>
+                	5.1 Gastos Compartidos.
+                </p>
+                <p>
+                	El conductor será quien determine el costo del viaje, valor que deberá ser
+                	compartido para todos los pasajeros, incluido el conductor. SimpleRide
+                	recomendara el coste aproximado del viaje a realizar, determinado por el
+                	número de kilómetros a recorrer, costo de combustible, etc.; valor que el
+                	conductor deberá mantener como promedio para fijar el precio, además se
+                	fijara un mínimo y un máximo para la fijación de los gastos que genere el
+                	viaje.
+                </p>
+                <p>
+                	Se encuentra totalmente prohibido el generar ingresos mediante nuestra
+                	plataforma, la idea de la implementación de nuestros servicios es el
+                	compartir gastos entre viajeros, más no generar un lucro por la realización
+                	del viaje. De igual manera no se está brindando un servicio de transporte
+                	público ni privado, ya que lo mismo se encuentra prohibido por Ley.
+                </p>
+                <p>
+                	5.2 Gastos de Gestión.
+                </p>
+                <p>
+                	Con la finalidad de poner en contacto a conductores y pasajeros, SimpleRide
+                	cobrara un valor mínimo por los gastos de gestión generados; estos gastos
+                	serán cobrados al pasajero al momento de realizar la reserva del viaje.
+                </p>
+                <p>
+                	Los gastos de gestión serán calculados en concordancia con los gastos
+                	compartidos, se encuentra además incluido el seguro y el Impuesto al Valor
+                	Agregado (IVA) que generen los gastos compartidos.
+                </p>
+                <p>
+                	Los gastos serán cobrados a cada uno de los pasajeros que realice el viaje.
+                </p>
+                <p>
+                	Formula:
+                </p>
+                <p>
+                	Gastos Compartidos + (Gastos de Gestión + IVA) = Valor a Pagar.
+                </p>
+                <p>
+                	5.3 Pagos.
+                </p>
+                <p>
+                	5.3.1 Conductor.
+                </p>
+                <p>
+                	Al momento de registrador deberás indicarnos una cuenta bancaria con la
+                	finalidad de realizar los depósitos con el valor de los costos compartidos
+                	por la realización del viaje, autorizas de manera expresa a SimpleRide para
+                	que a tu nombre realice estos cobros a los pasajeros.
+                </p>
+                <p>
+                	De esta manera SimpleRide cobrará a los pasajeros los valores
+                	correspondientes a gastos compartidos, gastos de gestión y el valor del
+                	IVA, de los cuales los gastos compartidos serán transferidos al conductor.
+                </p>
+                <p>
+                	El depósito con el valor de los gastos compartidos será realizado en un
+                	término de 3 a 5 días.
+                </p>
+                <p>
+                	5.3.2 Pasajero.
+                </p>
+                <p>
+                	El pasajero deberá pagar la cantidad determinada con la formula descrita en
+                	el punto 5.2 una vez que la reserva ha sido realizada.
+                </p>
+                <p>
+                	Una vez cumplido el viaje, los pasajeros entregaran el código de
+                	verificación al conductor, mismo ingresara dichos códigos a la plataforma
+                	como confirmación del viaje.
+                </p>
+                <p>
+                	6.- FINALIDAD Y USOS DE LA APLICACIÓN.
+                </p>
+                <p>
+                	Tanto conductor y pasajero, aceptan y tienen claro que los servicios y la
+                	plataforma de SimpleRide, sirven única y exclusivamente para poner en
+                	contacto a personas que desean compartir un viaje, se encuentra prohibido
+                	un uso distinto de la aplicación, quedan excluidos los usos con fines de
+                	lucro tanto comerciales y empresariales.
+                </p>
+                <p>
+                	6.1 Conductor
+                </p>
+                <p>
+                	Como conductor deberás aceptar las recomendaciones de precios para los
+                	gastos compartidos establecidos por SimpleRide para la realización del
+                	viaje, dejando claro por nuestra cuenta los mínimos y máximos permitidos.
+                </p>
+                <p>
+                	No se pueden realizar viajes en vehículos que presten el servicio de
+                	transporte ni vehículos estatales o comerciales, si se realizan viajes en
+                	este tipo de vehículos, SimpleRide cancelara y dará de baja tu cuenta.
+                </p>
+                <p>
+                	En caso de que utilices un vehículo diferente al que se encuentra
+                	registrado en nuestra base de datos, deberás registrar el mismo nuevamente.
+                </p>
+                <p>
+                	Tu cuenta será suspendida en caso de que nos percatemos que estas generando
+                	beneficios económicos con el uso de la plataforma, recuerda que mediante el
+                	uso de nuestro sistema podremos controlar el número de viajes, el número de
+                	pasajeros, los costes cobrados, etc.
+                </p>
+                <p>
+                	Mediante el uso de SimpleRide, no deberás generar un beneficio económico o
+                	un lucro por la realización de los viajes, ya que mantenemos la política de
+                	gastos compartidos para facilitar el viaje de las personas, fomentar el
+                	turismo y eliminar la emisión de gases que afectan al medio ambiente.
+                </p>
+                <br/>
+                <p>
+                	Una vez que te encuentres registrado en nuestra plataforma, recuerda que
+                	deberás cumplir con los presentes T&C, caso contrario tu cuenta será
+                	cancelada y dada de baja.
+                </p>
+                <p>
+                	7.- POLITICAS DE CANCELACIÓN Y REEMBOLSO.
+                </p>
+                <p>
+                	Los viajes reservados podrán ser cancelados tanto por conductor o pasajero,
+                	atendiendo a las siguientes políticas de cancelación:
+                </p>
+                <p>
+                	7.1 Conductor.
+                </p>
+                <p>
+                	El conductor podrá cancelar el viaje o no llegar al punto de encuentro 30
+                	minutos después de la hora acordada, en este supuesto se devolverá la suma
+                	total del dinero cancelado por parte del pasajero, es decir gastos
+                	compartidos, gastos de gestión y el IVA. El conductor no recibirá ninguna
+                	suma.
+                </p>
+                <p>
+                	En este supuesto el conductor deberá justificar su inasistencia para la
+                	realización del viaje, caso contrario será sancionado por parte de
+                	SimpleRide con una calificación de cero ESTRELLAS SimpleRide.
+                </p>
+                <p>
+                	Si este tipo de comportamientos persiste de manera reiterada, SimpleRide se
+                	reserva el derecho a eliminar y dar de baja tu cuenta.
+                </p>
+                <p>
+                	7.2 Pasajero.
+                </p>
+                <ol>
+                	<li>
+                		<p>
+                			Si el pasajero cancela el viaje con más de 24 horas de anticipación
+                			de la hora señalada para la salida, se le devolverán solamente el
+                			importe de los gastos compartidos, los gastos de gestión y el IVA
+                			se quedaran para SimpleRide. El conductor no recibirá ninguna suma.
+                		</p>
+                	</li>
+                	<li>
+                		<p>
+                			Si el pasajero cancela el viaje con menos de 24 horas de
+                			anticipación a la hora señalada para la salida, se le devolverá el
+                			importe al 50% de los gastos compartidos, de los cuales el otro 50%
+                			ira para el conductor y los gastos de gestión y el IVA irán para
+                			SimpleRide.
+                		</p>
+                	</li>
+                	<li>
+                		<p>
+                			Si el pasajero cancela el viaje pasada la hora de salida, o no
+                			llega al punto de encuentro después de 30 minutos de la hora de
+                			salida, no tendrá derecho a ningún tipo de devolución, los gastos
+                			compartidos irán para el conductor y los gastos de gestión y el IVA
+                			para SimpleRide.
+                		</p>
+                	</li>
+                </ol>
+                <p>
+                	Si la cancelación se realiza antes de la hora programada para la salida,
+                	los puestos cancelados quedaran disponibles para otros usuarios de
+                	SimpleRide que deseen realizar el viaje.
+                </p>
+                <p>
+                	Mantenemos nuestras políticas de rembolso para generar seriedad en el uso
+                	de la plataforma, todos los casos de reembolso que se presenten serán
+                	analizados por parte de SimpleRide.
+                </p>
+                <p>
+                	8.- COMPROMISO DE CONDUCTA DE LOS USUARIOS.
+                </p>
+                <p>
+                	8.1 Usuario en General.
+                </p>
+                <p>
+                	Si eres usuario de SimpleRide, reconoces ser el único y exclusivo
+                	responsables de respetar todas las leyes, normativas y obligaciones
+                	aplicables al uso de la plataforma.
+                </p>
+                <p>
+                	Dentro del uso de la plataforma te comprometes a:
+                </p>
+                <ol>
+                	<li>
+                		<p>
+                			No utilizar la plataforma con ánimos de lucro.
+                		</p>
+                	</li>
+                	<li>
+                		<p>
+                			No enviar información falsa, confusa, maliciosa o engañosa en
+                			ningún momento, ya sea en el registro o publicación de viajes.
+                		</p>
+                	</li>
+                	<li>
+                		<p>
+                			Comportarse una manera adecuada al momento de dejar comentarios,
+                			según las leyes y la buena costumbre, se encuentra prohibido el uso
+                			de vocabulario ofensivo, inadecuado, obsceno, pornográfico,
+                			discriminatorio, violento, racista, incitar a la discriminación o
+                			al odio, fomentar el uso de sustancias estupefacientes o
+                			psicotrópicas, en general se encuentra prohibido dar un uso
+                			diferente al que fue motivo de creación de la plataforma.
+                		</p>
+                	</li>
+                	<li>
+                		<p>
+                			No infringir los derechos, los presentes T&C ni dañar la imagen
+                			de SimpleRide.
+                		</p>
+                	</li>
+                	<li>
+                		<p>
+                			No abrir una cuenta falsa, a nombre de un tercero, o más de una
+                			cuenta.
+                		</p>
+                	</li>
+                	<li>
+                		<p>
+                			No ponerse en contacto directamente con un conductor para tratar de
+                			evadir los pagos de gastos compartidos o gastos de gestión.
+                		</p>
+                	</li>
+                	<li>
+                		<p>
+                			No contactar a los usuarios para tratar de otros temas que no sean
+                			el uso de la plataforma.
+                		</p>
+                	</li>
+                	<li>
+                		<p>
+                			No aceptar ni realizar pagos fuera de la plataforma
+                		</p>
+                	</li>
+                	<li>
+                		<p>
+                			Cumplir de manera estricta con los presentes T&C.
+                		</p>
+                	</li>
+                </ol>
+                <br/>
+                <ol start="2">
+                	<ol start="2">
+                		<li>
+                			<p>
+                				Conductor.
+                			</p>
+                		</li>
+                	</ol>
+                </ol>
+                <p>
+                	Como conductor usuario de la plataforma te comprometes a:
+                </p>
+                <ol>
+                	<li>
+                		<p>
+                			Cumplir y respetar la normativa de tránsito a la hora de conducir
+                			tú vehículo.
+                		</p>
+                	</li>
+                	<li>
+                		<p>
+                			Conducir tu vehículo de manera prudente, no ingerir alcohol, no
+                			consumir sustancias psicotrópicas o estupefacientes.
+                		</p>
+                	</li>
+                	<li>
+                		<p>
+                			Mantener los documentos de circulación vigentes, matricula del
+                			vehículo, licencia de conducir y FONSAT - SPPAT (Sistema Público
+                			para Pago de Accidentes de Tránsito).
+                		</p>
+                	</li>
+                	<li>
+                		<p>
+                			Realizar los viajes de la manera que fueron publicados en la
+                			plataforma, respetar horarios, puntos de encuentro para salida y
+                			llegada.
+                		</p>
+                	</li>
+                	<li>
+                		<p>
+                			No llevar más pasajeros que hasta el número permitido en la
+                			matrícula del vehículo.
+                		</p>
+                	</li>
+                	<li>
+                		<p>
+                			Mantener el vehículo en buen estado a la hora de la realización del
+                			viaje.
+                		</p>
+                	</li>
+                	<li>
+                		<p>
+                			De ser solicitado, te comprometes a verificar con SimpleRide o con
+                			cualquier pasajero, la documentación habilitante para la
+                			realización del viaje, cédula de ciudadanía, licencia de conducir,
+                			matricula vehicular, FONSAT - SPPAT, etc.
+                		</p>
+                	</li>
+                	<li>
+                		<p>
+                			Informar a los pasajeros en caso de que exista un retraso o un
+                			cambio de horario en el viaje y de igual manera en caso de que
+                			exista una circunstancia ajena a tu voluntad para que el viaje no
+                			se realice, de ser posible notificar a los pasajeros.
+                		</p>
+                	</li>
+                	<li>
+                		<p>
+                			Esperar de ser posible a los pasajeros hasta 30 minutos después de
+                			la hora acordada para la salida.
+                		</p>
+                	</li>
+                	<li>
+                		<p>
+                			No viajar con vehículos que no se encuentre previamente registrados
+                			en la plataforma.
+                		</p>
+                	</li>
+                	<li>
+                		<p>
+                			Asegurarte de tener habilitado un celular o cualquier dispositivo
+                			de mensajería electrónica con la finalidad de poder comunicarte con
+                			los pasajeros.
+                		</p>
+                	</li>
+                	<li>
+                		<p>
+                			Solicitar el código de verificación solamente cuando el viaje ha
+                			finalizado.
+                		</p>
+                	</li>
+                	<li>
+                		<p>
+                			No generar ningún tipo de beneficio o lucro con nuestra plataforma.
+                		</p>
+                	</li>
+                	<li>
+                		<p>
+                			Comportarse de una manera adecuada y responsable a la hora de
+                			realizar el viaje.
+                		</p>
+                	</li>
+                </ol>
+                <p>
+                	8.3 Pasajero.
+                </p>
+                <p>
+                	Como pasajero usuario de la plataforma, te comprometes a:
+                </p>
+                <ol>
+                	<li>
+                		<p>
+                			Mantener un buen comportamiento durante el viaje, respetando
+                			siempre al conductor, al vehículo y al resto de pasajeros.
+                		</p>
+                	</li>
+                	<li>
+                		<p>
+                			Llegar al punto de encuentro a la hora acordada, en caso de atraso,
+                			deberás avisar al conductor, tanto conductor como pasajero tienen
+                			un lapso máximo de espera de 30 minutos.
+                		</p>
+                	</li>
+                	<li>
+                		<p>
+                			En caso de ser solicitado, deberás exhibir tu documentación al
+                			conductor.
+                		</p>
+                	</li>
+                	<li>
+                		<p>
+                			No transportar sustancias ilegales.
+                		</p>
+                	</li>
+                	<li>
+                		<p>
+                			No acudir al viaje si te encuentras bajo efecto del alcohol o
+                			sustancias psicotrópicas o estupefacientes.
+                		</p>
+                	</li>
+                </ol>
+                <p>
+                	En caso de haber realizado la reserva de dos o más puestos para la
+                	realización del viaje, garantizas que tus acompañantes respetaran los
+                	presentes términos y condiciones.
+                </p>
+                <p>
+                	9.- SUSPENSIÓN Y ELIMINACIÓN DE CUENTAS.
+                </p>
+                <p>
+                	En caso de que incumplas los presentes términos y condiciones, o en los
+                	casos previamente señalados, nos reservamos el derecho de suspender tu
+                	cuenta o eliminarla y darte de baja como usuario de la plataforma.
+                </p>
+                <p>
+                	Serás notificado de manera oportuna con los motivos por los cuales hemos
+                	tomados la decisión de suspender o eliminar tu cuenta y darte de baja como
+                	usuario, a lo cual podrás fundamentar tus explicaciones y así nosotros
+                	podremos decidir si continuamos o no con la sanción aplicada.
+                </p>
+                <p>
+                	10.- POLITICAS DE PRIVACIDAD.
+                </p>
+                <p>
+                	Al ser usuario de SimpleRide, aceptas entregarnos tu información personal,
+                	para que nosotros validemos y certifiquemos la misma, así como también
+                	crear una base de datos de todos los usuarios de la plataforma, en
+                	concordancia con la legislación aplicable y las Políticas de Privacidad de
+                	SimpleRide.
+                </p>
+                <p>
+                	11.- PROPIEDAD INTELECTUAL.
+                </p>
+                <p>
+                	11.1 Plataforma.
+                </p>
+                <p>
+                	SimpleRide es el único titular de los derechos de propiedad intelectual
+                	relacionados con los servicios prestados por la plataforma, su contenido,
+                	software, textos, logos, imágenes, datos, videos, gráficos, diseños, base
+                	datos, etc.
+                </p>
+                <p>
+                	Como usuario de la plataforma, darás el uso permitido por la misma y la
+                	finalidad por la cual fue creada, es decir, el compartir gastos a la hora
+                	de realizar un viaje, se encuentra prohibido dar un uso distinto, lucrar o
+                	realizar una actividad comercial o empresarial.
+                </p>
+                <p>
+                	Se encuentra prohibido utilizar la plataforma de SimpleRide de cualquier
+                	manera ajena a la finalidad para la cual fue creada, en estricto sentido,
+                	se encuentra totalmente prohibido:
+                </p>
+                <ol>
+                	<li>
+                		<p>
+                			Reproducir, copiar, plagiar, adaptar, distribuir y diseminar la
+                			plataforma, los servicios y contenidos de SimpleRide.
+                		</p>
+                	</li>
+                	<li>
+                		<p>
+                			Extraer o intentar extraer, mediante el uso de tecnologías o
+                			software, la información y las bases de datos de la plataforma.
+                		</p>
+                	</li>
+                </ol>
+                <p>
+                	11.2 Usuarios.
+                </p>
+                <p>
+                	Con la finalidad de brindar nuestros servicios y a la par con los objetivos
+                	de la Plataforma, al momento de registrarte y proporcionarnos tus datos,
+                	otorgas a SimpleRide una licencia exclusiva para el uso de dichos
+                	contenidos; de esta manera nos permites distribuir tu información y la
+                	información de los viajes en el internet y la red, así como también
+                	proporcionar el contenido de dicha información en nuestra plataforma. De
+                	esta manera, autorizas a SimpleRide lo siguiente:
+                </p>
+                <ol>
+                	<li>
+                		<p>
+                			Reproducir el contenido proporcionado, en cualquier medio digital,
+                			conocido o por conocer, así como almacenarlo, copiarlo,
+                			transmitirlo, publicarlo o descargarlo, con la finalidad de
+                			proteger dichos contenidos y a la vez suministrar nuestro servicio.
+                		</p>
+                	</li>
+                	<li>
+                		<p>
+                			Adaptar y traducir tu contenido, reproducirlo y adaptarlo para que
+                			sea compatible con nuestras plataformas y los idiomas en los cuales
+                			prestaremos nuestro servicio.
+                		</p>
+                	</li>
+                	<li>
+                		<p>
+                			Crear una base de datos con toda la información que nos
+                			proporcionas.
+                		</p>
+                	</li>
+                </ol>
+                <p>
+                	12.- FUNCIÓN.
+                </p>
+                <p>
+                	SimpleRide es una App web o móvil, la cual tiene como finalidad poner en
+                	contacto a viajeros con un mismo destino, para compartir SIN ÁNIMO DE
+                	LUCRO, los gastos que conlleva realizar un viaje a un lugar determinado, de
+                	manera rápida, segura y económica.
+                </p>
+                <p>
+                	Al utilizar nuestra plataforma, aceptas los términos y condiciones, y de
+                	igual manera, estás de acuerdo y reconoces que SimpleRide, sirve únicamente
+                	como un medio de conexión o como un intermediario entre los usuarios, por
+                	lo que no formamos parte en ninguno de los acuerdos realizados entre
+                	conductor - pasajero y viceversa.
+                </p>
+                <p>
+                	Así mismo y en consecuencia de lo manifestado anteriormente, no podemos
+                	controlar las conductas y comportamientos de nuestros usuarios al momento
+                	de la realización de los viajes, pero a lo largo de los presentes términos
+                	y condiciones, hemos tratado de recomendar que dichas conductas sean
+                	adecuadas.
+                </p>
+                <p>
+                	Al ser un intermediario y un punto de conexión entre los usuarios,
+                	SimpleRide no posee, renta, alquila, administra o suministra vehículos para
+                	la realización de viajes; reconoces y aceptas que SimpleRide no controla ni
+                	puede controlar la veracidad o legalidad de anuncios, puestos y viajes.
+                	SimpleRide no brinda un servicio de transporte, no somos transportistas,
+                	simplemente facilitamos la conexión entre viajeros.
+                </p>
+                <p>
+                	Los usuarios de nuestra plataforma, tanto conductores como pasajeros,
+                	actúan bajo su propia responsabilidad. Al ser intermediarios entre los
+                	usuarios, nos encontramos exentos de cualquier incidente durante la
+                	realización de un viaje, especialmente en:
+                </p>
+                <ol>
+                	<li>
+                		<p>
+                			Información errónea en las publicaciones de los viajes a realizar.
+                		</p>
+                	</li>
+                	<li>
+                		<p>
+                			Cancelación o modificación de los viajes y sus condiciones.
+                		</p>
+                	</li>
+                	<li>
+                		<p>
+                			Comportamiento de los usuarios antes, durante y después del viaje.
+                		</p>
+                	</li>
+                	<li>
+                		<p>
+                			Siniestros o cualquier tipo de accidente ocurrido durante la
+                			realización del viaje.
+                		</p>
+                	</li>
+                </ol>
+                <p>
+                	13.- FUNCIONALIDAD DE LA PLATAFORMA.
+                </p>
+                <p>
+                	Trabajamos todos los días para brindarte un mejor servicio, nuestra
+                	plataforma se encuentra disponible y en funcionamiento las 24 horas del
+                	día, los 7 días de la semana; sin embargo siempre nos encontramos expuestos
+                	y es posible la existencia de una suspensión temporal de nuestra plataforma
+                	por motivos técnicos, cortes o restricciones de red, por lo que en caso de
+                	suceder cualquier tipo de inconveniente, ten paciencia que nosotros lo
+                	vamos a arreglar.
+                </p>
+                <p>
+                	14.- TERMINOS Y CONDICIONES.
+                </p>
+                <p>
+                	Nuestros T&C se encuentran realizados y publicados a la fecha de inicio
+                	de nuestros servicios, por lo que nos reservamos el derecho de modificarlos
+                	en cualquier momento dado el cambio constante de las tecnologías y el
+                	comercio, así como también de la legislación aplicable.
+                </p>
+                <p>
+                	Todos nuestros usuarios serán notificados con los cambios y de igual manera
+                	los mismos serán publicados en nuestra plataforma, aplicación, web y redes
+                	sociales.
+                </p>
+                <p>
+                	15.- LEY APLICABLE.
+                </p>
+                <p>
+                	Los presentes términos y condiciones, han sido redactados en idioma español
+                	y en base a la legislación ecuatoriana y todas sus leyes aplicables.
+                </p>
+                <p>
+                	En caso de cualquier inconveniente, el primer paso será notificarnos vía
+                	correo electrónico o por escrito en nuestras oficinas, no tardaremos en
+                	enviarte una respuesta con la solución.
+                </p>
+                <p>
+                	En caso de presentarse alguna controversia de orden legal, aceptas
+                	renunciar expresamente tu domicilio y fuero, y someterte a uno de los
+                	centros de arbitraje y mediación de la ciudad de Cuenca, provincia del
+                	Azuay, con la finalidad de llegar a un acuerdo favorable para las partes;
+                	de no ser así, te sometes a los jueces competentes de la ciudad de Cuenca,
+                	provincia del Azuay.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal fade" bsModal #privacityModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="privacityModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title">Políticas de Privacidad</h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="privacityModal.hide()">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <p>
+                    1.- DESCRIPCIÓN.
+                </p>
+                <p>
+                    SimpleRide es una aplicación móvil, la cual tiene como finalidad poner en
+                    contacto a viajeros con un mismo destino para compartir sin ánimo de lucro,
+                    los gastos que conlleva realizar un viaje a un lugar determinado, de manera
+                    rápida, segura y económica.
+                </p>
+                <p>
+                    Aplicación Móvil. Apple Store / Play Store. SimpleRide
+                </p>
+                <p>
+                    Website. www.SimpleRide-ec.com
+                </p>
+                <p>
+                    Al proporcionarnos tu información, nos hacemos responsables por el
+                    tratamiento de los datos y nos comprometemos a proteger y respetar tu
+                    privacidad. El presente documento tiene como finalidad informarte sobre
+                    nuestras políticas de privacidad, recopilación, uso y divulgación de la
+                    información que como usuario nos proporcionas a través de nuestra página
+                    web o nuestra aplicación. El presente documento, así como nuestros Términos
+                    y Condiciones, constituyen los lineamientos con los cuales recogeremos y
+                    trataremos tus datos personales. En caso de no estar de acuerdo con los
+                    mismos, no instales la aplicación, no ingreses al website y no hagas uso de
+                    ella.
+                </p>
+                <p>
+                    2.- RECOLECCIÓN DE INFORMACIÓN.
+                </p>
+                <p>
+                    Al registrarte en la plataforma deberás proporcionarnos los datos que
+                    constan en nuestro formulario de registro, con la finalidad de mantener y
+                    de crear una base de datos con tu información.
+                </p>
+                <p>
+                    Recuerda que eres el único responsable al proporcionarnos tu información,
+                    te comprometes a que la misma sea correcta, clara y veraz.
+                </p>
+                <p>
+                    2.1 La información que te solicitamos, podrá contener:
+                </p>
+                <p>
+                    2.1.1 Información de carácter obligatorio, como: cédula de ciudadanía,
+                    nombres y apellidos, fecha de nacimiento, país, ciudad, correo electrónico,
+                    numero de celular. Todos estos campos serán de carácter obligatorio,
+                    deberás aportar los mismos para que puedas hacer uso de nuestra plataforma.
+                </p>
+                <p>
+                    2.1.2 Una fotografía de cada lado de tu cédula de ciudadanía.
+                </p>
+                <p>
+                    2.1.3 Número de placa de tu vehículo (AAA-0000)
+                </p>
+                <p>
+                    2.1.4 Una fotografía de cada lado de la matrícula de tu vehículo.
+                </p>
+                <p>
+                    2.1.5 Una mini biografía.
+                </p>
+                <p>
+                    2.1.6 Un número de cuenta corriente o ahorros.
+                </p>
+                <p>
+                    2.1.7 Información o comentarios sobre los viajes realizados.
+                </p>
+                <p>
+                    2.1.8 Información sobre tu localización.
+                </p>
+                <p>
+                    2.2 Información que nosotros recogemos.
+                </p>
+                <p>
+                    2.2.1 Al registrarte mediante Facebook, SimpleRide tendrá acceso a ciertos
+                    datos personales, como son: nombres y apellidos, foto de perfil, correo
+                    electrónico, etc., dichos datos los recopilamos de tu cuenta en la red
+                    social, de acuerdo a los términos y condiciones aplicables.
+                </p>
+                <p>
+                    2.2.2 Al proporcionarnos tu cédula de ciudadanía, recogeremos información
+                    existente en páginas web públicas, como la Agencia Nacional de Tránsito y
+                    Ministerio del Interior, de acuerdo a los términos y condiciones
+                    aplicables.
+                </p>
+                <p>
+                    2.2.3 Al proporcionarnos la placa de tu vehículo, recogeremos información
+                    existente en páginas web públicas, como la Agencia Nacional de Transito, de
+                    acuerdo a los términos y condiciones aplicables.
+                </p>
+                <p>
+                    2.2.4 De igual manera podremos recoger información y datos constantes en
+                    nuestra plataforma, como comentarios, reseñas, número de viajes ofrecidos y
+                    realizados, tiempo de respuesta de tus mensajes; dicha información podrá
+                    ser publicada en tu perfil dentro de nuestra plataforma.
+                </p>
+                <p>
+                    3.- USO DE LA INFORMACIÓN
+                </p>
+                <p>
+                    La información que nos proporcionas, la de tu perfil en redes sociales
+                    (Facebook), así como la que nosotros recogemos de páginas web de uso
+                    público, será recolectada, almacenada y guardada en nuestra base de datos
+                    para su uso.
+                </p>
+                <p>
+                    Toda la información recogida nos servirá para poder brindar nuestros
+                    servicios dentro de la plataforma, así como para poner en contacto a los
+                    usuarios de la misma.
+                </p>
+                <p>
+                    SimpleRide garantiza que la información recolectada será usada con la
+                    diligencia debida, al ser usuario de nuestra plataforma, nos autorizas a
+                    dar uso de la misma en lo que resulte necesario para la prestación del
+                    servicio.
+                </p>
+                <p>
+                    SimpleRide podrá divulgar tu información, únicamente cuando: a) sea
+                    requerida judicialmente, b) responder a reclamaciones de orden judicial o
+                    extrajudicial, c) dar cumplimiento a procedimientos judiciales d) obligar
+                    al cumplimiento de nuestros contratos con usuarios, de acuerdo a lo
+                    establecido en los T&C y estas políticas de privacidad, e) en caso de
+                    emergencia que represente un peligro para nuestros usuarios, f) para
+                    proteger los derechos de propiedad o seguridad de SIMPLERIDE, g) en caso de
+                    venta de la plataforma.
+                </p>
+                <p>
+                    4.- LEY APLICABLE.
+                </p>
+                <p>
+                    Las presentes Políticas de Privacidad, han sido redactadas en idioma
+                    español y en base a la legislación ecuatoriana, fundamentalmente a lo
+                    establecido en la Constitución de la República del Ecuador y la Ley del
+                    Sistema Nacional de Registro de Datos Públicos.
+                </p>
+                <p>
+                    Nos reservamos el derecho de modificar nuestras políticas de privacidad de ser requerido. Cualquier tipo de modificación en nuestras Políticas de Privacidad, serán publicadas en nuestra página web. De ser necesario
+                    solicitaremos tu consentimiento mediante el envió de notificaciones.
+                </p>
+                <p>
+                    5.- CONTACTO.
+                </p>
+                <p>
+                    Si en cualquier momento necesitas ponerte en contacto con nosotros para
+                    comentarios, dudas u opiniones respecto a nuestras Políticas de Privacidad
+                    o el tratamiento de tus datos personales, puedes hacerlo directamente en
+                    nuestra página web o aplicación.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal fade" bsModal #faqModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="faqModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title">Preguntas Frecuentas</h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="faqModal.hide()">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <p><b>¿Qué es?</b></p>
+                <p>SimpleRide es una aplicación móvil, la cual tiene como finalidad poner en contacto a viajeros con un mismo destino para compartir sin ánimo de lucro, los gastos que conlleva realizar un viaje a un lugar determinado, de manera rápida, segura y económica.</p>
+                <p><b>¿Cómo funciona?</b></p>
+                <p>Simple, descárgate la aplicación, regístrate y verifica tus datos, en caso de ser conductor publica tu viaje, y si eres pasajero, busca el viaje que se ajuste a tus necesidades y listo ¡a viajar!</p>
+                <p><b>¿Cómo me registro? </b></p>
+                <p>El registro en SimpleRide es fácil, regístrate mediante Facebook, llena el formulario, verifícate adjuntando una foto de tu licencia y matricula si eres conductor y una foto de tu cédula de ciudadanía si eres pasajero.</p>
+                <p><b>¿Cómo p&uacute;blico los viajes?</b></p>
+                <p>Al ser conductor, deberás elegir desde y hacia dónde vas a realizar tu viaje, rellenar los campos obligatorios, esperar que los pasajeros se unan al viaje y listo, a viajar.</p>
+                <p><b>¿Cómo realizo el pago? </b></p>
+                <p>Si eres pasajero, deberás cancelar el valor generado por el viaje para poder realizar el mismo, este pago podrás hacerlo mediante cualquiera de nuestros canales de pago, transferencia, depósito bancario, etc.</p>
+                <p><b>¿Código de Verificación?</b></p>
+                <p>El código de verificación, es un código generado por SimpleRide, mismo que te llegara por un mensaje a la aplicación cuando realices el viaje, este código deberá ser entregado al conductor cuando este ha finalizado, para que nosotros verifiquemos la realización del mismo y podamos transferir el importe de los gastos compartidos al conductor.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

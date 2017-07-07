@@ -1,0 +1,91 @@
+// @import "styles/ionic.scss";
+@import "{}/node_modules/bootstrap/scss/bootstrap.scss";
+// @import "{}/node_modules/font-awesome/scss/font-awesome.scss";
+
+.slide-zoom {
+	height: 100%;
+}
+
+.ion-calendar-row {
+
+    button, div {
+      padding: 0;
+    }
+}
+
+.ion-calendar-row {
+
+	div {
+		margin: 0 !important;
+	}
+}
+
+.bar-buttons-md[start] {
+  position: absolute;
+  right: 0;
+}
+
+.bar-buttons-md[end] {
+  position: absolute;
+  right: 0;
+}
+
+.back-button.back-button-md {
+	position: absolute;
+	z-index: 2;
+}
+
+.row {
+	margin-left: 0;
+	margin-right: 0;
+}
+
+.loading-message{
+  text-align: center;
+  font-size: 1.2em;
+  padding-top: 20px;
+}
+
+.not-found{
+  width: 100px;
+  margin: 20px auto;
+  display: block;
+}
+
+.reviews-score ion-icon:before{
+  color: #ffd345;
+}
+
+.main-background{
+  background-color: #43338E;
+  height: 100%;
+}
+
+.main-background img{
+  width: 50px;
+  position: absolute;
+  margin: auto;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+/* Frontent */
+.web{
+	position: inherit;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+.web .carousel-indicators {
+	bottom: -40px;
+}
+
+.web .carousel-control-prev, .web .carousel-control-next{
+	display: none;
+}
+
+.web slide .item{
+	margin: 0 auto;
+}
