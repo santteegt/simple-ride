@@ -1,0 +1,171 @@
+<ion-header>
+	<ion-navbar color="app" style="padding-top: 4px; min-height: 64px">
+		<ion-buttons start>
+		  <button ion-button (click)="dismiss()" *ngIf="!isPushNav">
+		    <span showWhen="ios">Cerrar</span>
+		    <ion-icon name="md-close" showWhen="android,windows"></ion-icon>
+		  </button>
+		</ion-buttons>
+		<ion-title style="padding-top: 0; text-align: center;">
+	      <img src="/assets/logo.png" style="padding-top: 5px; width: 75px; height: 44px">
+	    </ion-title>
+		<!-- <ion-buttons end>
+		  <button ion-button (click)="dismiss()">
+		    <span>Editar</span>
+		  </button>
+		</ion-buttons> -->
+	</ion-navbar>
+</ion-header>
+
+<ion-content>
+	<ion-card>
+      <ion-item>
+        <ion-icon item-left name="ios-pin"></ion-icon>
+        <h2>Viaje a {{trip.destination.shortName}}</h2>
+        <p><b>Fecha:</b> <span text-color="primary">{{trip.departureDate.toLocaleDateString()}}</span> <b>Hora:</b> <span text-color="primary">{{trip.departureTime}}</span> <br /><b>Lugar de partida:</b> <span text-color="primary">{{trip.departureAddress ? trip.departureAddress: 'No detallado'}}</span></p>
+      </ion-item>
+
+      <ion-row font-size="11px">
+          <ion-col width-10 style="text-align: right">
+            <ion-icon name="home"></ion-icon>
+          </ion-col>
+          <ion-col width-30 style="text-align: left">
+            <span>{{trip.origin.shortName}}</span>
+          </ion-col>
+          <ion-col width-20 style="text-align: right">
+            <ion-icon name="briefcase"></ion-icon>
+          </ion-col>
+          <ion-col width-30 style="text-align: left">
+            <span>Eq. mano</span>
+          </ion-col>
+          <ion-col width-10>
+            <ion-icon name="ios-checkmark-circle" color="secondary" *ngIf="trip.options.handBaggage"></ion-icon>
+            <ion-icon name="ios-close-circle" color="danger" *ngIf="!trip.options.handBaggage"></ion-icon>
+          </ion-col>
+        </ion-row>
+
+        <ion-row font-size="11px">
+          <ion-col width-10 style="text-align: right">
+            <ion-icon name="ios-map"></ion-icon>
+          </ion-col>
+          <ion-col width-30 style="text-align: left">
+            <span>{{tripUtils.distanceToKm(trip.distance)}} Km</span>
+          </ion-col>
+          <ion-col width-20 style="text-align: right">
+            <ion-icon name="briefcase"></ion-icon>
+          </ion-col>
+          <ion-col width-30 style="text-align: left">
+            <span>Maleta</span>
+          </ion-col>
+          <ion-col width-10>
+            <ion-icon name="ios-checkmark-circle" color="secondary" *ngIf="trip.options.baggage"></ion-icon>
+            <ion-icon name="ios-close-circle" color="danger" *ngIf="!trip.options.baggage"></ion-icon>
+          </ion-col>
+        </ion-row>
+
+        <ion-row font-size="11px">
+          <ion-col width-10 style="text-align: right">
+            <ion-icon name="md-clock"></ion-icon>
+          </ion-col>
+          <ion-col width-30 style="text-align: left">
+            <span>{{tripUtils.secondsToHm(trip.estimatedTime)}}</span>
+          </ion-col>
+          <ion-col width-20 style="text-align: right">
+            <ion-icon name="paw"></ion-icon>
+          </ion-col>
+          <ion-col width-30 style="text-align: left">
+            <span>Mascotas</span>
+          </ion-col>
+          <ion-col width-10>
+            <ion-icon name="ios-checkmark-circle" color="secondary" *ngIf="trip.options.pets"></ion-icon>
+            <ion-icon name="ios-close-circle" color="danger" *ngIf="!trip.options.pets"></ion-icon>
+          </ion-col>
+        </ion-row>
+
+        <ion-row font-size="11px">
+          <ion-col width-10 style="text-align: right">
+            <ion-icon name="logo-usd"></ion-icon>
+          </ion-col>
+          <ion-col width-30 style="text-align: left">
+            <span>{{tripUtils.getPrice(trip.price, trip.distance)}}</span>
+          </ion-col>
+          <ion-col width-20 style="text-align: right">
+            <ion-icon name="no-smoking"></ion-icon>
+          </ion-col>
+          <ion-col width-30 style="text-align: left">
+            <span>Fumar</span>
+          </ion-col>
+          <ion-col width-10>
+            <ion-icon name="ios-checkmark-circle" color="secondary" *ngIf="trip.options.smoking"></ion-icon>
+            <ion-icon name="ios-close-circle" color="danger" *ngIf="!trip.options.smoking"></ion-icon>
+          </ion-col>
+        </ion-row>
+
+        <ion-row font-size="11px">
+          <ion-col width-10 style="text-align: right">
+            <ion-icon name="ios-people"></ion-icon>
+          </ion-col>
+          <ion-col width-30 style="text-align: left">
+            <span>{{trip.available_places}} libre{{trip.available_places > 1?'s':''}}</span>
+          </ion-col>
+          <ion-col width-20 style="text-align: right">
+            <ion-icon name="pizza"></ion-icon>
+          </ion-col>
+          <ion-col width-30 style="text-align: left">
+            <span>Comer</span>
+          </ion-col>
+          <ion-col width-10>
+            <ion-icon name="ios-checkmark-circle" color="secondary" *ngIf="trip.options.food"></ion-icon>
+            <ion-icon name="ios-close-circle" color="danger" *ngIf="!trip.options.food"></ion-icon>
+          </ion-col>
+        </ion-row>
+
+				<ion-row font-size="11px">
+          <ion-col width-10 style="text-align: right">
+          </ion-col>
+          <ion-col width-30 style="text-align: left">
+          </ion-col>
+          <ion-col width-20 style="text-align: right">
+            <ion-icon name="man"></ion-icon>
+          </ion-col>
+          <ion-col width-30 style="text-align: left">
+            <span>Niños</span>
+          </ion-col>
+          <ion-col width-10>
+            <ion-icon name="ios-checkmark-circle" color="secondary" *ngIf="trip.options.children"></ion-icon>
+            <ion-icon name="ios-close-circle" color="danger" *ngIf="!trip.options.children"></ion-icon>
+          </ion-col>
+        </ion-row>
+
+
+      <ion-card-content>
+        <p style="text-align: center"><b>Comentarios:</b></p>
+        <p style="text-align: justify;"><br/> {{trip.comments ? trip.comments: 'No se han detallado observaciones'}}</p>
+      </ion-card-content>
+
+      <ion-list>
+	  		<button ion-item (click)="navigateTo(rsvpListModal, {'trip': trip, 'isPushNav': true})" [hidden]="reservationsCount==0">
+		      <ion-icon name="clipboard" item-left></ion-icon>
+		      Ver Reservas
+					<ion-badge item-right>{{reservationsCount}}</ion-badge>
+		    </button>
+
+		    <button ion-item (click)="navigateTo(messageBoardModal, {'trip': trip, 'isPushNav': true})" [hidden]="readOnly">
+		      <ion-icon name="ios-chatbubbles" item-left></ion-icon>
+		      Mensajes
+		      <ion-icon [hidden]="true" color="danger" name='alert' item-right></ion-icon>
+		    </button>
+
+		    <button ion-item (click)="deleteTrip()" [hidden]="readOnly">
+		      <ion-icon color="danger" name="trash" item-left></ion-icon>
+		      Cancelar Viaje
+		    </button>
+	  	</ion-list>
+
+    </ion-card>
+
+    <!-- <div style="padding: 0 5px" *ngIf="(user | isDriver)">
+    	<button ion-button color="danger" block (tap)="deleteTrip()">Cancelar Viaje</button>
+	</div> -->
+
+</ion-content>

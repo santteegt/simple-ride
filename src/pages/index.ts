@@ -10,6 +10,9 @@ import { DetailedReservationMobileComponent } from './trip/detailed-reservation.
 import { UserProfileMobileComponent } from './user/user-profile.component.mobile';
 import { CheckoutMobileComponent } from './checkout/checkout.component.mobile';
 import { TripFilterMobileComponent } from './trip/trip-filter.component.mobile';
+import { TripMobileComponent } from './trip/trip.component.mobile';
+import { TripMessageBoardMobileComponent } from './trip/trip-message-board.component.mobile';
+import { ReservationListMobileComponent } from './trip/reservation-list.component.mobile';
 
 export const MOBILE_DECLARATIONS = [
 
@@ -24,5 +27,8 @@ export const MOBILE_DECLARATIONS = [
 	DetailedReservationMobileComponent,
 	UserProfileMobileComponent,
 	CheckoutMobileComponent,
-	TripFilterMobileComponent
+	TripFilterMobileComponent,
+	TripMobileComponent,
+	TripMessageBoardMobileComponent,
+	ReservationListMobileComponent
 ];

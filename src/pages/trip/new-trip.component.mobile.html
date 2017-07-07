@@ -90,7 +90,7 @@
             <div #map id="map"></div>
           </div>
           <div class="step-buttons">
-            <button ion-button color="primary" block (click)="nextStep()" [disabled]="!originLoc || !destinationLoc">Siguiente</button>
+            <button ion-button color="app" block (click)="nextStep()" [disabled]="!originLoc || !destinationLoc">Siguiente</button>
           </div>
 
 
@@ -143,7 +143,7 @@
                   <button color="light" ion-button block (click)="prevStep()">Atras</button>
                 </ion-col>
                 <ion-col width-50 style="padding: 0; padding-left: 5px">
-                  <button color="primary" ion-button block (click)="nextStep()" [disabled]="!departureTime || !departureDate">Siguiente</button>
+                  <button color="app" ion-button block (click)="nextStep()" [disabled]="!departureTime || !departureDate">Siguiente</button>
                 </ion-col>
               </ion-row>
             </ion-grid>
@@ -171,13 +171,13 @@
               <ion-row>
                 <ion-col width-50>
                   <ion-item>
-                    <ion-label color="primary" stacked>Precio: (*)<span class="suggested_price">Sugerido {{ suggestedPrice | currency }}</span> </ion-label>
+                    <ion-label color="app" stacked>Precio: (*)<span class="suggested_price">Sugerido {{ suggestedPrice | currency }}</span> </ion-label>
                     <ion-input #priceinput type="number" [(ngModel)]="price" placeholder="$" min="{{ minPrice }}" max="{{ maxPrice }}" step="0.25" (change)="validatePrice()" tabindex="1"></ion-input>
                   </ion-item>
                 </ion-col>
                 <ion-col width-50>
                   <ion-item>
-                    <ion-label color="primary" stacked>Asientos Disp. (*)</ion-label>
+                    <ion-label color="app" stacked>Asientos Disp. (*)</ion-label>
                     <ion-input type="number" [(ngModel)]="places" placeholder="#" max="4" step="1" (change)="validateSeats()" tabindex="2" (blur)="focusPrice()"></ion-input>
                   </ion-item>
                 </ion-col>
@@ -213,9 +213,9 @@
                   </ion-item>
                 </ion-col>
               </ion-row>
-              
+
             </ion-grid>
-          
+
           </div>
 
           <div class="step-buttons">
@@ -225,7 +225,7 @@
                   <button color="light" ion-button block (click)="prevStep()" tabindex="3">Atras</button>
                 </ion-col>
                 <ion-col width-50 style="padding: 0; padding-left: 5px">
-                  <button color="primary" ion-button block (click)="nextStep()" [disabled]="!price || !places">Siguiente</button>
+                  <button color="app" ion-button block (click)="nextStep()" [disabled]="!price || !places">Siguiente</button>
                 </ion-col>
               </ion-row>
             </ion-grid>
@@ -251,11 +251,11 @@
           <!-- <div style="height: 100%;"> -->
 
             <ion-item>
-              <ion-label color="primary" stacked>Lugar de partida (*)</ion-label>
+              <ion-label color="app" stacked>Lugar de partida (*)</ion-label>
               <ion-input keyboardFix type="text" [(ngModel)]="departureAddress" placeholder="Lugar de partida" tabindex="4"></ion-input>
             </ion-item>
             <ion-item>
-              <ion-label color="primary" stacked>Observaciones</ion-label>
+              <ion-label color="app" stacked>Observaciones</ion-label>
               <ion-textarea keyboardFix type="text" [(ngModel)]="comments" placeholder="Escribe comentarios acerca del viaje..." tabindex="5"></ion-textarea>
             </ion-item>
 
@@ -279,7 +279,7 @@
                   <button color="light" ion-button block (click)="prevStep()">Atras</button>
                 </ion-col>
                 <ion-col width-50 style="padding: 0; padding-left: 5px">
-                  <button color="primary" ion-button block (click)="nextStep()" [disabled]="departureAddress.length == 0">Siguiente</button>
+                  <button color="app" ion-button block (click)="nextStep()" [disabled]="departureAddress.length == 0">Siguiente</button>
                 </ion-col>
               </ion-row>
             </ion-grid>
@@ -308,7 +308,7 @@
               <ion-item>
                 <ion-icon item-left name="ios-pin"></ion-icon>
                 <h2>Viaje a {{destination}}</h2>
-                <p><b>Fecha:</b> <span text-color="primary">{{departureDate ? departureDate.startDate.toLocaleDateString():''}}</span> <b>Hora:</b> <span text-color="primary">{{departureTime}}</span> <br /><b>Lugar de partida:</b> <span text-color="primary">{{departureAddress ? departureAddress: 'No detallado'}}</span></p>
+                <p><b>Fecha:</b> <span text-color="app">{{departureDate ? departureDate.startDate.toLocaleDateString():''}}</span> <b>Hora:</b> <span text-color="app">{{departureTime}}</span> <br /><b>Lugar de partida:</b> <span text-color="app">{{departureAddress ? departureAddress: 'No detallado'}}</span></p>
               </ion-item>
 
               <ion-row font-size="11px">
@@ -451,7 +451,7 @@
                   <button color="light" ion-button block (click)="prevStep()">Atras</button>
                 </ion-col>
                 <ion-col width-50 style="padding: 0; padding-right: 10px; padding-left: 5px">
-                  <button color="primary" ion-button block (click)="saveTrip()" [disabled]="!terms || !rsvpMethod">Crear Viaje</button>
+                  <button color="app" ion-button block (click)="saveTrip()" [disabled]="!terms || !rsvpMethod">Crear Viaje</button>
                 </ion-col>
               </ion-row>
             </ion-grid>

@@ -13,7 +13,7 @@
 }
 
 .app-background {
-	background-color: $app;
+	background-color: color($colors, app);
 	color: white;
 }
 
@@ -42,8 +42,8 @@
 }
 
 .detail-box {
-	border-top: 1px solid $app;
-	border-bottom: 1px solid $app;
+	border-top: 1px solid color($colors, app);;
+	border-bottom: 1px solid color($colors, app);;
 }
 
 .trip-detail-box {
@@ -56,6 +56,6 @@
 	width: 5px;
 	height: 5px;
 	border-radius: 5px;
-	background-color: $app;
+	background-color: color($colors, app);;
 	display: inline-block
 }

@@ -86,7 +86,7 @@ export class CarRegistrationMobileComponent extends UserRegistration implements 
 
     validateCar() {
 
-    	// let person_id = Meteor.user()['personData']['dni'];	
+    	// let person_id = Meteor.user()['personData']['dni'];
 
     	if(this.carRegister!=null && this.carRegister.length > 0 && (!this.validRegister || this.carRegister != this.lastRegister)) {
 	    	this.loader = this.loadingCtrl.create({

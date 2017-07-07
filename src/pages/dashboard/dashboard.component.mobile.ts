@@ -17,10 +17,10 @@ import { Dashboard } from "../../classes/dashboard.class";
 import { GeolocationService } from "../../classes/services/geolocation.service";
 import { NewTripMobileComponent } from '../trip/new-trip.component.mobile';
 import { TripListMobileComponent } from '../trip/trip-list.component.mobile';
+import { TripMobileComponent } from '../trip/trip.component.mobile';
+import { TripMessageBoardMobileComponent } from '../trip/trip-message-board.component.mobile';
 
 // TODO: migrate components
-// import { TripMobileComponent } from './pages/trip/trip.component.mobile';
-// import { TripMessageBoardMobileComponent } from './pages/trip/trip-message-board.component.mobile';
 // import { UserNotificationsMobileComponent } from './pages/user/user-notifications.component.mobile';
 
 import { Places, Trips } from '../../shared/collections';
@@ -87,8 +87,7 @@ declare var cordova;
 export class DashboardMobileComponent extends Dashboard implements OnInit, OnDestroy {
 
   newTrip: Component = NewTripMobileComponent;
-  // TODO: migrate components
-	// tripDetail: Component = TripMobileComponent;
+	tripDetail: Component = TripMobileComponent;
 
 	placesSub: Subscription;
 	places;
@@ -418,15 +417,13 @@ export class DashboardMobileComponent extends Dashboard implements OnInit, OnDes
   }
 
   editTripModal(trip: Trip) {
-    // TODO: migrate component
-  	// let modal = this.modalCtrl.create(this.tripDetail, {trip: trip});
-	  // modal.present();
+  	let modal = this.modalCtrl.create(this.tripDetail, {trip: trip});
+	  modal.present();
   }
 
   openTripMessageBoard(trip: Trip) {
-    // TODO: migrate component
-  	// let modal = this.modalCtrl.create(TripMessageBoardMobileComponent, {trip: trip});
-	  // modal.present();
+  	let modal = this.modalCtrl.create(TripMessageBoardMobileComponent, {trip: trip});
+	  modal.present();
   }
 
   openNotificationsBoard() {

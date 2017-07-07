@@ -1,0 +1,104 @@
+<ion-header>
+	<ion-navbar color="app" style="padding-top: 4px; min-height: 64px">
+		<ion-buttons start>
+		  <button ion-button (click)="dismiss()" *ngIf="!isPushNav">
+		    <span showWhen="ios">Cerrar</span>
+		    <ion-icon name="md-close" showWhen="android,windows"></ion-icon>
+		  </button>
+		</ion-buttons>
+		<ion-title style="padding-top: 0; text-align: center;">
+	      <img src="/assets/logo.png" style="padding-top: 5px; width: 75px; height: 44px">
+	    </ion-title>
+	</ion-navbar>
+</ion-header>
+
+<ion-content #content>
+	<ion-list>
+	  	<!-- <ion-list-header class="trip-card-header"> -->
+	  		<ion-grid class="card-header app-background" padding-top>
+	  			<ion-row>
+	  				<ion-col style="font-weight: 900; font-size: 1.1em">
+	  					{{trip.origin.shortName}} - {{trip.destination.shortName}}
+	  				</ion-col>
+		  		</ion-row>
+		  		<ion-row>
+	  				<ion-col style="font-size: 0.9em">
+	  					{{trip.departureDate.toLocaleDateString()}} {{trip.departureTime}}
+	  				</ion-col>
+		  		</ion-row>
+	  		</ion-grid>
+	  	<!-- </ion-list-header> -->
+
+	  	<ion-grid style="padding-right: 10px">
+	  		<div *ngFor="let msg of messagesObs | async">
+		  		<ion-row *ngIf="msg.message_type == 'system'">
+		  			<ion-col style="text-align: center; font-style: italic;">
+	  					<ion-icon name="person"></ion-icon> {{msg.message}}
+		  			</ion-col>
+		  		</ion-row>
+
+		  		<div style="margin-top: 10px;" *ngIf="msg.message_type == 'user'">
+		  			<ion-row no-padding>
+		  				<ion-col width-20>
+		  				</ion-col>
+		  				<ion-col width-80 style="padding: 0 5px; font-size: 0.8em;">
+		  					{{msg.user_forename}} {{msg.user_surname}}
+		  				</ion-col>
+		  			</ion-row>
+		  			<ion-row no-padding>
+		  				<ion-col width-20>
+		  				</ion-col>
+		  				<ion-col width-80 style="padding: 0 5px; font-size: 0.8em;">
+		  					{{msg.is_driver ? 'Conductor':'Pasajero'}}
+		  				</ion-col>
+		  			</ion-row>
+		            <ion-row>
+		              <ion-col width-20>
+		                <button ion-item no-lines detail-none style="background: transparent;">
+		                  <ion-avatar item-left>
+		                    <img src="assets/nobody.png" [hidden]="loadingImgs[msg.user_id]"  style="width: 35px; height: 35px;"/>
+							<img src="{{msg.user_profileImg}}" (load)="loadedImg(msg.user_id)" [hidden]="!loadingImgs[msg.user_id]" style="width: 35px; height: 35px;">
+		                  </ion-avatar>
+		                  <!-- <h4 style="color: white">{{'Santiago Gonzalez'}}</h4>
+		                  <p style="color: white">{{'Conductor'}}</p> -->
+		                </button>
+		              </ion-col>
+		              <ion-col>
+										<div class="message-bubble">
+		                	<p style="padding: 0px 16px; text-align: start">{{msg.message}}</p>
+										</div>
+		              </ion-col>
+		            </ion-row>
+		            <!-- <ion-row>
+
+		            </ion-row> -->
+
+		            <ion-row>
+		            	<ion-col style="text-align: right; font-size: 0.8em; padding: 0 5px;">
+		            		{{msg.message_date.toLocaleDateString()}} {{msg.message_time}}
+		            	</ion-col>
+		            </ion-row>
+	          	</div>
+
+	  		</div>
+	  	</ion-grid>
+  	</ion-list>
+
+</ion-content>
+
+<ion-footer [keyboardAttach]="content">
+    <ion-toolbar>
+      	<ion-grid no-padding>
+			<ion-row>
+				<ion-col width-80 style="border: 1px solid #c4c4c4; border-radius: 5px;" no-padding>
+					<ion-textarea keyboardFix [(ngModel)]="message" type="text" placeholder="Escribe un mensaje..." style="border: 1px solid black #C4C4C4" #messageInput></ion-textarea>
+				</ion-col>
+				<ion-col width-20>
+					<button color="app" ion-button icon-only [disabled]="!message || message.length == 0" (click)="sendMessage($event)">
+			    		<ion-icon name="send"></ion-icon>
+			    	</button>
+				</ion-col>
+			</ion-row>
+		</ion-grid>
+    </ion-toolbar>
+</ion-footer>
