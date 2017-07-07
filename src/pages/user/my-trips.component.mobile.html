@@ -1,0 +1,344 @@
+<ion-header>
+	<ion-navbar color="app" style="padding-top: 4px">
+		<ion-buttons start>
+		  <button ion-button (click)="dismiss()">
+		    <span showWhen="ios">Cerrar</span>
+		    <ion-icon name="md-close" showWhen="android,windows"></ion-icon>
+		  </button>
+		</ion-buttons>
+		<ion-title style="padding-top: 0; text-align: center">
+	      <img src="/assets/logo.png" style="padding-top: 5px; width: 75px; height: 44px">
+	    </ion-title>
+
+	</ion-navbar>
+</ion-header>
+
+<ion-content>
+	<ion-list>
+	    <ion-list-header style="margin-bottom: 0">
+	      <ion-label style="text-align: center">Mis Viajes</ion-label>
+	    </ion-list-header>
+
+	    <div padding-left padding-right>
+		    <ion-segment [(ngModel)]="card">
+		      <ion-segment-button value="reservations">
+		        Próx. a Viajar
+		      </ion-segment-button>
+		      <ion-segment-button value="past-reservations">
+		        Reservas Pasadas
+		      </ion-segment-button>
+		    </ion-segment>
+	  	</div>
+
+
+	    <div [ngSwitch]="card">
+	    	<div *ngSwitchCase="'reservations'">
+	    		<p *ngIf="!hasRSVP" class="loading-message">No tienes reservaciones</p>
+  				<img *ngIf="!hasRSVP" src="assets/not-found.png" class="not-found"/>
+			  	<ion-card *ngFor="let rsvp of myRSVPs | async; let i = index;">
+				  	<ion-card-header no-padding class="trip-card-header">
+				  		<ion-grid>
+				  			<ion-row>
+				  				<ion-col width-75 style="padding-left: 8px">
+				  					<strong>{{trips && trips.length > 0 ? getTripDay(getTripInfo(rsvp.trip_id).departureDate):''}}, {{trips && trips.length > 0 ? getTripInfo(rsvp.trip_id).departureDate.toLocaleDateString():''}}</strong>
+					  			</ion-col>
+					  			<ion-col width-25 style="text-align: right; padding-right: 8px">
+						  			<ion-icon name="clock" style="vertical-align: bottom"></ion-icon>
+						  			<strong>{{trips && trips.length > 0 ? getTripInfo(rsvp.trip_id).departureTime:''}}</strong>
+					  			</ion-col>
+					  		</ion-row>
+				  		</ion-grid>
+				  	</ion-card-header>
+				  	<ion-grid>
+				  		<ion-row>
+				  			<ion-col width-80 no-padding>
+				  				<ion-grid no-padding>
+				  					<ion-row>
+						  				<button ion-item no-lines detail-none (click)="openDriverProfile(rsvp.driver_id)">
+									      <ion-avatar item-left>
+											<img src="assets/nobody.png" [hidden]="loadingImgs[rsvp.driver_id]"  style="width: 50px; height: 50px;"/>
+											<img src="{{drivers && drivers.length > 0 ? getDriverInfo(rsvp.driver_id).personData.profileImg:''}}" (load)="loadedImg(rsvp.driver_id)" [hidden]="!loadingImgs[rsvp.driver_id]" style="width: 50px; height: 50px;">
+									      </ion-avatar>
+									      	<h3>{{drivers && drivers.length > 0 ? getDriverInfo(rsvp.driver_id).personData.forename:''}}</h3>
+									      	<p>{{drivers && drivers.length > 0 ? getDriverInfo(rsvp.driver_id).personData.surname:''}}</p>
+									      	<p>{{drivers && drivers.length > 0 ? tripUtils.getDriverAge(getDriverInfo(rsvp.driver_id).personData.birthday):''}} años</p>
+									      	<div class="reviews-score">
+										      	<ion-icon name="{{getDriverRating(rsvp.driver_id) >= 1 ? 'star':(getDriverRating(rsvp.driver_id) - 1 > 0 && getDriverRating(rsvp.driver_id) - 1 < 1 ? 'star-half':'star-outline')}}"></ion-icon>
+										      	<ion-icon name="{{getDriverRating(rsvp.driver_id) >= 2 ? 'star':(getDriverRating(rsvp.driver_id) - 2 > 0 && getDriverRating(rsvp.driver_id) - 2 < 1 ? 'star-half':'star-outline')}}"></ion-icon>
+										      	<ion-icon name="{{getDriverRating(rsvp.driver_id) >= 3 ? 'star':(getDriverRating(rsvp.driver_id) - 3 > 0 && getDriverRating(rsvp.driver_id) - 3 < 1 ? 'star-half':'star-outline')}}"></ion-icon>
+										      	<ion-icon name="{{getDriverRating(rsvp.driver_id) >= 4 ? 'star':(getDriverRating(rsvp.driver_id) - 4 > 0 && getDriverRating(rsvp.driver_id) - 4 < 1 ? 'star-half':'star-outline')}}"></ion-icon>
+										      	<ion-icon name="{{getDriverRating(rsvp.driver_id) == 5 ? 'star':(getDriverRating(rsvp.driver_id) - 5 > 0 && getDriverRating(rsvp.driver_id) - 5 < 1 ? 'star-half':'star-outline')}}"></ion-icon>
+									      	</div>
+									    </button>
+								    </ion-row>
+
+							  		<ion-row class="no-padding-bottom">
+								    	<ion-col width-20 style="text-align: center">
+								    		<ion-icon name="ios-car"></ion-icon>
+								    	</ion-col>
+							  			<ion-col width-40 style="text-align: center; font-size: 0.8em;">
+							  				<strong>{{trips && trips.length > 0 ? tripUtils.distanceToKm(getTripInfo(rsvp.trip_id).distance):''}} Km</strong>
+							  			</ion-col>
+							  			<ion-col width-20 style="text-align: center">
+							  				<ion-icon name="ios-pin"></ion-icon>
+							  			</ion-col>
+							  			<ion-col width-20 style="text-align: center">
+							  				<ion-icon name="ios-timer"></ion-icon>
+							  			</ion-col>
+							  		</ion-row>
+
+							  		<ion-row class="no-padding-bottom">
+							  			<ion-col width-20 style="text-align: center; font-size: 0.6em" no-padding>
+							  				<strong>{{trips && trips.length > 0 ? getTripInfo(rsvp.trip_id).origin.shortName:''}}</strong>
+							  			</ion-col>
+							  			<ion-col width-40 style="text-align: center; font-size: 0.8em; overflow: hidden; white-space: nowrap;" no-padding>
+							  				<div style="margin-top: -10px">_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _</div>
+							  			</ion-col>
+							  			<ion-col width-20 style="text-align: center; font-size: 0.6em" no-padding>
+							  				<strong>{{trips && trips.length > 0 ? getTripInfo(rsvp.trip_id).destination.shortName:''}}</strong>
+							  			</ion-col>
+							  			<ion-col width-20 style="text-align: center; font-size: 0.7em" no-padding>
+							  				<strong>{{trips && trips.length > 0 ? tripUtils.secondsToHm(getTripInfo(rsvp.trip_id).estimatedTime):''}}</strong>
+							  			</ion-col>
+							  		</ion-row>
+							    </ion-grid>
+				  			</ion-col>
+				  			<ion-col width-20 no-padding>
+				  				<ion-grid>
+					  				<ion-row>
+					  					<div class="card-box" style="border-bottom: 0">
+					  						<ion-row>
+					  							<ion-col class="trip-field">${{rsvp.total}}</ion-col>
+					  						</ion-row>
+					  						<ion-row>
+					  							<ion-col class="trip-label">Valor a</ion-col>
+					  						</ion-row>
+					  						<ion-row>
+					  							<ion-col class="trip-label" style="margin: 0 5px; border-bottom: 1px solid #C4C4C4; padding-bottom: 4px;">pagar</ion-col>
+					  						</ion-row>
+					  					</div>
+					  				</ion-row>
+					  				<ion-row style="padding-top: 5px">
+					  					<div class="card-box" style="border-top: 0">
+					  						<ion-row>
+					  							<ion-col class="trip-field">{{rsvp.places}}</ion-col>
+					  						</ion-row>
+					  						<ion-row>
+					  							<ion-col class="trip-label">asiento{{rsvp.places > 1 ?'s':''}}</ion-col>
+					  						</ion-row>
+					  						<ion-row>
+					  							<ion-col class="trip-label">rsvdo{{rsvp.places > 1 ?'s':''}}</ion-col>
+					  						</ion-row>
+					  					</div>
+					  				</ion-row>
+				  				</ion-grid>
+				  			</ion-col>
+				  		</ion-row>
+
+				  		<ion-row *ngIf="showPaymentStatus(rsvp)">
+				  			<ion-col ion-text color="danger">
+				  				<strong>{{paymentStatus(rsvp)}}</strong>
+				  			</ion-col>
+				  		</ion-row>
+						<ion-row *ngIf="showPaymentSuccess(rsvp)">
+				  			<ion-col ion-text color="secondary">
+				  				<strong>{{paymentStatus(rsvp)}}</strong>
+				  			</ion-col>
+				  		</ion-row>
+
+				  	</ion-grid>
+
+				  	<ion-row no-padding class="card-button">
+				  		<ion-col text-center no-padding>
+				          <button ion-button clear small full icon-left color="app" (click)="showDetails(i)">
+				            <ion-icon *ngIf="!showDetail[i]" name='arrow-down'></ion-icon>
+				            <ion-icon *ngIf="showDetail[i]" name='arrow-up'></ion-icon>
+				            <ion-icon [hidden]="!showPaymentManagementButton(rsvp)" color="danger" name='alert' item-right></ion-icon>
+				            {{!showDetail[i] ? 'Abrir':'Cerrar'}} Detalles
+				          </button>
+				        </ion-col>
+
+				        <ion-col text-center no-padding>
+				          <button ion-button clear small full icon-left color="app" (click)="openTripDetails(trip)">
+				            <ion-icon name='share-alt'></ion-icon>
+				            Compartir
+				          </button>
+				        </ion-col>
+
+
+			      	</ion-row>
+
+			      	<ion-list [hidden]="!showDetail[i]">
+			      		<button ion-item (click)="navigateTo(reservationDetailModal, {'trip': getTripInfo(rsvp.trip_id), 'driver': getDriverInfo(rsvp.driver_id), 'rsvp': rsvp, 'isPushNav': true})">
+					      <ion-icon name="clipboard" item-left></ion-icon>
+					      Ver Detalles Viaje
+					    </button>
+
+					    <button ion-item [hidden]="rsvp.payment_status != 'processed'" (click)="navigateTo(messageBoardModal, {'trip': getTripInfo(rsvp.trip_id), 'isPushNav': true})">
+					      <ion-icon name="ios-chatbubbles" item-left></ion-icon>
+					      Mensajes
+					      <ion-icon [hidden]="true" color="danger" name='alert' item-right></ion-icon>
+					    </button>
+
+					    <button ion-item [hidden]="!showPaymentManagementButton(rsvp)" (click)="navigateTo(paymentManagementModal, {'rsvp': rsvp, 'isPushNav': true})">
+					      <ion-icon name="card" item-left></ion-icon>
+					      Gestionar Pago
+					      <ion-icon [hidden]="false" color="danger" name='alert' item-right></ion-icon>
+					    </button>
+
+					    <button ion-item (click)="cancelReservation(rsvp)">
+					      <ion-icon color="danger" name="trash" item-left></ion-icon>
+					      Cancelar Reserva
+					    </button>
+				  	</ion-list>
+			  	</ion-card>
+		  	</div>
+
+		  	<div *ngSwitchCase="'past-reservations'">
+	  			<p *ngIf="!hasPastRSVP" class="loading-message">No tienes reservaciones</p>
+  				<img *ngIf="!hasPastRSVP" src="assets/not-found.png" class="not-found"/>
+		  		<ion-card *ngFor="let rsvp of myPastRSVPs | async; let i = index;">
+		  			<ion-card-header no-padding class="trip-card-header">
+				  		<ion-grid>
+				  			<ion-row>
+				  				<ion-col width-75 style="padding-left: 8px">
+				  					<strong>{{trips && trips.length > 0 ? getTripDay(getTripInfo(rsvp.trip_id).departureDate):''}}, {{trips && trips.length > 0 ? getTripInfo(rsvp.trip_id).departureDate.toLocaleDateString():''}}</strong>
+					  			</ion-col>
+					  			<ion-col width-25 style="text-align: right; padding-right: 8px">
+						  			<ion-icon name="clock" style="vertical-align: bottom"></ion-icon>
+						  			<strong>{{trips && trips.length > 0 ? getTripInfo(rsvp.trip_id).departureTime:''}}</strong>
+					  			</ion-col>
+					  		</ion-row>
+				  		</ion-grid>
+				  	</ion-card-header>
+				  	<ion-grid>
+				  		<ion-row>
+				  			<ion-col width-80 no-padding>
+				  				<ion-grid no-padding>
+				  					<ion-row>
+						  				<button ion-item no-lines detail-none (click)="openDriverProfile(rsvp.driver_id)">
+									      <ion-avatar item-left>
+											<img src="assets/nobody.png" [hidden]="loadingImgs[rsvp.driver_id]"  style="width: 50px; height: 50px;"/>
+											<img src="{{drivers && drivers.length > 0 ? getDriverInfo(rsvp.driver_id).personData.profileImg:''}}" (load)="loadedImg(rsvp.driver_id)" [hidden]="!loadingImgs[rsvp.driver_id]" style="width: 50px; height: 50px;">
+									      </ion-avatar>
+									      	<h3>{{drivers && drivers.length > 0 ? getDriverInfo(rsvp.driver_id).personData.forename:''}}</h3>
+									      	<p>{{drivers && drivers.length > 0 ? getDriverInfo(rsvp.driver_id).personData.surname:''}}</p>
+									      	<p>{{drivers && drivers.length > 0 ? tripUtils.getDriverAge(getDriverInfo(rsvp.driver_id).personData.birthday):''}} años</p>
+									      	<div class="reviews-score">
+										      	<ion-icon name="{{getDriverRating(rsvp.driver_id) >= 1 ? 'star':(getDriverRating(rsvp.driver_id) - 1 > 0 && getDriverRating(rsvp.driver_id) - 1 < 1 ? 'star-half':'star-outline')}}"></ion-icon>
+										      	<ion-icon name="{{getDriverRating(rsvp.driver_id) >= 2 ? 'star':(getDriverRating(rsvp.driver_id) - 2 > 0 && getDriverRating(rsvp.driver_id) - 2 < 1 ? 'star-half':'star-outline')}}"></ion-icon>
+										      	<ion-icon name="{{getDriverRating(rsvp.driver_id) >= 3 ? 'star':(getDriverRating(rsvp.driver_id) - 3 > 0 && getDriverRating(rsvp.driver_id) - 3 < 1 ? 'star-half':'star-outline')}}"></ion-icon>
+										      	<ion-icon name="{{getDriverRating(rsvp.driver_id) >= 4 ? 'star':(getDriverRating(rsvp.driver_id) - 4 > 0 && getDriverRating(rsvp.driver_id) - 4 < 1 ? 'star-half':'star-outline')}}"></ion-icon>
+										      	<ion-icon name="{{getDriverRating(rsvp.driver_id) == 5 ? 'star':(getDriverRating(rsvp.driver_id) - 5 > 0 && getDriverRating(rsvp.driver_id) - 5 < 1 ? 'star-half':'star-outline')}}"></ion-icon>
+									      	</div>
+									    </button>
+								    </ion-row>
+
+							  		<ion-row class="no-padding-bottom">
+								    	<ion-col width-20 style="text-align: center">
+								    		<ion-icon name="ios-car"></ion-icon>
+								    	</ion-col>
+							  			<ion-col width-40 style="text-align: center; font-size: 0.8em;">
+							  				<strong>{{trips && trips.length > 0 ? tripUtils.distanceToKm(getTripInfo(rsvp.trip_id).distance):''}} Km</strong>
+							  			</ion-col>
+							  			<ion-col width-20 style="text-align: center">
+							  				<ion-icon name="ios-pin"></ion-icon>
+							  			</ion-col>
+							  			<ion-col width-20 style="text-align: center">
+							  				<ion-icon name="ios-timer"></ion-icon>
+							  			</ion-col>
+							  		</ion-row>
+
+							  		<ion-row class="no-padding-bottom">
+							  			<ion-col width-20 style="text-align: center; font-size: 0.6em" no-padding>
+							  				<strong>{{trips && trips.length > 0 ? getTripInfo(rsvp.trip_id).origin.shortName:''}}</strong>
+							  			</ion-col>
+							  			<ion-col width-40 style="text-align: center; font-size: 0.8em; overflow: hidden; white-space: nowrap;" no-padding>
+							  				<div style="margin-top: -10px">_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _</div>
+							  			</ion-col>
+							  			<ion-col width-20 style="text-align: center; font-size: 0.6em" no-padding>
+							  				<strong>{{trips && trips.length > 0 ? getTripInfo(rsvp.trip_id).destination.shortName:''}}</strong>
+							  			</ion-col>
+							  			<ion-col width-20 style="text-align: center; font-size: 0.7em" no-padding>
+							  				<strong>{{trips && trips.length > 0 ? tripUtils.secondsToHm(getTripInfo(rsvp.trip_id).estimatedTime):''}}</strong>
+							  			</ion-col>
+							  		</ion-row>
+							    </ion-grid>
+				  			</ion-col>
+				  			<ion-col width-20 no-padding>
+				  				<ion-grid>
+					  				<ion-row>
+					  					<div class="card-box" style="border-bottom: 0">
+					  						<ion-row>
+					  							<ion-col class="trip-field">${{rsvp.total}}</ion-col>
+					  						</ion-row>
+					  						<ion-row>
+					  							<ion-col class="trip-label">Valor a</ion-col>
+					  						</ion-row>
+					  						<ion-row>
+					  							<ion-col class="trip-label" style="margin: 0 5px; border-bottom: 1px solid #C4C4C4; padding-bottom: 4px;">pagar</ion-col>
+					  						</ion-row>
+					  					</div>
+					  				</ion-row>
+					  				<ion-row style="padding-top: 5px">
+					  					<div class="card-box" style="border-top: 0">
+					  						<ion-row>
+					  							<ion-col class="trip-field">{{rsvp.places}}</ion-col>
+					  						</ion-row>
+					  						<ion-row>
+					  							<ion-col class="trip-label">asiento{{rsvp.places > 1 ?'s':''}}</ion-col>
+					  						</ion-row>
+					  						<ion-row>
+					  							<ion-col class="trip-label">rsvdo{{rsvp.places > 1 ?'s':''}}</ion-col>
+					  						</ion-row>
+					  					</div>
+					  				</ion-row>
+				  				</ion-grid>
+				  			</ion-col>
+				  		</ion-row>
+				  		<ion-row *ngIf="rsvp.cancellation_date != undefined">
+				  			<ion-col ion-text color="danger">
+				  				<strong>{{rsvp.cancellation_reason == 1 ? 'NO ACEPTADO':'CANCELADO'}}</strong>
+				  			</ion-col>
+				  		</ion-row>
+				  	</ion-grid>
+
+				  	<ion-row no-padding class="card-button">
+				  		<ion-col text-center no-padding>
+				          <button ion-button clear small icon-left color="app" (click)="showPDetails(i)">
+				            <ion-icon *ngIf="!showPDetail[i]" name='arrow-down'></ion-icon>
+				            <ion-icon *ngIf="showPDetail[i]" name='arrow-up'></ion-icon>
+				            <ion-icon [hidden]="rsvp.cancellation_date != undefined || rsvp.user_rating" color="danger" name='alert' item-right></ion-icon>
+				            {{!showPDetail[i] ? 'Abrir':'Cerrar'}} Detalles
+				          </button>
+				        </ion-col>
+
+				        <ion-col text-center no-padding>
+				          <button ion-button clear small icon-left color="app" (click)="openTripDetails(trip)">
+				            <ion-icon name='share-alt'></ion-icon>
+				            Compartir
+				          </button>
+				        </ion-col>
+
+
+			      	</ion-row>
+
+			      	<ion-list [hidden]="!showPDetail[i]">
+			      		<button ion-item (click)="navigateTo(reservationDetailModal, {'trip': getTripInfo(rsvp.trip_id), 'driver': getDriverInfo(rsvp.driver_id), 'rsvp': rsvp, 'isPushNav': true})">
+					      <ion-icon name="clipboard" item-left></ion-icon>
+					      Ver Detalles Viaje
+					    </button>
+
+					    <button ion-item [hidden]="rsvp.cancellation_date != undefined || rsvp.user_rating" (click)="navigateTo(tripReviewModal, {'trip': getTripInfo(rsvp.trip_id), 'rsvp': rsvp, 'persons': [{'isDriver': true, 'user': getDriverInfo(rsvp.driver_id)}], 'isPushNav': true})">
+					      <ion-icon name="star" item-left></ion-icon>
+					      Calificar Viaje
+					      <ion-icon [hidden]="rsvp.cancellation_date != undefined || rsvp.user_rating" color="danger" name='alert' item-right></ion-icon>
+					    </button>
+
+				  	</ion-list>
+			  	</ion-card>
+
+		  	</div>
+	  	</div>
+  	</ion-list>
+</ion-content>

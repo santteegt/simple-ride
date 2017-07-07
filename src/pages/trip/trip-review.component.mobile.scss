@@ -1,0 +1,16 @@
+.app-background {
+	background-color: color($colors, app);
+	color: white;
+}
+
+.card-header {
+	text-align: center;
+
+	ion-col {
+		padding: 0;
+	}
+}
+
+.ion-md-star-outline:before, .ion-md-star:before {
+	color: #ffd345;
+}

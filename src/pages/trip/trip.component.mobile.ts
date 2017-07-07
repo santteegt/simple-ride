@@ -55,6 +55,7 @@ export class TripMobileComponent implements OnInit, OnDestroy {
 
 		this.messageBoardModal = TripMessageBoardMobileComponent;
 		this.rsvpListModal = ReservationListMobileComponent;
+
 	}
 
 	ngOnInit() {
@@ -171,7 +172,6 @@ export class TripMobileComponent implements OnInit, OnDestroy {
 	openModal(component: Component, params: Object) {
 		let modal = this.modalCtrl.create(component, params);
 		modal.present();
-
 	}
 
 	navigateTo(component: any, params: Object) {

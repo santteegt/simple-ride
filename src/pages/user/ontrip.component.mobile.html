@@ -1,0 +1,105 @@
+<ion-header>
+  <ion-navbar color="app" style="padding-top: 4px">
+
+    <ion-title style="padding-top: 0; text-align: center" showWhen="ios">
+      <img src="/assets/logo.png" style="padding-top: 5px; width: 75px; height: 44px">
+    </ion-title>
+
+    <div style="padding-top: 0; text-align: center" showWhen="android,windows">
+      <img src="/assets/logo.png" style="padding-top: 5px; width: 75px; height: 44px">
+    </div>
+
+    <ion-buttons end>
+      <button ion-button icon-only (click)="opemMessageBoard()">
+        <ion-icon name="chatbubbles"></ion-icon>
+      </button>
+    </ion-buttons>
+
+  </ion-navbar>
+</ion-header>
+<ion-content>
+
+  <!-- <ion-toolbar>
+    <ion-title style="text-align: center">
+      Mis Viajes
+    </ion-title>
+  </ion-toolbar> -->
+
+  <div class="card-background-page" style="z-index: 902">
+    <ion-card style="margin-bottom: 0; z-index: 903" tappable (click)="openTripDetails()">
+      <img src="{{destination ? destination.photoURL:''}}"/>
+
+      <div class="card-subtitle">Viajando a</div>
+      <div class="card-title">{{destination ? destination.shortName:''}}</div>
+    </ion-card>
+
+    <div *ngIf="!isDriver()" style="position: relative; z-index: 904; margin-top: -40px;">
+      <ion-avatar item-center style="margin-left: 37%" tappable (click)="openUserProfile(true, driver)">
+        <img src="assets/nobody.png" [hidden]="driver && loadingImgs[driver.personData.profileImg]" style="border-radius: 40px; height: 80px; width: 80px"/>
+        <img src="{{driver ? driver.personData.profileImg:''}}" (load)="loadedImg(driver ? driver.personData.profileImg:'')" [hidden]="!driver || !loadingImgs[driver ? driver.personData.profileImg:'']" style="border-radius: 40px; height: 80px; width: 80px">
+      </ion-avatar>
+    </div>
+
+    <ion-card-content *ngIf="isDriver()">
+      <p style="text-align: center"><b>Lista de Pasajeros</b></p>
+
+      <ion-list>
+        <ion-item-sliding *ngFor="let user of userList">
+          <ion-item>
+            <ion-avatar item-left>
+              <img src="assets/nobody.png" [hidden]="user && loadingImgs[user.personData.profileImg]" style="border-radius: 40px; height: 40px; width: 40px"/>
+              <img src="{{user.personData.profileImg}}" (load)="loadedImg(user ? user.personData.profileImg:'')" [hidden]="!user || !loadingImgs[user ? user.personData.profileImg:'']" tappable (click)="openUserProfile(false, user)">
+            </ion-avatar>
+            <div tappable (click)="enterUserCode(user)">
+	            <h2>{{user.personData.forename}} - {{user.personData.surname}}</h2>
+	            <p>{{getUserRSVP(user._id).places}} asiento{{getUserRSVP(user._id).places > 1 ?'s':''}}</p>
+	            <p [hidden]="!verifiedCode(user._id)" color="secondary">Código de Usuario Verificado</p>
+            </div>
+          </ion-item>
+          <ion-item-options side="right">
+            <button ion-button color="primary" (click)="enterUserCode(user)">
+              <ion-icon name="create"></ion-icon>
+              Código
+            </button>
+          </ion-item-options>
+        </ion-item-sliding>
+      </ion-list>
+
+      <button ion-button color="primary" block (click)="finishTrip()">Hemos Llegado</button>
+    </ion-card-content>
+
+  </div>
+
+  <ion-card style="margin-top: -40px; padding-top: 40px" *ngIf="!isDriver()">
+    <ion-grid style="text-align: center" class="driver-info">
+      <ion-row>
+        <ion-col><strong>{{driver ? (driver.personData.forename + ' ' + driver.personData.surname):''}}</strong></ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>Conductor</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>{{driver ? (driver.driverData.carBrand):''}}</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>{{driver ? (driver.driverData.carRegister.toUpperCase()):''}}</ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-card>
+
+  <ion-grid style="text-align: center" *ngIf="!isDriver()">
+    <ion-row>
+      <ion-col><strong>CÓDIGO DE VERIFICACIÓN</strong></ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col style="font-size: 1.2em"><strong>{{userTripFlag ? userTripFlag.code:''}}</strong></ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col style="font-size: 0.8em"><strong>Recuerda entregarlo al conductor únicamente cuando llegues a tu destino</strong></ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-fab right bottom>
+    <button ion-fab color="danger"><ion-icon name="warning"></ion-icon></button>
+  </ion-fab>
+</ion-content>

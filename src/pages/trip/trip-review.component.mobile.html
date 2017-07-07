@@ -1,0 +1,91 @@
+<ion-header>
+	<ion-navbar color="app">
+		<ion-buttons start style="padding-top: 0;">
+		  <button ion-button (click)="dismiss()" *ngIf="!isPushNav">
+		    <span showWhen="ios">Cerrar</span>
+		    <ion-icon name="md-close" showWhen="android,windows"></ion-icon>
+		  </button>
+		</ion-buttons>
+		<ion-title style="padding-top: 0; text-align: center;">
+	      <img src="/assets/logo.png" style="padding-top: 5px; width: 75px; height: 44px">
+	    </ion-title>
+	</ion-navbar>
+</ion-header>
+
+<ion-content>
+	<ion-card>
+	  	<ion-card-header no-padding class="trip-card-header">
+	  		<ion-grid class="card-header app-background">
+	  			<ion-row>
+	  				<ion-col style="font-weight: 900; font-size: 1.1em">
+	  					Califica tu Viaje
+	  				</ion-col>
+		  		</ion-row>
+	  			<ion-row>
+	  				<ion-col style="font-weight: 900; font-size: 1.1em">
+	  					{{trip.origin.shortName}} - {{trip.destination.shortName}}
+	  				</ion-col>
+		  		</ion-row>
+		  		<ion-row>
+	  				<ion-col style="font-size: 0.9em">
+	  					{{trip.departureDate.toLocaleDateString()}}
+	  				</ion-col>
+		  		</ion-row>
+	  		</ion-grid>
+	  	</ion-card-header>
+  	</ion-card>
+
+  	<ion-card *ngFor="let person of persons; let i = index;" [hidden]="reviews[i] && reviews[i].done">
+  		<ion-card-header no-padding>
+  			<button ion-item no-lines detail-none (click)="openUserProfile(person.user, person.isDriver)">
+				<ion-avatar item-left>
+			        <img src="assets/nobody.png" [hidden]="loadingImgs[person.user.personData.profileImg]"  style="width: 50px; height: 50px;"/>
+					<img src="{{person.user.personData.profileImg}}" (load)="loadedImg(person.user.personData.profileImg)" [hidden]="!loadingImgs[person.user.personData.profileImg]" style="width: 50px; height: 50px;">
+		      	</ion-avatar>
+		      	<h3>{{person.user.personData.forename}}</h3>
+		      	<p>{{person.user.personData.surname}}</p>
+		      	<p>{{person.isDriver ? 'Conductor':'Viajero'}}</p>
+	      	</button>
+  		</ion-card-header>
+  		<ion-grid style="padding: 0 16px">
+  			<ion-row style="padding: 0 40px; text-align: center;">
+  				<ion-col>
+  					<button ion-button icon-only clear (click)="updateReviewScore(i, 1)">
+  						<ion-icon name="{{existsScore(i, 1) ? 'star':'star-outline'}}" no-padding></ion-icon>
+					</button>
+  				</ion-col>
+  				<ion-col>
+  					<button ion-button icon-only clear (click)="updateReviewScore(i, 2)">
+  						<ion-icon name="{{existsScore(i, 2) ? 'star':'star-outline'}}" no-padding></ion-icon>
+					</button>
+  				</ion-col>
+  				<ion-col>
+  					<button ion-button icon-only clear (click)="updateReviewScore(i, 3)">
+  						<ion-icon name="{{existsScore(i, 3) ? 'star':'star-outline'}}" no-padding></ion-icon>
+					</button>
+  				</ion-col>
+  				<ion-col>
+  					<button ion-button icon-only clear (click)="updateReviewScore(i, 4)">
+  						<ion-icon name="{{existsScore(i, 4) ? 'star':'star-outline'}}" no-padding></ion-icon>
+					</button>
+  				</ion-col>
+  				<ion-col>
+  					<button ion-button icon-only clear (click)="updateReviewScore(i, 5)">
+  						<ion-icon name="{{existsScore(i, 5) ? 'star':'star-outline'}}" no-padding></ion-icon>
+					</button>
+  				</ion-col>
+  			</ion-row>
+  		</ion-grid>
+  		<ion-card-content style="padding: 0 10px">
+  			<!-- <ion-item> -->
+              <!-- <ion-label color="app" stacked>Observaciones</ion-label> -->
+              <ion-textarea keyboardFix type="text" (change)="updateReviewComment(i, $event)" rows="4" placeholder="Comentarios..."></ion-textarea> 
+            <!-- </ion-item> -->
+  			<button ion-button block color="app" [disabled]="!isReviewComplete(i)" (click)="saveReview(i, person.user, person.isDriver)">Calificar</button>
+  		</ion-card-content>
+  	</ion-card>
+</ion-content>
+
+<ion-footer padding>
+	
+</ion-footer>

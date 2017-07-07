@@ -9,8 +9,7 @@ import { NavController, NavParams, ViewController, AlertController,
 		LoadingController, PopoverController, ModalController, Content} from 'ionic-angular';
 import { Observable, Subscription, Subject } from "rxjs";
 import { MeteorObservable } from "meteor-rxjs"
-// TODO: migrate Keyboard
-// import { Keyboard } from 'ionic-native';
+import { Keyboard } from '@ionic-native/keyboard';
 
 import { TripUtils } from '../../classes/trip-utils.class';
 import { IsDriverPipe } from '../../classes/shared/is-driver.pipe';
@@ -57,15 +56,14 @@ export class TripMessageBoardMobileComponent implements OnInit, OnDestroy {
 
 	constructor(private navCtrl: NavController, navParams: NavParams, private viewCtrl: ViewController,
 		private alertCtrl: AlertController, private loadingCtrl: LoadingController,
-		private modalCtrl: ModalController, private popoverCtrl: PopoverController, private isDriverPipe: IsDriverPipe) {
+		private modalCtrl: ModalController, private popoverCtrl: PopoverController, private isDriverPipe: IsDriverPipe, private keyboard: Keyboard) {
 
 		this.trip = navParams.get("trip");
 		this.isPushNav = navParams.get("isPushNav");
 
 		this.pushNotifIsDriver = navParams.get("push_is_driver");
 		this.loadingImgs = {};
-		// TODO: migrate Keyboard
-		// Keyboard.hideKeyboardAccessoryBar(true);
+		this.keyboard.hideKeyboardAccessoryBar(true);
 	}
 
 	ngOnInit() {
@@ -93,9 +91,7 @@ export class TripMessageBoardMobileComponent implements OnInit, OnDestroy {
 
 	ngOnDestroy() {
 		this.messagesSub.unsubscribe();
-		// TODO: migrate Keyboard
-		// Keyboard.hideKeyboardAccessoryBar(false);
-
+		this.keyboard.hideKeyboardAccessoryBar(false);
 	}
 
 	sendMessage(event: MouseEvent) {

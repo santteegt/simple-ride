@@ -16,11 +16,11 @@ import { LoginMobileComponent } from '../pages/login/login.component.mobile';
 import { DashboardMobileComponent } from "../pages/dashboard/dashboard.component.mobile";
 import { UserRegistrationMobileComponent } from "../pages/registration/registration.component.mobile";
 import { CarRegistrationMobileComponent } from "../pages/registration/car-registration.component.mobile";
+import { DriverProfileMobileComponent } from "../pages/driver/driver-profile.component.mobile";
+import { MyTripsMobileComponent } from "../pages/user/my-trips.component.mobile";
+import { TripHistoryMobileComponent } from '../pages/user/trip-history.component.mobile';
+import { OnTripMobileComponent } from '../pages/user/ontrip.component.mobile';
 // TODO: Migrate components
-// import { DriverProfileMobileComponent } from "./pages/driver/driver-profile.component.mobile";
-// import { MyTripsMobileComponent } from "./pages/user/my-trips.component.mobile";
-// import { TripHistoryMobileComponent } from './pages/user/trip-history.component.mobile';
-// import { OnTripMobileComponent } from './pages/user/ontrip.component.mobile';
 // import { UserNotificationsMobileComponent } from './pages/user/user-notifications.component.mobile';
 // import { UserDocumentsMobileComponent } from './pages/user/user-documents.component.mobile';
 // import { AboutMobileComponent } from './pages/terms/about.component.mobile';
@@ -70,21 +70,23 @@ export class MyApp {
   autorunSubC: Subscription;
   myNotifSub: Subscription;
   notificationsCount: number;
-  
+
   verified: boolean;
   verifing: boolean;
   imgLoaded: boolean;
 
   autorunConnected: Subscription;
 
-  constructor(private app: App, private platform: Platform, private statusBar: StatusBar, private splashScreen: SplashScreen, 
+  user: any;
+
+  constructor(private app: App, private platform: Platform, private statusBar: StatusBar, private splashScreen: SplashScreen,
       private menu: MenuController, private modalCtrl: ModalController, private config: Config, private keyboard: Keyboard) {
 
     this.profile = UserRegistrationMobileComponent;
+    this.driverProfile = DriverProfileMobileComponent;
+    this.myTrips = MyTripsMobileComponent;
+    this.tripsHistory = TripHistoryMobileComponent;
     // TODO: migrate components
-    // this.driverProfile = DriverProfileMobileComponent;
-    // this.myTrips = MyTripsMobileComponent;
-    // this.tripsHistory = TripHistoryMobileComponent;
     // this.notificationList = UserNotificationsMobileComponent;
     // this.uploadDocuments = UserDocumentsMobileComponent;
     // this.paymentInfo = PaymentInfoMobileComponent;
@@ -141,15 +143,15 @@ export class MyApp {
             if(!Meteor.userId()) {
               me.rootPage = LoginMobileComponent;
             } else if(Meteor.user()) {
-              let user = Meteor.user();
-              this.verified = user['personData'].isDriver ? user['driverData'].status == DRIVER_STATUS.VERIFIED : user['personData'].status==USER_STATUS.VERIFIED;
-              this.verifing = user['personData'].isDriver ? user['driverData'].status == DRIVER_STATUS.UPLOADED_REGISTER : user['personData'].status == USER_STATUS.UPLOADED_DNI;
-              if(user['personData'].status == USER_STATUS.NEW) {
+              this.user = Meteor.user();
+              this.verified = this.user['personData'].ver ? this.user['driverData'].status == DRIVER_STATUS.VERIFIED : this.user['personData'].status==USER_STATUS.VERIFIED;
+              this.verifing = this.user['personData'].isDriver ? this.user['driverData'].status == DRIVER_STATUS.UPLOADED_REGISTER : this.user['personData'].status == USER_STATUS.UPLOADED_DNI;
+              if(this.user['personData'].status == USER_STATUS.NEW) {
                 me.rootPage = UserRegistrationMobileComponent;
-              } else if(user['driverData'].status == DRIVER_STATUS.NEW) {
+              } else if(this.user['driverData'].status == DRIVER_STATUS.NEW) {
                 me.rootPage = CarRegistrationMobileComponent;
               } else {
-                this.isDriver = user['personData'].isDriver;
+                this.isDriver = this.user['personData'].isDriver;
 
                 if(this.tripFlagSub) {
                   this.tripFlagSub.unsubscribe();
@@ -162,22 +164,20 @@ export class MyApp {
                     console.log('no active trips');
                     this.rootPage = DashboardMobileComponent;
                   } else {
-                    // TODO: Migrate this component
-                    // this.rootPage = OnTripMobileComponent;
+                    this.rootPage = OnTripMobileComponent;
                   }
-                  // TODO: Migraet this component
-                  // this.tripFlags.subscribe((data: UserTripFlag[]) => {
-                  //   if(data.length > 0) {
-                  //     console.log('user is on a trip');
-                  //     console.log(data);
-                  //     if(this.rootPage != OnTripMobileComponent) {
-                  //       me.rootPage = OnTripMobileComponent;
-                  //     }
-                  //   } else {
-                  //     me.rootPage = DashboardMobileComponent;
-                  //   }
-                  // });
-                               
+                  this.tripFlags.subscribe((data: UserTripFlag[]) => {
+                    if(data.length > 0) {
+                      console.log('user is on a trip');
+                      console.log(data);
+                      if(this.rootPage != OnTripMobileComponent) {
+                        me.rootPage = OnTripMobileComponent;
+                      }
+                    } else {
+                      me.rootPage = DashboardMobileComponent;
+                    }
+                  });
+
                 });
 
                 // TODO: Migrate this functionality
@@ -202,7 +202,7 @@ export class MyApp {
           // if(!Meteor.user()) {
           //   this.app._setDisableScroll(true);
           //   me.rootPage = OfflinePageMobileComponent;
-            
+
           // }
         }
 
@@ -262,4 +262,3 @@ export class MyApp {
     this.autorunConnected.unsubscribe();
   }
 }
-

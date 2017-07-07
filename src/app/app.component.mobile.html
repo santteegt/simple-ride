@@ -7,7 +7,7 @@
           <img src="{{user | displayImage}}" (load)="imgLoaded = true" [hidden]="!imgLoaded">
 	      </ion-avatar>
 	      	<h2>{{user | displayName}}</h2>
-	      	<p>Status: 
+	      	<p>Status:
             <span ion-text *ngIf="!verified" color="danger">No Verificado</span>
             <span ion-text *ngIf="verified" color="secondary">Verificado</span>
           </p>
@@ -17,20 +17,19 @@
   <ion-content>
     <ion-list>
 
-      <!-- <button ion-item icon-left detail-none (click)="openPage(driverProfile, {isModal: true})" [hidden]="!(user | isDriver)">
-      	<ion-icon name="car"></ion-icon>
+      <button ion-item icon-left detail-none (click)="openPage(driverProfile, {isModal: true})" *ngIf="(user | isDriver)">
+        <ion-icon name="car"></ion-icon>
         Perfil de Conductor
       </button>
-
-	  <button ion-item icon-left detail-none (click)="openPage(tripsHistory, {isModal: true})" *ngIf="(user | isDriver)">
-      	<ion-icon name="pin"></ion-icon>
+      <button ion-item icon-left detail-none (click)="openPage(tripsHistory, {isModal: true})" *ngIf="(user | isDriver)">
+        <ion-icon name="pin"></ion-icon>
         Historial de Viajes
       </button>
       <button ion-item icon-left detail-none (click)="openPage(myTrips, {isModal: true})" *ngIf="!(user | isDriver)">
-      	<ion-icon name="walk"></ion-icon>
+        <ion-icon name="walk"></ion-icon>
         Mis Viajes
       </button>
-
+<!--
       <button ion-item icon-left detail-none (click)="openPage(paymentInfo, {isModal: true})" *ngIf="!(user | isDriver)">
       	<ion-icon name="card"></ion-icon>
         Métodos de Pago
@@ -66,7 +65,7 @@
         <span ion-text color="danger">Cerrar Sesión</span>
       </button>
     </ion-list>
-    
+
   </ion-content>
 </ion-menu>
 

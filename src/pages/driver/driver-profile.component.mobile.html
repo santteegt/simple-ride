@@ -1,0 +1,127 @@
+
+<ion-header>
+  <ion-navbar color="app" style="padding-top: 4px">
+    <ion-title style="padding-top: 0; text-align: center;">
+      <img src="/assets/logo.png" style="padding-top: 5px; width: 75px; height: 44px">
+    </ion-title>
+    <ion-buttons left showWhen="android,windows,core">
+      <button ion-button (click)="editCarRegistration()">
+        <span>Editar</span>
+      </button>
+    </ion-buttons>
+    <ion-buttons start>
+      <button ion-button (click)="dismiss()">
+        <span showWhen="ios">Cerrar</span>
+        <ion-icon name="md-close" showWhen="android,windows,core"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-buttons end showWhen="ios">
+      <button ion-button (click)="editCarRegistration()">
+        <span>Editar</span>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+
+  <div padding style="padding-bottom: 0">
+    <ion-segment [(ngModel)]="card">
+      <ion-segment-button value="Matricula">
+        Matrícula
+      </ion-segment-button>
+      <ion-segment-button value="Licencia">
+        Licencia
+      </ion-segment-button>
+    </ion-segment>
+  </div>
+
+  <div [ngSwitch]="card">
+
+    <ion-card *ngSwitchCase="'Matricula'">
+      <div *ngFor="let myCar of myCarOb | async">
+
+        <ion-item>
+          <ion-icon item-left name="ios-car"></ion-icon>
+          <h2 style="text-align: center">{{myCar.model}}</h2>
+          <p style="text-align: center">{{myCar.brand}}</p>
+        </ion-item>
+
+        <ion-row>
+          <ion-col width-50 style="text-align: center">
+            <span><b>Año:</b></span>
+          </ion-col>
+          <ion-col width-50 style="text-align: center">
+            <span><b>Color:</b></span>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col width-50 style="text-align: center">
+            <span>{{myCar.year}}</span>
+          </ion-col>
+          <ion-col width-50 style="text-align: center">
+            <span>{{myCar.color}}</span>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col width-50 style="text-align: center">
+            <span><b>Fecha Matricula:</b></span>
+          </ion-col>
+          <ion-col width-50 style="text-align: center">
+            <span><b>Valida Hasta:</b></span>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col width-50 style="text-align: center">
+            <span>{{myCar.register_year}}</span>
+          </ion-col>
+          <ion-col width-50 style="text-align: center">
+            <span>{{myCar.register_expiryDate}}</span>
+          </ion-col>
+        </ion-row>
+      </div>
+
+    </ion-card>
+
+    <ion-card *ngSwitchCase="'Licencia'">
+      <div  *ngFor="let myUserRecord of myUserRecordOb | async">
+
+        <ion-item>
+          <ion-icon item-left name="ios-person"></ion-icon>
+          <h2>Licencia Tipo {{myUserRecord.license_info.license_type}}</h2>
+          <p><span>{{myUserRecord.license_info.name}}</span></p>
+        </ion-item>
+
+        <ion-row>
+          <ion-col width-10>
+          </ion-col>
+          <ion-col width-40>
+            <span><b>Puntos licencia:</b></span>
+          </ion-col>
+          <ion-col width-10>
+          </ion-col>
+          <ion-col width-40 style="text-align: center">
+            <span>{{myUserRecord.license_info.points}} puntos</span>
+          </ion-col>
+
+        </ion-row>
+        <ion-row>
+          <ion-col width-10>
+          </ion-col>
+          <ion-col width-40>
+            <span><b>Valida Hasta:</b></span>
+          </ion-col>
+          <ion-col width-10>
+          </ion-col>
+          <ion-col width-40 style="text-align: center">
+            <span>{{myUserRecord.license_info.license_expire}}</span>
+          </ion-col>
+
+        </ion-row>
+      </div>
+
+    </ion-card>
+
+  </div>
+
+</ion-content>

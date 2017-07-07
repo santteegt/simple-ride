@@ -50,7 +50,7 @@ export class UserRegistrationMobileComponent extends UserRegistration implements
 		this.isModal = navParams.get("isModal");
 		this.utils = utils;
 		this.loadingImgs = {};
-    	this.conversationStyles = CONVERSATIONSTYLES.styles;
+    this.conversationStyles = CONVERSATIONSTYLES.styles;
 		this.keyboard.disableScroll(false);
 	}
 
@@ -164,8 +164,7 @@ export class UserRegistrationMobileComponent extends UserRegistration implements
     // }
 
     validateId(event: any) {
-
-    	let id = event.srcElement.value;
+    	let id = this.myformGroup.value.dni;
     	if(id!=null && id.length > 0 && (!this.validId || id != this.lastId) && !this.isModal) {
 	    	this.loader = this.loadingCtrl.create({
 		      content: "Validando...",

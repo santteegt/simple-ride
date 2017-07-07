@@ -86,7 +86,8 @@ export class ReservationListMobileComponent implements OnInit, OnDestroy {
 			let reservations = Reservations.find({trip_id: this.trip._id, cancellation_date: undefined});
 			reservations.subscribe((data:Reservation[]) => {
 				if(data.length == 0){
-					this.navCtrl.pop();
+					// TODO: uncommented gives error on back button action
+					// this.navCtrl.pop();
 				}
 			});
 			let rsvpArray = reservations.fetch();

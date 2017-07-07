@@ -140,13 +140,13 @@
 
 			<ion-row no-padding class="card-button" *ngIf="rsvp.payment_status == 'waiting_driver_confirmation'">
 					<ion-col width-50 text-center>
-						<button ion-button clear small icon-left class="app-color" (click)="cancelReservation(rsvp)">
+						<button ion-button clear small icon-left color="app" (click)="cancelReservation(rsvp)">
 							<ion-icon name='close'></ion-icon>
 							Cancelar
 						</button>
 					</ion-col>
 	        <ion-col width-50 text-center>
-	          <button ion-button clear small icon-left class="app-color" (click)="confirmReservation(rsvp)">
+	          <button ion-button clear small icon-left color="app" (click)="confirmReservation(rsvp)">
 	            <ion-icon name='hand'></ion-icon>
 	            Aprobar
 	          </button>
