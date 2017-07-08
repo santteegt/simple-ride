@@ -11,8 +11,7 @@ import {MeteorObservable} from "meteor-rxjs";
 import { UserRegistration } from "../../classes/user-registration.class";
 import { Utils } from '../../classes/shared/utils';
 
-// TODO: Migrate components
-// import { DashboardMobileComponent } from "../../dashboard.component.mobile";
+import { DashboardMobileComponent } from "../dashboard/dashboard.component.mobile";
 import { TermsOfServiceMobileComponent } from "../terms/terms-service.component.mobile";
 
 import { CarRecord } from '../../shared/models/policy.structures';
@@ -195,7 +194,7 @@ export class CarRegistrationMobileComponent extends UserRegistration implements 
     	if(this.isModal) {
     		this.dismiss();
     	} else {
-	    	// this.navCtrl.push(DashboardMobileComponent, {});
+	    	this.navCtrl.push(DashboardMobileComponent, {});
 	    }
     	return this.updated;
 
@@ -206,8 +205,7 @@ export class CarRegistrationMobileComponent extends UserRegistration implements 
 			'personData.isDriver': false ,
 			'driverData': {}}
 		});
-		// TODO: Migrate component
-		// this.navCtrl.push(DashboardMobileComponent, {});
+		this.navCtrl.push(DashboardMobileComponent, {});
     }
 
     presentToast(message: string) {

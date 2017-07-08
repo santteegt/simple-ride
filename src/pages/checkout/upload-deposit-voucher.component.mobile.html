@@ -1,0 +1,41 @@
+<ion-header>
+	<ion-navbar color="app" style="padding-top: 4px">
+	<ion-buttons start>
+	  <button ion-button (click)="dismiss()" *ngIf="!isPushNav">
+	    <span showWhen="ios">Cerrar</span>
+	    <ion-icon name="md-close" showWhen="android,windows"></ion-icon>
+	  </button>
+	</ion-buttons>
+	<ion-title style="padding-top: 0; text-align: center;">
+      <img src="/assets/logo.png" style="padding-top: 5px; width: 75px; height: 44px">
+    </ion-title>
+
+	</ion-navbar>
+</ion-header>
+<ion-content>
+	<div *ngIf="isDevMode() && !isMobile()">
+		<input type="file" (change)="getFile($event)" accept="image/*">
+	</div>
+
+	<div *ngIf="isMobile()" padding>
+		<button ion-button block icon-only icon-center (click)="showUploadOptions()">
+		<!-- <button ion-button block icon-only icon-center (tap)="meteorCapturePhoto()"> -->
+			<ion-icon name="camera"></ion-icon>
+		</button>
+	</div>
+
+	<ion-list [hidden]="isMobile() ? !dataURL:!uploadedFile">
+	<!-- <ion-list> -->
+		<ion-list-header>
+	      <ion-label>Vista Previa</ion-label>
+	    </ion-list-header>
+		<img [src]="isMobile() ? dataURL:uploadedFile" style="padding: 0 10px; width: 100%"/>
+		<!-- <img src="{{uploadedFile}}" style="padding: 0 10px; width: 100%"/> -->
+	</ion-list>
+</ion-content>
+
+<ion-footer style="padding: 0 10px; text-align: center">
+  <button color="app" ion-button block (click)="uploadDeposit()" [disabled]="isMobile() ? !uploadedFile:!dataFile">
+    Subir Comprobante
+  </button>
+</ion-footer>

@@ -3,7 +3,6 @@ import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms'
 // TODO:
 // import { Meteor } from 'meteor-client';
 declare var Meteor;
-import {Observable, Subscription, Subject} from "rxjs";
 import {MeteorObservable} from "meteor-rxjs";
 import {NavController, NavParams, ViewController, ToastController, ModalController, LoadingController} from 'ionic-angular';
 import { Keyboard } from '@ionic-native/keyboard';

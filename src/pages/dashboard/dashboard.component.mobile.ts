@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { trigger, state, style, transition, animate, keyframes } from '@angular/core';
 import { Platform, NavController, NavParams, ViewController, ModalController, LoadingController,
   MenuController, AlertController } from 'ionic-angular';
-import { Observable, Subscription, Subject } from "rxjs";
+import { Subscription } from "rxjs";
 import { MeteorObservable } from "meteor-rxjs";
 import { StatusBar } from "@ionic-native/status-bar";
 // TODO:
@@ -10,8 +10,7 @@ import { StatusBar } from "@ionic-native/status-bar";
 declare var _;
 declare var Meteor;
 
-// TODO: Migrate functionality
-// import { Counts } from 'meteor/tmeasday:publish-counts';
+import { Counts } from 'meteor/tmeasday:publish-counts';
 
 import { Dashboard } from "../../classes/dashboard.class";
 import { GeolocationService } from "../../classes/services/geolocation.service";
@@ -19,12 +18,10 @@ import { NewTripMobileComponent } from '../trip/new-trip.component.mobile';
 import { TripListMobileComponent } from '../trip/trip-list.component.mobile';
 import { TripMobileComponent } from '../trip/trip.component.mobile';
 import { TripMessageBoardMobileComponent } from '../trip/trip-message-board.component.mobile';
-
-// TODO: migrate components
-// import { UserNotificationsMobileComponent } from './pages/user/user-notifications.component.mobile';
+import { UserNotificationsMobileComponent } from '../user/user-notifications.component.mobile';
 
 import { Places, Trips } from '../../shared/collections';
-import { Place, Trip } from '../../shared/models';
+import { Trip } from '../../shared/models';
 
 import { IsDriverPipe } from '../../classes/shared/is-driver.pipe';
 
@@ -208,12 +205,11 @@ export class DashboardMobileComponent extends Dashboard implements OnInit, OnDes
       this.myNotifSub.unsubscribe();
     }
 
-    // TODO: migrate functionality
-    // this.myNotifSub = MeteorObservable.subscribe('notifications', Meteor.userId()).subscribe(() => {
-    //   this.autorunSubC = MeteorObservable.autorun().subscribe(() => {
-    //     this.notificationsCount = Counts.get('notificationsCount');
-    //   });
-    // });
+    this.myNotifSub = MeteorObservable.subscribe('notifications', Meteor.userId()).subscribe(() => {
+      this.autorunSubC = MeteorObservable.autorun().subscribe(() => {
+        this.notificationsCount = Counts.get('notificationsCount');
+      });
+    });
 
     if(this.platform.is('cordova')) {
       this.statusBar.show();
@@ -427,9 +423,8 @@ export class DashboardMobileComponent extends Dashboard implements OnInit, OnDes
   }
 
   openNotificationsBoard() {
-    // TODO: migrate component
-    // let modal = this.modalCtrl.create(UserNotificationsMobileComponent, {});
-    // modal.present();
+    let modal = this.modalCtrl.create(UserNotificationsMobileComponent, {});
+    modal.present();
   }
 
 

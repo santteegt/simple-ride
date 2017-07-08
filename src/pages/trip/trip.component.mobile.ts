@@ -1,12 +1,13 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 // TODO:
 // import { Meteor } from 'meteor/meteor';
-// import { Counts } from 'meteor/tmeasday:publish-counts';
 // import { InjectUser } from "angular2-meteor-accounts-ui";
 declare var Meteor;
 import { NavController, NavParams, ViewController, AlertController, LoadingController, ModalController } from 'ionic-angular';
-import { Observable, Subscription } from "rxjs";
+import { Subscription } from "rxjs";
 import { MeteorObservable } from "meteor-rxjs"
+
+import { Counts } from 'meteor/tmeasday:publish-counts';
 
 import { TripUtils } from '../../classes/trip-utils.class';
 import { IsDriverPipe } from '../../classes/shared/is-driver.pipe';
@@ -70,18 +71,17 @@ export class TripMobileComponent implements OnInit, OnDestroy {
 		if(this.myRSVPSub) {
 			this.myRSVPSub.unsubscribe();
 		}
-		// TODO: migrate Counts
-		// this.myRSVPSub = MeteorObservable.subscribe('reservations', {}, false, null, this.trip._id).subscribe(() => {
-	  //     this.autorunSub = MeteorObservable.autorun().subscribe(() => {
-	  //       this.reservationsCount = Counts.get('reservationsCount');
-	  //     });
-	  //   });
+
+		this.myRSVPSub = MeteorObservable.subscribe('reservations', {}, false, null, this.trip._id).subscribe(() => {
+	      this.autorunSub = MeteorObservable.autorun().subscribe(() => {
+	        this.reservationsCount = Counts.get('reservationsCount');
+	      });
+	    });
 	}
 
 	ngOnDestroy() {
-		// TODO: migrate Counts
-		// this.autorunSub.unsubscribe();
-		// this.myRSVPSub.unsubscribe();
+		this.autorunSub.unsubscribe();
+		this.myRSVPSub.unsubscribe();
 	}
 
 	dismiss() {

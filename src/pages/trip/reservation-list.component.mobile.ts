@@ -6,7 +6,7 @@ declare var Meteor;
 declare var _;
 import { NavController, NavParams, ViewController, AlertController,
 		LoadingController, PopoverController, ModalController} from 'ionic-angular';
-import { Observable, Subscription, Subject } from "rxjs";
+import { Observable, Subscription } from "rxjs";
 import { MeteorObservable } from "meteor-rxjs"
 
 import { UserProfileMobileComponent } from '../user/user-profile.component.mobile';
@@ -15,7 +15,7 @@ import { TripUtils } from '../../classes/trip-utils.class';
 
 import { UserRating } from '../../shared/models/reservation.structure';
 import { Trip, User, Reservation, RESERVATIONSTATUS, MESSAGETYPES } from '../../shared/models';
-import { Trips, Users, Reservations, ChatMessages} from '../../shared/collections';
+import { Users, Reservations, ChatMessages} from '../../shared/collections';
 
 interface ServerResponse {
 	processed: boolean;
@@ -185,7 +185,7 @@ export class ReservationListMobileComponent implements OnInit, OnDestroy {
 	}
 
 	confirmReservation(rsvp: Reservation) {
-		let user = this.getUserInfo(rsvp.user_id);
+		// let user = this.getUserInfo(rsvp.user_id);
 		let alert = this.alertCtrl.create({
 	      title: 'Confirmación de Reservación',
 	      message: '¿Esta seguro de aprobar la reserva?',

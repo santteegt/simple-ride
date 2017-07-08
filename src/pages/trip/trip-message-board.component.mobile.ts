@@ -7,7 +7,7 @@ declare var Meteor;
 declare var _;
 import { NavController, NavParams, ViewController, AlertController,
 		LoadingController, PopoverController, ModalController, Content} from 'ionic-angular';
-import { Observable, Subscription, Subject } from "rxjs";
+import { Observable, Subscription } from "rxjs";
 import { MeteorObservable } from "meteor-rxjs"
 import { Keyboard } from '@ionic-native/keyboard';
 

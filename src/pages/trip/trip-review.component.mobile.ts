@@ -7,13 +7,13 @@ declare var Meteor;
 declare var _;
 import { NavController, NavParams, ViewController, AlertController, LoadingController, ModalController } from 'ionic-angular';
 
-import { Observable, Subscription, Subject } from "rxjs";
+import { Subscription } from "rxjs";
 import { MeteorObservable } from "meteor-rxjs";
 
 import { TripUtils } from '../../classes/trip-utils.class';
 import { UserProfileMobileComponent } from '../user/user-profile.component.mobile';
 
-import { User, Trip, Reservation, RESERVATIONSTATUS } from '../../shared/models';
+import { User, Trip, Reservation } from '../../shared/models';
 import { Reservations } from '../../shared/collections';
 import { Keyboard } from '@ionic-native/keyboard';
 

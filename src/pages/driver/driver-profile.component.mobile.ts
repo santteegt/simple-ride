@@ -4,7 +4,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 declare var Meteor;
 import { NavController, NavParams, ViewController, ModalController, LoadingController } from 'ionic-angular';
 
-import { Observable, Subscription, Subject } from "rxjs";
+import { Observable, Subscription } from "rxjs";
 import { MeteorObservable } from "meteor-rxjs";
 
 import { CarRecord, UserRecord } from '../../shared/models';

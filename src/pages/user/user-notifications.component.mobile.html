@@ -1,0 +1,55 @@
+<ion-header>
+  <ion-navbar color="app" style="padding-top: 4px">
+
+    <ion-buttons start>
+      <button ion-button (click)="dismiss()">
+        <span showWhen="ios">Cerrar</span>
+        <ion-icon name="md-close" showWhen="android,windows"></ion-icon>
+      </button>
+    </ion-buttons>
+
+    <ion-title style="padding-top: 0; text-align: center" showWhen="ios">
+      <img src="/assets/logo.png" style="padding-top: 5px; width: 75px; height: 44px">
+    </ion-title>
+
+    <div style="padding-top: 0; text-align: center" showWhen="android,windows">
+      <img src="/assets/logo.png" style="padding-top: 5px; width: 75px; height: 44px">
+    </div>
+
+    <!-- <ion-buttons end>
+      <button ion-button icon-only (tap)="archiveNotifications()">
+        <ion-icon name="archive"></ion-icon>
+      </button>
+    </ion-buttons> -->
+
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-list>
+    <ion-list-header>
+      Notificaciones
+    </ion-list-header>
+    <div *ngIf="!hasNotifications" style="text-align: center">
+      No tiene notificaciones recientes
+    </div>
+    <ion-item-sliding *ngFor="let notification of myNotifOb | async">
+      <ion-item tappable (click)="openNotification(notification)" [ngClass]="notification && notification.read ? '':'new-notification'">
+        <ion-avatar item-left>
+          <img src="/assets/default-avatar.png">
+        </ion-avatar>
+        <h2>{{notification.push_body.title}}</h2>
+        <h3>{{notification.push_body.text}}</h3>
+        <p style="text-align: right; font-size: 0.6em">{{utils.dateToString(notification.sent_date)}} {{notification.sent_date.getHours()}}:{{notification.sent_date.getMinutes()}}</p>
+      </ion-item>
+      <ion-item-options side="right">
+        <button ion-button color="danger" (click)="archiveNotification(notification)">
+          <ion-icon name="close"></ion-icon>
+          Borrar
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+
+</ion-content>

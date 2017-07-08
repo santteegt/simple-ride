@@ -6,7 +6,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 declare var Meteor;
 declare var _;
 import { NavController, NavParams, ViewController, AlertController, LoadingController, ModalController } from 'ionic-angular';
-import { Observable, Subscription, Subject } from "rxjs";
+import { Observable, Subscription } from "rxjs";
 import { MeteorObservable } from "meteor-rxjs";
 
 import { TripUtils } from '../../classes/trip-utils.class';
@@ -14,8 +14,7 @@ import { TripUtils } from '../../classes/trip-utils.class';
 import { TripMobileComponent } from '../trip/trip.component.mobile';
 import { TripReviewMobileComponent } from '../trip/trip-review.component.mobile';
 
-import { UserRating } from '../../shared/models/reservation.structure';
-import { User, Trip, DELETIONREASONS, Reservation } from '../../shared/models';
+import { User, Trip, Reservation } from '../../shared/models';
 import { Users, Trips, Reservations } from '../../shared/collections';
 
 @Component({

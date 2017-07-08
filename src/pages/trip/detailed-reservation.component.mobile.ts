@@ -2,11 +2,11 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 // TODO:
 // import { Meteor } from 'meteor/meteor';
 // import { _ } from "underscore";
+// import { InjectUser } from "angular2-meteor-accounts-ui";
 declare var Meteor;
 declare var _;
 import { NavController, NavParams, ViewController, AlertController, LoadingController, ModalController } from 'ionic-angular';
-import { InjectUser } from "angular2-meteor-accounts-ui";
-import { Observable, Subscription, Subject } from "rxjs";
+import { Observable, Subscription } from "rxjs";
 import { MeteorObservable } from "meteor-rxjs";
 
 import { TripUtils } from '../../classes/trip-utils.class';
@@ -16,9 +16,7 @@ import { CheckoutMobileComponent } from '../checkout/checkout.component.mobile';
 
 import { UserRating } from '../../shared/models/reservation.structure';
 import { Trip, User, Reservation, RESERVATIONSTATUS } from '../../shared/models';
-import { Trips, Users, Reservations } from '../../shared/collections';
-
-import template from './detailed-reservation.component.mobile.html';
+import { Users, Reservations } from '../../shared/collections';
 
 @Component({
   selector: 'detailed-trip',

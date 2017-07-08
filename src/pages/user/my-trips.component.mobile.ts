@@ -7,7 +7,7 @@ declare var Meteor;
 declare var _;
 import { NavController, NavParams, ViewController, AlertController,
 		LoadingController, PopoverController, ModalController} from 'ionic-angular';
-import { Observable, Subscription, Subject } from "rxjs";
+import { Observable, Subscription } from "rxjs";
 import { MeteorObservable } from "meteor-rxjs";
 
 import { TripMobileComponent } from '../trip/trip.component.mobile';
@@ -15,8 +15,7 @@ import { UserProfileMobileComponent } from './user-profile.component.mobile';
 import { DetailedReservationMobileComponent } from '../trip/detailed-reservation.component.mobile';
 import { TripMessageBoardMobileComponent } from '../trip/trip-message-board.component.mobile';
 import { TripReviewMobileComponent } from '../trip/trip-review.component.mobile';
-// TODO: migrate components
-// import { UploadDepositVoucherMobileComponent } from '../checkout/upload-deposit-voucher.component.mobile';
+import { UploadDepositVoucherMobileComponent } from '../checkout/upload-deposit-voucher.component.mobile';
 
 import { TripUtils } from '../../classes/trip-utils.class';
 
@@ -89,9 +88,7 @@ export class MyTripsMobileComponent implements OnInit, OnDestroy {
 		this.reservationDetailModal = DetailedReservationMobileComponent;
 		this.messageBoardModal = TripMessageBoardMobileComponent;
 		this.tripReviewModal = TripReviewMobileComponent;
-
-		// TODO:
-		// this.paymentManagementModal = UploadDepositVoucherMobileComponent;
+		this.paymentManagementModal = UploadDepositVoucherMobileComponent;
 
 		this.loadingImgs = {};
 	}

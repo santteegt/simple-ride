@@ -1,0 +1,80 @@
+
+<ion-header>
+  <ion-navbar color="app" style="padding-top: 4px">
+    <ion-title style="padding-top: 0; text-align: center">
+      <img src="/assets/logo.png" style="padding-top: 5px; width: 75px; height: 44px">
+    </ion-title>
+    <ion-buttons left showWhen="android,windows,core" *ngIf="(user | isDriver)">
+      <button ion-button (click)="edit = true">
+        <span>Editar</span>
+      </button>
+    </ion-buttons>
+    <ion-buttons start>
+      <button ion-button (click)="dismiss()">
+        <span showWhen="ios">Cerrar</span>
+        <ion-icon name="md-close" showWhen="android,windows,core"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-buttons end showWhen="ios">
+      <button ion-button (click)="edit = true" *ngIf="(user | isDriver)">
+        <span>Editar</span>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-card>
+    <div *ngIf="!(user | isDriver)">
+      <ion-row style="padding: 0 5px">
+        <ion-col ion-text color="app">
+          <p>Realiza tu deposito en:</p>
+          <b>Banco del Pichicha</b>
+          <p>Cuenta Corriente #XXXXXXXXXXXXX<br />
+            Nombre: SimpleRide<br />
+            Identificacion: XXXXXXXXXX<br />
+            Celular: XXXXXXXXXX<br />
+          </p>
+        </ion-col>
+      </ion-row>
+    </div>
+    <div *ngIf="(user | isDriver)">
+      <form [formGroup]="myformGroup" (submit)="savePaymentInfo()">
+        <ion-list>
+
+          <ion-item>
+            <ion-label stacked color="app">Banco(*)</ion-label>
+            <ion-input [disabled]="!edit" type="text" formControlName="bankname" [class.invalid]="!myformGroup.controls.bankname.valid && (myformGroup.controls.bankname.dirty || submitAttempt)" tabindex="1"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label stacked color="app">Tipo Cuenta(*)</ion-label>
+            <ion-select [disabled]="!edit" formControlName="accounttype" [class.invalid]="!myformGroup.controls.accounttype.valid && (myformGroup.controls.accounttype.dirty || submitAttempt)" tabindex="2">
+              <ion-option value="savings">Ahorros</ion-option>
+              <ion-option value="current">Corriente</ion-option>
+            </ion-select>
+          </ion-item>
+
+          <ion-item>
+            <ion-label stacked color="app">Nombre(*)</ion-label>
+            <ion-input [disabled]="!edit" type="text" formControlName="accountname" [class.invalid]="!myformGroup.controls.accountname.valid && (myformGroup.controls.accountname.dirty || submitAttempt)" tabindex="3"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label stacked color="app">Número de Cuenta(*)</ion-label>
+            <ion-input [disabled]="!edit" type="text" formControlName="accountnumber" [class.invalid]="!myformGroup.controls.accountnumber.valid && (myformGroup.controls.accountnumber.dirty || submitAttempt)" tabindex="4"></ion-input>
+          </ion-item>
+        </ion-list>
+
+        <div padding>
+          <button ion-button type="submit" color="app" block>
+            Guardar
+          </button>
+        </div>
+      </form>
+    </div>
+
+  </ion-card>
+
+</ion-content>

@@ -2,15 +2,14 @@
 // import { Meteor } from "meteor-client";
 declare var Meteor;
 import { Component } from '@angular/core';
-import { MenuController, Platform, App, NavController, ModalController, Config } from 'ionic-angular';
-import { Subscription, Observable } from "rxjs";
+import { MenuController, Platform, App, ModalController, Config } from 'ionic-angular';
+import { Subscription } from "rxjs";
 import { MeteorObservable, ObservableCursor } from "meteor-rxjs";
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Keyboard } from '@ionic-native/keyboard';
 
-import { HomePage } from '../pages/home/home';
 import { LoginMobileComponent } from '../pages/login/login.component.mobile';
 
 import { DashboardMobileComponent } from "../pages/dashboard/dashboard.component.mobile";
@@ -20,21 +19,20 @@ import { DriverProfileMobileComponent } from "../pages/driver/driver-profile.com
 import { MyTripsMobileComponent } from "../pages/user/my-trips.component.mobile";
 import { TripHistoryMobileComponent } from '../pages/user/trip-history.component.mobile';
 import { OnTripMobileComponent } from '../pages/user/ontrip.component.mobile';
-// TODO: Migrate components
-// import { UserNotificationsMobileComponent } from './pages/user/user-notifications.component.mobile';
-// import { UserDocumentsMobileComponent } from './pages/user/user-documents.component.mobile';
-// import { AboutMobileComponent } from './pages/terms/about.component.mobile';
-// import { OfflinePageMobileComponent } from './pages/terms/offline-page.component.mobile';
-// import { PaymentInfoMobileComponent } from './pages/user/payment-info.component.mobile';
+import { UserNotificationsMobileComponent } from '../pages/user/user-notifications.component.mobile';
+import { UserDocumentsMobileComponent } from '../pages/user/user-documents.component.mobile';
+import { AboutMobileComponent } from '../pages/terms/about.component.mobile';
+import { OfflinePageMobileComponent } from '../pages/terms/offline-page.component.mobile';
+import { PaymentInfoMobileComponent } from '../pages/user/payment-info.component.mobile';
 
 import { UserTripFlags, Users } from "../shared/collections";
 import { UserTripFlag, Person, USER_STATUS, DRIVER_STATUS } from "../shared/models";
 // import { UserTripFlags, Users } from "api/collections";
 // import { UserTripFlag, Person, USER_STATUS, DRIVER_STATUS } from "api/models";
 
+import { Counts } from 'meteor/tmeasday:publish-counts';
 // TOOD: Migrate functionality
 // import {InjectUser} from "angular2-meteor-accounts-ui";
-// import { Counts } from 'meteor/tmeasday:publish-counts';
 
 
 
@@ -86,11 +84,10 @@ export class MyApp {
     this.driverProfile = DriverProfileMobileComponent;
     this.myTrips = MyTripsMobileComponent;
     this.tripsHistory = TripHistoryMobileComponent;
-    // TODO: migrate components
-    // this.notificationList = UserNotificationsMobileComponent;
-    // this.uploadDocuments = UserDocumentsMobileComponent;
-    // this.paymentInfo = PaymentInfoMobileComponent;
-    // this.about = AboutMobileComponent;
+    this.notificationList = UserNotificationsMobileComponent;
+    this.uploadDocuments = UserDocumentsMobileComponent;
+    this.paymentInfo = PaymentInfoMobileComponent;
+    this.about = AboutMobileComponent;
 
     this.menu.enable(true);
 
@@ -180,30 +177,28 @@ export class MyApp {
 
                 });
 
-                // TODO: Migrate this functionality
-                // if(this.autorunSubC) {
-                //   this.autorunSubC.unsubscribe();
-                // }
-                // if(this.myNotifSub) {
-                //   this.myNotifSub.unsubscribe();
-                // }
-                // this.myNotifSub = MeteorObservable.subscribe('notifications', Meteor.userId()).subscribe(() => {
-                //   this.autorunSubC = MeteorObservable.autorun().subscribe(() => {
-                //     this.notificationsCount = Counts.get('notificationsCount');
-                //   });
-                // });
+                if(this.autorunSubC) {
+                  this.autorunSubC.unsubscribe();
+                }
+                if(this.myNotifSub) {
+                  this.myNotifSub.unsubscribe();
+                }
+                this.myNotifSub = MeteorObservable.subscribe('notifications', Meteor.userId()).subscribe(() => {
+                  this.autorunSubC = MeteorObservable.autorun().subscribe(() => {
+                    this.notificationsCount = Counts.get('notificationsCount');
+                  });
+                });
 
               }
             }
           });
 
         } else if(!connected && connected != window['meteor_connection']) {
-          // TODO: Migrate this component
-          // if(!Meteor.user()) {
-          //   this.app._setDisableScroll(true);
-          //   me.rootPage = OfflinePageMobileComponent;
+          if(!Meteor.user()) {
+            this.app._setDisableScroll(true);
+            me.rootPage = OfflinePageMobileComponent;
 
-          // }
+          }
         }
 
         if(Meteor.status().retryCount == 5 && Meteor.status().status == "waiting") {

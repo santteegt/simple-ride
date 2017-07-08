@@ -16,6 +16,13 @@ import { ReservationListMobileComponent } from './trip/reservation-list.componen
 import { DriverProfileMobileComponent } from './driver/driver-profile.component.mobile';
 import { MyTripsMobileComponent } from './user/my-trips.component.mobile';
 import { TripHistoryMobileComponent } from './user/trip-history.component.mobile';
+import { OnTripMobileComponent } from './user/ontrip.component.mobile';
+import { PaymentInfoMobileComponent } from './user/payment-info.component.mobile';
+import { UserNotificationsMobileComponent } from './user/user-notifications.component.mobile';
+import { AboutMobileComponent } from './terms/about.component.mobile';
+import { OfflinePageMobileComponent } from './terms/offline-page.component.mobile';
+import { UserDocumentsMobileComponent } from './user/user-documents.component.mobile';
+import { UploadDepositVoucherMobileComponent } from './checkout/upload-deposit-voucher.component.mobile';
 
 export const MOBILE_DECLARATIONS = [
 
@@ -36,5 +43,12 @@ export const MOBILE_DECLARATIONS = [
 	ReservationListMobileComponent,
 	DriverProfileMobileComponent,
 	MyTripsMobileComponent,
-	TripHistoryMobileComponent
+	TripHistoryMobileComponent,
+	OnTripMobileComponent,
+	PaymentInfoMobileComponent,
+	UserNotificationsMobileComponent,
+	AboutMobileComponent,
+	OfflinePageMobileComponent,
+	UserDocumentsMobileComponent,
+	UploadDepositVoucherMobileComponent
 ];

@@ -1,8 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
- 
-import { User, Person } from '../../shared/models';
+
+import { User } from '../../shared/models';
 import { DRIVER_STATUS } from '../../shared/models';
- 
+
 @Pipe({
   name: 'isDriver'
 })
