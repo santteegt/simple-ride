@@ -1,0 +1,111 @@
+<div>
+
+	<ul class="nav nav-tabs">
+	  <li class="active"><a data-toggle="tab" href="#deposits">Depósitos por aprobar</a></li>
+	  <li><a data-toggle="tab" href="#dnis">Documentos Identificación</a></li>
+	  <li><a data-toggle="tab" href="#licenses">Licencias</a></li>
+	  <li><a data-toggle="tab" href="#registers">Matrículas</a></li>
+	</ul>
+
+	<button type="button" class="btn btn-primary" (click)="login()" [hidden]="user">Iniciar Sesion</button>
+
+	<div class="tab-content" [hidden]="!user">
+		<div class="tab-pane active" id="deposits">
+			<h3>Depósitos por aprobar</h3>
+			<ul class="list-group">
+			  	<li class="list-group-item" *ngFor="let voucher of voucherObs | async">
+				  	<div class="media">
+					  <div class="media-left">
+					    <a href="{{voucher.url}}" target="_blank" class="voucher-object">
+					      <img class="media-object" src="{{voucher.url}}" class="img-thumbnail" />
+					    </a>
+					  </div>
+					  <div class="media-body">
+					    <h4 class="media-heading">Datos Reserva</h4>
+					    <p><strong>Fecha Reserva: </strong>{{rsvpList ? getRSVP(voucher.rsvp_id).reservation_date:''}}</p>
+					    <p><strong>Fecha de Viaje: </strong>{{rsvpList ? getRSVP(voucher.rsvp_id).departure_date:''}}</p>
+					    <p><strong>Lugares Reservados: </strong>{{rsvpList ? getRSVP(voucher.rsvp_id).places:''}}</p>
+					    <p><strong>Total a Pagar: </strong>{{rsvpList ? getRSVP(voucher.rsvp_id).total:''}}</p>
+					    <textarea rows="4" cols="50" placeholder="Comentarios si se niega la transacción" [(ngModel)]="comments">
+						</textarea>
+
+					  </div>
+					  <div class="media-right">
+					  	<button type="button" class="btn btn-primary" (click)="approveVoucher(voucher)">Aprobar</button>
+					  	<button type="button" class="btn btn-danger" (click)="denyVoucher(voucher)">Denegar</button>
+					  </div>
+					</div>
+			  	</li>
+			</ul>
+		</div>
+		<div class="tab-pane" id="dnis">
+			<h3>Documentos Identificación</h3>
+			<ul class="list-group">
+			  	<li class="list-group-item" *ngFor="let dni of dniObs | async">
+				  	<div class="media">
+					  <div class="media-left">
+					    <a href="{{dni.url}}" target="_blank" class="voucher-object">
+					      <img class="media-object" src="{{dni.url}}" class="img-thumbnail" />
+					    </a>
+					  </div>
+					  <div class="media-body">
+					    <h4 class="media-heading">Datos</h4>
+					    <p><strong>Nombre: </strong>{{userArray ? getUser(dni.user_id).first_name : ''}}</p>
+					    <p><strong>Cedula: </strong>{{userArray ? getUser(dni.user_id).dni : ''}}</p>
+					  </div>
+					  <div class="media-right">
+					  	<button type="button" class="btn btn-primary" (click)="approveDocument(dni)">Aprobar</button>
+					  	<button type="button" class="btn btn-danger" (click)="denyDocument(dni)">Denegar</button>
+					  </div>
+					</div>
+			  	</li>
+			</ul>
+		</div>
+		<div class="tab-pane" id="licenses">
+			<h3>Licencias</h3>
+			<ul class="list-group">
+			  	<li class="list-group-item" *ngFor="let license of licenseObs | async">
+				  	<div class="media">
+					  <div class="media-left">
+					    <a href="{{license.url}}" target="_blank" class="voucher-object">
+					      <img class="media-object" src="{{license.url}}" class="img-thumbnail" />
+					    </a>
+					  </div>
+					  <div class="media-body">
+					    <h4 class="media-heading">Datos</h4>
+					    <p><strong>Nombre: </strong>{{userArray ? getUser(license.user_id).forename : ''}}</p>
+					    <p><strong>Cedula: </strong>{{userArray ? getUser(license.user_id).dni : ''}}</p>
+					  </div>
+					  <div class="media-right">
+					  	<button type="button" class="btn btn-primary" (click)="approveDocument(license)">Aprobar</button>
+					  	<button type="button" class="btn btn-danger" (click)="denyDocument(license)">Denegar</button>
+					  </div>
+					</div>
+			  	</li>
+			</ul>
+		</div>
+		<div class="tab-pane" id="registers">
+			<h3>Matriculas</h3>
+			<ul class="list-group">
+				<li class="list-group-item" *ngFor="let register of registerObs | async">
+					<div class="media">
+					  <div class="media-left">
+					    <a href="{{register.url}}" target="_blank" class="voucher-object">
+					      <img class="media-object" src="{{register.url}}" class="img-thumbnail" />
+					    </a>
+					  </div>
+					  <div class="media-body">
+					    <h4 class="media-heading">Datos</h4>
+					    <p><strong>Nombre: </strong>{{userArray ? getUser(register.user_id).forename : ''}}</p>
+					    <p><strong>Cedula: </strong>{{userArray ? getUser(register.user_id).dni : ''}}</p>
+					  </div>
+					  <div class="media-right">
+						<button type="button" class="btn btn-primary" (click)="approveDocument(register)">Aprobar</button>
+						<button type="button" class="btn btn-danger" (click)="denyDocument(register)">Denegar</button>
+					  </div>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>

@@ -6,10 +6,10 @@
     "homepage": "https://santteegt.github.io/",
     "private": true,
     "scripts": {
-        "start": "meteor run --settings private/settings.json",
-        "start:prod": "meteor run --production --settings private/settings.json",
-        "build": "meteor build ./build/",
-        "clear": "meteor reset",
+        "meteor:start": "meteor run --settings private/settings.json",
+        "meteor:start-prod": "meteor run --production --settings private/settings.json",
+        "meteor:build": "meteor build ./build/",
+        "meteor:clear": "meteor reset",
         "meteor:update": "meteor update --all-packages",
         "test": "meteor test --driver-package practicalmeteor:mocha",
         "test:ci": "meteor test --once --driver-package dispatch:mocha-phantomjs"
