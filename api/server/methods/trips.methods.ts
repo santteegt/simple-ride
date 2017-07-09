@@ -1,7 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { _ } from 'underscore';
-// TODO:
-// import { Push } from 'meteor/raix:push';
+import { Push } from 'meteor/raix:push';
 
 import { Users } from '../../both/collections/users.collection';
 import { Places } from '../../both/collections/places.collection';
@@ -67,42 +66,41 @@ function sendSystemMessage(user_id: string, trip_id: string, is_driver: boolean,
   });
 }
 
-// TODO: Migrate push service
 function sendPushNotification(title: string, text: string, user_id?: string, redirect_component?: string,
   redirect_params?: any, from_user?: string, trip_id?: string) {
 
-  //   let push_body: NotificationBody = {
-  //     title: title,
-  //     text: text,
-  //     from: 'server',
-  //     badge: 1,
-  //     query: {}
-  //   }
-  //   if(user_id) {
-  //     push_body.query = { userId: user_id };
-  //   }
+    let push_body: NotificationBody = {
+      title: title,
+      text: text,
+      from: 'server',
+      badge: 1,
+      query: {}
+    }
+    if(user_id) {
+      push_body.query = { userId: user_id };
+    }
 
-  //   Notifications.insert({
-  //     user_id: user_id,
-  //     sent_date: new Date(),
-  //     push_body: push_body,
-  //     read: false,
-  //     redirect_component: redirect_component,
-  //     redirect_params: redirect_params,
-  //     from_user: from_user,
-  //     trip_id: trip_id
-  //   });
+    Notifications.insert({
+      user_id: user_id,
+      sent_date: new Date(),
+      push_body: push_body,
+      read: false,
+      redirect_component: redirect_component,
+      redirect_params: redirect_params,
+      from_user: from_user,
+      trip_id: trip_id
+    });
 
-  //   Push.send(push_body);
+    Push.send(push_body);
 
-		// let recipient = Users.findOne({_id: user_id});
-		// if(recipient['personData']['email']){
-		// 	let to: string = recipient['personData']['email'];
-		// 	let from: string = 'info@simpleride-ec.com';
-		// 	let subject: string = title;
-		// 	let html: string = getHTMLForEmail(title, text);
-		// 	Email.send({ to, from, subject, html });
-		// }
+		let recipient = Users.findOne({_id: user_id});
+		if(recipient['personData']['email']){
+			let to: string = recipient['personData']['email'];
+			let from: string = 'info@simpleride-ec.com';
+			let subject: string = title;
+			let html: string = getHTMLForEmail(title, text);
+			Email.send({ to, from, subject, html });
+		}
 }
 
 function getHTMLForEmail (title:string, text: string): string {

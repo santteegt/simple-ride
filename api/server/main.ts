@@ -10,7 +10,7 @@ import "./imports/publications/images";
 import "./imports/publications/chat-messages";
 import "./imports/publications/trip-flags";
 import "./imports/publications/notifications";
-// TODO: Migrate push services
+import "./imports/push"; // ENABLE PUSH NOTIFICATIONS
 
 declare const ServiceConfiguration: any;
 
@@ -19,7 +19,6 @@ Meteor.startup(() => {
 
 	// Configuring oAuth services
 	const services = Meteor.settings.private.oAuth;
-	console.log(services);
 
 	if (services) {
 		for (let service in services) {
