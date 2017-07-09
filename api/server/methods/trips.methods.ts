@@ -93,14 +93,15 @@ function sendPushNotification(title: string, text: string, user_id?: string, red
 
     Push.send(push_body);
 
-		let recipient = Users.findOne({_id: user_id});
-		if(recipient['personData']['email']){
-			let to: string = recipient['personData']['email'];
-			let from: string = 'info@simpleride-ec.com';
-			let subject: string = title;
-			let html: string = getHTMLForEmail(title, text);
-			Email.send({ to, from, subject, html });
-		}
+		// TODO: Migrate email functionality
+    let recipient = Users.findOne({_id: user_id});
+		// if(recipient['personData']['email']){
+		// 	let to: string = recipient['personData']['email'];
+		// 	let from: string = 'info@simpleride-ec.com';
+		// 	let subject: string = title;
+		// 	let html: string = getHTMLForEmail(title, text);
+		// 	Email.send({ to, from, subject, html });
+		// }
 }
 
 function getHTMLForEmail (title:string, text: string): string {
