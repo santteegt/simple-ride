@@ -13,6 +13,7 @@ import { TripFilterMobileComponent } from './trip/trip-filter.component.mobile';
 import { TripMobileComponent } from './trip/trip.component.mobile';
 import { TripMessageBoardMobileComponent } from './trip/trip-message-board.component.mobile';
 import { ReservationListMobileComponent } from './trip/reservation-list.component.mobile';
+import { TripReviewMobileComponent } from './trip/trip-review.component.mobile';
 import { DriverProfileMobileComponent } from './driver/driver-profile.component.mobile';
 import { MyTripsMobileComponent } from './user/my-trips.component.mobile';
 import { TripHistoryMobileComponent } from './user/trip-history.component.mobile';
@@ -41,6 +42,7 @@ export const MOBILE_DECLARATIONS = [
 	TripMobileComponent,
 	TripMessageBoardMobileComponent,
 	ReservationListMobileComponent,
+	TripReviewMobileComponent,
 	DriverProfileMobileComponent,
 	MyTripsMobileComponent,
 	TripHistoryMobileComponent,

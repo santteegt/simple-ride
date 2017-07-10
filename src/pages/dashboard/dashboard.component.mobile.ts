@@ -10,7 +10,9 @@ import { StatusBar } from "@ionic-native/status-bar";
 declare var _;
 declare var Meteor;
 
-import { Counts } from 'meteor/tmeasday:publish-counts';
+// TODO:
+// import { Counts } from 'meteor/tmeasday:publish-counts';
+declare var Counts;
 
 import { Dashboard } from "../../classes/dashboard.class";
 import { GeolocationService } from "../../classes/services/geolocation.service";

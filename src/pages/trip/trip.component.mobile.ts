@@ -7,7 +7,9 @@ import { NavController, NavParams, ViewController, AlertController, LoadingContr
 import { Subscription } from "rxjs";
 import { MeteorObservable } from "meteor-rxjs"
 
-import { Counts } from 'meteor/tmeasday:publish-counts';
+// TODO:
+// import { Counts } from 'meteor/tmeasday:publish-counts';
+declare var Counts;
 
 import { TripUtils } from '../../classes/trip-utils.class';
 import { IsDriverPipe } from '../../classes/shared/is-driver.pipe';

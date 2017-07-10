@@ -30,13 +30,9 @@ import { UserTripFlag, Person, USER_STATUS, DRIVER_STATUS } from "../shared/mode
 // import { UserTripFlags, Users } from "api/collections";
 // import { UserTripFlag, Person, USER_STATUS, DRIVER_STATUS } from "api/models";
 
-import { Counts } from 'meteor/tmeasday:publish-counts';
-// TOOD: Migrate functionality
-// import {InjectUser} from "angular2-meteor-accounts-ui";
-
-
-
-
+// TODO:
+// import { Counts } from 'meteor/tmeasday:publish-counts';
+declare var Counts;
 
 @Component({
   templateUrl: 'app.component.mobile.html'

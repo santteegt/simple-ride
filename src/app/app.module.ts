@@ -5,6 +5,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { Keyboard } from '@ionic-native/keyboard';
 import { Geolocation } from '@ionic-native/geolocation';
+import { Camera } from '@ionic-native/camera';
 import { IonCalendarModule } from "@ionic2-extra/calendar";
 
 import { MyApp } from './app.component.mobile';
@@ -35,7 +36,8 @@ import { SHARED_DECLARATIONS } from '../classes/shared';
     StatusBar,
     SplashScreen,
     Keyboard,
-    Geolocation
+    Geolocation,
+    Camera
   ]
 })
 export class AppModule {}
