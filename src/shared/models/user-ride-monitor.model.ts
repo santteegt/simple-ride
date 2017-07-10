@@ -13,13 +13,19 @@ export interface UserRideMonitor extends CollectionObject {
 }
 
 export interface GLocation {
+	locationId: number;
+	serviceProvider: string;
+	debug: boolean;
+	time: number;
 	latitude: number;
 	longitude: number;
-	heading: number;
-	speed: number;
 	accuracy: number;
+	speed: number;
 	timestamp: number;
 	altitude: number;
+	altitudeAccuracy: number;
+	bearing: number;
+	coords: any;
 }
 
 export interface Activity {

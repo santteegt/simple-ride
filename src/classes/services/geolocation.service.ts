@@ -4,8 +4,7 @@ import { Injectable } from '@angular/core';
 declare var Meteor;
 import { Geolocation } from '@ionic-native/geolocation';
 import { Platform } from 'ionic-angular';
-// TODO: migrate funcitonality
-// import { BackgroundLocation } from 'meteor/mirrorcell:background-geolocation-plus';
+import { BackgroundGeolocation, BackgroundGeolocationConfig, BackgroundGeolocationResponse } from '@ionic-native/background-geolocation';
 
 import { UserTripFlag, GLocation } from "../../shared/models";
 import { UserRideMonitors } from "../../shared/collections";
@@ -37,102 +36,50 @@ export class GeolocationService {
 
 	_tripFlagSub: Subscription;
 
-	constructor(private platform: Platform, private geolocation: Geolocation) {
+	constructor(private platform: Platform, private backgroundGeolocation: BackgroundGeolocation, private geolocation: Geolocation) {
 
 	}
 
-	// TODO: migrate functionality
 	configureBackgroundLocation(userTripFlag: UserTripFlag) {
-		console.log('configuring background geolocation for ' + Meteor.userId());
 
-    	console.log(userTripFlag);
-		///Configure Plugin
-		// TODO:
-    // 	BackgroundLocation.configure({
-		  // desiredAccuracy: 5, // Desired Accuracy of the location updates (lower = more accurate).
-	   //    distanceFilter: 1, // (Meters) Distance between points aquired.
-	   //    debug: false, // Show debugging info on device.
-	   //    interval: 10000, // (Milliseconds) Requested Interval in between location updates.
-	   //    useActivityDetection: true, // Shuts off GPS when your phone is still, increasing battery life enormously
-	      
-	   //    //[Android Only Below]
-	   //    notificationTitle: 'BG Plugin', // Customize the title of the notification.
-	   //    notificationText: 'Tracking', // Customize the text of the notification.
-	   //    fastestInterval: 5000, //(Milliseconds) - Fastest interval OS will give updates.
-	   //  });
+	   const config: BackgroundGeolocationConfig = {
+            desiredAccuracy: 10,
+            stationaryRadius: 20,
+            distanceFilter: 1,
+            debug: false, //  enable this hear sounds for background-geolocation life-cycle.
+            stopOnTerminate: false, // enable this to clear background location settings when the app terminates
+            pauseLocationUpdates: false // iOS only
+    	};
 
-	    //Register a callback for location updates.
-	    //this is where location objects will be sent in the background
+	  	this.backgroundGeolocation.configure(config).subscribe((location: BackgroundGeolocationResponse) => {
 
-	    // TODO:
-	  //   BackgroundLocation.registerForLocationUpdates((location: GLocation) => {
-	  // //   	console.log(userTripFlag);
-			// // console.log("We got a Background Update" + JSON.stringify(location));
-			// UserRideMonitors.insert({
-			// 	user_id: userTripFlag.user_id,
-			// 	isDriver: userTripFlag.isDriver,
-			// 	trip_id: userTripFlag.trip_id,
-			// 	timestamp: new Date(),
-			// 	error: false,
-			// 	geolocation: location
-			// });
-	  //   }, (err) => {
-			// // console.log("Error: Did not get an update", err);
-			// UserRideMonitors.insert({
-			// 	user_id: userTripFlag.user_id,
-			// 	isDriver: userTripFlag.isDriver,
-			// 	trip_id: userTripFlag.trip_id,
-			// 	timestamp: new Date(),
-			// 	error: true,
-			// 	errorMsg: err.toString(),
-			// });
-	  //   });
-
-	    //Register a callback for activity updates 
-	    //If you set the option useActivityDetection to true you will recieve
-	    //periodic activity updates, see below for more information
+		    //   	console.log(userTripFlag);
+			console.log("We got a Background Update" + JSON.stringify(location));
+			UserRideMonitors.insert({
+				user_id: userTripFlag.user_id,
+				isDriver: userTripFlag.isDriver,
+				trip_id: userTripFlag.trip_id,
+				timestamp: new Date(),
+				error: false,
+				geolocation: location
+			});
 	    
-	    // TODO:
-	  //   BackgroundLocation.registerForActivityUpdates((activities) => {
-	  //   	// console.log("ENTRA ACTIVITIES");
-	  //    //  	console.log("We got an activity Update" + JSON.stringify(activities));
+		    // IMPORTANT:  You must execute the finish method here to inform the native plugin that you're finished,
+		    // and the background-task may be completed.  You must do this regardless if your HTTP request is successful or not.
+		    // IF YOU DON'T, ios will CRASH YOUR APP for spending too much time in the background.
+		    this.backgroundGeolocation.finish(); // FOR IOS ONLY
 
-	  //     	const keys = _.keys(activities);
-	  //     	let activity: any = {};
-	  //     	_.each(keys, function(key: string) {
-	  //     		activity[key.toLowerCase()] = activities[key];
-	  //     	});
-	  //     	UserRideMonitors.insert({
-			// 	user_id: userTripFlag.user_id,
-			// 	isDriver: userTripFlag.isDriver,
-			// 	trip_id: userTripFlag.trip_id,
-			// 	timestamp: new Date(),
-			// 	error: false,
-			// 	activity: activity
-			// });
-	  //   }, (err) => {
-			// // console.log("Error:", err);
-   //    		UserRideMonitors.insert({
-			// 	user_id: userTripFlag.user_id,
-			// 	isDriver: userTripFlag.isDriver,
-			// 	trip_id: userTripFlag.trip_id,
-			// 	timestamp: new Date(),
-			// 	error: true,
-			// 	errorMsg: err.toString(),
-			// });
-	  //   });
+		  });
 	}
 
 	startBackgroundGeolocation() {
 		console.log('starting background geolocation');
-		// TODO:
-		// BackgroundLocation.start();
+		this.backgroundGeolocation.start();
 	}
 
 	stopBackgroundGeolocation() {
 		console.log('Stopping background geolocation');
-		// TODO:
-		// BackgroundLocation.stop();
+		this.backgroundGeolocation.stop();
 	}
 
 	getCurrentGeolocation(): Promise<GeoPosition> {

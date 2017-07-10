@@ -4,6 +4,7 @@ import { BrowserModule } from "@angular/platform-browser";
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { Keyboard } from '@ionic-native/keyboard';
+import { BackgroundGeolocation } from '@ionic-native/background-geolocation';
 import { Geolocation } from '@ionic-native/geolocation';
 import { Camera } from '@ionic-native/camera';
 import { IonCalendarModule } from "@ionic2-extra/calendar";
@@ -36,6 +37,7 @@ import { SHARED_DECLARATIONS } from '../classes/shared';
     StatusBar,
     SplashScreen,
     Keyboard,
+    BackgroundGeolocation,
     Geolocation,
     Camera
   ]

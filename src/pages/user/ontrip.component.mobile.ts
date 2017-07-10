@@ -1,10 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { NavController, NavParams, ViewController, ModalController,
+import { NavController, NavParams, ViewController, ModalController, Platform,
           LoadingController, AlertController } from 'ionic-angular';
 import { Subscription } from "rxjs";
 import { MeteorObservable } from "meteor-rxjs";
 // TODO:
-// import { InjectUser } from "angular2-meteor-accounts-ui";
 // import { _ } from 'underscore';
 declare var Meteor;
 declare var _;
@@ -36,7 +35,6 @@ interface ServerResponse {
   templateUrl: 'ontrip.component.mobile.html',
   providers: [GeolocationService, IsDriverPipe],
 })
-// @InjectUser('user')
 export class OnTripMobileComponent implements OnInit, OnDestroy {
 
   tripFlagSub: Subscription;
@@ -68,7 +66,7 @@ export class OnTripMobileComponent implements OnInit, OnDestroy {
 
   constructor(private navCtrl: NavController, navParams: NavParams, private viewCtrl: ViewController,
   	private modalCtrl: ModalController, private loadingCtrl: LoadingController, private alertCtrl: AlertController,
-  	private geoService: GeolocationService, private isDriverPipe: IsDriverPipe) {
+  	private geoService: GeolocationService, private isDriverPipe: IsDriverPipe, private platform: Platform) {
 
     // this.viewCtrl.showBackButton(false);
     // this.selectedItem = navParams.get('item');
@@ -113,10 +111,10 @@ export class OnTripMobileComponent implements OnInit, OnDestroy {
     this.tripFlagSub = MeteorObservable.subscribe('trip-flags').subscribe(() => {
       this.userTripFlag = UserTripFlags.findOne({'user_id': Meteor.userId()});
 
-      if(Meteor.isCordova) {
+      if(this.platform.is('cordova')) {
 	      this.geoService.configureBackgroundLocation(this.userTripFlag);
-		  this.geoService.startBackgroundGeolocation();
-	  }
+		    this.geoService.startBackgroundGeolocation();
+	    }
 
       this.tripSub = MeteorObservable.subscribe('trips', {}, false).subscribe(() => {
         this.mytrip = Trips.findOne({'_id': this.userTripFlag.trip_id});
@@ -164,7 +162,7 @@ export class OnTripMobileComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
 
-  	if(Meteor.isCordova) {
+  	if(this.platform.is('cordova')) {
   		this.geoService.stopBackgroundGeolocation();
   	}
 
