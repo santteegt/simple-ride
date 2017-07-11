@@ -12,6 +12,7 @@ import "./imports/publications/trip-flags";
 import "./imports/publications/notifications";
 import "./imports/push"; // ENABLE PUSH NOTIFICATIONS
 
+declare var SyncedCron;
 declare const ServiceConfiguration: any;
 
 Meteor.startup(() => {
@@ -27,4 +28,5 @@ Meteor.startup(() => {
 			});
 		}
 	}
+	SyncedCron.start();
 });
