@@ -15,6 +15,10 @@ import "./imports/push"; // ENABLE PUSH NOTIFICATIONS
 declare var SyncedCron;
 declare const ServiceConfiguration: any;
 
+// For testing push notifications under development
+declare var process;
+process.env.NODE_ENV = "development";
+
 Meteor.startup(() => {
   // code to run on server at startup
 
