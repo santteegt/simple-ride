@@ -12,7 +12,7 @@ import { WEB_DECLARATIONS } from './web';
 // import { SHARED_DECLARATIONS } from './shared';
 import { routes, ROUTES_PROVIDERS } from './app.routes';
 
-import { CarouselModule, ModalModule } from 'ngx-bootstrap';
+import { CarouselModule, ModalModule, TabsModule, BsDropdownModule } from 'ngx-bootstrap';
 
 let moduleDefinition = {
   imports: [
@@ -22,6 +22,8 @@ let moduleDefinition = {
     MetaModule.forRoot(),
     CarouselModule.forRoot(),
     ModalModule.forRoot(),
+    TabsModule.forRoot(),
+    BsDropdownModule.forRoot(),
     JsonpModule
   ],
   // Components, Pipes, Directive

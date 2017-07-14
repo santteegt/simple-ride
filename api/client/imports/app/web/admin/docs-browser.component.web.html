@@ -1,17 +1,24 @@
-<div>
+<div class="admin">
+	<div class="header row">
+		<div class="col-3"></div>
+		<div class="col-6 text-center"><h2>Administrador</h2></div>
+		<div class="col-3 text-right">
+	    <div class="btn-group" dropdown *ngIf="user">
+	      <button dropdownToggle type="button" class="btn dropdown-toggle">{{user.personData.forename}} {{user.personData.surname}}<span class="caret"></span></button>
+	      <ul *dropdownMenu class="dropdown-menu" role="menu">
+	        <li role="menuitem"><a class="dropdown-item" (click)="logout()">Cerrar Sesión</a></li>
+	      </ul>
+	    </div>
+		</div>
+	</div>
+	<div class="container" *ngIf="!user">
+		<img src="assets/logo-home.svg" width="250px">
+		<h3>Inicia Sesion con Facebook:</h3>
+		<button type="button" class="btn" (click)="login()" >Iniciar Sesion</button>
+	</div>
 
-	<ul class="nav nav-tabs">
-	  <li class="active"><a data-toggle="tab" href="#deposits">Depósitos por aprobar</a></li>
-	  <li><a data-toggle="tab" href="#dnis">Documentos Identificación</a></li>
-	  <li><a data-toggle="tab" href="#licenses">Licencias</a></li>
-	  <li><a data-toggle="tab" href="#registers">Matrículas</a></li>
-	</ul>
-
-	<button type="button" class="btn btn-primary" (click)="login()" [hidden]="user">Iniciar Sesion</button>
-
-	<div class="tab-content" [hidden]="!user">
-		<div class="tab-pane active" id="deposits">
-			<h3>Depósitos por aprobar</h3>
+	<tabset #documents *ngIf="user">
+		<tab heading="Depósitos por aprobar">
 			<ul class="list-group">
 			  	<li class="list-group-item" *ngFor="let voucher of voucherObs | async">
 				  	<div class="media">
@@ -37,9 +44,8 @@
 					</div>
 			  	</li>
 			</ul>
-		</div>
-		<div class="tab-pane" id="dnis">
-			<h3>Documentos Identificación</h3>
+		</tab>
+		<tab heading="Documentos Identificación">
 			<ul class="list-group">
 			  	<li class="list-group-item" *ngFor="let dni of dniObs | async">
 				  	<div class="media">
@@ -60,9 +66,8 @@
 					</div>
 			  	</li>
 			</ul>
-		</div>
-		<div class="tab-pane" id="licenses">
-			<h3>Licencias</h3>
+		</tab>
+		<tab heading="Licencias">
 			<ul class="list-group">
 			  	<li class="list-group-item" *ngFor="let license of licenseObs | async">
 				  	<div class="media">
@@ -83,9 +88,8 @@
 					</div>
 			  	</li>
 			</ul>
-		</div>
-		<div class="tab-pane" id="registers">
-			<h3>Matriculas</h3>
+		</tab>
+		<tab heading="Matriculas">
 			<ul class="list-group">
 				<li class="list-group-item" *ngFor="let register of registerObs | async">
 					<div class="media">
@@ -106,6 +110,6 @@
 					</div>
 				</li>
 			</ul>
-		</div>
-	</div>
+		</tab>
+	</tabset>
 </div>

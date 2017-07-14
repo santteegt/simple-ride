@@ -1,5 +1,52 @@
+.admin{
+	background-color: #472F92;
+	color: #fff;
+}
+
+.admin .header{
+	height: 50px;
+}
+
+.admin .header h2{
+	line-height: 50px;
+}
+
+.admin .header button{
+	margin-top: 10px;
+	color: #fff;
+	border-color: #FFF;
+	background-color: transparent;
+}
+
+.admin .container{
+	height: 100vh;
+	text-align: center;
+}
+
+.admin .container img{
+	margin: 50px auto;
+}
+
+.admin .container button{
+	color: #fff;
+	border-color: #FFF;
+	background-color: transparent;
+	margin: 50px auto;
+	font-size: 2rem;
+}
+
+.open .dropdown-menu{
+	display: block;
+}
+
 .voucher-object {
 	display: block;
 	height: 200px;
 	width: 250px;
+}
+
+.admin .tab-content .tab-pane{
+	background-color: #472F92;
+	color: #fff;
+	height: 100vh;
 }

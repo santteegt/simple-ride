@@ -1,9 +1,11 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Observable, Subscription, Subject } from "rxjs";
 import { FormsModule }   from '@angular/forms';
 import { MeteorObservable } from "meteor-rxjs"
 import { InjectUser } from "angular2-meteor-accounts-ui";
 import { _ } from 'underscore';
+
+import { TabsetComponent, BsDropdownModule } from 'ngx-bootstrap';
 
 import { FacebookLoginManager } from '../../shared-components/login/facebook-login.class';
 
@@ -36,6 +38,8 @@ interface UsersServerResponse {
 @InjectUser('user')
 export class DocumentBrowserComponent implements OnInit, OnDestroy {
 
+	@ViewChild('documents') staticTabs: TabsetComponent;
+
 	rsvpSub: Subscription;
 	rsvpList: Reservation[];
 	rsvpObs: Observable<Reservation[]>;
@@ -58,7 +62,7 @@ export class DocumentBrowserComponent implements OnInit, OnDestroy {
 	comments;
 
 	constructor(private loginManager: FacebookLoginManager) {
-		
+
 	}
 
 	ngOnInit() {
@@ -98,8 +102,8 @@ export class DocumentBrowserComponent implements OnInit, OnDestroy {
 					return user._id;
 				});
 
-	  			this.dniSub = MeteorObservable.subscribe("images").subscribe(() => {
-		          this.dniObs = Images.find({'user_id': {$in: userArray}, 'doc_type': DOCTYPES.DNI, 'processed': undefined}).zone();
+  			this.dniSub = MeteorObservable.subscribe("images").subscribe(() => {
+	          this.dniObs = Images.find({'user_id': {$in: userArray}, 'doc_type': DOCTYPES.DNI, 'processed': undefined}).zone();
 				});
 
 				this.licenseSub = MeteorObservable.subscribe("images").subscribe(() => {
@@ -146,8 +150,8 @@ export class DocumentBrowserComponent implements OnInit, OnDestroy {
 		// 	console.log('result for images');
 		// 	console.log(result);
 		// });
-		let rs2 = Reservations.update({'_id': voucher.rsvp_id}, {$set: { 
-				payment_status: RESERVATIONSTATUS.WAITING_USER_ACTION, 
+		let rs2 = Reservations.update({'_id': voucher.rsvp_id}, {$set: {
+				payment_status: RESERVATIONSTATUS.WAITING_USER_ACTION,
 				payment_comments: this.comments
 		}});
 		// rs2.subscribe((result) => {
@@ -183,7 +187,7 @@ export class DocumentBrowserComponent implements OnInit, OnDestroy {
 
   	login() {
   		this.loginManager.login().then(msg => {
-  			
+
 			// if(Meteor.user()["personData"] && Meteor.user()["personData"].status == "new") {
 			// 	this.navCtrl.push(UserRegistrationMobileComponent, {
 	  //   	});
@@ -198,5 +202,9 @@ export class DocumentBrowserComponent implements OnInit, OnDestroy {
   			alert(error);
   		});
   	}
- 
+
+		logout() {
+			this.loginManager.logout();
+		}
+
 }
