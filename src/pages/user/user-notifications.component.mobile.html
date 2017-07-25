@@ -9,11 +9,11 @@
     </ion-buttons>
 
     <ion-title style="padding-top: 0; text-align: center" showWhen="ios">
-      <img src="/assets/logo.png" style="padding-top: 5px; width: 75px; height: 44px">
+      <img src="assets/logo.png" style="padding-top: 5px; width: 75px; height: 44px">
     </ion-title>
 
     <div style="padding-top: 0; text-align: center" showWhen="android,windows">
-      <img src="/assets/logo.png" style="padding-top: 5px; width: 75px; height: 44px">
+      <img src="assets/logo.png" style="padding-top: 5px; width: 75px; height: 44px">
     </div>
 
     <!-- <ion-buttons end>
@@ -37,7 +37,7 @@
     <ion-item-sliding *ngFor="let notification of myNotifOb | async">
       <ion-item tappable (click)="openNotification(notification)" [ngClass]="notification && notification.read ? '':'new-notification'">
         <ion-avatar item-left>
-          <img src="/assets/default-avatar.png">
+          <img src="assets/default-avatar.png">
         </ion-avatar>
         <h2>{{notification.push_body.title}}</h2>
         <h3>{{notification.push_body.text}}</h3>
