@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit, NgZone } from '@angular/core';
 import { Platform, NavController, MenuController, AlertController } from 'ionic-angular';
 import { Subscription } from 'rxjs/Subscription';
 import { MeteorObservable } from 'meteor-rxjs';
+import { Push, PushObject, PushOptions } from '@ionic-native/push';
 // TODO:
 // import { Meteor } from 'meteor-client';
 declare var Meteor;
@@ -22,7 +23,7 @@ export class LoginMobileComponent implements OnInit, OnDestroy {
 	user: User;
 
 	constructor(private navCtrl: NavController, private loginManager: FacebookLoginManager, private ngZone: NgZone, 
-		private platform: Platform, private menuCtrl: MenuController, private alertCtrl: AlertController) {
+		private platform: Platform, private menuCtrl: MenuController, private alertCtrl: AlertController, private push: Push) {
 
 
 		this.platform.resume.subscribe((e: any) => {
@@ -39,33 +40,51 @@ export class LoginMobileComponent implements OnInit, OnDestroy {
   	}
 
   	ngOnInit() {
-		// this.usersSub = MeteorObservable.subscribe("userData").subscribe();
 		this.menuCtrl.enable(false);
-
-		// MeteorObservable.autorun().subscribe(() => {
-		// 	if(Meteor.user()) {
-		// 		this.navCtrl.push(HomePage, {});
-		// 	} else {
-		// 		console.log('User not found');
-		// 	}
-		// });
 	}
 
 	ngOnDestroy() {
-		// this.usersSub.unsubscribe();
 
 	}
 
   	login() {
   		this.loginManager.login().then(msg => { //redirection is handled automatically by the AppMobileComponent
-  			alert(msg);
-			if(Meteor.user()["personData"] && Meteor.user()["personData"].status == "new") {
-				// this.navCtrl.push(UserRegistrationMobileComponent, {
-	   //  	});
-			} else {
-				// this.navCtrl.push(DashboardMobileComponent, {
-	   //  	});
-			}
+			
+			const options: PushOptions = {
+	          android: {
+	            senderID: "93847795927",
+	            sound: true,
+	            vibrate: true,
+	            clearBadge: true
+	          },
+	          ios: {
+	            alert: true,
+	            badge: true,
+	            sound: true,
+	            clearBadge: true
+	          }
+
+	        };
+
+	        const pushObject: PushObject = this.push.init(options);
+
+	        pushObject.on('registration').subscribe((registration: any) => {
+	        	let token = undefined;
+	        	if(this.platform.is('ios')) {
+	        		token = { apn: registration.registrationId };
+	        	}
+	        	if(this.platform.is('android')) {
+	        		token = { gcm: registration.registrationId };
+	        	}
+	        	if(token) {
+		          Meteor.call('raix:push-update', {
+		            appName: "SimpleRide",
+		            token: {apn: registration.registrationId},
+		            userId: Meteor.userId()
+		          });
+		      	}
+	        });
+	        pushObject.on('error').subscribe(error => console.error('Error with Push plugin', error));
 
   		})
   		.catch((error) => {
@@ -98,7 +117,7 @@ export class LoginMobileComponent implements OnInit, OnDestroy {
 			}
 		},
 		(error) => {
-		console.log(error);
+			console.log(error);
 		});
 	}
 }

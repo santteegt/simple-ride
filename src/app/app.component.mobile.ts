@@ -9,6 +9,7 @@ import { MeteorObservable, ObservableCursor } from "meteor-rxjs";
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Keyboard } from '@ionic-native/keyboard';
+import { Push, PushObject, PushOptions } from '@ionic-native/push';
 
 import { LoginMobileComponent } from '../pages/login/login.component.mobile';
 
@@ -74,7 +75,8 @@ export class MyApp {
   user: any;
 
   constructor(private app: App, private platform: Platform, private statusBar: StatusBar, private splashScreen: SplashScreen,
-      private menu: MenuController, private modalCtrl: ModalController, private config: Config, private keyboard: Keyboard) {
+      private menu: MenuController, private modalCtrl: ModalController, private config: Config, private keyboard: Keyboard,
+      private push: Push) {
 
     this.profile = UserRegistrationMobileComponent;
     this.driverProfile = DriverProfileMobileComponent;
@@ -100,6 +102,7 @@ export class MyApp {
 
         this.keyboard.disableScroll(true);
         this.keyboard.hideKeyboardAccessoryBar(false);
+
       }
 
       // TODO: Why the disabled the menu here ?

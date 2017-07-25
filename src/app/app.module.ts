@@ -7,6 +7,7 @@ import { Keyboard } from '@ionic-native/keyboard';
 import { BackgroundGeolocation } from '@ionic-native/background-geolocation';
 import { Geolocation } from '@ionic-native/geolocation';
 import { Camera } from '@ionic-native/camera';
+import { Push } from '@ionic-native/push';
 import { IonCalendarModule } from "@ionic2-extra/calendar";
 
 import { MyApp } from './app.component.mobile';
@@ -39,7 +40,8 @@ import { SHARED_DECLARATIONS } from '../classes/shared';
     Keyboard,
     BackgroundGeolocation,
     Geolocation,
-    Camera
+    Camera,
+    Push
   ]
 })
 export class AppModule {}
