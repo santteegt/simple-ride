@@ -223,7 +223,7 @@ export class CarRegistrationMobileComponent extends UserRegistration implements 
 	}
 
 	dismiss() {
-		this.viewCtrl.dismiss({valid_driver: this.hasLicense && this.validRegister});
+		this.viewCtrl.dismiss({valid_driver: this.updated && this.hasLicense && this.validRegister});
 	}
 
 	showAlert(title: string, subtitle: string) {

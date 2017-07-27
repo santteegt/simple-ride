@@ -1,5 +1,4 @@
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
-import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 // TODO:
 // import { Meteor } from 'meteor-client';
 declare var Meteor;
@@ -32,7 +31,7 @@ interface Price {
   selector: 'new-trip',
   templateUrl: 'new-trip.component.mobile.html'
 })
-export class NewTripMobileComponent implements OnInit {
+export class NewTripMobileComponent implements OnInit, OnDestroy {
 
 	@ViewChild('slider') slider: Slides;
 	@ViewChild('departureDatetime') departureDatetime;
@@ -83,7 +82,7 @@ export class NewTripMobileComponent implements OnInit {
 	currentPosition: any;
 
 	constructor(private navCtrl: NavController, navParams: NavParams, private viewCtrl: ViewController,
-		private formBuilder: FormBuilder, private toastCtrl: ToastController, private modalCtrl: ModalController,
+		private toastCtrl: ToastController, private modalCtrl: ModalController,
 		private alertCtrl: AlertController, private loadingCtrl: LoadingController) {
 
 		this.currentPosition = navParams.get("geolocation");
@@ -106,6 +105,10 @@ export class NewTripMobileComponent implements OnInit {
 	ngOnInit() {
 		this.loadMap();
 
+	}
+
+	ngOnDestroy() {
+		
 	}
 
 	ionViewWillEnter() {

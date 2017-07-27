@@ -5,15 +5,13 @@ import { Component, OnInit, OnDestroy, isDevMode } from '@angular/core';
 declare var Meteor;
 declare var _;
 
-import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import { NavController, NavParams, ViewController, AlertController,
 		LoadingController, PopoverController, ModalController, ActionSheetController, Platform} from 'ionic-angular';
-import { Observable, Subscription, Subject } from "rxjs";
 import { MeteorObservable } from "meteor-rxjs"
 
 import { Camera } from '@ionic-native/camera';
 
-import { TripUtils } from '../../classes/trip-utils.class';
 import { upload } from '../../classes/images.methods';
 
 import { DOCTYPES, DRIVER_STATUS, USER_STATUS } from '../../shared/models';
@@ -177,7 +175,7 @@ export class UserDocumentsMobileComponent implements OnInit, OnDestroy {
 					break;
 			default: break;
 		}
-		// 		TODO: migrate upload
+
 		upload(this.isMobile() ? this.uploadedFile:this.dataFile, Meteor.userId(), doc_type, '').then(() => {
         	if(this.isDriver) {
         		let driverData = Meteor.user()["driverData"];

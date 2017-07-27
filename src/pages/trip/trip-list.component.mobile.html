@@ -29,11 +29,11 @@
 		  	<ion-card-header no-padding class="trip-card-header">
 		  		<ion-grid>
 		  			<ion-row>
-		  				<ion-col width-75 style="padding-left: 8px">
+		  				<ion-col col-9 style="padding-left: 8px; text-align: left">
 		  					<strong>{{getTripDay(trip.departureDate)}}, {{trip.departureDate.toLocaleDateString()}}</strong>
 				  			<!-- <strong>{{trip.origin.shortName}} - {{trip.destination.shortName}}</strong> -->
 			  			</ion-col>
-			  			<ion-col width-25 style="text-align: right; padding-right: 8px">
+			  			<ion-col col-3 style="text-align: right; padding-right: 8px">
 				  			<ion-icon name="clock" style="vertical-align: bottom"></ion-icon>
 				  			<strong>{{trip.departureTime}}</strong>
 			  			</ion-col>
@@ -49,7 +49,7 @@
 		  	</ion-card-header>
 		  	<ion-grid>
 		  		<ion-row>
-		  			<ion-col width-80 no-padding>
+		  			<ion-col col-9 no-padding>
 		  				<ion-grid no-padding>
 		  					<ion-row>
 				  				<button ion-item no-lines detail-none (click)="openDriverProfile(trip.driver_id)">
@@ -81,16 +81,16 @@
 					  			</ion-col>
 					  		</ion-row> -->
 					  		<ion-row class="no-padding-bottom">
-						    	<ion-col width-20 style="text-align: center">
+						    	<ion-col col-2 style="text-align: center">
 						    		<ion-icon name="ios-car"></ion-icon>
 						    	</ion-col>
-					  			<ion-col width-40 style="text-align: center; font-size: 0.8em;">
+					  			<ion-col col-5 style="text-align: center; font-size: 0.8em;">
 					  				<strong>{{tripUtils.distanceToKm(trip.distance)}} Km</strong>
 					  			</ion-col>
-					  			<ion-col width-20 style="text-align: center">
+					  			<ion-col col-3 style="text-align: center">
 					  				<ion-icon name="ios-pin"></ion-icon>
 					  			</ion-col>
-					  			<ion-col width-20 style="text-align: center">
+					  			<ion-col col-2 style="text-align: center">
 					  				<ion-icon name="ios-timer"></ion-icon>
 					  			</ion-col>
 					  		</ion-row>
@@ -108,22 +108,22 @@
 					  			</ion-col>
 					  		</ion-row> -->
 					  		<ion-row class="no-padding-bottom">
-					  			<ion-col width-20 style="text-align: center; font-size: 0.6em" no-padding>
+					  			<ion-col col-2 style="text-align: center; font-size: 0.6em" no-padding>
 					  				<strong>{{trip.origin.shortName}}</strong>
 					  			</ion-col>
-					  			<ion-col width-40 style="text-align: center; font-size: 0.8em; overflow: hidden; white-space: nowrap;" no-padding>
-					  				<div style="margin-top: -10px">_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _</div>
+					  			<ion-col col-5 style="text-align: center; font-size: 0.8em; overflow: hidden; white-space: nowrap;" no-padding>
+					  				<div style="margin-top: -10px">_ _ _ _ _ _ _ _ _ _ _ _</div>
 					  			</ion-col>
-					  			<ion-col width-20 style="text-align: center; font-size: 0.6em" no-padding>
+					  			<ion-col col-3 style="text-align: center; font-size: 0.6em" no-padding>
 					  				<strong>{{trip.destination.shortName}}</strong>
 					  			</ion-col>
-					  			<ion-col width-20 style="text-align: center; font-size: 0.7em" no-padding>
+					  			<ion-col col-2 style="text-align: center; font-size: 0.6em" no-padding>
 					  				<strong>{{tripUtils.secondsToHm(trip.estimatedTime)}}</strong>
 					  			</ion-col>
 					  		</ion-row>
 					    </ion-grid>
 		  			</ion-col>
-		  			<ion-col width-20 no-padding>
+		  			<ion-col col-3 no-padding>
 		  				<ion-grid>
 			  				<ion-row>
 			  					<div class="card-box" style="border-bottom: 0">

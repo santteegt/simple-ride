@@ -4,12 +4,13 @@ declare var Meteor;
 import { Component } from '@angular/core';
 import { MenuController, Platform, App, ModalController, Config } from 'ionic-angular';
 import { Subscription } from "rxjs";
-import { MeteorObservable, ObservableCursor } from "meteor-rxjs";
+import { MeteorObservable } from "meteor-rxjs";
+// import { ObservableCursor } from "meteor-rxjs";
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Keyboard } from '@ionic-native/keyboard';
-import { Push, PushObject, PushOptions } from '@ionic-native/push';
+import { Push } from '@ionic-native/push';
 
 import { LoginMobileComponent } from '../pages/login/login.component.mobile';
 

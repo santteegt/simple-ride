@@ -35,112 +35,112 @@
           </ion-item>
 
           <ion-row font-size="11px">
-            <ion-col width-10 style="text-align: right">
+            <ion-col style="text-align: right">
               <ion-icon name="home"></ion-icon>
             </ion-col>
-            <ion-col width-30 style="text-align: left">
+            <ion-col col-4 style="text-align: left">
               <span>{{trip.origin.shortName}}</span>
             </ion-col>
-            <ion-col width-20 style="text-align: right">
+            <ion-col style="text-align: right">
               <ion-icon name="briefcase"></ion-icon>
             </ion-col>
-            <ion-col width-30 style="text-align: left">
+            <ion-col col-4 style="text-align: left">
               <span>Eq. mano</span>
             </ion-col>
-            <ion-col width-10>
+            <ion-col>
               <ion-icon name="ios-checkmark-circle" color="secondary" *ngIf="trip.options.handBaggage"></ion-icon>
               <ion-icon name="ios-close-circle" color="danger" *ngIf="!trip.options.handBaggage"></ion-icon>
             </ion-col>
           </ion-row>
 
           <ion-row font-size="11px">
-            <ion-col width-10 style="text-align: right">
+            <ion-col style="text-align: right">
               <ion-icon name="ios-map"></ion-icon>
             </ion-col>
-            <ion-col width-30 style="text-align: left">
+            <ion-col col-4 style="text-align: left">
               <span>{{tripUtils.distanceToKm(trip.distance)}} (Km)</span>
             </ion-col>
-            <ion-col width-20 style="text-align: right">
+            <ion-col style="text-align: right">
               <ion-icon name="briefcase"></ion-icon>
             </ion-col>
-            <ion-col width-30 style="text-align: left">
+            <ion-col col-4 style="text-align: left">
               <span>Maleta</span>
             </ion-col>
-            <ion-col width-10>
+            <ion-col>
               <ion-icon name="ios-checkmark-circle" color="secondary" *ngIf="trip.options.baggage"></ion-icon>
               <ion-icon name="ios-close-circle" color="danger" *ngIf="!trip.options.baggage"></ion-icon>
             </ion-col>
           </ion-row>
 
           <ion-row font-size="11px">
-            <ion-col width-10 style="text-align: right">
+            <ion-col style="text-align: right">
               <ion-icon name="md-clock"></ion-icon>
             </ion-col>
-            <ion-col width-30 style="text-align: left">
+            <ion-col col-4 style="text-align: left">
               <span>{{tripUtils.secondsToHm(trip.estimatedTime)}} (Est.)</span>
             </ion-col>
-            <ion-col width-20 style="text-align: right">
+            <ion-col style="text-align: right">
               <ion-icon name="paw"></ion-icon>
             </ion-col>
-            <ion-col width-30 style="text-align: left">
+            <ion-col col-4 style="text-align: left">
               <span>Mascotas</span>
             </ion-col>
-            <ion-col width-10>
+            <ion-col>
               <ion-icon name="ios-checkmark-circle" color="secondary" *ngIf="trip.options.pets"></ion-icon>
               <ion-icon name="ios-close-circle" color="danger" *ngIf="!trip.options.pets"></ion-icon>
             </ion-col>
           </ion-row>
 
           <ion-row font-size="11px">
-            <ion-col width-10 style="text-align: right">
+            <ion-col style="text-align: right">
               <ion-icon name="logo-usd"></ion-icon>
             </ion-col>
-            <ion-col width-30 style="text-align: left">
+            <ion-col col-4 style="text-align: left">
               <span>{{tripUtils.getPrice(trip.price, trip.distance)}}</span>
             </ion-col>
-            <ion-col width-20 style="text-align: right">
+            <ion-col style="text-align: right">
               <ion-icon name="no-smoking"></ion-icon>
             </ion-col>
-            <ion-col width-30 style="text-align: left">
+            <ion-col col-4 style="text-align: left">
               <span>Fumar</span>
             </ion-col>
-            <ion-col width-10>
+            <ion-col>
               <ion-icon name="ios-checkmark-circle" color="secondary" *ngIf="trip.options.smoking"></ion-icon>
               <ion-icon name="ios-close-circle" color="danger" *ngIf="!trip.options.smoking"></ion-icon>
             </ion-col>
           </ion-row>
 
           <ion-row font-size="11px">
-            <ion-col width-10 style="text-align: right">
+            <ion-col style="text-align: right">
               <ion-icon name="ios-people"></ion-icon>
             </ion-col>
-            <ion-col width-30 style="text-align: left">
+            <ion-col col-4 style="text-align: left">
               <span>{{trip.available_places}} libre{{trip.available_places > 1?'s':''}}</span>
             </ion-col>
-            <ion-col width-20 style="text-align: right">
+            <ion-col style="text-align: right">
               <ion-icon name="pizza"></ion-icon>
             </ion-col>
-            <ion-col width-30 style="text-align: left">
+            <ion-col col-4 style="text-align: left">
               <span>Comer</span>
             </ion-col>
-            <ion-col width-10>
+            <ion-col>
               <ion-icon name="ios-checkmark-circle" color="secondary" *ngIf="trip.options.food"></ion-icon>
               <ion-icon name="ios-close-circle" color="danger" *ngIf="!trip.options.food"></ion-icon>
             </ion-col>
           </ion-row>
 
 					<ion-row font-size="11px">
-            <ion-col width-10 style="text-align: right">
+            <ion-col style="text-align: right">
             </ion-col>
-            <ion-col width-30 style="text-align: left">
+            <ion-col col-4 style="text-align: left">
             </ion-col>
-            <ion-col width-20 style="text-align: right">
+            <ion-col style="text-align: right">
               <ion-icon name="man"></ion-icon>
             </ion-col>
-            <ion-col width-30 style="text-align: left">
+            <ion-col col-4 style="text-align: left">
               <span>Niños</span>
             </ion-col>
-            <ion-col width-10>
+            <ion-col>
               <ion-icon name="ios-checkmark-circle" color="secondary" *ngIf="trip.options.children"></ion-icon>
               <ion-icon name="ios-close-circle" color="danger" *ngIf="!trip.options.children"></ion-icon>
             </ion-col>

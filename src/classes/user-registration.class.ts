@@ -3,7 +3,6 @@
 declare var Meteor;
 
 import { User, USER_STATUS, DRIVER_STATUS, Person, Driver  } from "../shared/models";
-import { Users } from "../shared/collections";
 
 export class UserRegistration {
 

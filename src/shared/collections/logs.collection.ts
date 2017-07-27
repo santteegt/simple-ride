@@ -6,9 +6,9 @@ import { Log } from '../models/log.model';
  
 export const Logs = new MongoObservable.Collection<Log>('logs');
 
-function loggedIn() {
-  return !!Meteor.user();
-}
+// function loggedIn() {
+//   return !!Meteor.user();
+// }
  
 Logs.allow({
   insert: () => {return true},

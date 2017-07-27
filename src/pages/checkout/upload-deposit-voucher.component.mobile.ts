@@ -5,20 +5,15 @@ import { Component, OnInit, OnDestroy, isDevMode } from '@angular/core';
 // import { _ } from 'underscore';
 declare var Meteor;
 declare var _;
-import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { NavController, NavParams, ViewController, AlertController, Platform,
 		LoadingController, PopoverController, ModalController, ActionSheetController} from 'ionic-angular';
-import { Observable, Subscription, Subject } from "rxjs";
 import { MeteorObservable } from "meteor-rxjs"
 
 import { Camera } from '@ionic-native/camera';
 
-import { TripUtils } from '../../classes/trip-utils.class';
-
 import { upload } from '../../classes/images.methods';
 
-import { Reservations } from '../../shared/collections';
-import{ Reservation, RESERVATIONSTATUS, DOCTYPES } from '../../shared/models';
+import{ Reservation, DOCTYPES } from '../../shared/models';
 
 interface ServerResponse {
 	status: number;
@@ -33,27 +28,7 @@ interface ServerResponse {
 // @InjectUser('user')
 export class UploadDepositVoucherMobileComponent implements OnInit, OnDestroy {
 
-	// myRSVPSub: Subscription;
-	// myRSVPs: Observable<Reservation[]>;
-	// myPastRSVPs: Observable<Reservation[]>;
-	// reservations: Reservation[];
-
-	// myTripsSub: Subscription;
-	// // mytrips: Observable<Trip[]>;
-	// trips: Trip[];
-
-	// usersSub: Subscription;
-	// drivers: User[];
-
-	// tripUtils = TripUtils;
-
-	// card: string;
-	// loader;
-	// showDetail: boolean[];
-
 	isPushNav: boolean;
-
-	myformGroup: FormGroup;
 
 	rsvp: Reservation;
 	dataFile: File;
@@ -65,7 +40,7 @@ export class UploadDepositVoucherMobileComponent implements OnInit, OnDestroy {
 	user: any;
 
 	constructor(private navCtrl: NavController, navParams: NavParams, private viewCtrl: ViewController,
-		private alertCtrl: AlertController, private loadingCtrl: LoadingController, private formBuilder: FormBuilder,
+		private alertCtrl: AlertController, private loadingCtrl: LoadingController,
 		private modalCtrl: ModalController, private popoverCtrl: PopoverController, private actionSheetCtrl: ActionSheetController,
 		private camera: Camera, private platform: Platform) {
 

@@ -1,5 +1,5 @@
 <ion-header>
-	<ion-navbar color="app" style="padding-top: 4px; min-height: 64px">
+	<ion-navbar color="app" style="padding-top: 4px;">
 
 		<ion-buttons start>
 			<button ion-button (click)="dismiss()" *ngIf="!isPushNav">
@@ -21,7 +21,7 @@
 		  	<ion-card-header no-padding class="trip-card-header">
 		  		<ion-grid>
 		  			<ion-row>
-		  				<ion-col width-75 style="padding-left: 8px">
+		  				<ion-col style="padding-left: 8px; text-align: left">
 		  					<strong>Reservado el {{getTripDay(rsvp.departure_date)}}, {{rsvp.departure_date.toLocaleDateString()}}</strong>
 			  			</ion-col>
 			  			<!-- <ion-col width-25 style="text-align: right; padding-right: 8px">
@@ -33,7 +33,7 @@
 		  	</ion-card-header>
 		  	<ion-grid>
 		  		<ion-row>
-		  			<ion-col width-80 no-padding>
+		  			<ion-col col-9 no-padding>
 		  				<ion-grid no-padding>
 		  					<ion-row>
 				  				<button ion-item no-lines detail-none (click)="openUserProfile(rsvp.user_id)">
@@ -54,40 +54,10 @@
 							    </button>
 						    </ion-row>
 
-					  		<!-- <ion-row class="no-padding-bottom">
-						    	<ion-col width-20 style="text-align: center">
-						    		<ion-icon name="ios-car"></ion-icon>
-						    	</ion-col>
-					  			<ion-col width-40 style="text-align: center; font-size: 0.8em;">
-					  				<strong>{{tripUtils.distanceToKm(trip.distance)}} Km</strong>
-					  			</ion-col>
-					  			<ion-col width-20 style="text-align: center">
-					  				<ion-icon name="ios-pin"></ion-icon>
-					  			</ion-col>
-					  			<ion-col width-20 style="text-align: center">
-					  				<ion-icon name="ios-timer"></ion-icon>
-					  			</ion-col>
-					  		</ion-row> -->
-
-					  		<!-- <ion-row class="no-padding-bottom">
-					  			<ion-col width-20 style="text-align: center; font-size: 0.6em" no-padding>
-					  				<strong>{{trip.origin.shortName}}</strong>
-					  			</ion-col>
-					  			<ion-col width-40 style="text-align: center; font-size: 0.8em; overflow: hidden; white-space: nowrap;" no-padding>
-					  				<div style="margin-top: -10px">_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _</div>
-					  			</ion-col>
-					  			<ion-col width-20 style="text-align: center; font-size: 0.6em" no-padding>
-					  				<strong>{{trip.destination.shortName}}</strong>
-					  			</ion-col>
-					  			<ion-col width-20 style="text-align: center; font-size: 0.7em" no-padding>
-					  				<strong>{{tripUtils.secondsToHm(trip.estimatedTime)}}</strong>
-					  			</ion-col>
-					  		</ion-row> -->
-
 					  		<div style="text-align: center">
 						  		<ion-row>
 						  			<ion-col style="padding-bottom: 0">
-						  			<strong>Estado de la reserva</strong>
+						  				<strong>Estado de la reserva</strong>
 						  			</ion-col>
 						  		</ion-row>
 						  		<ion-row>
@@ -100,7 +70,7 @@
 					  		</div>
 					    </ion-grid>
 		  			</ion-col>
-		  			<ion-col width-20 no-padding>
+		  			<ion-col col-3 no-padding>
 		  				<ion-grid>
 			  				<ion-row>
 			  					<div class="card-box" style="border-bottom: 0">

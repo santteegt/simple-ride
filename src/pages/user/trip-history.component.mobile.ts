@@ -40,7 +40,9 @@ export class TripHistoryMobileComponent implements OnInit, OnDestroy {
 
 	loader;
 
-  user: any;
+	hasPastTrips: boolean;
+
+  	user: any;
 
 	constructor(private navCtrl: NavController, navParams: NavParams, private viewCtrl: ViewController,
 		private alertCtrl: AlertController, private loadingCtrl: LoadingController,
@@ -48,6 +50,7 @@ export class TripHistoryMobileComponent implements OnInit, OnDestroy {
 
 		this.tripModal = TripMobileComponent;
 		this.tripReviewModal = TripReviewMobileComponent;
+		this.hasPastTrips = false;
 
 	}
 
@@ -98,6 +101,8 @@ export class TripHistoryMobileComponent implements OnInit, OnDestroy {
 					{departureDate: {$lt: new Date()}}
 					]
 			});
+			
+			this.hasPastTrips = trips.fetch().length > 0;
 
 			let trip_ids = _.map(trips.fetch(), function(trip: Trip) {
 				return trip._id;

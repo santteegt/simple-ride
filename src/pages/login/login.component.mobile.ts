@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit, NgZone } from '@angular/core';
 import { Platform, NavController, MenuController, AlertController } from 'ionic-angular';
 import { Subscription } from 'rxjs/Subscription';
-import { MeteorObservable } from 'meteor-rxjs';
 import { Push, PushObject, PushOptions } from '@ionic-native/push';
 // TODO:
 // import { Meteor } from 'meteor-client';

@@ -1,8 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { trigger, state, style, transition, animate, keyframes } from '@angular/core';
-import { NavController, NavParams, ViewController, ModalController,
-          LoadingController, AlertController } from 'ionic-angular';
-import { Observable, Subscription, Subject } from "rxjs";
+import { NavController, NavParams, ViewController, ModalController, LoadingController } from 'ionic-angular';
+import { Observable, Subscription } from "rxjs";
 import { MeteorObservable } from "meteor-rxjs";
 // TODO:
 // import { _ } from 'underscore';

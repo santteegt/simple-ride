@@ -13,8 +13,8 @@
 </ion-header>
 
 <ion-content>
-  <p *ngIf="!mytrips || mytrips.length == 0" class="loading-message">No has creado ningún viaje</p>
-  <img *ngIf="!mytrips || mytrips.length == 0" src="assets/not-found.png" class="not-found"/>
+  <p *ngIf="!hasPastTrips" class="loading-message">No has creado ningún viaje</p>
+  <img *ngIf="!hasPastTrips" src="assets/not-found.png" class="not-found"/>
   <ion-card *ngFor="let trip of mytrips | async">
     <ion-card-title text-center>
       {{trip.origin.shortName}} - {{trip.destination.shortName}}

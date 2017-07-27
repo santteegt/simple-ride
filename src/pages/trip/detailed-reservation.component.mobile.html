@@ -1,7 +1,7 @@
 <ion-header>
-	<ion-navbar color="app" style="padding-top: 0; min-height: 64px">
-		<ion-buttons start>
-		  <button ion-button (click)="dismiss()" *ngIf="!isPushNav">
+	<ion-navbar color="app" style="padding-top: 4px">
+		<ion-buttons start *ngIf="!isPushNav">
+		  <button ion-button (click)="dismiss()">
 		    <span showWhen="ios">Cerrar</span>
 		    <ion-icon name="md-close" showWhen="android,windows"></ion-icon>
 		  </button>
@@ -30,7 +30,7 @@
 	  	</ion-card-header>
 		<ion-grid no-padding>
 			<ion-row>
-				<ion-col width-75>
+				<ion-col col-9>
 					<button ion-item no-lines detail-none (click)="openDriverProfile()">
 						<ion-avatar item-left>
 							<img src="assets/nobody.png" [hidden]="loadingImgs[driver.personData.profileImg]"  style="width: 50px; height: 50px;"/>
@@ -48,7 +48,7 @@
 				      	</div>
 			      	</button>
 				</ion-col>
-				<ion-col width-25 style="padding-top: 10px">
+				<ion-col col-3 style="padding-top: 10px">
 					<div class="card-box" style="border-bottom: 0">
   						<ion-row>
   							<ion-col ion-text color="app" class="trip-field">${{rsvp != undefined ? rsvp.total:trip.price}}</ion-col>
@@ -66,65 +66,65 @@
 			<ion-row>
 				<ion-col width-50 class="detail-box">
 					<ion-row>
-						<ion-col ion-text color="app" no-padding>
+						<ion-col ion-text color="app">
 							<strong>Itinerario</strong>
 						</ion-col>
 					</ion-row>
 					<ion-row>
-						<ion-col width-25 class="trip-detail-box">
+						<ion-col col-3 class="trip-detail-box">
 							<strong>{{trip.departureTime}}</strong>
 						</ion-col>
-						<ion-col width-75>
+						<ion-col col-9>
 						</ion-col>
 					</ion-row>
 					<ion-row>
-						<ion-col width-25 style="text-align: center; padding: 2px">
+						<ion-col col-3 style="text-align: center; padding: 2px">
 							<ion-icon name="ios-car-outline"></ion-icon>
 						</ion-col>
-						<ion-col width-75 style="font-size: 0.7em; padding: 2px">
+						<ion-col col-9 style="font-size: 0.7em; padding: 2px">
 							<div class="bullet-point"></div>
 							<div style="display: inline-block;padding-left: 5px;">{{trip.origin.shortName}}</div>
 						</ion-col>
 					</ion-row>
 					<ion-row>
-						<ion-col width-25 class="trip-detail-box">
+						<ion-col col-3 class="trip-detail-box">
 							|
 						</ion-col>
-						<ion-col width-75 style="text-align: center">
+						<ion-col col-9 style="text-align: center">
 						</ion-col>
 					</ion-row>
 					<ion-row>
-						<ion-col width-25 class="trip-detail-box">
+						<ion-col col-3 class="trip-detail-box">
 							|
 						</ion-col>
-						<ion-col width-75>
+						<ion-col col-9>
 						</ion-col>
 					</ion-row>
 					<ion-row>
-						<ion-col width-25 class="trip-detail-box">
+						<ion-col col-3 class="trip-detail-box">
 							|
 						</ion-col>
-						<ion-col width-75>
+						<ion-col col-9>
 						</ion-col>
 					</ion-row>
 					<ion-row>
-						<ion-col width-25 style="text-align: center; padding: 2px">
+						<ion-col col-3 style="text-align: center; padding: 2px">
 							<ion-icon name="ios-pin-outline"></ion-icon>
 						</ion-col>
-						<ion-col width-75 style="font-size: 0.7em; padding: 2px">
+						<ion-col col-9 style="font-size: 0.7em; padding: 2px">
 							<div class="bullet-point"></div>
 							<div style="display: inline-block;padding-left: 5px;">{{trip.destination.shortName}}</div>
 						</ion-col>
 					</ion-row>
 					<ion-row>
-						<ion-col width-25 class="trip-detail-box">
+						<ion-col col-3 class="trip-detail-box">
 							<strong>{{tripUtils.secondsToHm(trip.estimatedTime)}}</strong>
 						</ion-col>
-						<ion-col width-75>
+						<ion-col col-9>
 						</ion-col>
 					</ion-row>
 
-					<ion-row>
+					<!-- <ion-row>
 						<ion-col ion-text color="app" no-padding>
 							<strong>Permitido</strong>
 						</ion-col>
@@ -152,11 +152,11 @@
 							</ion-col>
 
 						</ion-row>
-					</div>
+					</div> -->
 
 				</ion-col>
 
-				<ion-col width-50 class="app-background">
+				<ion-col width-50 class="app-background" style="padding-top: 5px">
 
 					<ion-row style="font-size: 0.8em">
 						<ion-col style="padding: 0 5px">
@@ -227,10 +227,10 @@
 					<!-- VISIBLE ONLY WHEN USER IS LOOKING FOR TRIP DETAILS -->
 					<!-- ************************************************** -->
 
-					<ion-row padding-top *ngIf="!rsvp">
+					<ion-row style="padding-top: 5px" *ngIf="!rsvp">
 						<ion-col width-50>
 							<div class="card-box" style="background-color: white; border-radius: 5px">
-		  						<ion-row>
+		  						<ion-row style="padding-top: 3px">
 		  							<ion-col ion-text color="app" class="trip-field">{{trip.available_places}}</ion-col>
 		  						</ion-row>
 		  						<ion-row style="font-size: 0.8em">
@@ -277,9 +277,58 @@
 
 		</ion-grid>
 
-		<ion-card-content>
-			<p style="text-align: justify"><b>Lugar de partida:</b> {{trip.departureAddress ? trip.departureAddress: 'No se ha detallado lugar de partida'}}</p>
-			<p style="text-align: center"><b>Comentarios:</b></p>
+		<ion-card-content style="padding: 5px 5px">
+			<ion-grid no-padding style="padding-bottom: 10px">
+				<ion-row>
+					<ion-col ion-text color="app" no-padding>
+						<strong>Permitido</strong>
+					</ion-col>
+				</ion-row>
+
+				<div style="font-size: 0.7em">
+					<ion-row>
+						<ion-col no-padding style="padding-left: 10px" col-4>
+							<ion-icon name="briefcase"></ion-icon> Maleta de mano
+						</ion-col>
+						<ion-col no-padding col-2 style="text-align: center;">
+							<ion-icon name="ios-close-circle" color="danger" *ngIf="!trip.options.handBaggage"></ion-icon><ion-icon name="ios-checkmark-circle" color="secondary" *ngIf="trip.options.handBaggage"></ion-icon>
+						</ion-col>
+						<ion-col no-padding style="padding-left: 10px" col-4>
+							<ion-icon name="man"></ion-icon> Niños
+						</ion-col>
+						<ion-col no-padding col-2 style="text-align: center;">
+							<ion-icon name="ios-close-circle" color="danger" *ngIf="!trip.options.children"></ion-icon><ion-icon name="ios-checkmark-circle" color="secondary" *ngIf="trip.options.children"></ion-icon>
+						</ion-col>
+						<ion-col no-padding style="padding-left: 10px" col-4>
+							<ion-icon name="briefcase"></ion-icon> Maleta
+						</ion-col>
+						<ion-col no-padding col-2 style="text-align: center;">
+							<ion-icon name="ios-close-circle" color="danger" *ngIf="!trip.options.baggage"></ion-icon><ion-icon name="ios-checkmark-circle" color="secondary" *ngIf="trip.options.baggage"></ion-icon>
+						</ion-col>
+						<ion-col no-padding style="padding-left: 10px" col-4>
+							<ion-icon name="paw"></ion-icon> Mascotas
+						</ion-col>
+						<ion-col no-padding col-2 style="text-align: center">
+							<ion-icon name="ios-close-circle" color="danger" *ngIf="!trip.options.pets"></ion-icon><ion-icon name="ios-checkmark-circle" color="secondary" *ngIf="trip.options.pets"></ion-icon>
+						</ion-col>
+						<ion-col no-padding style="padding-left: 10px" col-4>
+							<ion-icon name="no-smoking"></ion-icon> Fumar
+						</ion-col>
+						<ion-col no-padding col-2 style="text-align: center">
+							<ion-icon name="ios-close-circle" color="danger" *ngIf="!trip.options.smoking"></ion-icon><ion-icon name="ios-checkmark-circle" color="secondary" *ngIf="trip.options.smoking"></ion-icon>
+						</ion-col>
+						<ion-col no-padding style="padding-left: 10px" col-4>
+							<ion-icon name="pizza"></ion-icon> Comer
+						</ion-col>
+						<ion-col no-padding col-2 style="text-align: center">
+							<ion-icon name="ios-close-circle" color="danger" *ngIf="!trip.options.food"></ion-icon><ion-icon name="ios-checkmark-circle" color="secondary" *ngIf="trip.options.food"></ion-icon>
+						</ion-col>
+
+					</ion-row>
+				</div>
+			</ion-grid>
+			<p style="text-align: justify"><b ion-text color="app">Lugar de partida: </b> {{trip.departureAddress ? trip.departureAddress: 'No se ha detallado lugar de partida'}}</p>
+			<p style="text-align: center"><b ion-text color="app">Comentarios:</b></p>
 			<p style="text-align: justify;"><br/> {{trip.comments ? trip.comments: 'No se han detallado observaciones'}}</p>
 		</ion-card-content>
 	</ion-card>
@@ -328,7 +377,7 @@
 	</ion-list>
 	<ion-row>
 		<ion-col>
-			<button *ngIf="rsvp === undefined" color="app" ion-button block (click)="openCheckout(trip._id)"><ion-icon name='hand'></ion-icon>Unirme</button>
+			<button *ngIf="rsvp === undefined" color="app" ion-button block (click)="openCheckout(trip._id)"><ion-icon name='hand'></ion-icon>   Unirme</button>
 		</ion-col>
 	</ion-row>
 </ion-content>

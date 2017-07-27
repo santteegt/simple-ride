@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 // TODO:
 // import { Meteor } from 'meteor-client';
 declare var Meteor;
@@ -9,10 +9,11 @@ import { Keyboard } from '@ionic-native/keyboard';
 
 import { UserRegistration } from "../../classes/user-registration.class";
 
-import { CarRegistrationMobileComponent } from "./car-registration.component.mobile";
+// import { CarRegistrationMobileComponent } from "./car-registration.component.mobile";
 import { TermsOfServiceMobileComponent } from "../terms/terms-service.component.mobile";
 
-import { UserRecord, CONVERSATIONSTYLES } from '../../shared/models';
+// import { UserRecord } from '../../shared/models';
+import { CONVERSATIONSTYLES } from '../../shared/models';
 import { PoliceRecord } from '../../shared/models/policy.structures';
 
 import { GeolocationService } from "../../classes/services/geolocation.service";

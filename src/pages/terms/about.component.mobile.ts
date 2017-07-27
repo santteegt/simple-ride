@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
 
 import { App, Platform, NavParams, ViewController } from 'ionic-angular';
-
-// TODO:
-// declare var cordova;
+import { AppVersion } from '@ionic-native/app-version';
 
 @Component({
   templateUrl: 'about.component.mobile.html'
@@ -14,15 +12,17 @@ export class AboutMobileComponent {
 	versionNumber: any;
 
 	constructor(private platform: Platform, private params: NavParams, private viewCtrl: ViewController,
-		private app: App) {
+		private app: App, private appVersion: AppVersion) {
 
-    // TODO:
-		// cordova.getAppVersion.getVersionCode().then((versionCode) => {
-		// 	this.versionCode = versionCode;
-		// });
-		// cordova.getAppVersion.getVersionNumber().then((versionNumber) => {
-		// 	this.versionNumber = versionNumber;
-		// });
+		if(platform.is('cordova')) {
+
+			this.appVersion.getVersionCode().then((versionCode) => {
+				this.versionCode = versionCode;
+			});
+			this.appVersion.getVersionNumber().then((versionNumber) => {
+				this.versionNumber = versionNumber;
+			});
+		}
 
 	}
 

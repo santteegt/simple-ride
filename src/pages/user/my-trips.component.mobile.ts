@@ -5,10 +5,11 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 // import { _ } from 'underscore';
 declare var Meteor;
 declare var _;
-import { NavController, NavParams, ViewController, AlertController,
+import { NavController, NavParams, ViewController, AlertController, Platform,
 		LoadingController, PopoverController, ModalController} from 'ionic-angular';
 import { Observable, Subscription } from "rxjs";
 import { MeteorObservable } from "meteor-rxjs";
+import { SocialSharing } from '@ionic-native/social-sharing';
 
 import { TripMobileComponent } from '../trip/trip.component.mobile';
 import { UserProfileMobileComponent } from './user-profile.component.mobile';
@@ -75,7 +76,8 @@ export class MyTripsMobileComponent implements OnInit, OnDestroy {
 
 	constructor(private navCtrl: NavController, navParams: NavParams, private viewCtrl: ViewController,
 		private alertCtrl: AlertController, private loadingCtrl: LoadingController,
-		private modalCtrl: ModalController, private popoverCtrl: PopoverController) {
+		private modalCtrl: ModalController, private popoverCtrl: PopoverController,
+		private platform: Platform, private socialSharing: SocialSharing) {
 
 		this.card = "reservations";
 		this.trips = [];
@@ -432,5 +434,37 @@ export class MyTripsMobileComponent implements OnInit, OnDestroy {
 	dismiss() {
 		this.viewCtrl.dismiss();
 	}
+
+	shareTrip(trip: Trip) {
+	    if(this.platform.is('cordova')) {
+	      this.loader = this.loadingCtrl.create({
+	        content: "Compartiendo viaje...",
+	        spinner: "crescent"
+	      });
+	      this.loader.present();
+	    
+	      let tripDay: String = this.getTripDay(trip.departureDate);
+	      let message = 'Estoy viajando a' + trip.destination.shortName + tripDay + ' ' + trip.departureDate.toLocaleDateString();
+
+	      this.socialSharing.shareViaFacebookWithPasteMessageHint('Message via Facebook', 'http://simpleride-ec.com/sharing-image.png',
+	        'http://simpleride-ec.com/' + 'share/trip/' + trip._id, message)
+	      .then(() => {
+	          this.loader.dismiss();
+	      })
+	      .catch((errormsg) => {
+	          this.loader.dismiss();
+	          if(errormsg != 'cancelled') {
+	            alert('Ha ocurrido un error al compartir. Inténtelo nuevamente');
+	          }
+	          console.log(errormsg);
+	      });
+
+	    } else {
+
+	      alert('Compartir no habilitado en tu plataforma');
+
+	    }
+
+ 	}
 
 }

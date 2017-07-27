@@ -30,7 +30,7 @@
         </ion-item>
 
         <div padding>
-          <button ion-button block color="secondary" block (click)="validateCar()">Buscar</button>
+          <button ion-button block color="app" block (click)="validateCar()">Buscar</button>
         </div>
 
       </ion-list>
@@ -38,7 +38,7 @@
 
 
       <div padding *ngIf="validRegister">
-        <ion-segment [(ngModel)]="card">
+        <ion-segment [(ngModel)]="card" color="app">
           <ion-segment-button value="Matricula">
             Matrícula
           </ion-segment-button>
@@ -103,26 +103,18 @@
             </ion-item>
 
             <ion-row>
-              <ion-col width-10>
-              </ion-col>
-              <ion-col width-40>
+              <ion-col ion-text color="app" style="padding-left: 10px; text-align: left">
                 <span><b>Puntos licencia:</b></span>
               </ion-col>
-              <ion-col width-10>
-              </ion-col>
-              <ion-col width-40 style="text-align: center">
+              <ion-col style="text-align: center">
                 <span>{{licenseRecord.license_info.points}} puntos</span>
               </ion-col>
             </ion-row>
             <ion-row>
-              <ion-col width-10>
-              </ion-col>
-              <ion-col width-40>
+              <ion-col ion-text color="app" style="padding-left: 10px; text-align: left">
                 <span><b>Valida Hasta:</b></span>
               </ion-col>
-              <ion-col width-10>
-              </ion-col>
-              <ion-col width-40 style="text-align: center">
+              <ion-col style="text-align: center">
                 <span>{{licenseRecord.license_info.license_expire}}</span>
               </ion-col>
             </ion-row>

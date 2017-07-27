@@ -1,7 +1,6 @@
 // TODO:
 // import {Meteor} from 'meteor-client';
 declare var Meteor;
-import {Platform} from 'ionic-angular';
 import {Injectable} from '@angular/core';
 
 @Injectable()

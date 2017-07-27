@@ -6,9 +6,9 @@ import { CarRecord } from '../models/car-record.model';
  
 export const CarRecords = new MongoObservable.Collection<CarRecord>('carrecords');
 
-function loggedIn() {
-  return !!Meteor.user();
-}
+// function loggedIn() {
+//   return !!Meteor.user();
+// }
 
  
 CarRecords.allow({

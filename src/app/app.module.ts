@@ -8,6 +8,8 @@ import { BackgroundGeolocation } from '@ionic-native/background-geolocation';
 import { Geolocation } from '@ionic-native/geolocation';
 import { Camera } from '@ionic-native/camera';
 import { Push } from '@ionic-native/push';
+import { AppVersion } from '@ionic-native/app-version';
+import { SocialSharing } from '@ionic-native/social-sharing';
 import { IonCalendarModule } from "@ionic2-extra/calendar";
 
 import { MyApp } from './app.component.mobile';
@@ -41,7 +43,9 @@ import { SHARED_DECLARATIONS } from '../classes/shared';
     BackgroundGeolocation,
     Geolocation,
     Camera,
-    Push
+    Push,
+    AppVersion,
+    SocialSharing
   ]
 })
 export class AppModule {}

@@ -1,5 +1,5 @@
 <ion-header>
-	<ion-navbar color="app" style="padding-top: 4px; min-height: 64px">
+	<ion-navbar color="app" style="padding-top: 4px;">
 		<ion-buttons start>
 		  <button ion-button (click)="dismiss()" *ngIf="!isPushNav">
 		    <span showWhen="ios">Cerrar</span>
@@ -39,21 +39,22 @@
 
 		  		<div style="margin-top: 10px;" *ngIf="msg.message_type == 'user'">
 		  			<ion-row no-padding>
-		  				<ion-col width-20>
+		  				<ion-col col-3 [attr.push-9]="msg.user_id == user._id ? '':null">
 		  				</ion-col>
-		  				<ion-col width-80 style="padding: 0 5px; font-size: 0.8em;">
-		  					{{msg.user_forename}} {{msg.user_surname}}
+		  				<ion-col col-9 style="padding: 0 5px; font-size: 0.8em;" [attr.pull-3]="msg.user_id == user._id ? '':null">
+		  					{{msg.user_id == user._id ? 'Tu':msg.user_forename}} {{msg.user_id == user._id ? '':msg.user_surname}}
 		  				</ion-col>
 		  			</ion-row>
 		  			<ion-row no-padding>
-		  				<ion-col width-20>
+		  				<ion-col col-3 [attr.push-9]="msg.user_id == user._id ? '':null">
 		  				</ion-col>
-		  				<ion-col width-80 style="padding: 0 5px; font-size: 0.8em;">
+		  				<ion-col col-9 style="padding: 0 5px; font-size: 0.8em;" [attr.pull-3]="msg.user_id == user._id ? '':null">
 		  					{{msg.is_driver ? 'Conductor':'Pasajero'}}
 		  				</ion-col>
 		  			</ion-row>
+		            <!-- <ion-row align-items-start *ngIf="msg.user_id != user._id"> -->
 		            <ion-row>
-		              <ion-col width-20>
+		              <ion-col col-3 [attr.push-9]="msg.user_id == user._id ? '':null">
 		                <button ion-item no-lines detail-none style="background: transparent;">
 		                  <ion-avatar item-left>
 		                    <img src="assets/nobody.png" [hidden]="loadingImgs[msg.user_id]"  style="width: 35px; height: 35px;"/>
@@ -63,18 +64,18 @@
 		                  <p style="color: white">{{'Conductor'}}</p> -->
 		                </button>
 		              </ion-col>
-		              <ion-col>
-										<div class="message-bubble">
-		                	<p style="padding: 0px 16px; text-align: start">{{msg.message}}</p>
-										</div>
+		              <ion-col col-9 [attr.pull-3]="msg.user_id == user._id ? '':null">
+							<div class="message-bubble">
+		                		<p style="padding: 0px 16px; text-align: start">{{msg.message}}</p>
+							</div>
 		              </ion-col>
 		            </ion-row>
-		            <!-- <ion-row>
-
-		            </ion-row> -->
 
 		            <ion-row>
-		            	<ion-col style="text-align: right; font-size: 0.8em; padding: 0 5px;">
+		            	<ion-col style="text-align: right; font-size: 0.8em; padding: 0 5px;" *ngIf="msg.user_id != user._id">
+		            		{{msg.message_date.toLocaleDateString()}} {{msg.message_time}}
+		            	</ion-col>
+		            	<ion-col style="text-align: left; font-size: 0.8em; padding: 0 5px;" *ngIf="msg.user_id == user._id">
 		            		{{msg.message_date.toLocaleDateString()}} {{msg.message_time}}
 		            	</ion-col>
 		            </ion-row>
@@ -90,10 +91,10 @@
     <ion-toolbar>
       	<ion-grid no-padding>
 			<ion-row>
-				<ion-col width-80 style="border: 1px solid #c4c4c4; border-radius: 5px;" no-padding>
+				<ion-col col-10 style="border: 1px solid #c4c4c4; border-radius: 5px;" no-padding>
 					<ion-textarea keyboardFix [(ngModel)]="message" type="text" placeholder="Escribe un mensaje..." style="border: 1px solid black #C4C4C4" #messageInput></ion-textarea>
 				</ion-col>
-				<ion-col width-20>
+				<ion-col col-2>
 					<button color="app" ion-button icon-only [disabled]="!message || message.length == 0" (click)="sendMessage($event)">
 			    		<ion-icon name="send"></ion-icon>
 			    	</button>

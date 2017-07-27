@@ -11,7 +11,7 @@ declare var navigator;
   selector: 'search-location',
   templateUrl: 'search-location.component.mobile.html'
 })
-export class SearchLocationMobileComponent implements OnInit {
+export class SearchLocationMobileComponent implements OnInit, OnDestroy {
 
 	@ViewChild('searchbar') searchBar: Searchbar;
 
@@ -63,6 +63,10 @@ export class SearchLocationMobileComponent implements OnInit {
         // fields in the form.
         // this.autocomplete.addListener('place_changed', this.setTargetAddress);
 
+	}
+
+	ngOnDestroy() {
+		
 	}
 
 	getNearByLocations() {

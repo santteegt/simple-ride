@@ -6,7 +6,7 @@ import { Geolocation } from '@ionic-native/geolocation';
 import { Platform } from 'ionic-angular';
 import { BackgroundGeolocation, BackgroundGeolocationConfig, BackgroundGeolocationResponse } from '@ionic-native/background-geolocation';
 
-import { UserTripFlag, GLocation } from "../../shared/models";
+import { UserTripFlag } from "../../shared/models";
 import { UserRideMonitors } from "../../shared/collections";
 
 // TODO:

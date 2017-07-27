@@ -5,6 +5,7 @@ import { Platform, NavController, NavParams, ViewController, ModalController, Lo
 import { Subscription } from "rxjs";
 import { MeteorObservable } from "meteor-rxjs";
 import { StatusBar } from "@ionic-native/status-bar";
+import { SocialSharing } from '@ionic-native/social-sharing';
 // TODO:
 // import { _ } from 'meteor/underscore';
 declare var _;
@@ -128,7 +129,7 @@ export class DashboardMobileComponent extends Dashboard implements OnInit, OnDes
   constructor(private platform: Platform, private navCtrl: NavController, navParams: NavParams, private viewCtrl: ViewController,
   	private modalCtrl: ModalController, private loadingCtrl: LoadingController, private menuCtrl: MenuController,
   	private geoService: GeolocationService, private isDriverPipe: IsDriverPipe, private alertCtrl: AlertController,
-    private statusBar: StatusBar) {
+    private statusBar: StatusBar, private socialSharing: SocialSharing) {
     super("Hello mobile World!");
 
     this.searchBar = false;
@@ -295,7 +296,7 @@ export class DashboardMobileComponent extends Dashboard implements OnInit, OnDes
   	  		let date = new Date();
   	  		const threshold = 30 * 60000; // 30 minutes ahead
   	  		date = new Date(date.getTime() + threshold);
-  	  		let time = date.getHours().toString() + ':' + date.getMinutes().toString();
+  	  		// let time = date.getHours().toString() + ':' + date.getMinutes().toString();
 
   			this.tripsOverview = Trips.find({
   				cancellation_reason: undefined,
@@ -447,44 +448,26 @@ export class DashboardMobileComponent extends Dashboard implements OnInit, OnDes
         spinner: "crescent"
       });
       this.loader.present();
-      var options = {
-        message: 'share this', // not supported on some apps (Facebook, Instagram)
-        subject: 'the subject', // fi. for email
-        // files: ['/assets/default-avatar.png'],
-        url: 'http://simpleride-ec.com',
-        chooserTitle: 'Simple Ride' // Android only, you can override the default share sheet title
-      }
+    
+      let tripDay: String = this.getTripDay(trip.departureDate);
+      let message = 'Estoy viajando a' + trip.destination.shortName + tripDay + ' ' + trip.departureDate.toLocaleDateString();
 
-      var onSuccess = function(result) {
-        console.log("Share completed? " + result.completed); // On Android apps mostly return false even while it's true
-        console.log("Shared to app: " + result.app); // On Android result.app is currently empty. On iOS it's empty when sharing is cancelled (result.completed=false)
-      }
-
-      var onError = function(msg) {
-        console.log("Sharing failed with message: " + msg);
-      }
-
-      // window['plugins'].socialsharing.shareWithOptions(options, onSuccess, onError);
-
-      // window['plugins'].socialsharing.shareViaFacebook('Message via Facebook', document.baseURI + 'sharing-image.png', document.baseURI + 'share/trip/' + trip._id,
-      //   function() {console.log('share ok')}, function(errormsg){console.log(errormsg)})
-
-      window['plugins'].socialsharing.shareViaFacebook('Message via Facebook', 'http://simpleride-ec.com/sharing-image.png',
-        'http://simpleride-ec.com/' + 'share/trip/' + trip._id, // + '?_escaped_fragment_=',
-        () => { // on success
+      this.socialSharing.shareViaFacebookWithPasteMessageHint('Message via Facebook', 'http://simpleride-ec.com/sharing-image.png',
+        'http://simpleride-ec.com/' + 'share/trip/' + trip._id, message)
+      .then(() => {
           this.loader.dismiss();
-        },
-        (errormsg) => {
+      })
+      .catch((errormsg) => {
           this.loader.dismiss();
           if(errormsg != 'cancelled') {
             alert('Ha ocurrido un error al compartir. Inténtelo nuevamente');
           }
           console.log(errormsg);
-
-        }
-      );
+      });
 
     } else {
+
+      alert('Compartir no habilitado en tu plataforma');
 
     }
 
@@ -524,5 +507,41 @@ export class DashboardMobileComponent extends Dashboard implements OnInit, OnDes
           console.log(error);
         });
     }
+
+  getTripDay(date: Date) {
+    let day: string;
+    const today = new Date();
+    if(today.getDate() == date.getDate() && today.getMonth() == date.getMonth() && today.getFullYear() == date.getFullYear()) {
+      day = " Hoy";
+    } else {
+      day = " el ";
+      switch(date.getDay()) {
+        case 0:
+          day += "Domingo";
+          break;
+        case 1:
+          day += "Lunes";
+          break;
+        case 2:
+          day += "Martes";
+          break;
+        case 3:
+          day += "Miércoles";
+          break;
+        case 4:
+          day += "Jueves";
+          break;
+        case 5:
+          day += "Viernes";
+          break;
+        case 6:
+          day += "Sabado";
+          break;
+        default:
+          break;
+      }
+    }
+    return day;
+  }
 
 }

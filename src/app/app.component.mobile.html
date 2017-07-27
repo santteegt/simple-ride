@@ -6,7 +6,7 @@
           <img src="assets/nobody.png" [hidden]="imgLoaded"/>
           <img src="{{user | displayImage}}" (load)="imgLoaded = true" [hidden]="!imgLoaded">
 	      </ion-avatar>
-	      	<h2>{{user | displayName}}</h2>
+	      	<h2 style="color: white !important;">{{user | displayName}}</h2>
 	      	<p>Status:
             <span ion-text *ngIf="!verified" color="danger">No Verificado</span>
             <span ion-text *ngIf="verified" color="secondary">Verificado</span>
@@ -48,7 +48,7 @@
         <ion-badge color="{{notificationsCount == null || notificationsCount == 0 ? 'primary':'danger'}}" item-right>{{notificationsCount && notificationsCount > 0 ? notificationsCount:0}}</ion-badge>
       </ion-item>
       <button ion-item icon-left detail-none (click)="openPage(about, {})">
-        <ion-icon name="information-circle"></ion-icon>
+        <ion-icon name="information-circle" style="font-size: 1.2em"></ion-icon>
         Acerca de nosotros
       </button>
 
