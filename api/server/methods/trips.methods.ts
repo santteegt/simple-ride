@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { _ } from 'underscore';
 import { Push } from 'meteor/raix:push';
+import { Email } from 'meteor/email'
 
 import { Users } from '../../both/collections/users.collection';
 import { Places } from '../../both/collections/places.collection';

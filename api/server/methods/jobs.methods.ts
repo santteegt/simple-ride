@@ -1,5 +1,6 @@
 import { _ } from 'underscore';
 import { Push } from 'meteor/raix:push';
+import { Email } from 'meteor/email'
 
 import { Trips } from '../../both/collections/trips.collection';
 import { Trip } from '../../both/models/trip.model';
@@ -16,6 +17,21 @@ declare var SyncedCron;
 function generateUserVerificationCode(user_id: string, trip_id: string): string {
 	return trip_id.substr(0, 3) + user_id.substr(0, 3); 
 }
+
+// TODO: migrate email functionality
+// function getHTMLForEmail(title:string, text: string): string {
+// 	let content: string = '';
+// 	content += '<html>';
+// 	content += '<body>';
+// 	content += '  <div style="text-align: center; padding-top: 50px; background-color: #43338E; color: #fff; font-family: -apple-system, system-ui, BlinkMacSystemFont, Roboto, Arial, sans-serif;">';
+// 	content += '    <img src="http://simpleride-ec.com/assets/logo-home.svg" style="padding: 20px 0; width: 250px;"/>';
+// 	content += '    <h2 style="padding: 20px 0;">' + title + '</h2>';
+// 	content += '    <div style="padding-bottom: 50px;">' + text + '</div>';
+// 	content += '  </div>';
+// 	content += '</body>';
+// 	content += '</html>';
+// 	return content;
+// }
 
 SyncedCron.add({
   name: 'Activate users on trip mode',
@@ -137,6 +153,16 @@ SyncedCron.add({
 
 			    Push.send(push_body);
 
+			    // TODO: migrate email functionality
+			 //    let recipient = Users.findOne({_id: rsvp.user_id});
+				// if(recipient['personData']['email']){
+				// 	let to: string = recipient['personData']['email'];
+				// 	let from: string = 'info@simpleride-ec.com';
+				// 	let subject: string = 'Viaje a ' + trip.destination.shortName;
+				// 	let html: string = getHTMLForEmail(subject, 'Gracias por tu viaje. Recuerda calificar tu viaje entrando en nuestra app');
+				// 	Email.send({ to, from, subject, html });
+				// }
+
 			}
 
 			if(!rsvp.driver_rating && _.indexOf(notifiedUsers, rsvp.trip_id + '|' + rsvp.driver_id) == -1) {
@@ -184,6 +210,16 @@ SyncedCron.add({
 			    notifiedUsers.push(rsvp.trip_id + '|' + rsvp.driver_id);
 
 			    Push.send(push_body);
+
+			    // TODO: migrate email functionality
+			 //    let recipient = Users.findOne({_id: rsvp.driver_id});
+				// if(recipient['personData']['email']){
+				// 	let to: string = recipient['personData']['email'];
+				// 	let from: string = 'info@simpleride-ec.com';
+				// 	let subject: string = 'Viaje a ' + trip.destination.shortName;
+				// 	let html: string = getHTMLForEmail(subject, 'Gracias por tu viaje. Recuerda calificar a tus acompañantes entrando en nuestra app');
+				// 	Email.send({ to, from, subject, html });
+				// }
 
 			}
 		});
@@ -242,6 +278,16 @@ SyncedCron.add({
 		    });
 
 		    Push.send(push_body);
+
+		    // TODO: migrate email functionality
+		 //    let recipient = Users.findOne({_id: rsvp.user_id});
+			// if(recipient['personData']['email']){
+			// 	let to: string = recipient['personData']['email'];
+			// 	let from: string = 'info@simpleride-ec.com';
+			// 	let subject: string = 'Viaje a ' + trip.destination.shortName;
+			// 	let html: string = getHTMLForEmail(subject, 'Tu viaje ha sido reservado. Recuerda subir tu comprobante de pago desde nuestra app');
+			// 	Email.send({ to, from, subject, html });
+			// }
 
 		});
 

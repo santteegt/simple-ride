@@ -22,7 +22,9 @@ module.exports = {
     },
     env: {
       ROOT_URL: 'https://simpleride-ec.com/',
-      MONGO_URL: 'mongodb://localhost/meteor'
+      MONGO_URL: 'mongodb://localhost/meteor',
+      MAIL_URL: 'smtp://AKIAIOMAWOJNRT6PIZIQ:AsG95hdbC7gttdL+PNNorH8ohdK72x8S+nK7JtNEFAFT@email-smtp.us-west-2.amazonaws.com:587'
+
     },
     docker: {
       image: 'abernix/meteord:base'
