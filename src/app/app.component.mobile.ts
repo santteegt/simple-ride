@@ -98,8 +98,9 @@ export class MyApp {
       // Here you can do any higher level native things you might need.
       if(platform.is('cordova')) {
 
-        statusBar.styleDefault();
-        splashScreen.hide();
+        this.statusBar.styleDefault();
+        this.statusBar.hide();
+        // splashScreen.hide();
 
         this.keyboard.disableScroll(true);
         this.keyboard.hideKeyboardAccessoryBar(false);

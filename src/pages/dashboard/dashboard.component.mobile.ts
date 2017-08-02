@@ -175,6 +175,13 @@ export class DashboardMobileComponent extends Dashboard implements OnInit, OnDes
   ngOnInit() {
     this.menuCtrl.enable(true);
 
+    if(this.platform.is('cordova')) {
+      this.statusBar.overlaysWebView(false);
+      this.statusBar.styleLightContent()
+      this.statusBar.backgroundColorByHexString('43338E');
+      this.statusBar.show();
+    }
+
     MeteorObservable.autorun().subscribe(() => {
       this.user = Meteor.user();
     });
@@ -213,10 +220,6 @@ export class DashboardMobileComponent extends Dashboard implements OnInit, OnDes
         this.notificationsCount = Counts.get('notificationsCount');
       });
     });
-
-    if(this.platform.is('cordova')) {
-      this.statusBar.show();
-    }
 
   }
 
