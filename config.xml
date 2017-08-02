@@ -27,11 +27,13 @@
     <platform name="android">
         <allow-intent href="market:*" />
         <icon density="mdpi" src="resources/android/icon/android_mdpi.png" />
+        <icon density="ldpi" src="resources/android/icon/android_ldpi.png" />
         <icon density="hdpi" src="resources/android/icon/android_hdpi.png" />
         <icon density="xhdpi" src="resources/android/icon/android_xhdpi.png" />
         <icon density="xxhdpi" src="resources/android/icon/android_xxhdpi.png" />
         <icon density="xxxhdpi" src="resources/android/icon/android_xxxhdpi.png" />
         <splash density="port-mdpi" src="resources/android/splash/android_mdpi_portrait.png" />
+        <splash density="port-ldpi" src="resources/android/splash/android_ldpi_portrait.png" />
         <splash density="port-hdpi" src="resources/android/splash/android_hdpi_portrait.png" />
         <splash density="port-xhdpi" src="resources/android/splash/android_xhdpi_portrai.png" />
         <splash density="port-xxhdpi" src="resources/android/splash/android_xxhdpi_portrait.png" />

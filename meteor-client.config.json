@@ -1,7 +1,7 @@
 {
   "runtime": {
-    "DDP_DEFAULT_CONNECTION_URL": "http://simpleride-ec.com",
-    "ROOT_URL": "http://simpleride-ec.com"
+    "DDP_DEFAULT_CONNECTION_URL": "https://simpleride-ec.com",
+    "ROOT_URL": "https://simpleride-ec.com"
   },
   "import": [
 
