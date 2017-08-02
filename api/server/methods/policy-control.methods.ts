@@ -47,7 +47,7 @@ Meteor.methods({
 			    }
 			 }
 	  		let rs = Meteor['http'].call("GET",
-	  			"https://sistemaunico.ant.gob.ec:5038/PortalWEB/paginas/clientes/clp_grid_citaciones.jsp?ps_tipo_identificacion=PLA&ps_identificacion="
+	  			"http://sistemaunico.ant.gob.ec:6033/PortalWEB/paginas/clientes/clp_grid_citaciones.jsp?ps_tipo_identificacion=PLA&ps_identificacion="
 	  			+ car_id.toUpperCase() + "&ps_placa=", requestOptions);
 	  		if(rs.statusCode == 200) {
 
@@ -111,7 +111,7 @@ Meteor.methods({
 			    }
 			 }
 	  		let rs = Meteor['http'].call("GET",
-	  			"https://sistemaunico.ant.gob.ec:5038/PortalWEB/paginas/clientes/clp_grid_citaciones.jsp?ps_tipo_identificacion=CED&ps_identificacion="
+	  			"http://sistemaunico.ant.gob.ec:6033/PortalWEB/paginas/clientes/clp_grid_citaciones.jsp?ps_tipo_identificacion=CED&ps_identificacion="
 	  			+ person_id + "&ps_placa=", requestOptions);
 
 	  		if(rs.statusCode == 200) {
