@@ -23,7 +23,7 @@ function getHTMLForEmail(title:string, text: string): string {
 	content += '<html>';
 	content += '<body>';
 	content += '  <div style="text-align: center; padding-top: 50px; background-color: #43338E; color: #fff; font-family: -apple-system, system-ui, BlinkMacSystemFont, Roboto, Arial, sans-serif;">';
-	content += '    <img src="http://simpleride-ec.com/assets/logo-home.svg" style="padding: 20px 0; width: 250px;"/>';
+	content += '    <img src="http://simpleride-ec.com/assets/logo.png" style="padding: 20px 0; width: 250px;"/>';
 	content += '    <h2 style="padding: 20px 0;">' + title + '</h2>';
 	content += '    <div style="padding-bottom: 50px;">' + text + '</div>';
 	content += '  </div>';
