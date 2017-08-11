@@ -15,23 +15,22 @@ import { Users } from '../../both/collections/users.collection';
 declare var SyncedCron;
 
 function generateUserVerificationCode(user_id: string, trip_id: string): string {
-	return trip_id.substr(0, 3) + user_id.substr(0, 3); 
+	return trip_id.substr(0, 3) + user_id.substr(0, 3);
 }
 
-// TODO: migrate email functionality
-// function getHTMLForEmail(title:string, text: string): string {
-// 	let content: string = '';
-// 	content += '<html>';
-// 	content += '<body>';
-// 	content += '  <div style="text-align: center; padding-top: 50px; background-color: #43338E; color: #fff; font-family: -apple-system, system-ui, BlinkMacSystemFont, Roboto, Arial, sans-serif;">';
-// 	content += '    <img src="http://simpleride-ec.com/assets/logo-home.svg" style="padding: 20px 0; width: 250px;"/>';
-// 	content += '    <h2 style="padding: 20px 0;">' + title + '</h2>';
-// 	content += '    <div style="padding-bottom: 50px;">' + text + '</div>';
-// 	content += '  </div>';
-// 	content += '</body>';
-// 	content += '</html>';
-// 	return content;
-// }
+function getHTMLForEmail(title:string, text: string): string {
+	let content: string = '';
+	content += '<html>';
+	content += '<body>';
+	content += '  <div style="text-align: center; padding-top: 50px; background-color: #43338E; color: #fff; font-family: -apple-system, system-ui, BlinkMacSystemFont, Roboto, Arial, sans-serif;">';
+	content += '    <img src="http://simpleride-ec.com/assets/logo-home.svg" style="padding: 20px 0; width: 250px;"/>';
+	content += '    <h2 style="padding: 20px 0;">' + title + '</h2>';
+	content += '    <div style="padding-bottom: 50px;">' + text + '</div>';
+	content += '  </div>';
+	content += '</body>';
+	content += '</html>';
+	return content;
+}
 
 SyncedCron.add({
   name: 'Activate users on trip mode',
@@ -56,8 +55,8 @@ SyncedCron.add({
 
 	_.each(tripList, function(trip: Trip) {
 		UserTripFlags.insert({
-			'user_id': trip.driver_id, 
-			'isDriver': true, 
+			'user_id': trip.driver_id,
+			'isDriver': true,
 			'trip_id': trip._id,
 			'active': true,
 			'departure_date': trip.departureDate
@@ -72,7 +71,7 @@ SyncedCron.add({
 		});
 
 		let rsvpList = Reservations.find({
-			'trip_id': {$in: trip_ids}, 
+			'trip_id': {$in: trip_ids},
 			'payment_status': RESERVATIONSTATUS.PROCESSED,
 			'cancellation_date': undefined
 		}).fetch();
@@ -94,7 +93,7 @@ SyncedCron.add({
 	} else {
 		console.log('RIGHT NOW THERE ARE NO TRIPS SCHEDULED');
 	}
-    
+
   }
 });
 
@@ -126,7 +125,7 @@ SyncedCron.add({
 		_.each(rsvpList, function(rsvp: Reservation) {
 			let trip: Trip = undefined;
 			if(!rsvp.user_rating && _.indexOf(notifiedUsers, rsvp.trip_id + '|' + rsvp.user_id) == -1) {
-				
+
 				trip = Trips.findOne({_id: rsvp.trip_id});
 				let user = Users.findOne({_id: rsvp.driver_id});
 
@@ -153,15 +152,14 @@ SyncedCron.add({
 
 			    Push.send(push_body);
 
-			    // TODO: migrate email functionality
-			 //    let recipient = Users.findOne({_id: rsvp.user_id});
-				// if(recipient['personData']['email']){
-				// 	let to: string = recipient['personData']['email'];
-				// 	let from: string = 'info@simpleride-ec.com';
-				// 	let subject: string = 'Viaje a ' + trip.destination.shortName;
-				// 	let html: string = getHTMLForEmail(subject, 'Gracias por tu viaje. Recuerda calificar tu viaje entrando en nuestra app');
-				// 	Email.send({ to, from, subject, html });
-				// }
+			    let recipient = Users.findOne({_id: rsvp.user_id});
+					if(recipient['personData']['email']){
+						let to: string = recipient['personData']['email'];
+						let from: string = 'info@simpleride-ec.com';
+						let subject: string = 'Viaje a ' + trip.destination.shortName;
+						let html: string = getHTMLForEmail(subject, 'Gracias por tu viaje. Recuerda calificar tu viaje entrando en nuestra app');
+						Email.send({ to, from, subject, html });
+					}
 
 			}
 
@@ -211,15 +209,14 @@ SyncedCron.add({
 
 			    Push.send(push_body);
 
-			    // TODO: migrate email functionality
-			 //    let recipient = Users.findOne({_id: rsvp.driver_id});
-				// if(recipient['personData']['email']){
-				// 	let to: string = recipient['personData']['email'];
-				// 	let from: string = 'info@simpleride-ec.com';
-				// 	let subject: string = 'Viaje a ' + trip.destination.shortName;
-				// 	let html: string = getHTMLForEmail(subject, 'Gracias por tu viaje. Recuerda calificar a tus acompañantes entrando en nuestra app');
-				// 	Email.send({ to, from, subject, html });
-				// }
+			    let recipient = Users.findOne({_id: rsvp.driver_id});
+					if(recipient['personData']['email']){
+						let to: string = recipient['personData']['email'];
+						let from: string = 'info@simpleride-ec.com';
+						let subject: string = 'Viaje a ' + trip.destination.shortName;
+						let html: string = getHTMLForEmail(subject, 'Gracias por tu viaje. Recuerda calificar a tus acompañantes entrando en nuestra app');
+						Email.send({ to, from, subject, html });
+					}
 
 			}
 		});
@@ -229,7 +226,7 @@ SyncedCron.add({
 	}
 
   }
-    
+
 });
 
 SyncedCron.add({
@@ -279,15 +276,14 @@ SyncedCron.add({
 
 		    Push.send(push_body);
 
-		    // TODO: migrate email functionality
-		 //    let recipient = Users.findOne({_id: rsvp.user_id});
-			// if(recipient['personData']['email']){
-			// 	let to: string = recipient['personData']['email'];
-			// 	let from: string = 'info@simpleride-ec.com';
-			// 	let subject: string = 'Viaje a ' + trip.destination.shortName;
-			// 	let html: string = getHTMLForEmail(subject, 'Tu viaje ha sido reservado. Recuerda subir tu comprobante de pago desde nuestra app');
-			// 	Email.send({ to, from, subject, html });
-			// }
+		    let recipient = Users.findOne({_id: rsvp.user_id});
+				if(recipient['personData']['email']){
+					let to: string = recipient['personData']['email'];
+					let from: string = 'info@simpleride-ec.com';
+					let subject: string = 'Viaje a ' + trip.destination.shortName;
+					let html: string = getHTMLForEmail(subject, 'Tu viaje ha sido reservado. Recuerda subir tu comprobante de pago desde nuestra app');
+					Email.send({ to, from, subject, html });
+				}
 
 		});
 

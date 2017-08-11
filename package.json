@@ -11,7 +11,7 @@
         "ionic:build": "ionic-app-scripts build",
         "ionic:serve": "ionic-app-scripts serve",
         "meteor-client:bundle": "meteor-client bundle -s api/ -c meteor-client.config.json",
-        "api": "cd api && export ROOT_URL=http://simpleride-ec.com && meteor run --settings private/settings.json",
+        "api": "cd api && export ROOT_URL=http://simpleride-ec.com && export MAIL_URL=smtp://AKIAIOMAWOJNRT6PIZIQ:AsG95hdbC7gttdL+PNNorH8ohdK72x8S+nK7JtNEFAFT@email-smtp.us-west-2.amazonaws.com:587 && meteor run --settings private/settings.json",
         "api:reset": "cd api && export ROOT_URL=http://simpleride-ec.com && meteor reset"
     },
     "dependencies": {
