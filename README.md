@@ -44,6 +44,21 @@ ionic cordova run [android|ios] # run on a connected device
 ionic cordova run [android|ios] --prod --release # run on a connected device for production testing
 ```
 
+When running for android, if gradle gives problems, add the following to the end of platforms/android/build.gradle
+
+```
+configurations.all {
+    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+        def requested = details.requested
+        if (requested.group == 'com.android.support') {
+            if (!requested.name.startsWith("multidex")) {
+                details.useVersion '25.3.1'
+            }
+        }
+    }
+}
+```
+
 ## Backend Setup
 
 * Configure Server IP address in the `api/package.json` script accordingly
