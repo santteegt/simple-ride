@@ -270,7 +270,7 @@ Meteor.methods({
 
 	getSuggestedPrice: function(distance: number){
 		let kmPrice: number = 0;
-		let suggestedPrice: number;
+		let suggestedPrice: number, minPrice: number;
 		if(distance >= 0 && distance <= 50){
 			kmPrice = 0.021;
 		}else if(distance > 50 && distance <= 100){
@@ -289,11 +289,15 @@ Meteor.methods({
 			kmPrice = 0.013;
 		}
 		suggestedPrice = kmPrice * distance * 1.39 / 1000;
+		minPrice = Math.round(suggestedPrice - (20*suggestedPrice/100));
+		if(suggestedPrice<0.5) {
+			suggestedPrice = minPrice = 0.5;
+		}
 		return {
 			processed: true,
 			result: {
 				suggestedPrice: suggestedPrice,
-				minPrice: Math.round(suggestedPrice - (20*suggestedPrice/100)),
+				minPrice: minPrice,
 				maxPrice: Math.round(suggestedPrice * 2)
 			}
 		};
@@ -333,7 +337,7 @@ Meteor.methods({
     let user = Users.findOne({_id: rsvp.user_id});
 
     if(approved) {
-      sendPushNotification('Viaje a ' + trip.destination.shortName, 'Tu pago ha sido aprovado!', rsvp.user_id,
+      sendPushNotification('Viaje a ' + trip.destination.shortName, 'Tu pago ha sido aprobado!', rsvp.user_id,
         'MyTripsMobileComponent', {}, null, rsvp.trip_id);
 
       sendPushNotification('Viaje a ' + trip.destination.shortName, 'La reserva de ' + user['personData'].forename + ' ha sido aprobada!', rsvp.driver_id,
