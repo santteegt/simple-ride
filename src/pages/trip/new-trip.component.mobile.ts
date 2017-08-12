@@ -200,14 +200,22 @@ export class NewTripMobileComponent implements OnInit, OnDestroy {
      	this.directionsDisplay.setMap(this.map);
         directionsService.route({
           origin: {placeId: this.originLoc.place_id},
-          destination: this.destinationLoc.description,
+          destination: {placeId: this.destinationLoc.place_id},
           travelMode: 'DRIVING'
         }, function(response, status) {
           if (status === 'OK') {
             me.directionsDisplay.setDirections(response);
             me.setSummaryFields(response);
           } else {
-            alert('Directions request failed due to ' + status);
+						me.estimatedTime = 1800;
+						me.distance = 60000;
+						me.suggestedPrice = me.minPrice = 0;
+						me.origin = me.originLoc.description;
+						me.origin = me.origin.substr(0, me.origin.indexOf(',') > 0 ? me.origin.indexOf(','):me.origin.length);
+						me.destination = me.destinationLoc.description;
+						me.destination = me.destination.substr(0, me.destination.indexOf(',') > 0 ? me.destination.indexOf(','):me.destination.length);
+						me.maxPrice = 20;
+            alert('No pudimos encontrar direcciones hacia ' + me.destinationLoc.description);
           }
         });
 	}
@@ -300,68 +308,69 @@ export class NewTripMobileComponent implements OnInit, OnDestroy {
 		  		name: this.originLoc.description, shortName: this.origin});
 
 		  	let ditem = this.destinationLoc.item ? this.destinationLoc.item:this.destinationLoc.nitem;
-		  	Meteor.call('registerPlace', ditem.place_id, {country_id: country_id, place_id: ditem.place_id,
-		  		name: this.destinationLoc.description, shortName: this.destination});
+		  	MeteorObservable.call('registerPlace', ditem.place_id, {country_id: country_id, place_id: ditem.place_id,
+		  		name: this.destinationLoc.description, shortName: this.destination}).subscribe((response: ServerResponse) => {
 
-		  	let departureDate = this.departureDate.startDate;
-		  	departureDate.setHours(this.departureTime.substr(0, this.departureTime.indexOf(':')));
-		  	departureDate.setMinutes(this.departureTime.substr(this.departureTime.indexOf(':') + 1, this.departureTime.length));
+						let departureDate = this.departureDate.startDate;
+				  	departureDate.setHours(this.departureTime.substr(0, this.departureTime.indexOf(':')));
+				  	departureDate.setMinutes(this.departureTime.substr(this.departureTime.indexOf(':') + 1, this.departureTime.length));
 
-		  	let rsObs = Trips.insert({
-		  		driver_id: Meteor.userId(),
-		  		creationDate: new Date(),
-		  		country_id: 'EC',
-				origin: {
-					place_id: oitem.place_id,
-					name: this.originLoc.description,
-					shortName: this.origin
-				},
-				destination: {
-					place_id: ditem.place_id,
-					name: this.destinationLoc.description,
-					shortName: this.destination
-				},
-				'departureDate': departureDate,
-				departureTime: this.departureTime,
-				price: Number(this.price),
-				places: Number(this.places),
-				distance: this.distance,
-				estimatedTime: this.estimatedTime,
-				available_places: Number(this.places),
-				options: {
-					handBaggage: this.handBaggage,
-					baggage: this.baggage,
-					pets: this.pets,
-					smoking: this.smoking,
-					food: this.food,
-					children: this.children
-				},
-				rsvp_method: this.rsvpMethod,
-				comments: this.comments,
-				departureAddress: this.departureAddress
+						let rsObs = Trips.insert({
+				  		driver_id: Meteor.userId(),
+				  		creationDate: new Date(),
+				  		country_id: 'EC',
+						origin: {
+							place_id: oitem.place_id,
+							name: this.originLoc.description,
+							shortName: this.origin
+						},
+						destination: {
+							place_id: ditem.place_id,
+							name: this.destinationLoc.description,
+							shortName: this.destination
+						},
+						'departureDate': departureDate,
+						departureTime: this.departureTime,
+						price: Number(this.price),
+						places: Number(this.places),
+						distance: this.distance,
+						estimatedTime: this.estimatedTime,
+						available_places: Number(this.places),
+						options: {
+							handBaggage: this.handBaggage,
+							baggage: this.baggage,
+							pets: this.pets,
+							smoking: this.smoking,
+							food: this.food,
+							children: this.children
+						},
+						rsvp_method: this.rsvpMethod,
+						comments: this.comments,
+						departureAddress: this.departureAddress
 
-		  	});
-		  	rsObs.subscribe((trip_id: string) => {
-		  		let today = new Date();
-		  		let hour = today.getHours() < 10 ? '0' + today.getHours():today.getHours();
-      			let minutes = today.getMinutes() < 10 ? '0' + today.getMinutes():today.getMinutes();
-		  		ChatMessages.insert({
-		  			trip_id: trip_id,
-					user_id: Meteor.userId(),
-					user_forename: Meteor.user()['personData']['forename'],
-					user_surname: Meteor.user()['personData']['surname'],
-					user_profileImg: Meteor.user()['personData']['profileImg'],
-					is_driver: true,
-					message_type: MESSAGETYPES.SYSTEM,
-					message_date: today,
-					message_time: hour + ':' + minutes,
-					message: Meteor.user()['personData']['forename'] + ' ha creado este viaje'
+				  	});
 
-		  		});
-		  		loader.dismiss();
-		  		this.finishRegistration();
-		  	});
+						rsObs.subscribe((trip_id: string) => {
+				  		let today = new Date();
+				  		let hour = today.getHours() < 10 ? '0' + today.getHours():today.getHours();
+		      			let minutes = today.getMinutes() < 10 ? '0' + today.getMinutes():today.getMinutes();
+				  		ChatMessages.insert({
+				  			trip_id: trip_id,
+							user_id: Meteor.userId(),
+							user_forename: Meteor.user()['personData']['forename'],
+							user_surname: Meteor.user()['personData']['surname'],
+							user_profileImg: Meteor.user()['personData']['profileImg'],
+							is_driver: true,
+							message_type: MESSAGETYPES.SYSTEM,
+							message_date: today,
+							message_time: hour + ':' + minutes,
+							message: Meteor.user()['personData']['forename'] + ' ha creado este viaje'
 
+				  		});
+				  		loader.dismiss();
+				  		this.finishRegistration();
+				  	});	
+					});
 		  }
 		}
 		]
