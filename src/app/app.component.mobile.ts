@@ -2,7 +2,7 @@
 // import { Meteor } from "meteor-client";
 declare var Meteor;
 import { Component } from '@angular/core';
-import { MenuController, Platform, App, ModalController, Config } from 'ionic-angular';
+import { MenuController, Platform, App, ModalController, Config, AlertController, ViewController } from 'ionic-angular';
 import { Subscription } from "rxjs";
 import { MeteorObservable } from "meteor-rxjs";
 // import { ObservableCursor } from "meteor-rxjs";
@@ -77,7 +77,7 @@ export class MyApp {
 
   constructor(private app: App, private platform: Platform, private statusBar: StatusBar, private splashScreen: SplashScreen,
       private menu: MenuController, private modalCtrl: ModalController, private config: Config, private keyboard: Keyboard,
-      private push: Push) {
+      private push: Push, private alertCtrl: AlertController) {
 
     this.profile = UserRegistrationMobileComponent;
     this.driverProfile = DriverProfileMobileComponent;
@@ -97,6 +97,24 @@ export class MyApp {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       if(platform.is('cordova')) {
+
+        // Handle back button on Android
+        let unregister = platform.registerBackButtonAction(() => {
+          let nav = app.getActiveNav();
+          let activeView: ViewController = nav.getActive();
+
+          if(activeView != null){
+            if(nav.canGoBack()) {
+              nav.pop();
+            }else if (typeof activeView.instance.backButtonAction === 'function') {
+              activeView.instance.backButtonAction();
+            }else {
+              unregister();
+            }
+          }else{
+            unregister();
+          }
+        });
 
         this.statusBar.styleDefault();
         this.statusBar.hide();

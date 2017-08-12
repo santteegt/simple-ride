@@ -108,7 +108,7 @@ export class NewTripMobileComponent implements OnInit, OnDestroy {
 	}
 
 	ngOnDestroy() {
-		
+
 	}
 
 	ionViewWillEnter() {
@@ -264,6 +264,10 @@ export class NewTripMobileComponent implements OnInit, OnDestroy {
 			}]
 		});
 		alert.present();
+	}
+
+	backButtonAction(){
+		this.dismiss();
 	}
 
 	termsOfService() {
