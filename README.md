@@ -16,6 +16,12 @@ Webapp for the Simple Ride platform based on Ionic 3 CLI and Meteor framework >1
 npm install
 npm run meteor-client:bundle # Configure meteor-client.config.json accordingly
 ```
+uint8 and uint32 gives problems on some browsers. To avoid comment these lines on meteor-client.js
+
+```
+_require('core-js/modules/es6.typed.uint8-array'); // 56
+_require('core-js/modules/es6.typed.uint32-array'); // 57
+```
 
 ### Android setup
 
@@ -37,7 +43,7 @@ In order to run the app on a mobile device  or build the app in production mode,
 
 ```
 cd api
-meteor remove  angular2-compilers barbatus:angular2-polyfills
+meteor remove angular2-compilers barbatus:angular2-polyfills
 meteor add ecmascript
 cd ..
 ionic cordova run [android|ios] # run on a connected device

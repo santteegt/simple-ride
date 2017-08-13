@@ -69,6 +69,10 @@
 	background-color: color($colors, app);
 }
 
+.ion-calendar-header-title:hover{
+	background-color: color($colors, app) !important;
+}
+
 .list-md .item-input.input-has-focus:last-child{
 	border-bottom-color: color($colors, app);
 	box-shadow: inset 0 -1px 0 0 color($colors, app);
