@@ -7,6 +7,7 @@ export * from './notification.model';
 export * from './place.model';
 export * from './reservation.model';
 export * from './trip.model';
+export * from './user-place.model';
 export * from './user-record.model';
 export * from './user-ride-monitor.model';
 export * from './user-status.model';

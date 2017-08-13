@@ -6,6 +6,7 @@ export * from './notifications.collection';
 export * from './places.collection';
 export * from './reservations.collection';
 export * from './trips.collection';
+export * from './user-places.collection';
 export * from './user-records.collection';
 export * from './user-ride-monitors.collection';
 export * from './user-trip-flags.collection';

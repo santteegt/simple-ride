@@ -10,6 +10,7 @@ import "./imports/publications/images";
 import "./imports/publications/chat-messages";
 import "./imports/publications/trip-flags";
 import "./imports/publications/notifications";
+import "./imports/publications/user-places.ts";
 import "./imports/push"; // ENABLE PUSH NOTIFICATIONS
 
 declare var SyncedCron;

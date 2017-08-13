@@ -51,15 +51,24 @@
       </ion-list>
 
       <ion-list *ngSwitchCase="'favorites'">
-        <!-- <ion-item *ngFor="let item of locationList">
-          {{ item }}
-        </ion-item> -->
+        <ion-item *ngFor="let item of favoriteItems | async;">
+          <ion-icon item-left name="ios-pin-outline"></ion-icon>
+          <ion-label tappable (click)="selectLocation(item)">{{ item.name }}</ion-label>
+          <button ion-button item-right clear icon-only (click)="removeFavoriteLocation(item)">
+            <ion-icon name="ios-star"></ion-icon>
+          </button>
+        </ion-item>
       </ion-list>
 
       <ion-list *ngSwitchCase="'recent'">
-        <!-- <ion-item *ngFor="let item of locationList">
-          {{ item }}
-        </ion-item> -->
+        <ion-item *ngFor="let item of recentItems; let i = index">
+          <ion-icon item-left name="ios-pin-outline"></ion-icon>
+          <ion-label tappable (click)="selectLocation(item)">{{ item.name }}</ion-label>
+          <button ion-button item-right clear icon-only (click)="saveRecentFavoriteLocation(i)">
+            <ion-icon name="ios-star" *ngIf="item.favicon"></ion-icon>
+            <ion-icon name="ios-star-outline" *ngIf="!item.favicon"></ion-icon>
+          </button>
+        </ion-item>
       </ion-list>
 
 	</div>
