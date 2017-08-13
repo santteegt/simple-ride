@@ -50,6 +50,7 @@ logging@1.1.17
 matb33:collection-hooks@0.8.4
 meteor@1.6.1
 meteor-base@1.0.4
+meteorhacks:ssr@2.2.0
 minifier-css@1.2.16
 minifier-js@2.0.0
 minimongo@1.0.23

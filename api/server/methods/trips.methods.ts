@@ -1,7 +1,8 @@
 import { Meteor } from 'meteor/meteor';
 import { _ } from 'underscore';
 import { Push } from 'meteor/raix:push';
-import { Email } from 'meteor/email'
+import { Email } from 'meteor/email';
+import { SSR } from 'meteor/meteorhacks:ssr';
 
 import { Users } from '../../both/collections/users.collection';
 import { Places } from '../../both/collections/places.collection';
@@ -16,6 +17,9 @@ import { ChatMessages } from '../../both/collections/chat-messages.collection';
 import { MESSAGETYPES } from '../../both/models/chat-message.model';
 import { Notifications } from '../../both/collections/notifications.collection';
 import { Notification, NotificationBody } from '../../both/models/notification.model';
+
+SSR.compileTemplate('generalEmail', Assets.getText("email-templates/general-email.html"));
+SSR.compileTemplate('voucherEmail', Assets.getText("email-templates/voucher-email.html"));
 
 function getPlaceDetails(place_id: string, place: Place) {
 	return Meteor['http'].call("GET",
@@ -69,7 +73,6 @@ function sendSystemMessage(user_id: string, trip_id: string, is_driver: boolean,
 
 function sendPushNotification(title: string, text: string, user_id?: string, redirect_component?: string,
   redirect_params?: any, from_user?: string, trip_id?: string) {
-
     let push_body: NotificationBody = {
       title: title,
       text: text,
@@ -99,23 +102,9 @@ function sendPushNotification(title: string, text: string, user_id?: string, red
 			let to: string = recipient['personData']['email'];
 			let from: string = 'info@simpleride-ec.com';
 			let subject: string = title;
-			let html: string = getHTMLForEmail(title, text);
+			let html: string = SSR.render("generalEmail", {title: title, content: text});
 			Email.send({ to, from, subject, html });
 		}
-}
-
-function getHTMLForEmail (title:string, text: string): string {
-	let content: string = '';
-	content += '<html>';
-	content += '<body>';
-	content += '  <div style="text-align: center; padding-top: 50px; background-color: #43338E; color: #fff; font-family: -apple-system, system-ui, BlinkMacSystemFont, Roboto, Arial, sans-serif;">';
-	content += '    <img src="http://simpleride-ec.com/assets/logo.png" style="padding: 20px 0; width: 250px;"/>';
-	content += '    <h2 style="padding: 20px 0;">' + title + '</h2>';
-	content += '    <div style="padding-bottom: 50px;">' + text + '</div>';
-	content += '  </div>';
-	content += '</body>';
-	content += '</html>';
-	return content;
 }
 
 
@@ -342,6 +331,16 @@ Meteor.methods({
 
       sendPushNotification('Viaje a ' + trip.destination.shortName, 'La reserva de ' + user['personData'].forename + ' ha sido aprobada!', rsvp.driver_id,
         'TripMobileComponent', {'trip': trip, 'readOnly': true}, rsvp.user_id, rsvp.trip_id);
+
+			if(user['personData']['email']){
+				let to: string = user['personData']['email'];
+				let from: string = 'info@simpleride-ec.com';
+				let subject: string = 'Comprobante de Pago';
+				let utility = rsvp.total * .15;
+				let expenses = utility / 1.12;
+				let html: string = SSR.render("voucherEmail", {totalPayment: rsvp.total, reservedSits: rsvp.places, origin: trip.origin.shortName, destination: trip.destination.shortName, departureDate: trip.departureDate.toLocaleDateString(), departureTime: trip.departureTime, expenses: expenses.toFixed(2), insurance: (rsvp.total * .1).toFixed(2), iva: (expenses * .12).toFixed(2)});
+				Email.send({ to, from, subject, html });
+			}
     } else {
       sendPushNotification('Viaje a ' + trip.destination.shortName, 'Tu pago ha sido rechazado!', rsvp.user_id,
         'UploadDepositVoucherMobileComponent', {rsvp: rsvp}, null, rsvp.trip_id);

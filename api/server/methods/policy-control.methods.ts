@@ -4,9 +4,17 @@ import { CarRecords } from '../../both/collections/car-records.collection';
 import { CarRecord } from '../../both/models/car-record.model';
 import { UserRecord } from '../../both/models/user-record.model';
 import { UserRecords } from '../../both/collections/user-records.collection';
+import { Email } from 'meteor/email';
+import { SSR } from 'meteor/meteorhacks:ssr';
 
 declare var cheerio;
 
+let url = 'http://sistemaunico.ant.gob.ec:6033';
+let to: string = 'malgia@hotmail.com';
+let from: string = 'info@simpleride-ec.com';
+let subject: string = 'Problema con ANT'
+
+SSR.compileTemplate('generalEmail', Assets.getText("email-templates/general-email.html"));
 /**
 * Fix labels for car register data
 *
@@ -33,7 +41,6 @@ function fixLabel(label: string) {
 	return newLabel;
 }
 
-
 Meteor.methods({
 
  	crawlANTCarData: function(user_id: string, car_id: string) {
@@ -46,9 +53,8 @@ Meteor.methods({
 			      rejectUnauthorized: false
 			    }
 			 }
-	  		let rs = Meteor['http'].call("GET",
-	  			"http://sistemaunico.ant.gob.ec:6033/PortalWEB/paginas/clientes/clp_grid_citaciones.jsp?ps_tipo_identificacion=PLA&ps_identificacion="
-	  			+ car_id.toUpperCase() + "&ps_placa=", requestOptions);
+			 let rs = Meteor['http'].call("GET", url + "/PortalWEB/paginas/clientes/clp_grid_citaciones.jsp?ps_tipo_identificacion=PLA&ps_identificacion="
+				+ car_id.toUpperCase() + "&ps_placa=", requestOptions);
 	  		if(rs.statusCode == 200) {
 
 	  			if(rs.content.length > 0) {
@@ -94,6 +100,8 @@ Meteor.methods({
   				return {found: false, vehicleData: undefined};
 
 	  		} else {
+					let html: string = SSR.render("generalEmail", {title: subject, content: 'La url '+url+' parece estar caida. Por favor revisar.'});
+					Email.send({ to, from, subject, html });
 	  			throw new Meteor.Error("crawler-error", "Cannot crawl data from ANT");
 	  		}
 
@@ -110,9 +118,8 @@ Meteor.methods({
 			      rejectUnauthorized: false
 			    }
 			 }
-	  		let rs = Meteor['http'].call("GET",
-	  			"http://sistemaunico.ant.gob.ec:6033/PortalWEB/paginas/clientes/clp_grid_citaciones.jsp?ps_tipo_identificacion=CED&ps_identificacion="
-	  			+ person_id + "&ps_placa=", requestOptions);
+			 let rs = Meteor['http'].call("GET", url + "/PortalWEB/paginas/clientes/clp_grid_citaciones.jsp?ps_tipo_identificacion=CED&ps_identificacion="
+				+ person_id + "&ps_placa=", requestOptions);
 
 	  		if(rs.statusCode == 200) {
 	  			if(rs.content.length > 0) {
@@ -162,6 +169,8 @@ Meteor.methods({
 				return {found: false, license_info: undefined};
 
 	  		} else {
+					let html: string = SSR.render("generalEmail", {title: subject, content: 'La url '+url+' parece estar caida. Por favor revisar.'});
+					Email.send({ to, from, subject, html });
 	  			throw new Meteor.Error("crawler-error", "Cannot crawl data from ANT");
 	  		}
 
