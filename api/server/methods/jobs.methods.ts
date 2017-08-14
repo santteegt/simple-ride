@@ -48,6 +48,16 @@ SyncedCron.add({
 			'active': true,
 			'departure_date': trip.departureDate
 		});
+
+		let push_body: NotificationBody = {
+			title: 'Tú viaje esta por iniciar',
+			text: 'Abre la app para seguir el trayecto!',
+			from: 'server',
+			badge: 1,
+			query: {userId: trip.driver_id}
+		}
+
+		Push.send(push_body);
 	});
 
 	if(tripList.length > 0) {
@@ -75,6 +85,15 @@ SyncedCron.add({
 				'departure_date': rsvp.departure_date,
 				'code': verificationCode
 			});
+
+			let push_body: NotificationBody = {
+				title: 'Tú viaje esta por iniciar',
+				text: 'Abre la app para seguir el trayecto!',
+				from: 'server',
+				badge: 1,
+				query: {userId: rsvp.user_id}
+			}
+			Push.send(push_body);
 		});
 
 	} else {

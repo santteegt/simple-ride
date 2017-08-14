@@ -21,7 +21,7 @@ export class LoginMobileComponent implements OnInit, OnDestroy {
 	usersSub: Subscription;
 	user: User;
 
-	constructor(private navCtrl: NavController, private loginManager: FacebookLoginManager, private ngZone: NgZone, 
+	constructor(private navCtrl: NavController, private loginManager: FacebookLoginManager, private ngZone: NgZone,
 		private platform: Platform, private menuCtrl: MenuController, private alertCtrl: AlertController, private push: Push) {
 
 
@@ -48,7 +48,7 @@ export class LoginMobileComponent implements OnInit, OnDestroy {
 
   	login() {
   		this.loginManager.login().then(msg => { //redirection is handled automatically by the AppMobileComponent
-			
+
 			const options: PushOptions = {
 	          android: {
 	            senderID: "93847795927",
@@ -78,7 +78,7 @@ export class LoginMobileComponent implements OnInit, OnDestroy {
 	        	if(token) {
 		          Meteor.call('raix:push-update', {
 		            appName: "SimpleRide",
-		            token: {apn: registration.registrationId},
+		            token: token,
 		            userId: Meteor.userId()
 		          });
 		      	}
@@ -94,7 +94,7 @@ export class LoginMobileComponent implements OnInit, OnDestroy {
 
 	validateGeolocation(){
 
-		let isLocationEnabled = this.platform.is('ios') ? 
+		let isLocationEnabled = this.platform.is('ios') ?
 			cordova.plugins.diagnostic.isLocationEnabled:cordova.plugins.diagnostic.isGpsLocationEnabled;
 
 		isLocationEnabled((enabled) => {
@@ -106,7 +106,7 @@ export class LoginMobileComponent implements OnInit, OnDestroy {
 					{
 					text: 'OK',
 					handler: () => {
-						let switchToSettings = this.platform.is('ios') ? 
+						let switchToSettings = this.platform.is('ios') ?
 						cordova.plugins.diagnostic.switchToSettings:cordova.plugins.diagnostic.switchToLocationSettings;
 						switchToSettings();
 					}
