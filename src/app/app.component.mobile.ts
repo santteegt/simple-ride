@@ -1,6 +1,7 @@
 // TODO:
 // import { Meteor } from "meteor-client";
 declare var Meteor;
+declare var navigator;
 import { Component } from '@angular/core';
 import { MenuController, Platform, App, ModalController, Config, AlertController, ViewController } from 'ionic-angular';
 import { Subscription } from "rxjs";
@@ -97,7 +98,6 @@ export class MyApp {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       if(platform.is('cordova')) {
-
         // Handle back button on Android
         let unregister = platform.registerBackButtonAction(() => {
           let nav = app.getActiveNav();
@@ -118,6 +118,7 @@ export class MyApp {
 
         this.statusBar.styleDefault();
         this.statusBar.hide();
+        navigator.splashscreen.hide();
         // splashScreen.hide();
 
         this.keyboard.disableScroll(true);
