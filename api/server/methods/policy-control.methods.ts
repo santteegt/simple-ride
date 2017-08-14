@@ -245,7 +245,7 @@ Meteor.methods({
 				let subject: string = 'Problema con MDI';
 				let html: string = SSR.render("generalEmail", {title: subject, content: 'La url http://www.mdi.gob.ec/minterior1/antecedentes/data.php parece estar caida. Por favor revisar.'});
 				Email.send({ to, from, subject, html });
-				return {found: false, response: undefined};
+				return {found: false, response: {idr: 'error'}};
 			}
 		}
 	}

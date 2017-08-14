@@ -84,6 +84,7 @@ export class UserRegistrationMobileComponent extends UserRegistration implements
 				this.geoService.getCurrentGeolocation().then((position) => {
 
 					this.geoService.getCurrentLocation(position).then((data) => {
+            console.log(data);
 						if(this.myformGroup) {
 							this.myformGroup.patchValue({birthCountry: data.country, birthState: data.state, birthCity: data.city});
 							this.loader.dismiss();
@@ -182,7 +183,10 @@ export class UserRegistrationMobileComponent extends UserRegistration implements
 	    		this.validId = this.policeRecord.found || (!this.policeRecord.found  && this.myformGroup.value.typeid == 'passport')
 	    		me.loader.dismiss();
 
-	    		if(!this.policeRecord.found && this.myformGroup.value.typeid == 'dni') {
+          if(!this.policeRecord.found && this.policeRecord.response.idr == 'error') {
+            this.presentToast("Tenemos problemas verificando tú información. Asegurate de haber ingresado correctamente tú número de cédula.");
+            this.validId = true;
+          }else if(!this.policeRecord.found && this.myformGroup.value.typeid == 'dni') {
 	    			this.presentToast("El documento de identificación no es válido");
 	    		}
 	       }, (err) => {
