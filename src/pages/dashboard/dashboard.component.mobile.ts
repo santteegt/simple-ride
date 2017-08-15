@@ -321,8 +321,8 @@ export class DashboardMobileComponent extends Dashboard implements OnInit, OnDes
   				let place = _.find(me.places, function(place) { return place.place_id == place_id; });
   				return {
   					'place_id': place_id,
-  					'name': place.shortName,
-  					'photoURL': place.photoURL,
+					'name': place ? place.shortName : '',
+					'photoURL': place ? place.photoURL : '',
   					'totalTrips': count
   				};
   			});
@@ -451,7 +451,7 @@ export class DashboardMobileComponent extends Dashboard implements OnInit, OnDes
         spinner: "crescent"
       });
       this.loader.present();
-    
+
       let tripDay: String = this.getTripDay(trip.departureDate);
       let message = 'Estoy viajando a' + trip.destination.shortName + tripDay + ' ' + trip.departureDate.toLocaleDateString();
 
