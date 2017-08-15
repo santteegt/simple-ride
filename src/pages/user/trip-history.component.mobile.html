@@ -27,12 +27,12 @@
       <!-- <span></span> -->
       <p><b>Fecha:</b> <span>{{trip.departureDate.toLocaleDateString()}}</span></p>
       <p><b>Hora:</b> <span>{{trip.departureTime}}</span></p>
-      <p><b>Lugares vendidos:</b> <span>{{trip.places - trip.available_places}}</span></p>
-      
+      <p><b>Lugares vendidos:</b> <span>{{trip.confirmed_places}}</span></p>
+
     </ion-item>
-  
+
     <!-- <ion-card-content>
-      
+
     </ion-card-content> -->
 
     <ion-row *ngIf="trip.cancellation_date != undefined">
@@ -43,7 +43,7 @@
 
     <ion-row *ngIf="trip.available_places < trip.places && !trip.cancellation_date">
       <ion-col style="padding: 0 5px; text-align: center">
-        <strong>En este viaje has ahorrado <span>${{(trip.places - trip.available_places) * trip.price}}</span>
+        <strong>En este viaje has ahorrado <span>${{(trip.confirmed_places) * trip.price}}</span>
         </strong>
       </ion-col>
     </ion-row>

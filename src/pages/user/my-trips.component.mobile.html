@@ -308,7 +308,7 @@
 				          <button ion-button clear small icon-left color="app" (click)="showPDetails(i)">
 				            <ion-icon *ngIf="!showPDetail[i]" name='arrow-down'></ion-icon>
 				            <ion-icon *ngIf="showPDetail[i]" name='arrow-up'></ion-icon>
-				            <ion-icon [hidden]="rsvp.cancellation_date != undefined || rsvp.user_rating" color="danger" name='alert' item-right></ion-icon>
+				            <ion-icon [hidden]="rsvp.cancellation_date != undefined || rsvp.user_rating || rsvp.payment_status!='processed'" color="danger" name='alert' item-right></ion-icon>
 				            {{!showPDetail[i] ? 'Abrir':'Cerrar'}} Detalles
 				          </button>
 				        </ion-col>
@@ -329,7 +329,7 @@
 					      Ver Detalles Viaje
 					    </button>
 
-					    <button ion-item [hidden]="rsvp.cancellation_date != undefined || rsvp.user_rating" (click)="navigateTo(tripReviewModal, {'trip': getTripInfo(rsvp.trip_id), 'rsvp': rsvp, 'persons': [{'isDriver': true, 'user': getDriverInfo(rsvp.driver_id)}], 'isPushNav': true})">
+					    <button ion-item [hidden]="rsvp.cancellation_date != undefined || rsvp.user_rating || rsvp.payment_status!='processed'" (click)="navigateTo(tripReviewModal, {'trip': getTripInfo(rsvp.trip_id), 'rsvp': rsvp, 'persons': [{'isDriver': true, 'user': getDriverInfo(rsvp.driver_id)}], 'isPushNav': true})">
 					      <ion-icon name="star" item-left></ion-icon>
 					      Calificar Viaje
 					      <ion-icon [hidden]="rsvp.cancellation_date != undefined || rsvp.user_rating" color="danger" name='alert' item-right></ion-icon>

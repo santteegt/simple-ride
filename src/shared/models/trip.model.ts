@@ -14,6 +14,7 @@ export interface Trip extends CollectionObject {
 	distance: number;
 	estimatedTime: number;
 	available_places: number;
+	confirmed_places: number;
 	options: TripOptions;
 	rsvp_method: string;
 	comments?: string;

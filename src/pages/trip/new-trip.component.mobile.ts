@@ -336,6 +336,7 @@ export class NewTripMobileComponent implements OnInit, OnDestroy {
 						distance: this.distance,
 						estimatedTime: this.estimatedTime,
 						available_places: Number(this.places),
+						confirmed_places: 0,
 						options: {
 							handBaggage: this.handBaggage,
 							baggage: this.baggage,
@@ -369,7 +370,7 @@ export class NewTripMobileComponent implements OnInit, OnDestroy {
 				  		});
 				  		loader.dismiss();
 				  		this.finishRegistration();
-				  	});	
+						});
 					});
 		  }
 		}

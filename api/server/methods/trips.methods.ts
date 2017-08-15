@@ -326,6 +326,7 @@ Meteor.methods({
     let user = Users.findOne({_id: rsvp.user_id});
 
     if(approved) {
+			Trips.update({'_id': rsvp.trip_id}, {$set: {'confirmed_places': trip.confirmed_places + rsvp.places}});
       sendPushNotification('Viaje a ' + trip.destination.shortName, 'Tu pago ha sido aprobado!', rsvp.user_id,
         'MyTripsMobileComponent', {}, null, rsvp.trip_id);
 

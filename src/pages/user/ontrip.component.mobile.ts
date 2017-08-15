@@ -126,7 +126,7 @@ export class OnTripMobileComponent implements OnInit, OnDestroy {
 
              this.rsvpSub = MeteorObservable.subscribe('reservations', {}, false, this.userTripFlag.user_id).subscribe(() => {
 
-              this.rsvpList = Reservations.find({'trip_id': this.userTripFlag.trip_id}).fetch();
+              this.rsvpList = Reservations.find({'trip_id': this.userTripFlag.trip_id, 'payment_status': 'processed'}).fetch();
 
               let user_ids = _.map(this.rsvpList, function(rsvp: Reservation) {
                 return rsvp.user_id;

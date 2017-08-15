@@ -175,7 +175,7 @@ export class MyTripsMobileComponent implements OnInit, OnDestroy {
 
 			this.driverRating = this.tripUtils.calculateUsersRating(this.driverRSVPs, true);
 
-			this.myTripsSub = MeteorObservable.subscribe('trips', options, true).subscribe(() => {
+			this.myTripsSub = MeteorObservable.subscribe('trips', options, false).subscribe(() => {
 
 				let trips = Trips.find({'_id': {$in: trip_ids}});
 
@@ -442,7 +442,7 @@ export class MyTripsMobileComponent implements OnInit, OnDestroy {
 	        spinner: "crescent"
 	      });
 	      this.loader.present();
-	    
+
 	      let tripDay: String = this.getTripDay(trip.departureDate);
 	      let message = 'Estoy viajando a' + trip.destination.shortName + tripDay + ' ' + trip.departureDate.toLocaleDateString();
 

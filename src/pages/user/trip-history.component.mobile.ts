@@ -101,7 +101,7 @@ export class TripHistoryMobileComponent implements OnInit, OnDestroy {
 					{departureDate: {$lt: new Date()}}
 					]
 			});
-			
+
 			this.hasPastTrips = trips.fetch().length > 0;
 
 			let trip_ids = _.map(trips.fetch(), function(trip: Trip) {
@@ -113,7 +113,8 @@ export class TripHistoryMobileComponent implements OnInit, OnDestroy {
 				this.rsvpList = Reservations.find({
 					trip_id: {$in: trip_ids},
 					cancellation_date: undefined,
-					driver_rating: undefined
+					driver_rating: undefined,
+          payment_status: 'processed'
 				}).fetch();
 
 				this.loader.dismiss();
