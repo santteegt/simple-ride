@@ -93,3 +93,7 @@ html{
 .web slide .item{
 	margin: 0 auto;
 }
+
+.admin .tabs .nav-link:not(.active){
+	color: #fff;
+}

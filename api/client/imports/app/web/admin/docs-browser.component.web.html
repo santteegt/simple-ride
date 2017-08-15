@@ -17,7 +17,7 @@
 		<button type="button" class="btn" (click)="login()" >Iniciar Sesion</button>
 	</div>
 
-	<tabset #documents *ngIf="user">
+	<tabset #documents *ngIf="user" class="tabs">
 		<tab heading="Depósitos por aprobar">
 			<ul class="list-group">
 			  	<li class="list-group-item" *ngFor="let voucher of voucherObs | async">
@@ -29,11 +29,11 @@
 					  </div>
 					  <div class="media-body">
 					    <h4 class="media-heading">Datos Reserva</h4>
-					    <p><strong>Fecha Reserva: </strong>{{rsvpList ? getRSVP(voucher.rsvp_id).reservation_date:''}}</p>
+					    <p><strong>Fecha Reserva: </strong>{{rsvpList ? getRSVP(voucher.rsvp_id).reservation_date :''}}</p>
 					    <p><strong>Fecha de Viaje: </strong>{{rsvpList ? getRSVP(voucher.rsvp_id).departure_date:''}}</p>
 					    <p><strong>Lugares Reservados: </strong>{{rsvpList ? getRSVP(voucher.rsvp_id).places:''}}</p>
-					    <p><strong>Total a Pagar: </strong>{{rsvpList ? getRSVP(voucher.rsvp_id).total:''}}</p>
-					    <textarea rows="4" cols="50" placeholder="Comentarios si se niega la transacción" [(ngModel)]="comments">
+					    <p><strong>Total a Pagar: </strong>${{rsvpList ? getRSVP(voucher.rsvp_id).total:''}}</p>
+					    <textarea rows="4" cols="50" placeholder="Comentarios si se niega la transacción" [(ngModel)]="comments[voucher.rsvp_id]">
 						</textarea>
 
 					  </div>

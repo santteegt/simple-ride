@@ -115,6 +115,8 @@ export class DocumentBrowserComponent implements OnInit, OnDestroy {
 				});
 			}
   		});
+
+			this.comments = [];
 	}
 
 	getRSVP(rsvp_id: string) {
@@ -152,7 +154,7 @@ export class DocumentBrowserComponent implements OnInit, OnDestroy {
 		// });
 		let rs2 = Reservations.update({'_id': voucher.rsvp_id}, {$set: {
 				payment_status: RESERVATIONSTATUS.WAITING_USER_ACTION,
-				payment_comments: this.comments
+				payment_comments: this.comments[voucher.rsvp_id]
 		}});
 		// rs2.subscribe((result) => {
 		// 	console.log('result for reservations');

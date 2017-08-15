@@ -1,5 +1,9 @@
 .admin{
 	background-color: #472F92;
+	color: #000;
+}
+
+.admin .header{
 	color: #fff;
 }
 
@@ -43,6 +47,7 @@
 	display: block;
 	height: 200px;
 	width: 250px;
+	padding-right: 50px;
 }
 
 .admin .tab-content .tab-pane{
