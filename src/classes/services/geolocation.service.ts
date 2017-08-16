@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 // import { Meteor } from 'meteor-client';
 declare var Meteor;
 import { Geolocation } from '@ionic-native/geolocation';
-import { Platform } from 'ionic-angular';
+import { Platform, AlertController } from 'ionic-angular';
 import { BackgroundGeolocation, BackgroundGeolocationConfig, BackgroundGeolocationResponse } from '@ionic-native/background-geolocation';
 
 import { UserTripFlag } from "../../shared/models";
@@ -12,7 +12,7 @@ import { UserRideMonitors } from "../../shared/collections";
 // TODO:
 // import { _ } from 'meteor/underscore';
 declare var _;
- 
+
 interface GeoPosition {
 	lat: number,
 	lng: number
@@ -36,7 +36,7 @@ export class GeolocationService {
 
 	_tripFlagSub: Subscription;
 
-	constructor(private platform: Platform, private backgroundGeolocation: BackgroundGeolocation, private geolocation: Geolocation) {
+	constructor(private platform: Platform, private backgroundGeolocation: BackgroundGeolocation, private geolocation: Geolocation, private alertCtrl: AlertController) {
 
 	}
 
@@ -63,7 +63,7 @@ export class GeolocationService {
 				error: false,
 				geolocation: location
 			});
-	    
+
 		    // IMPORTANT:  You must execute the finish method here to inform the native plugin that you're finished,
 		    // and the background-task may be completed.  You must do this regardless if your HTTP request is successful or not.
 		    // IF YOU DON'T, ios will CRASH YOUR APP for spending too much time in the background.
@@ -111,8 +111,8 @@ export class GeolocationService {
 			            };
 			            resolve(me.currentPosition);
 
-			        }, function(error) { 
-			            alert("This device browser does not support geolocation");
+			        }, function(error) {
+			            me.presentAlert('Error', 'Este navegador no soporta geolocalización');
 			            console.log(error);
 			            me.currentPosition = {
 			            	lat: -2.9004014,
@@ -122,7 +122,7 @@ export class GeolocationService {
 			        });
 
 	  			} else {
-	  				alert("Geolocation not supported on this device");
+            me.presentAlert('Error', 'Este dispositivo no soporta geolocalización');
 	  				this.currentPosition = {
 		            	lat: -2.9004014,
 		            	lng: -79.00145669999999
@@ -138,14 +138,14 @@ export class GeolocationService {
 
 	getCurrentLocation(position?: GeoPosition): Promise<Location> {
 		var geocoder = new google.maps.Geocoder;
-		
+
 		this._currentLocationPromise = new Promise<Location>((resolve: Function, reject: Function) => {
 
 			geocoder.geocode({'location': position}, function(results, status) {
 				if (status === 'OK') {
 					let rs = results[0];
 					let country = _.find(rs.address_components, function(comp){ return comp.types.indexOf('country') > -1 });
-					let state = _.find(rs.address_components, function(comp){ 
+					let state = _.find(rs.address_components, function(comp){
 						return comp.types.indexOf('administrative_area_level_1') > -1 });
 					let city = _.find(rs.address_components, function(comp){ return comp.types.indexOf('locality') > -1 });
 					resolve({country: country.long_name, state: state.long_name, city: city.long_name});
@@ -158,5 +158,17 @@ export class GeolocationService {
 
 		return this._currentLocationPromise;
 
+	}
+
+  presentAlert(title: string, message: string) {
+		let alert = this.alertCtrl.create({
+	      'title': title,
+	      'subTitle': message,
+	      buttons: [
+        {
+          text: 'OK'
+        }]
+	    });
+	    alert.present();
 	}
 }

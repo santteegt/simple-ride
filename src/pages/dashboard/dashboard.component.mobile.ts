@@ -367,11 +367,11 @@ export class DashboardMobileComponent extends Dashboard implements OnInit, OnDes
 
   getCurrentGeolocation() {
     this.originSearch = this.destinationSearch = '';
-    this.loader = this.loadingCtrl.create({
-      content: "Cargando...",
-      spinner: "crescent"
-    });
-    this.loader.present();
+    // this.loader = this.loadingCtrl.create({
+    //   content: "Cargando...",
+    //   spinner: "crescent"
+    // });
+    // this.loader.present();
 
     this.geoService.getCurrentGeolocation().then((position) => {
       this.currentPosition = position;
@@ -379,24 +379,24 @@ export class DashboardMobileComponent extends Dashboard implements OnInit, OnDes
       if(!this.isDriverPipe.transform(Meteor.user())) {
         this.getCurrentLocation();
       } else {
-        this.loader.dismissAll();
+        // this.loader.dismissAll();
       }
 
     }).catch((error) => {
-      alert("Error obtaining geolocation");
+      this.presentAlert('Error', 'Error al obtener la geolocalización');
       console.log(error);
-      this.loader.dismissAll();
+      // this.loader.dismissAll();
     });
   }
 
   getCurrentLocation() {
   	this.geoService.getCurrentLocation(this.currentPosition).then((position) => {
-  		this.originSearch = position.city;
-      this.loader.dismissAll();
+		this.originSearch = position.city;
+    // this.loader.dismissAll();
   	}).catch((error) => {
-  		alert("Error al obtener su ubicación actual");
+      this.presentAlert('Error', 'Error al obtener su ubicación actual');
       console.log(error);
-      this.loader.dismissAll();
+      // this.loader.dismissAll();
   	});
   }
 
@@ -414,7 +414,7 @@ export class DashboardMobileComponent extends Dashboard implements OnInit, OnDes
 	  	let modal = this.modalCtrl.create(this.newTrip, {geolocation: this.currentPosition});
   		modal.present();
   	} else {
-  		alert("Constraint error!");
+      this.presentAlert('Error', 'Error al crear el viaje. Por favor intenta de nuevo.');
   	}
   }
 
@@ -463,14 +463,14 @@ export class DashboardMobileComponent extends Dashboard implements OnInit, OnDes
       .catch((errormsg) => {
           this.loader.dismiss();
           if(errormsg != 'cancelled') {
-            alert('Ha ocurrido un error al compartir. Inténtelo nuevamente');
+            this.presentAlert('Error', 'Ha ocurrido un error al compartir. Inténtelo nuevamente');
           }
           console.log(errormsg);
       });
 
     } else {
 
-      alert('Compartir no habilitado en tu plataforma');
+      this.presentAlert('Error', 'Compartir no habilitado en tu plataforma');
 
     }
 
@@ -546,5 +546,17 @@ export class DashboardMobileComponent extends Dashboard implements OnInit, OnDes
     }
     return day;
   }
+
+  presentAlert(title: string, message: string) {
+		let alert = this.alertCtrl.create({
+	      'title': title,
+	      'subTitle': message,
+	      buttons: [
+        {
+          text: 'OK'
+        }]
+	    });
+	    alert.present();
+	}
 
 }
