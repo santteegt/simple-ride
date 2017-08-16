@@ -49,6 +49,10 @@ SyncedCron.add({
 			'departure_date': trip.departureDate
 		});
 
+		Notifications.remove({
+			'redirect_params.trip._id': trip._id
+		});
+
 		let push_body: NotificationBody = {
 			title: 'Tú viaje esta por iniciar',
 			text: 'Abre la app para seguir el trayecto!',
