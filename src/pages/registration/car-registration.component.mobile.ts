@@ -150,10 +150,12 @@ export class CarRegistrationMobileComponent extends UserRegistration implements 
 		.subscribe((response: LicenseRecord) => {
 			me.licenseRecord = response;
 			me.hasLicense = response.found;
+			let prevMonth = new Date();
+			prevMonth.setDate(prevMonth.getDate() - 30);
 			if(!me.hasLicense || me.licenseRecord.license_info.points === "0") {
 				me.showAlert('Licencia no válida','Usted no registra una licencia válida');
 				me.hasLicense = false;
-			} else if(this.utils.stringToDate(me.licenseRecord.license_info.license_expire) < new Date()){
+			} else if(this.utils.stringToDate(me.licenseRecord.license_info.license_expire) < prevMonth){
 				me.showAlert('Licencia no válida','Su licencia ha caducado');
 				me.hasLicense = false;
 			}
