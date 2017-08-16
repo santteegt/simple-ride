@@ -8,8 +8,8 @@ import { MeteorObservable } from "meteor-rxjs";
 declare var Meteor;
 declare var _;
 
-import { Reservation, Trip, Place, UserTripFlag, User } from '../../shared/models';
-import { Reservations, Trips, Places, UserTripFlags, Users } from '../../shared/collections';
+import { Reservation, Trip, Place, UserTripFlag, User, MESSAGETYPES } from '../../shared/models';
+import { Reservations, Trips, Places, UserTripFlags, Users, ChatMessages } from '../../shared/collections';
 
 import { DetailedReservationMobileComponent } from '../trip/detailed-reservation.component.mobile';
 import { TripMobileComponent } from '../trip/trip.component.mobile';
@@ -206,7 +206,7 @@ export class OnTripMobileComponent implements OnInit, OnDestroy {
 
   }
 
-  opemMessageBoard() {
+  openMessageBoard() {
     this.navCtrl.push(TripMessageBoardMobileComponent, {'trip': this.mytrip, 'isPushNav': true});
   }
 
@@ -297,6 +297,25 @@ export class OnTripMobileComponent implements OnInit, OnDestroy {
       this.showAlertMessage('Validar Usuarios', 'Es necesario ingresar los códigos de verificación de todos los pasajeros');
     }
 
+  }
+
+  sendCode(){
+	  let today = new Date();
+	  let hour = today.getHours() < 10 ? '0' + today.getHours():today.getHours();
+	  let minutes = today.getMinutes() < 10 ? '0' + today.getMinutes():today.getMinutes();
+	  ChatMessages.insert({
+	    trip_id: this.mytrip._id,
+	    user_id: this.user._id,
+	    user_forename: this.user['personData']['forename'],
+	    user_surname: this.user['personData']['surname'],
+	    user_profileImg: this.user['personData']['profileImg'],
+	    is_driver: false,
+	    message_type: MESSAGETYPES.USER,
+	    message_date: today,
+	    message_time: hour + ':' + minutes,
+	    message: this.userTripFlag.code
+	  });
+    this.showAlertMessage('Código Enviado', 'El código se ha envíado al chat del viaje! Gracias por usar SimpleRide!');
   }
 
   isDriver(): boolean {

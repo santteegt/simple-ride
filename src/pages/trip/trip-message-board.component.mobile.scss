@@ -22,3 +22,10 @@
 textarea {
 	margin: 0 5px 0 5px;
 }
+
+.selectable {
+	-webkit-user-select: text;
+	-moz-user-select: text;
+	-ms-user-select: text;
+	user-select: text;
+}

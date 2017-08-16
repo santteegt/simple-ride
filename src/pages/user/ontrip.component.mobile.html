@@ -10,7 +10,7 @@
     </div>
 
     <ion-buttons end>
-      <button ion-button icon-only (click)="opemMessageBoard()">
+      <button ion-button icon-only (click)="openMessageBoard()">
         <ion-icon name="chatbubbles"></ion-icon>
       </button>
     </ion-buttons>
@@ -96,6 +96,10 @@
     </ion-row>
     <ion-row>
       <ion-col style="font-size: 0.8em"><strong>Recuerda entregarlo al conductor únicamente cuando llegues a tu destino</strong></ion-col>
+    </ion-row>
+
+    <ion-row>
+      <button ion-button color="primary" block (click)="sendCode();">Enviar Código</button>
     </ion-row>
   </ion-grid>
 
