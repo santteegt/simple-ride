@@ -180,11 +180,7 @@ export class NewTripMobileComponent implements OnInit, OnDestroy {
 
   	loadMap(){
 			let latLng: any;
-			if(this.currentPosition){
-				latLng = new google.maps.LatLng(this.currentPosition.lat, this.currentPosition.lng);
-			}else{
-				latLng = new google.maps.LatLng(-2.8998189,-79.0209593);
-			}
+			latLng = new google.maps.LatLng(this.currentPosition.lat, this.currentPosition.lng);
 
 	    let mapOptions = {
 	      center: latLng,

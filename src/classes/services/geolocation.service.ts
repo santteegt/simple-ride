@@ -98,7 +98,12 @@ export class GeolocationService {
 	  				console.log(me.currentPosition);
 	  				resolve(me.currentPosition);
 	  			}).catch((error) => {
-	  				reject("Error using native geolocation");
+						me.presentAlert('Error', 'Error using native geolocation');
+						me.currentPosition = {
+							lat: -2.9004014,
+							lng: -79.00145669999999
+						}
+						resolve(me.currentPosition);
 	  			});
 
 	  		} else {
@@ -114,20 +119,20 @@ export class GeolocationService {
 			        }, function(error) {
 			            me.presentAlert('Error', 'Este navegador no soporta geolocalización');
 			            console.log(error);
-			            me.currentPosition = {
-			            	lat: -2.9004014,
+									me.currentPosition = {
+										lat: -2.9004014,
 			            	lng: -79.00145669999999
-			            }
+									}
 			            resolve(me.currentPosition);
 			        });
 
 	  			} else {
             me.presentAlert('Error', 'Este dispositivo no soporta geolocalización');
-	  				this.currentPosition = {
-		            	lat: -2.9004014,
-		            	lng: -79.00145669999999
-		            }
-		            resolve(me.currentPosition);
+						this.currentPosition = {
+							lat: -2.9004014,
+							lng: -79.00145669999999
+						}
+            resolve(me.currentPosition);
 	  			}
 	  		}
   		});
