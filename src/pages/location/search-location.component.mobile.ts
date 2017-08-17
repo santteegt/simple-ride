@@ -288,4 +288,11 @@ export class SearchLocationMobileComponent implements OnInit, OnDestroy {
           return array.map(function(mapItem){ return mapItem[param]; }).indexOf(item[param]) === pos;
       })
   }
+
+	stopTab(e){
+		var evt = e || window.event
+    if ( evt.keyCode === 9 ) {
+        return false;
+    }
+	}
 }

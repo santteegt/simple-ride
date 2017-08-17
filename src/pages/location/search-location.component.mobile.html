@@ -6,7 +6,7 @@
       </button>
     </ion-buttons>
     <!-- <ion-searchbar #searchbar (ionInput)="getLocation($event)" (ionCancel)="onCancel($event)" debounce="500" placeholder="Buscar ubicación" autocomplete="on" type="text"></ion-searchbar> -->
-    <ion-searchbar #searchbar [(ngModel)]="autocomplete.query" (ionInput)="autocompleteLocation($event)" (ionCancel)="onCancel($event)" [showCancelButton]="true" placeholder="Buscar ubicación" autocomplete="on" type="text" debounce="100"></ion-searchbar>
+    <ion-searchbar #searchbar [(ngModel)]="autocomplete.query" (ionInput)="autocompleteLocation($event)" (ionCancel)="onCancel($event)" [showCancelButton]="true" placeholder="Buscar ubicación" autocomplete="on" type="text" debounce="100" (keypress)="stopTab($event);"></ion-searchbar>
   </ion-navbar>
   <ion-toolbar no-border-top>
     <ion-segment mode="md" [(ngModel)]="location_option">
