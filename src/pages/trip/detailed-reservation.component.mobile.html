@@ -64,7 +64,7 @@
 			</ion-row>
 
 			<ion-row>
-				<ion-col width-50 class="detail-box">
+				<ion-col col-6 class="detail-box">
 					<ion-row>
 						<ion-col ion-text color="app">
 							<strong>Itinerario</strong>
@@ -132,22 +132,22 @@
 
 					<div style="font-size: 0.7em">
 						<ion-row>
-							<ion-col no-padding style="padding-left: 10px" width-50 *ngIf="trip.options.handBaggage">
+							<ion-col no-padding style="padding-left: 10px" col-6 *ngIf="trip.options.handBaggage">
 								<ion-icon name="briefcase"></ion-icon> Maleta de mano
 							</ion-col>
-							<ion-col no-padding style="padding-left: 10px" width-50 *ngIf="trip.options.children">
+							<ion-col no-padding style="padding-left: 10px" col-6 *ngIf="trip.options.children">
 								<ion-icon name="man"></ion-icon> Niños
 							</ion-col>
-							<ion-col no-padding style="padding-left: 10px" width-50 *ngIf="trip.options.baggage">
+							<ion-col no-padding style="padding-left: 10px" col-6 *ngIf="trip.options.baggage">
 								<ion-icon name="briefcase"></ion-icon> Maleta
 							</ion-col>
-							<ion-col no-padding style="padding-left: 10px" width-50 *ngIf="trip.options.pets">
+							<ion-col no-padding style="padding-left: 10px" col-6 *ngIf="trip.options.pets">
 								<ion-icon name="paw"></ion-icon> Mascotas
 							</ion-col>
-							<ion-col no-padding style="padding-left: 10px" width-50 *ngIf="trip.options.smoking">
+							<ion-col no-padding style="padding-left: 10px" col-6 *ngIf="trip.options.smoking">
 								<ion-icon name="no-smoking"></ion-icon> Fumar
 							</ion-col>
-							<ion-col no-padding style="padding-left: 10px" width-50 *ngIf="trip.options.food">
+							<ion-col no-padding style="padding-left: 10px" col-6 *ngIf="trip.options.food">
 								<ion-icon name="pizza"></ion-icon> Comer
 							</ion-col>
 
@@ -156,7 +156,7 @@
 
 				</ion-col>
 
-				<ion-col width-50 class="app-background" style="padding-top: 5px">
+				<ion-col col-6 class="app-background" style="padding-top: 5px">
 
 					<ion-row style="font-size: 0.8em">
 						<ion-col style="padding: 0 5px">
@@ -179,7 +179,7 @@
 					<!-- *********************************** -->
 
 					<ion-row padding-top *ngIf="rsvp != undefined">
-						<ion-col width-50>
+						<ion-col col-6>
 							<div class="card-box" style="background-color: white; border-radius: 5px">
 		  						<ion-row>
 		  							<ion-col ion-text color="app" class="trip-field">{{rsvp.places}}</ion-col>
@@ -193,30 +193,30 @@
 		  					</div>
 						</ion-col>
 
-						<ion-col width-50 style="text-align: center">
+						<ion-col col-6 style="text-align: center">
 							<ion-row>
-								<ion-col width-50 no-padding>
+								<ion-col col-6 no-padding>
 									<ion-icon name="ios-person" color="light"></ion-icon>
 								</ion-col>
-								<ion-col width-50 no-padding no-padding *ngIf="trip.places >=2">
+								<ion-col col-6 no-padding *ngIf="trip.places >=2">
 									<ion-icon name="{{rsvp.places >= 2 ? 'ios-person':'ios-person-outline'}}" color="{{rsvp.places >=2 ?'app':'light'}}"></ion-icon>
 								</ion-col>
 							</ion-row>
 
 							<ion-row *ngIf="trip.places >2">
-								<ion-col width-50 no-padding *ngIf="trip.places >=3">
+								<ion-col col-6 no-padding *ngIf="trip.places >=3">
 									<ion-icon name="{{rsvp.places >= 3 ? 'ios-person':'ios-person-outline'}}" color="{{rsvp.places >=3 ?'app':'light'}}"></ion-icon>
 								</ion-col>
-								<ion-col width-50 no-padding *ngIf="trip.places >=4">
+								<ion-col col-6 no-padding *ngIf="trip.places >=4">
 									<ion-icon name="{{rsvp.places >= 4 ? 'ios-person':'ios-person-outline'}}" color="{{rsvp.places >=4 ?'app':'light'}}"></ion-icon>
 								</ion-col>
 							</ion-row>
 
 							<ion-row *ngIf="trip.places >4">
-								<ion-col width-50 no-padding *ngIf="trip.places >=5">
+								<ion-col col-6 no-padding *ngIf="trip.places >=5">
 									<ion-icon name="{{rsvp.places >= 5 ? 'ios-person':'ios-person-outline'}}" color="{{rsvp.places >=5 ?'app':'light'}}"></ion-icon>
 								</ion-col>
-								<ion-col width-50 no-padding *ngIf="trip.places >=6">
+								<ion-col col-6 no-padding *ngIf="trip.places >=6">
 									<ion-icon name="{{rsvp.places == 6 ? 'ios-person':'ios-person-outline'}}" color="{{rsvp.places ==6 ?'app':'light'}}"></ion-icon>
 								</ion-col>
 							</ion-row>
@@ -228,7 +228,7 @@
 					<!-- ************************************************** -->
 
 					<ion-row style="padding-top: 5px" *ngIf="!rsvp">
-						<ion-col width-50>
+						<ion-col col-6>
 							<div class="card-box" style="background-color: white; border-radius: 5px">
 		  						<ion-row style="padding-top: 3px">
 		  							<ion-col ion-text color="app" class="trip-field">{{trip.available_places}}</ion-col>
@@ -242,30 +242,30 @@
 		  					</div>
 						</ion-col>
 
-						<ion-col width-50 style="text-align: center">
+						<ion-col col-6 style="text-align: center">
 							<ion-row>
-								<ion-col width-50 no-padding>
+								<ion-col col-6 no-padding>
 									<ion-icon name="ios-person" color="light"></ion-icon>
 								</ion-col>
-								<ion-col width-50 no-padding no-padding *ngIf="trip.places >= 2">
+								<ion-col col-6 no-padding no-padding *ngIf="trip.places >= 2">
 									<ion-icon name="{{trip.available_places >= 2 ? 'ios-person':'ios-person-outline'}}" color="{{trip.available_places >=2 ?'light':''}}"></ion-icon>
 								</ion-col>
 							</ion-row>
 
 							<ion-row *ngIf="trip.places > 2">
-								<ion-col width-50 no-padding *ngIf="trip.places >=3">
+								<ion-col col-6 no-padding *ngIf="trip.places >=3">
 									<ion-icon name="{{trip.available_places >= 3 ? 'ios-person':'ios-person-outline'}}" color="{{trip.available_places >=3 ?'light':''}}"></ion-icon>
 								</ion-col>
-								<ion-col width-50 no-padding *ngIf="trip.places >=4">
+								<ion-col col-6 no-padding *ngIf="trip.places >=4">
 									<ion-icon name="{{trip.available_places >= 4 ? 'ios-person':'ios-person-outline'}}" color="{{trip.available_places >=4 ?'light':''}}"></ion-icon>
 								</ion-col>
 							</ion-row>
 
 							<ion-row *ngIf="trip.places >4">
-								<ion-col width-50 no-padding *ngIf="trip.places >=5">
+								<ion-col col-6 no-padding *ngIf="trip.places >=5">
 									<ion-icon name="{{trip.available_places >= 5 ? 'ios-person':'ios-person-outline'}}" color="{{trip.available_places >=5 ?'light':''}}"></ion-icon>
 								</ion-col>
-								<ion-col width-50 no-padding *ngIf="trip.places >=6">
+								<ion-col col-6 no-padding *ngIf="trip.places >=6">
 									<ion-icon name="{{trip.available_places == 6 ? 'ios-person':'ios-person-outline'}}" color="{{trip.available_places ==6 ?'light':''}}"></ion-icon>
 								</ion-col>
 							</ion-row>
