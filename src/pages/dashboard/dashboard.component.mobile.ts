@@ -453,7 +453,7 @@ export class DashboardMobileComponent extends Dashboard implements OnInit, OnDes
       this.loader.present();
 
       let tripDay: String = this.getTripDay(trip.departureDate);
-      let message = 'Estoy viajando a' + trip.destination.shortName + tripDay + ' ' + trip.departureDate.toLocaleDateString();
+      let message = 'Estoy viajando a ' + trip.destination.shortName + ' el ' + tripDay + ' ' + trip.departureDate.toLocaleDateString();
 
       this.socialSharing.shareViaFacebookWithPasteMessageHint('Message via Facebook', 'https://simpleride-ec.com/sharing-image.png',
         'https://simpleride-ec.com/' + 'share/trip/' + trip._id, message)

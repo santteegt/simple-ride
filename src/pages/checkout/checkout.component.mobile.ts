@@ -125,7 +125,9 @@ export class CheckoutMobileComponent implements OnInit, OnDestroy {
 			comments: this.comments,
 			payment_method: this.paymentMethod,
 			payment_status: payment_status,
-			total: this.totalPayment
+			total: this.totalPayment,
+			origin: trip.origin.shortName,
+			destination: trip.destination.shortName,
 		}
 
 		MeteorObservable.call('joinTrip', reservation).subscribe((response: ServerResponse) => {

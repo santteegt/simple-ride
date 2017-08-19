@@ -435,7 +435,7 @@ export class MyTripsMobileComponent implements OnInit, OnDestroy {
 		this.viewCtrl.dismiss();
 	}
 
-	shareTrip(trip: Trip) {
+	shareTrip(rsvp: Reservation) {
 	    if(this.platform.is('cordova')) {
 	      this.loader = this.loadingCtrl.create({
 	        content: "Compartiendo viaje...",
@@ -443,11 +443,11 @@ export class MyTripsMobileComponent implements OnInit, OnDestroy {
 	      });
 	      this.loader.present();
 
-	      let tripDay: String = this.getTripDay(trip.departureDate);
-	      let message = 'Estoy viajando a' + trip.destination.shortName + tripDay + ' ' + trip.departureDate.toLocaleDateString();
+	      let tripDay: String = this.getTripDay(rsvp.departure_date);
+	      let message = 'Estoy viajando a ' + rsvp.destination + ' el ' + tripDay + ' ' + rsvp.departure_date.toLocaleDateString();
 
 	      this.socialSharing.shareViaFacebookWithPasteMessageHint('Message via Facebook', 'http://simpleride-ec.com/sharing-image.png',
-	        'http://simpleride-ec.com/' + 'share/trip/' + trip._id, message)
+	        'http://simpleride-ec.com/' + 'share/trip/' + rsvp.trip_id, message)
 	      .then(() => {
 	          this.loader.dismiss();
 	      })
