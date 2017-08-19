@@ -1,3 +1,7 @@
 .invalid {
 	border: 1px solid #ea6153;
 }
+
+.item-md.activated{
+	background-color: color($colors, app);
+}
