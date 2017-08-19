@@ -14,7 +14,7 @@ import { TripUtils } from '../../classes/trip-utils.class';
 import { TripMobileComponent } from '../trip/trip.component.mobile';
 import { TripReviewMobileComponent } from '../trip/trip-review.component.mobile';
 
-import { User, Trip, Reservation } from '../../shared/models';
+import { User, Trip, Reservation, RESERVATIONSTATUS } from '../../shared/models';
 import { Users, Trips, Reservations } from '../../shared/collections';
 
 @Component({
@@ -114,7 +114,7 @@ export class TripHistoryMobileComponent implements OnInit, OnDestroy {
 					trip_id: {$in: trip_ids},
 					cancellation_date: undefined,
 					driver_rating: undefined,
-          payment_status: 'processed'
+          payment_status: RESERVATIONSTATUS.PROCESSED
 				}).fetch();
 
 				this.loader.dismiss();
