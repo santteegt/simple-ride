@@ -233,6 +233,7 @@
                   </ion-avatar>
                   <h4>{{reviewers && reviewers.length > 0 ? getUserInfo(review).personData.forename + ' ' + getUserInfo(review).personData.surname:''}}</h4>
                   <p>{{reviewers && reviewers.length > 0 ? getUserInfo(review).personData.city + ', ' + getUserInfo(review).personData.state:''}}</p>
+                  <div style="font-size: 0.6em">Viaje de {{ review.origin }} a {{ review.destination }}</div>
                   <div style="font-size: 0.6em">
                     Calificación:
                     <ion-icon name="{{getReviewerRating(review) >= 1 ? 'star':(getReviewerRating(review) - 1 > 0 && getReviewerRating(review) - 1 < 1 ? 'star-half':'star-outline')}}"></ion-icon>

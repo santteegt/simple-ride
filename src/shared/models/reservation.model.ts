@@ -1,5 +1,5 @@
 import { CollectionObject } from './collection-object.model';
- 
+
 export interface Reservation extends CollectionObject {
 
 	trip_id: string;
@@ -13,14 +13,15 @@ export interface Reservation extends CollectionObject {
 	payment_reference_id?: string; // e.g. scan_id of deposit, card reference, etc
 	payment_status: string;
 	payment_comments?: string;
-	total: number; 
+	total: number;
 	user_rating?: number; // given by user
 	user_rating_comments?: string;
 	driver_rating?: number; // given by driver
 	driver_rating_comments?: string;
 	cancellation_date?: Date;
 	cancellation_reason?: number;
-
+  origin: string;
+  destination: string;
 }
 
 export class RESERVATIONSTATUS {
