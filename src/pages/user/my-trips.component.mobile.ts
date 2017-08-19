@@ -446,8 +446,8 @@ export class MyTripsMobileComponent implements OnInit, OnDestroy {
 	      let tripDay: String = this.getTripDay(rsvp.departure_date);
 	      let message = 'Estoy viajando a ' + rsvp.destination + ' el ' + tripDay + ' ' + rsvp.departure_date.toLocaleDateString();
 
-	      this.socialSharing.shareViaFacebookWithPasteMessageHint('Message via Facebook', 'http://simpleride-ec.com/sharing-image.png',
-	        'http://simpleride-ec.com/' + 'share/trip/' + rsvp.trip_id, message)
+	      this.socialSharing.shareViaFacebookWithPasteMessageHint('Message via Facebook', 'https://simpleride-ec.com/sharing-image.png',
+	        'https://simpleride-ec.com/' + 'share/trip/' + rsvp.trip_id, message)
 	      .then(() => {
 	          this.loader.dismiss();
 	      })
