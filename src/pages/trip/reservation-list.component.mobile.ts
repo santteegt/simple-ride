@@ -211,7 +211,7 @@ export class ReservationListMobileComponent implements OnInit, OnDestroy {
 		      			this.loader.dismiss();
 
 		      			if(response.processed) {
-		      				this.alertFinishedProcess('Reserva Acepada', 'Gracias por aceptar la reserva');
+		      				this.alertFinishedProcess('Reserva Aceptada', 'Gracias por aceptar la reserva');
 		      			} else {
 		      				this.alertFinishedProcess('Error en el servidor', 'Por favor inténtelo nuevamente');
 		      			}
