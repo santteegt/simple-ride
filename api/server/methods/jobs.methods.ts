@@ -35,7 +35,8 @@ SyncedCron.add({
   			$and: [
 	  			{'departureDate': {$gte: currentTime}},
 	  			{'departureDate': {$lte: windowTime}},
-	  			{'cancellation_date': undefined}
+					{'cancellation_date': undefined},
+					{'confirmed_places' : {$gt: 0}}
 			]
 		}
 	).fetch();
@@ -119,7 +120,8 @@ SyncedCron.add({
 
   	let rsvpList = Reservations.find({
   		$and: [
-	  		{'cancellation_date': undefined},
+				{'cancellation_date': undefined},
+				{'payment_status': RESERVATIONSTATUS.PROCESSED},
 	  		{'departure_date': {$lte: windowTime}},
 	  		{$or: [
 	  			{'user_rating': undefined},
@@ -181,7 +183,7 @@ SyncedCron.add({
 
 				let rsvpArray = Reservations.find({
 					'trip_id': rsvp.trip_id,
-					'cancellation_date': undefined,
+					'payment_status': RESERVATIONSTATUS.PROCESSED,
 					'driver_rating': undefined
 				}).fetch();
 
@@ -203,7 +205,7 @@ SyncedCron.add({
 			      text: 'Gracias por tu viaje. Recuerda calificar a tus acompañantes',
 			      from: 'server',
 			      badge: 1,
-			      query: {userId: rsvp.user_id}
+			      query: {userId: rsvp.driver_id}
 			    }
 
 			    Notifications.insert({
