@@ -98,7 +98,7 @@ export class GeolocationService {
 	  				console.log(me.currentPosition);
 	  				resolve(me.currentPosition);
 	  			}).catch((error) => {
-						me.presentAlert('Error', 'Error using native geolocation');
+						me.presentAlert('Error', 'Error al usar la geololización');
 						me.currentPosition = {
 							lat: -2.9004014,
 							lng: -79.00145669999999
