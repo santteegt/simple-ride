@@ -8,7 +8,7 @@ import { MeteorObservable } from "meteor-rxjs";
 declare var Meteor;
 declare var _;
 
-import { Reservation, Trip, Place, UserTripFlag, User, MESSAGETYPES } from '../../shared/models';
+import { Reservation, Trip, Place, UserTripFlag, User, MESSAGETYPES, RESERVATIONSTATUS } from '../../shared/models';
 import { Reservations, Trips, Places, UserTripFlags, Users, ChatMessages } from '../../shared/collections';
 
 import { DetailedReservationMobileComponent } from '../trip/detailed-reservation.component.mobile';
@@ -126,7 +126,7 @@ export class OnTripMobileComponent implements OnInit, OnDestroy {
 
              this.rsvpSub = MeteorObservable.subscribe('reservations', {}, false, this.userTripFlag.user_id).subscribe(() => {
 
-              this.rsvpList = Reservations.find({'trip_id': this.userTripFlag.trip_id, 'payment_status': 'processed'}).fetch();
+              this.rsvpList = Reservations.find({'trip_id': this.userTripFlag.trip_id, 'payment_status': RESERVATIONSTATUS.PROCESSED, 'cancellation_date': undefined}).fetch();
 
               let user_ids = _.map(this.rsvpList, function(rsvp: Reservation) {
                 return rsvp.user_id;
