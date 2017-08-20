@@ -161,7 +161,6 @@ export class TripReviewMobileComponent implements OnInit, OnDestroy {
 	}
 
 	saveReview(position: number, user: User, isDriver: boolean) {
-		let notifications;
 		if(isDriver) {
 			Reservations.update({'_id': this.rsvp._id},
 				{$set: {
