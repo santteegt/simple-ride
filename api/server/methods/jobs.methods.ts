@@ -327,6 +327,7 @@ SyncedCron.add({
 
 			let push_body: NotificationBody = {
 	      title: 'Viaje a ' + trip.destination.shortName,
+				text: 'Tu reserva para el viaje a ha sido cancelado por falta de confirmación. Por favor vuelve a reservar tu lugar.',
 	      from: 'server',
 	      badge: 1,
 	      query: {userId: rsvp.user_id}
@@ -339,7 +340,7 @@ SyncedCron.add({
 				let to: string = recipient['personData']['email'];
 				let from: string = 'info@simpleride-ec.com';
 				let subject: string = 'Viaje a ' + trip.destination.shortName;
-				let html: string = SSR.render("generalEmail", {title: subject, content: 'Tu reserva ha sido cancelada por que no has enviado tu depósito.<br><br>Puedes reservar de nuevo, pero asegurate de enviar tu comprobante dentro de 24 horas.'});
+				let html: string = SSR.render("generalEmail", {title: subject, content: 'Tu reserva para el viaje a ha sido cancelado por falta de confirmación. Por favor vuelve a reservar tu lugar.'});
 				Email.send({ to, from, subject, html });
 			}
 		});
