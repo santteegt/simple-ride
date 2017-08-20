@@ -191,7 +191,7 @@ export class UserRegistrationMobileComponent extends UserRegistration implements
 	    		}
 	       }, (err) => {
 	       	me.loader.dismiss();
-	       	this.presentToast("Internal error. Something went wrong!");
+          this.presentToast("Error interno. Por favor intenta de nuevo.");
 	       });
 	    }
 
@@ -230,7 +230,7 @@ export class UserRegistrationMobileComponent extends UserRegistration implements
 	    	if(super.registerUser(this.isModal)) {
 
 	    	} else {
-	    		this.presentToast("Internal error. Something went wrong!");
+          this.presentToast("Error interno. Por favor intenta de nuevo.");
 	    	}
 	    	//this.navCtrl.push(this.isDriver && !this.isModal ? CarRegistrationMobileComponent:DashboardMobileComponent, {});
 	    	return true;

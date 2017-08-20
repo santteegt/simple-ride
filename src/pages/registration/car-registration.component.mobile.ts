@@ -75,7 +75,7 @@ export class CarRegistrationMobileComponent extends UserRegistration implements 
 
 	ngOnDestroy() {
 		if(this.isModal && this.updated) {
-			this.showAlert('Perfil actualizado', 'El vehículo ha sido registrado exitosamente!');
+			this.showAlert('Perfil actualizado', '¡El vehículo ha sido registrado exitosamente!');
 		}
 	}
 
@@ -135,7 +135,7 @@ export class CarRegistrationMobileComponent extends UserRegistration implements 
 
 	       }, (err) => {
 	       	me.loader.dismiss();
-	       	me.presentToast("Internal error. Something went wrong!");
+					me.presentToast("Error interno. Por favor intenta de nuevo.");
 	       });
 	    }
 
@@ -147,21 +147,21 @@ export class CarRegistrationMobileComponent extends UserRegistration implements 
     	const me = this;
 
     	MeteorObservable.call('crawlANTPersonData', Meteor.userId(), person_id)
-		.subscribe((response: LicenseRecord) => {
-			me.licenseRecord = response;
-			me.hasLicense = response.found;
-			let prevMonth = new Date();
-			prevMonth.setDate(prevMonth.getDate() - 30);
-			if(!me.hasLicense || me.licenseRecord.license_info.points === "0") {
-				me.showAlert('Licencia no válida','Usted no registra una licencia válida');
-				me.hasLicense = false;
-			} else if(this.utils.stringToDate(me.licenseRecord.license_info.license_expire) < prevMonth){
-				me.showAlert('Licencia no válida','Su licencia ha caducado');
-				me.hasLicense = false;
-			}
-		}, (err) => {
-	       	me.presentToast('Internal error. Something went wrong!');
-        });
+			.subscribe((response: LicenseRecord) => {
+				me.licenseRecord = response;
+				me.hasLicense = response.found;
+				let prevMonth = new Date();
+				prevMonth.setDate(prevMonth.getDate() - 30);
+				if(!me.hasLicense || me.licenseRecord.license_info.points === "0") {
+					me.showAlert('Licencia no válida','Usted no registra una licencia válida');
+					me.hasLicense = false;
+				} else if(this.utils.stringToDate(me.licenseRecord.license_info.license_expire) < prevMonth){
+					me.showAlert('Licencia no válida','Su licencia ha caducado');
+					me.hasLicense = false;
+				}
+			}, (err) => {
+				me.presentToast('Error interno. Por favor intenta de nuevo.');
+	    });
     }
 
     registerCar() {
@@ -189,7 +189,7 @@ export class CarRegistrationMobileComponent extends UserRegistration implements 
 			this.driverData.carRegister = this.lastRegister;
 			this.driverData.hasInsurance = this.hasInsurance;
     	if(!super.registerCar()) {
-    		this.presentToast("Internal error. Something went wrong!");
+    		this.presentToast("Error interno. Por favor intenta de nuevo.");
     		return false;
     	}
     	this.updated = true;

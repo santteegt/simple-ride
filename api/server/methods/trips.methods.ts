@@ -126,7 +126,7 @@ Meteor.methods({
 
     _.each(rsvpList, function(rsvp: Reservation) {
       Reservations.update({_id: rsvp._id}, {$set: {cancellation_date: new Date(), cancellation_reason: 2}});
-      sendPushNotification('Viaje a ' + trip.destination.shortName, 'El conductor ha cancelado su viaje!', rsvp.user_id,
+      sendPushNotification('Viaje a ' + trip.destination.shortName, '¡El conductor ha cancelado su viaje!', rsvp.user_id,
         'MyTripsMobileComponent', {}, rsvp.driver_id, rsvp.trip_id, true);
     });
 
@@ -150,13 +150,13 @@ Meteor.methods({
         sendSystemMessage(rsvp.user_id, rsvp.trip_id, false, 'ha cancelado su reserva');
 
         trip = Trips.findOne({_id: rsvp.trip_id});
-        sendPushNotification('Viaje a ' + trip.destination.shortName, user['personData'].forename + ' ha cancelado su reserva!',
+        sendPushNotification('¡Viaje a ' + trip.destination.shortName, user['personData'].forename + ' ha cancelado su reserva!',
           rsvp.driver_id, 'TripMobileComponent', {'trip': trip}, rsvp.user_id, rsvp.trip_id, true);
         break;
       case 1: // Reserva Cancelada por el conductor
         sendSystemMessage(rsvp.driver_id, rsvp.trip_id, true, 'no aceptó la reserva de ' + user['personData'].forename);
 
-        sendPushNotification('Viaje a ' + trip.destination.shortName, 'El conductor no ha aceptado tu reserva!', rsvp.user_id,
+        sendPushNotification('¡Viaje a ' + trip.destination.shortName, 'El conductor no ha aceptado tu reserva!', rsvp.user_id,
         'MyTripsMobileComponent', {}, rsvp.driver_id, rsvp.trip_id, true);
         break;
       case 2: // Viaje Cancelado por el conductor
@@ -206,7 +206,7 @@ Meteor.methods({
       sendSystemMessage(reservation.user_id, reservation.trip_id, false, 'se ha unido a este viaje');
 
       trip = Trips.findOne({'_id': reservation.trip_id});
-      sendPushNotification('Viaje a ' + trip.destination.shortName, 'Tienes una nueva reserva!', reservation.driver_id,
+      sendPushNotification('Viaje a ' + trip.destination.shortName, '¡Tienes una nueva reserva!', reservation.driver_id,
         'TripMobileComponent', {'trip': trip}, reservation.user_id, reservation.trip_id, true);
 
   		return {status: 200, message: 'OK'}
@@ -222,7 +222,7 @@ Meteor.methods({
 
     sendSystemMessage(rsvp.driver_id, rsvp.trip_id, true, 'ha aceptado a ' + user['personData']['forename']);
 
-    sendPushNotification('Viaje a ' + trip.destination.shortName, 'El conductor ha pre aprobado tu reserva!', rsvp.user_id,
+    sendPushNotification('Viaje a ' + trip.destination.shortName, '¡El conductor ha pre aprobado tu reserva!', rsvp.user_id,
         'MyTripsMobileComponent', {}, null, rsvp.trip_id, true);
 
     return {processed: true, result: {}};
@@ -314,7 +314,7 @@ Meteor.methods({
 
     _.each(users_id, function(user_id: string) {
       let recipient_is_driver = user_id == trip.driver_id;
-			sendPushNotification('Viaje a ' + trip.destination.shortName, 'Tienes un nuevo mensaje!', user_id,
+			sendPushNotification('Viaje a ' + trip.destination.shortName, '¡Tienes un nuevo mensaje!', user_id,
 	        'TripMessageBoardMobileComponent', {'trip': trip, 'push_is_driver': recipient_is_driver}, sender_id, trip_id, new Date() < trip.departureDate);
     });
 
@@ -329,10 +329,10 @@ Meteor.methods({
 
     if(approved) {
 			Trips.update({'_id': rsvp.trip_id}, {$set: {'confirmed_places': trip.confirmed_places + rsvp.places}});
-      sendPushNotification('Viaje a ' + trip.destination.shortName, 'Tu pago ha sido aprobado!', rsvp.user_id,
+      sendPushNotification('Viaje a ' + trip.destination.shortName, '¡Tu pago ha sido aprobado!', rsvp.user_id,
         'MyTripsMobileComponent', {}, null, rsvp.trip_id, true);
 
-      sendPushNotification('Viaje a ' + trip.destination.shortName, 'La reserva de ' + user['personData'].forename + ' ha sido aprobada!', rsvp.driver_id,
+      sendPushNotification('Viaje a ' + trip.destination.shortName, '¡La reserva de ' + user['personData'].forename + ' ha sido aprobada!', rsvp.driver_id,
         'TripMobileComponent', {'trip': trip, 'readOnly': true}, rsvp.user_id, rsvp.trip_id, true);
 
 			if(user['personData']['email']){
@@ -345,7 +345,7 @@ Meteor.methods({
 				Email.send({ to, from, subject, html });
 			}
     } else {
-      sendPushNotification('Viaje a ' + trip.destination.shortName, 'Tu pago ha sido rechazado!', rsvp.user_id,
+      sendPushNotification('Viaje a ' + trip.destination.shortName, '¡Tu pago ha sido rechazado!', rsvp.user_id,
         'UploadDepositVoucherMobileComponent', {rsvp: rsvp}, null, rsvp.trip_id, true);
     }
 

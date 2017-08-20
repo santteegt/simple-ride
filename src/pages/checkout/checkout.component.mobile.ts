@@ -69,7 +69,7 @@ export class CheckoutMobileComponent implements OnInit, OnDestroy {
 			if(this.last_available_sits > trip.available_places) {
 				let diff = this.last_available_sits - trip.available_places;
 
-				this.presentToast("ALERTA! " + diff + (diff == 1 ? " lugar ha ":" lugares han ") + "sido reservado"
+				this.presentToast("¡ALERTA! " + diff + (diff == 1 ? " lugar ha ":" lugares han ") + "sido reservado"
 					+ (diff == 1 ? " ":"s ") + "en este momento");
 
 			} else {
@@ -135,7 +135,7 @@ export class CheckoutMobileComponent implements OnInit, OnDestroy {
 			switch (response.status) {
 				case 200:
 					let addemdum = reservation.payment_status == RESERVATIONSTATUS.WAITING_DRIVER_CONFIRMATION ? " El conductor tiene que aprobar su solicitud. Una vez aprobada recuerde subir el registro de su pago en el menú Mis Viajes":
-						(reservation.payment_status == RESERVATIONSTATUS.WAITING_USER_ACTION ? " Recuerde subir el registro de su pago en el menú Mis Viajes":"");
+						(reservation.payment_status == RESERVATIONSTATUS.WAITING_USER_ACTION ? " Recuerde subir el registro de su pago en el menú Mis Viajes en menos de 24 horas":"");
 					this.presentAlert('Reserva', "Su reserva ha sido registrada correctamente." + addemdum, true);
 					this.viewCtrl.dismiss();
 					break;
@@ -145,8 +145,8 @@ export class CheckoutMobileComponent implements OnInit, OnDestroy {
 			}
     	}, (err) => {
     		this.loader.dismiss();
-	       	this.presentToast("Internal error. Something went wrong!");
-       	});
+				this.presentToast("Error interno. Por favor intenta de nuevo.");
+     	});
 
 	}
 

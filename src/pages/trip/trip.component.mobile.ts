@@ -157,8 +157,8 @@ export class TripMobileComponent implements OnInit, OnDestroy {
 
 	finishDeletionProcess() {
 		let alert = this.alertCtrl.create({
-	      title: 'Viaje  cancelado!',
-	      subTitle: 'Tu viaje ha sido elminado!',
+	      title: '¡Viaje  cancelado!',
+	      subTitle: '¡Tu viaje ha sido eliminado!',
 	      buttons: [
 	      {
 	      	text: 'OK',

@@ -116,12 +116,12 @@ export class UserDocumentsMobileComponent implements OnInit, OnDestroy {
 	       }
 	     ]
 	   });
-		
+
 	   actionSheet.present();
 	}
 
 	capturePhoto(sourceType: any, isCamera?: boolean) {
-		
+
 		 let cameraOptions = {
 		    sourceType: sourceType,
 		    // destinationType: Camera.DestinationType.FILE_URI,
@@ -130,19 +130,19 @@ export class UserDocumentsMobileComponent implements OnInit, OnDestroy {
 		    correctOrientation: true,
 		    saveToPhotoAlbum: isCamera
 		  }
-		
-		
+
+
 		  this.camera.getPicture(cameraOptions).then((file_uri) => {
-		
+
 		  	this.loader = this.loadingCtrl.create({
 		      content: "Cargando...",
 		      spinner: "crescent"
 		    });
 	    	this.loader.present();
-		
+
 		  	// this.dataURL = "http://localhost:12664/local-filesystem/" + file_uri.substr(8);
 		  	this.dataURL = file_uri;
-		
+
 			let xhr = new XMLHttpRequest();
 			xhr.open("GET", this.dataURL);
 			xhr.responseType = "blob";
@@ -152,7 +152,7 @@ export class UserDocumentsMobileComponent implements OnInit, OnDestroy {
 			    this.loader.dismiss();
 			}
 			xhr.send();
-		
+
 		  }).catch((err) => {
 		  	console.log("Error capturing photo on this device! " + err);
 		  });
@@ -192,7 +192,7 @@ export class UserDocumentsMobileComponent implements OnInit, OnDestroy {
         	}
         	let alert = this.alertCtrl.create({
 		      'title': title,
-		      'subTitle': 'El documento ha sido enviado exitosamente!',
+		      'subTitle': '¡El documento ha sido enviado exitosamente!',
 		      buttons: [
 		      {
 		      	text: 'OK',
@@ -205,8 +205,8 @@ export class UserDocumentsMobileComponent implements OnInit, OnDestroy {
 		    alert.present();
 		}).catch((error) => {
 			loader.dismiss();
-			alert('Something went wrong! Try again. ' + error);
-		
+			alert('Error interno. Por favor intenta de nuevo.' + error);
+
 		});
 
 	}

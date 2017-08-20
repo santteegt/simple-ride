@@ -71,7 +71,7 @@ export class UploadDepositVoucherMobileComponent implements OnInit, OnDestroy {
 	ionViewWillEnter() {
 		if(this.rsvp.payment_comments) {
 			let alert = this.alertCtrl.create({
-		      title: 'Error en su comprobante de pago!',
+		      title: '¡Error en su comprobante de pago!',
 		      subTitle: 'El último comprobante de pago no fue procesado debido a: ' + this.rsvp.payment_comments,
 		      buttons: [
 		      {
@@ -94,7 +94,7 @@ export class UploadDepositVoucherMobileComponent implements OnInit, OnDestroy {
 	}
 
 	getFile(event: any) {
-		
+
 		console.log(event.srcElement.files);
 		this.dataFile = event.srcElement.files[0];
 		console.log(this.dataFile);
@@ -130,7 +130,7 @@ export class UploadDepositVoucherMobileComponent implements OnInit, OnDestroy {
 	       }
 	     ]
 	   });
-		
+
 	   actionSheet.present();
 	}
 
@@ -172,7 +172,7 @@ export class UploadDepositVoucherMobileComponent implements OnInit, OnDestroy {
 			    this.loader.dismiss();
 			}
 			xhr.send();
-		
+
 	  		// window['resolveLocalFileSystemURL'](file_uri, function success(fileEntry) {
 		  	// 	fileEntry.file(function(file) {
 		  	// 		me.dataFile = file;
@@ -180,7 +180,7 @@ export class UploadDepositVoucherMobileComponent implements OnInit, OnDestroy {
 		  	// 		// me.loader.dismiss();
 		  	// 	});
      		// });
-		
+
 	  	}).catch((err) => {
 		  	// alert("Error capturing photo on this device! " + err);
 	  	});
@@ -197,13 +197,13 @@ export class UploadDepositVoucherMobileComponent implements OnInit, OnDestroy {
 		let doc_type = DOCTYPES.DEPOSIT_VOUCHER;
 
 	    upload(this.isMobile() ? this.uploadedFile:this.dataFile, Meteor.userId(), doc_type, this.rsvp._id).then(() => {
-			
+
 			MeteorObservable.call('processPayment', 'deposit', this.rsvp._id).subscribe((response: ServerResponse) => {
 				if(response.status == 200) {
 					loader.dismiss();
 					let alert = this.alertCtrl.create({
 				      'title': 'Depósito Bancario',
-				      'subTitle': 'El documento ha sido enviado exitosamente!',
+				      'subTitle': '¡El documento ha sido enviado exitosamente!',
 				      buttons: [
 				      {
 				      	text: 'OK',
@@ -216,14 +216,14 @@ export class UploadDepositVoucherMobileComponent implements OnInit, OnDestroy {
 				    alert.present();
 				} else {
 					loader.dismiss();
-					alert('Something went wrong! Try again. ' + response.message);
+					alert('Error interno. Por favor intenta de nuevo.' + response.message);
 				}
 			});
-	    
+
 		}).catch((error) => {
 			loader.dismiss();
-			alert('Something went wrong! Try again. ' + error);
-		
+			alert('Error interno. Por favor intenta de nuevo.' + error);
+
 		});
 
 	}

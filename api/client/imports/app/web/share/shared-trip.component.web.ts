@@ -65,7 +65,7 @@ export class SharedTripComponent implements OnInit, OnDestroy {
 	    			let trip = response.result;
 						let description: string = 'Estoy viajando a ' + trip.origin.shortName + ' - ' + trip.destination.shortName
 	    				+ ' el ' + this.utils.dateToString(trip.departureDate) + ' a las ' + trip.departureTime + '\n' +
-	    				'Tengo ' + trip.available_places + ' lugar(es) aún disponibles. Reservalo ahora!';
+							'Tengo ' + trip.available_places + ' lugar(es) aún disponibles. ¡Reservalo ahora!';
 	    			console.log(response.result);
 		  	// 		this.metaService.setTitle('Simple Ride');
 			  //   	this.metaService.setTag('og:title', 'Simple Ride');

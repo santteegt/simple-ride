@@ -287,7 +287,7 @@ export class OnTripMobileComponent implements OnInit, OnDestroy {
 		MeteorObservable.call('finishTrip', this.userTripFlag.trip_id).subscribe((response: ServerResponse) => {
 			this.loader.dismiss();
 			if(response.status == 200) {
-			  this.showAlertMessage('Viaje Completado', 'Gracias por llegar a tu destino!');
+			  this.showAlertMessage('Viaje Completado', '¡Gracias por llegar a tu destino!');
 			} else {
 
 			}
@@ -315,7 +315,7 @@ export class OnTripMobileComponent implements OnInit, OnDestroy {
 	    message_time: hour + ':' + minutes,
 	    message: this.userTripFlag.code
 	  });
-    this.showAlertMessage('Código Enviado', 'El código se ha envíado al chat del viaje! Gracias por usar SimpleRide!');
+    this.showAlertMessage('Código Enviado', 'El código se ha envíado al chat del viaje. ¡Gracias por usar SimpleRide!');
   }
 
   isDriver(): boolean {

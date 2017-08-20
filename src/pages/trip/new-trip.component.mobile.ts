@@ -382,8 +382,8 @@ export class NewTripMobileComponent implements OnInit, OnDestroy {
 
 	finishRegistration() {
 		let alert = this.alertCtrl.create({
-	      title: 'Nuevo Viaje a ' + this.destination + '!',
-	      subTitle: 'Tu nuevo viaje ha sido publicado exitosamente!',
+	      title: '¡Nuevo Viaje a ' + this.destination + '!',
+	      subTitle: '¡Tu nuevo viaje ha sido publicado exitosamente!',
 	      buttons: [
 	      {
 	      	text: 'OK',

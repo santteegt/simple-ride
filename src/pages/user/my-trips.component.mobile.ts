@@ -401,7 +401,7 @@ export class MyTripsMobileComponent implements OnInit, OnDestroy {
 
 					}
 				}, (err) => {
-					console.log("Internal error. Something went wrong!");
+					console.log("Error interno. Por favor intenta de nuevo.");
 				});
 
 			}
