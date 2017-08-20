@@ -17,6 +17,7 @@ Accounts.onCreateUser(function (options, user) {
       user.personData.status = "new";
       user.driverData = {};
       user.paymentInfo = {};
+      user.adminData = { 'isAdmin': false };
 
       console.log(JSON.stringify(user));
 

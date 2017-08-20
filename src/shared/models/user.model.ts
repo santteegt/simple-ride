@@ -44,6 +44,10 @@ export interface PaymentInfo {
 	accountnumber: string;
 }
 
+export interface Admin {
+	isAdmin: boolean;
+}
+
 export class CONVERSATIONSTYLES {
 	static styles = [
 		{name: "quiet", value: 'Soy callado'},
