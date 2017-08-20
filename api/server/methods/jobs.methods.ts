@@ -56,7 +56,7 @@ SyncedCron.add({
 
 		let push_body: NotificationBody = {
 			title: 'Tú viaje esta por iniciar',
-			text: 'Abre la app para seguir el trayecto!',
+			text: '¡Abre la app para seguir el trayecto!',
 			from: 'server',
 			badge: 1,
 			query: {userId: trip.driver_id}
@@ -93,7 +93,7 @@ SyncedCron.add({
 
 			let push_body: NotificationBody = {
 				title: 'Tú viaje esta por iniciar',
-				text: 'Abre la app para seguir el trayecto!',
+				text: '¡Abre la app para seguir el trayecto!',
 				from: 'server',
 				badge: 1,
 				query: {userId: rsvp.user_id}
@@ -295,7 +295,7 @@ SyncedCron.add({
 					let to: string = recipient['personData']['email'];
 					let from: string = 'info@simpleride-ec.com';
 					let subject: string = 'Viaje a ' + trip.destination.shortName;
-					let html: string = SSR.render("generalEmail", {title: subject, content: 'Tu viaje ha sido reservado. Recuerda subir tu comprobante de pago desde nuestra app'});
+					let html: string = SSR.render("generalEmail", {title: subject, content: 'Tu viaje ha sido reservado. Recuerda subir tu comprobante de pago desde nuestra app en menos de 24 horas'});
 					Email.send({ to, from, subject, html });
 				}
 
@@ -305,4 +305,45 @@ SyncedCron.add({
 
 
   }
-})
+});
+
+SyncedCron.add({
+  name: 'Remove uncomplete reservations after 24 hours',
+  schedule: function(parser) {
+    return parser.recur().on(59).minute();
+  },
+  job: function() {
+		let currentTime = new Date();
+		let windowTime = new Date();
+		windowTime.setHours(windowTime.getHours() - 24);
+		let rsvpList = Reservations.find({
+			'cancellation_date': undefined,
+			'payment_status': RESERVATIONSTATUS.WAITING_USER_ACTION,
+			'reservation_date': {$lte: windowTime}
+		}).fetch();
+		_.each(rsvpList, function(rsvp: Reservation){
+			Reservations.remove({ '_id': rsvp._id });
+			let trip = Trips.findOne({_id: rsvp.trip_id});
+
+			let push_body: NotificationBody = {
+	      title: 'Viaje a ' + trip.destination.shortName,
+	      from: 'server',
+	      badge: 1,
+	      query: {userId: rsvp.user_id}
+	    }
+
+	    Push.send(push_body);
+
+	    let recipient = Users.findOne({_id: rsvp.user_id});
+			if(recipient['personData']['email']){
+				let to: string = recipient['personData']['email'];
+				let from: string = 'info@simpleride-ec.com';
+				let subject: string = 'Viaje a ' + trip.destination.shortName;
+				let html: string = SSR.render("generalEmail", {title: subject, content: 'Tu reserva ha sido cancelada por que no has enviado tu depósito.<br><br>Puedes reservar de nuevo, pero asegurate de enviar tu comprobante dentro de 24 horas.'});
+				Email.send({ to, from, subject, html });
+			}
+		});
+
+		console.log('REMOVED UNCOMPLETE RESERVATIONS')
+	}
+});
