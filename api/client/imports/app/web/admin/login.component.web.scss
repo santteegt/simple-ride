@@ -8,7 +8,7 @@
 }
 
 .admin .header{
-	height: 50px;
+	height: 100px;
 }
 
 .admin .header h2{
@@ -18,14 +18,7 @@
 .admin .header button{
 	margin-top: 10px;
 	color: #fff;
-	border-color: #fff;
-	background-color: transparent;
-}
-
-.admin .header a{
-	margin-top: 10px;
-	color: #fff;
-	border: 1px solid #fff;
+	border-color: #FFF;
 	background-color: transparent;
 }
 
@@ -34,31 +27,24 @@
 	text-align: center;
 }
 
-.admin .container img{
-	margin: 50px auto;
-}
-
 .admin .container button{
 	color: #fff;
-	border-color: #FFF;
+	border-color: #fff;
 	background-color: transparent;
 	margin: 50px auto;
 	font-size: 2rem;
 }
 
+.admin .container a{
+	color: #fff;
+	border: 1px solid #fff;
+	background-color: transparent;
+	margin: 50px auto;
+	padding: 10px 20px;
+	font-size: 2rem;
+	display: inline-block;
+}
+
 .open .dropdown-menu{
 	display: block;
-}
-
-.voucher-object {
-	display: block;
-	height: 200px;
-	width: 250px;
-	padding-right: 50px;
-}
-
-.admin .tab-content .tab-pane{
-	background-color: #472F92;
-	color: #fff;
-	height: 100vh;
 }

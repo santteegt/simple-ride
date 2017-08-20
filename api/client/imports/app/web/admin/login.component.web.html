@@ -1,0 +1,33 @@
+<div class="admin">
+	<div class="header row">
+		<div class="col-3"></div>
+		<div class="col-6 text-center"><h2>Administrador</h2></div>
+		<div class="col-3 text-right">
+			<div class="btn-group" dropdown *ngIf="isAdmin">
+	      <button dropdownToggle type="button" class="btn dropdown-toggle">{{user.personData.forename}} {{user.personData.surname}}<span class="caret"></span></button>
+	      <ul *dropdownMenu class="dropdown-menu" role="menu">
+	        <li role="menuitem"><a href="/admin" class="dropdown-item" (click)="logout()">Cerrar Sesión</a></li>
+	      </ul>
+	    </div>
+		</div>
+	</div>
+	<div class="container" *ngIf="!isAdmin">
+		<img src="assets/logo-home.svg" width="250px">
+		<h3>Inicia Sesion con Facebook:</h3>
+		<button type="button" class="btn" (click)="login()" >Iniciar Sesion</button>
+	</div>
+	<div class="container" *ngIf="isAdmin">
+		<h3>Bienvenido, que deseas hacer?</h3>
+		<div class="row">
+			<div class="col-4">
+				<a href="/admin/docs">Aprobar/Negar Documentos</a>
+			</div>
+			<div class="col-4">
+				<a href="#">Ver Viajes Cancelados</a>
+			</div>
+			<div class="col-4">
+				<a href="3">Ver Viajes Finalizados</a>
+			</div>
+		</div>
+	</div>
+</div>

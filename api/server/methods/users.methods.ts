@@ -71,5 +71,15 @@ Meteor.methods({
     });
     }
     return {status: 200, message: 'OK'}
+  },
+  isAdmin: function(user_id: String){
+    if(Meteor.isServer){
+      let user = Users.findOne({_id: user_id});
+      if(user && user['adminData'] && user['adminData']['isAdmin']){
+        return {status: 200, message: 'OK', };
+      }else{
+        return {status: 500, message: 'Unauthorized', };
+      }
+    }
   }
 });
