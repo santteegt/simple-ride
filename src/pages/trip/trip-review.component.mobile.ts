@@ -5,7 +5,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 // import { InjectUser } from "angular2-meteor-accounts-ui";
 declare var Meteor;
 declare var _;
-import { NavController, NavParams, ViewController, AlertController, LoadingController, ModalController } from 'ionic-angular';
+import { NavController, NavParams, ViewController, AlertController, LoadingController, ModalController, ToastController } from 'ionic-angular';
 
 import { Subscription } from "rxjs";
 import { MeteorObservable } from "meteor-rxjs";
@@ -13,8 +13,8 @@ import { MeteorObservable } from "meteor-rxjs";
 import { TripUtils } from '../../classes/trip-utils.class';
 import { UserProfileMobileComponent } from '../user/user-profile.component.mobile';
 
-import { User, Trip, Reservation } from '../../shared/models';
-import { Reservations } from '../../shared/collections';
+import { User, Trip, Reservation, Notification } from '../../shared/models';
+import { Reservations, Notifications } from '../../shared/collections';
 import { Keyboard } from '@ionic-native/keyboard';
 
 
@@ -45,6 +45,8 @@ export class TripReviewMobileComponent implements OnInit, OnDestroy {
 
 	rsvpSub: Subscription;
 	rsvpList: Reservation[];
+	myNotifSub: Subscription;
+	myNotifList: Notification[];
 
 	tripUtils = TripUtils;
 
@@ -56,7 +58,7 @@ export class TripReviewMobileComponent implements OnInit, OnDestroy {
 
 	constructor(private navCtrl: NavController, navParams: NavParams,
 		private viewCtrl: ViewController, private modalCtrl: ModalController,
-		private alertCtrl: AlertController, private loadingCtrl: LoadingController, private keyboard: Keyboard) {
+		private alertCtrl: AlertController, private loadingCtrl: LoadingController, private keyboard: Keyboard, private toastCtrl: ToastController) {
 
 		this.trip = navParams.get("trip");
 		this.rsvp = navParams.get("rsvp");
@@ -89,6 +91,16 @@ export class TripReviewMobileComponent implements OnInit, OnDestroy {
 				}).fetch();
 			});
 
+			this.myNotifSub = MeteorObservable.subscribe('notifications', Meteor.userId()).subscribe(() => {
+
+				this.myNotifList = Notifications.find({
+					'redirect_component': 'TripReviewMobileComponent',
+					'trip_id': this.trip._id,
+					'sent_date': {$lt: new Date()}
+				}).fetch();
+				console.log(this.myNotifList);
+			});
+
 		}
 
 	}
@@ -107,14 +119,16 @@ export class TripReviewMobileComponent implements OnInit, OnDestroy {
 		} else {
 			this.reviews[position] = {'score': score, 'comments': undefined};
 		}
-
+		if(score < 5){
+			this.presentToast('Por favor cuentanos que no te gusto del viaje!');
+		}
 	}
 
 	updateReviewComment(position: number, textArea: any) {
 		if(this.reviews[position]) {
-			this.reviews[position]['comments'] = textArea.srcElement.value;
+			this.reviews[position]['comments'] = textArea.target.value;
 		} else {
-			this.reviews[position] = {'score': undefined, 'comments': textArea.srcElement.value};
+			this.reviews[position] = {'score': undefined, 'comments': textArea.target.value};
 		}
 
 	}
@@ -147,7 +161,7 @@ export class TripReviewMobileComponent implements OnInit, OnDestroy {
 	}
 
 	saveReview(position: number, user: User, isDriver: boolean) {
-
+		let notifications;
 		if(isDriver) {
 			Reservations.update({'_id': this.rsvp._id},
 				{$set: {
@@ -155,6 +169,12 @@ export class TripReviewMobileComponent implements OnInit, OnDestroy {
 					'user_rating_comments': this.reviews[position].comments
 				}}
 			);
+			let me = this;
+			_.each(this.myNotifList, function(notif: Notification){
+				if(notif.user_id == me.rsvp.user_id){
+					Notifications.update({ '_id': notif._id }, {$set: { 'archived': true }});
+				}
+			});
 			this.viewCtrl.dismiss();
 		} else {
 			let rsvp = _.find(this.rsvpList, function(rsvp: Reservation) {
@@ -166,9 +186,12 @@ export class TripReviewMobileComponent implements OnInit, OnDestroy {
 					'driver_rating_comments': this.reviews[position].comments
 				}}
 			);
-
+			_.each(this.myNotifList, function(notif: Notification){
+				if(notif.user_id == rsvp.driver_id){
+					Notifications.update({ '_id': notif._id }, {$set: { 'archived': true }});
+				}
+			});
 		}
-
 		this.reviews[position].done = true;
 		if(this.areReviewsComplete()) {
 			let alert = this.alertCtrl.create({
@@ -201,6 +224,13 @@ export class TripReviewMobileComponent implements OnInit, OnDestroy {
 		this.viewCtrl.dismiss();
 	}
 
-
+	presentToast(message: string) {
+		let toast = this.toastCtrl.create({
+		  message: message,
+		  position: 'top',
+		  duration: 5000
+		});
+		toast.present();
+	}
 
 }
