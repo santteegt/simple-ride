@@ -7,6 +7,8 @@ import { SharedTripComponent } from './web/share/shared-trip.component.web';
 
 export const routes: Route[] = [
   { path: '', component: DashboardComponent},
+  { path: 'privacy-policy', component: DashboardComponent },
+  { path: 'tyc', component: DashboardComponent },
   { path: 'admin', component: LoginComponent },
   { path: 'admin/docs', component: DocumentBrowserComponent },
   { path: 'share/trip/:id', component: SharedTripComponent }

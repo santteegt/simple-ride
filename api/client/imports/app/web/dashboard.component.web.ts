@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 // import { Dashboard } from "../shared-components/dashboard.class";
 import { Jsonp } from '@angular/http';
 
@@ -26,7 +27,11 @@ export class DashboardComponent {
   driverSlides: Slide[];
   userSlides: Slide[];
 
-  constructor(private jsonp:Jsonp) {
+	showPrivacyModal:boolean;
+	showTyCModal:boolean;
+	router: any;
+
+  constructor(private jsonp: Jsonp, private _router: Router) {
     // super("Hello World!");
     this.driverSlides = [
       {img:'assets/descarga.png', text: '1. Descarga la app'},
@@ -42,6 +47,9 @@ export class DashboardComponent {
       {img:'assets/pago.png', text: '4. Realiza el pago'},
       {img:'assets/viaja.png', text: '5. ¡Viaja!'}
     ];
+		this.showPrivacyModal = false;
+		this.showTyCModal = false;
+		this.router = _router;
   }
 
   scrollTo(event: any){
@@ -70,5 +78,11 @@ export class DashboardComponent {
 
 	ngOnInit(){
 		this.scrollToTarget('home');
+		if(this.router.url=='/privacy-policy'){
+			this.showPrivacyModal = true;
+		}
+		if(this.router.url=='/tyc'){
+			this.showTyCModal = true;
+		}
 	}
 }

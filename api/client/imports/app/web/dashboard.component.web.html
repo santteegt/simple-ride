@@ -127,16 +127,16 @@
       <div class="col-1"></div>
       <div class="col-10">
         <ul>
-          <li><a (click)="tycModal.show()">Terminos y Condiciones</a></li>
-          <li><a (click)="privacityModal.show()">Políticas de Privacidad</a></li>
+          <li><a (click)="showTyCModal = true">Terminos y Condiciones</a></li>
+          <li><a (click)="showPrivacyModal = true">Políticas de Privacidad</a></li>
           <li><a (click)="faqModal.show()">Preguntas Frecuentes</a></li>
         </ul>
-        <div class="modal fade" bsModal #tycModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="tycModalLabel" aria-hidden="true">
+        <div *ngIf="showTyCModal" [config]="{ show: true }"class="modal fade" bsModal #tycModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="tycModalLabel" aria-hidden="true">
           <div class="modal-dialog modal-lg">
             <div class="modal-content">
               <div class="modal-header">
                 <h4 class="modal-title">Terminos y Condiciones</h4>
-                <button type="button" class="close pull-right" aria-label="Close" (click)="tycModal.hide()">
+                <button type="button" class="close pull-right" aria-label="Close" (click)="showTyCModal = false">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
@@ -1118,12 +1118,12 @@
             </div>
           </div>
         </div>
-        <div class="modal fade" bsModal #privacityModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="privacityModalLabel" aria-hidden="true">
+        <div *ngIf="showPrivacyModal" [config]="{ show: true }" class="modal fade" bsModal #privacyModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="privacyModalLabel" aria-hidden="true">
           <div class="modal-dialog modal-lg">
             <div class="modal-content">
               <div class="modal-header">
                 <h4 class="modal-title">Políticas de Privacidad</h4>
-                <button type="button" class="close pull-right" aria-label="Close" (click)="privacityModal.hide()">
+                <button type="button" class="close pull-right" aria-label="Close" (click)="showPrivacyModal = false">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
