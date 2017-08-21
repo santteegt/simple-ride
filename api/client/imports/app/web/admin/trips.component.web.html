@@ -1,0 +1,72 @@
+<div class="admin" *ngIf="isAdmin">
+	<div class="header row" style="max-height: 15vh;">
+		<div class="col-3">
+			<a href="/admin" type="button" class="btn">Regresar</a>
+		</div>
+		<div class="col-6 text-center"><h2>Administrador</h2></div>
+		<div class="col-3 text-right">
+	    <div class="btn-group" dropdown>
+	      <button dropdownToggle type="button" class="btn dropdown-toggle">{{user.personData.forename}} {{user.personData.surname}}<span class="caret"></span></button>
+	      <ul *dropdownMenu class="dropdown-menu" role="menu">
+	        <li role="menuitem"><a class="dropdown-item" (click)="logout()">Cerrar Sesión</a></li>
+	      </ul>
+	    </div>
+		</div>
+	</div>
+
+
+	<tabset #documents *ngIf="isAdmin" class="tabs">
+		<tab heading="Viajes Completados" style="height: 85vh;">
+			<table>
+				<thead>
+		      <tr>
+		        <th>Origen</th>
+		        <th>Destino</th>
+		        <th>Fecha de Salida</th>
+						<th>Hora de Salida</th>
+						<th>Precio</th>
+						<th>Puestos Reservados</th>
+		      </tr>
+		    </thead>
+				<tbody>
+					<tr *ngFor="let trip of tripsObs | async">
+						<td>{{ trip.origin.shortName }}</td>
+						<td>{{ trip.destination.shortName }}</td>
+						<td>{{ trip.departureDate.toLocaleDateString() }}</td>
+						<td>{{ trip.departureTime }}</td>
+						<td>{{ trip.price }}</td>
+						<td>{{ trip.confirmed_places }}</td>
+					</tr>
+				</tbody>
+			</table>
+		</tab>
+		<tab heading="Viajes Cancelados" style="height: 85vh;">
+			<table>
+				<thead>
+		      <tr>
+		        <th>Origen</th>
+		        <th>Destino</th>
+		        <th>Fecha de Salida</th>
+						<th>Hora de Salida</th>
+						<th>Precio</th>
+						<th>Puestos Reservados</th>
+						<th>Fecha de Cancelación</th>
+						<th>Motivo</th>
+		      </tr>
+		    </thead>
+				<tbody>
+					<tr *ngFor="let trip of cancelledTripsObs | async">
+						<td>{{ trip.origin.shortName }}</td>
+						<td>{{ trip.destination.shortName }}</td>
+						<td>{{ trip.departureDate.toLocaleDateString() }}</td>
+						<td>{{ trip.departureTime }}</td>
+						<td>{{ trip.price }}</td>
+						<td>{{ trip.confirmed_places }}</td>
+						<td>{{ trip.cancellation_date }}</td>
+						<td>{{ trip.cancellation_reason }}</td>
+					</tr>
+				</tbody>
+			</table>
+		</tab>
+	</tabset>
+</div>

@@ -1,11 +1,12 @@
-<div class="admin">
+<div *ngIf="!isAdmin"></div>
+<div class="admin" *ngIf="isAdmin">
 	<div class="header row">
 		<div class="col-3">
 			<a href="/admin" type="button" class="btn">Regresar</a>
 		</div>
 		<div class="col-6 text-center"><h2>Administrador</h2></div>
 		<div class="col-3 text-right">
-	    <div class="btn-group" dropdown *ngIf="user">
+	    <div class="btn-group" dropdown>
 	      <button dropdownToggle type="button" class="btn dropdown-toggle">{{user.personData.forename}} {{user.personData.surname}}<span class="caret"></span></button>
 	      <ul *dropdownMenu class="dropdown-menu" role="menu">
 	        <li role="menuitem"><a class="dropdown-item" (click)="logout()">Cerrar Sesión</a></li>
@@ -13,13 +14,9 @@
 	    </div>
 		</div>
 	</div>
-	<div class="container" *ngIf="!user">
-		<img src="assets/logo-home.svg" width="250px">
-		<h3>Inicia Sesion con Facebook:</h3>
-		<button type="button" class="btn" (click)="login()" >Iniciar Sesion</button>
-	</div>
 
-	<tabset #documents *ngIf="user" class="tabs">
+
+	<tabset #documents *ngIf="isAdmin" class="tabs">
 		<tab heading="Depósitos por aprobar">
 			<ul class="list-group">
 			  	<li class="list-group-item" *ngFor="let voucher of voucherObs | async">

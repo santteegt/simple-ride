@@ -1,8 +1,10 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Observable, Subscription, Subject } from "rxjs";
 import { FormsModule }   from '@angular/forms';
-import { MeteorObservable } from "meteor-rxjs"
-import { InjectUser } from "angular2-meteor-accounts-ui";
+import { MeteorObservable } from "meteor-rxjs";
+import { Router } from '@angular/router';
+// TODO:
+// import { InjectUser } from "angular2-meteor-accounts-ui";
 import { _ } from 'underscore';
 
 import { TabsetComponent, BsDropdownModule } from 'ngx-bootstrap';
@@ -35,7 +37,7 @@ interface UsersServerResponse {
   styles: [ style ],
   providers: [ FacebookLoginManager ]
 })
-@InjectUser('user')
+// @InjectUser('user')
 export class DocumentBrowserComponent implements OnInit, OnDestroy {
 
 	@ViewChild('documents') staticTabs: TabsetComponent;
@@ -59,64 +61,84 @@ export class DocumentBrowserComponent implements OnInit, OnDestroy {
 	registerSub: Subscription;
 	registerObs: Observable<Image[]>;
 
+	autoSub: Subscription;
+	isAdmin: boolean;
+	user: any;
+
+
 	comments;
 
-	constructor(private loginManager: FacebookLoginManager) {
+	constructor(private loginManager: FacebookLoginManager, private router: Router) {
 
 	}
 
 	ngOnInit() {
+		this.autoSub = MeteorObservable.autorun().subscribe(() => {
+			this.user = Meteor.user();
+			if(this.user && !Meteor.loggingIn()){
+				MeteorObservable.call('isAdmin', this.user._id).subscribe((response: ServerResponse) => {
+		      if(this.isAdmin = response.status == 200){
+						if(this.voucherSub) {
+							this.voucherSub.unsubscribe();
+						}
 
-		if(this.voucherSub) {
-    		this.voucherSub.unsubscribe();
-    	}
+						if(this.rsvpSub) {
+							this.rsvpSub.unsubscribe();
+						}
 
-		if(this.rsvpSub) {
-    		this.rsvpSub.unsubscribe();
-    	}
+						this.rsvpSub = MeteorObservable.subscribe('reservations', {sort: {'reservation_date': -1}}).subscribe(() => {
 
-		this.rsvpSub = MeteorObservable.subscribe('reservations', {sort: {'reservation_date': -1}}).subscribe(() => {
+							let reservations = Reservations.find({
+								'cancellation_date': undefined,
+								'departure_date': {$gte: new Date()},
+								'payment_status': RESERVATIONSTATUS.PROCESSING_PAYMENT
+							});
+							this.rsvpList = reservations.fetch();
 
-			let reservations = Reservations.find({
-				'cancellation_date': undefined,
-				'departure_date': {$gte: new Date()},
-				'payment_status': RESERVATIONSTATUS.PROCESSING_PAYMENT
-			});
-			this.rsvpList = reservations.fetch();
+							let rsvpArray = _.map(this.rsvpList, function(rsvp: Reservation) {
+								return rsvp._id;
+							});
 
-			let rsvpArray = _.map(this.rsvpList, function(rsvp: Reservation) {
-				return rsvp._id;
-			});
+							this.voucherSub = MeteorObservable.subscribe("images").subscribe(() => {
+					          this.voucherObs = Images.find({'rsvp_id': {$in: rsvpArray}, 'processed': undefined}).zone();
+							});
+						});
 
-			this.voucherSub = MeteorObservable.subscribe("images").subscribe(() => {
-	          this.voucherObs = Images.find({'rsvp_id': {$in: rsvpArray}, 'processed': undefined}).zone();
-			});
-		});
+						MeteorObservable.call('getVerifingUsers').subscribe((response: UsersServerResponse) => {
+								if(response.status == 200){
+									this.userList = response.users;
 
-		MeteorObservable.call('getVerifingUsers').subscribe((response: UsersServerResponse) => {
-  			if(response.status == 200){
-  				console.log(response);
-	  			this.userList = response.users;
+									let userArray = _.map(this.userList, function(user: User) {
+									return user._id;
+								});
 
-	  			let userArray = _.map(this.userList, function(user: User) {
-					return user._id;
-				});
+								this.dniSub = MeteorObservable.subscribe("images").subscribe(() => {
+					          this.dniObs = Images.find({'user_id': {$in: userArray}, 'doc_type': DOCTYPES.DNI, 'processed': undefined}).zone();
+								});
 
-  			this.dniSub = MeteorObservable.subscribe("images").subscribe(() => {
-	          this.dniObs = Images.find({'user_id': {$in: userArray}, 'doc_type': DOCTYPES.DNI, 'processed': undefined}).zone();
-				});
+								this.licenseSub = MeteorObservable.subscribe("images").subscribe(() => {
+						          this.licenseObs = Images.find({'user_id': {$in: userArray}, 'doc_type': DOCTYPES.LICENSE, 'processed': undefined}).zone();
+								});
 
-				this.licenseSub = MeteorObservable.subscribe("images").subscribe(() => {
-		          this.licenseObs = Images.find({'user_id': {$in: userArray}, 'doc_type': DOCTYPES.LICENSE, 'processed': undefined}).zone();
-				});
+								this.registerSub = MeteorObservable.subscribe("images").subscribe(() => {
+						          this.registerObs = Images.find({'user_id': {$in: userArray}, 'doc_type': DOCTYPES.CAR_REGISTER, 'processed': undefined}).zone();
+								});
+							}
+						});
 
-				this.registerSub = MeteorObservable.subscribe("images").subscribe(() => {
-		          this.registerObs = Images.find({'user_id': {$in: userArray}, 'doc_type': DOCTYPES.CAR_REGISTER, 'processed': undefined}).zone();
-				});
+						this.comments = [];
+					}else{
+						this.loginManager.logout();
+						this.router.navigate(['/admin']);
+					}
+		    });
+			}else if(Meteor.loggingIn()){
+				// nothing to do
+			}else{
+				this.loginManager.logout();
+				this.router.navigate(['/admin']);
 			}
-  		});
-
-			this.comments = [];
+		});
 	}
 
 	getRSVP(rsvp_id: string) {
@@ -182,31 +204,16 @@ export class DocumentBrowserComponent implements OnInit, OnDestroy {
 	}
 
 	ngOnDestroy() {
-		this.voucherSub.unsubscribe();
-		this.rsvpSub.unsubscribe();
-
+		if(this.voucherSub){
+			this.voucherSub.unsubscribe();
+		}
+		if(this.rsvpSub){
+			this.rsvpSub.unsubscribe();
+		}
 	}
 
-  	login() {
-  		this.loginManager.login().then(msg => {
-
-			// if(Meteor.user()["personData"] && Meteor.user()["personData"].status == "new") {
-			// 	this.navCtrl.push(UserRegistrationMobileComponent, {
-	  //   	});
-			// } else {
-			// 	this.navCtrl.push(DashboardMobileComponent, {
-	  //   	});
-			// }
-
-  		})
-  		.catch((error) => {
-  			console.log(error);
-  			alert(error);
-  		});
-  	}
-
-		logout() {
-			this.loginManager.logout();
-		}
+	logout() {
+		this.loginManager.logout();
+	}
 
 }

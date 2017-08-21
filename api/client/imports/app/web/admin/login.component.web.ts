@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
 	autoSub: Subscription;
 
-	constructor(private loginManager: FacebookLoginManager, private router: Router) {
+	constructor(private loginManager: FacebookLoginManager) {
 
 	}
 
@@ -51,11 +51,9 @@ export class LoginComponent implements OnInit, OnDestroy {
 					}else{
 						this.loginManager.logout();
 					}
-					console.log(this.user);
 		    });
 			}
 		});
-		//console.log(this.user['Admin']);
 	}
 
 	ngOnDestroy() {

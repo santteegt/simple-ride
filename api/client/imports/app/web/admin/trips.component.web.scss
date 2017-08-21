@@ -8,7 +8,7 @@
 }
 
 .admin .header{
-	height: 50px;
+	min-height: 10vh;
 }
 
 .admin .header h2{
@@ -50,15 +50,23 @@
 	display: block;
 }
 
-.voucher-object {
-	display: block;
-	height: 200px;
-	width: 250px;
-	padding-right: 50px;
-}
-
 .admin .tab-content .tab-pane{
 	background-color: #472F92;
 	color: #fff;
 	height: 100vh;
+}
+
+.admin .tabs .tab-content{
+	height: 100vh;
+}
+
+table{
+	margin: 20px auto;
+	width: 80%;
+	color: #fff;
+}
+
+table th, table td{
+	padding: 10px 20px;
+	border: 1px solid #fff;
 }
