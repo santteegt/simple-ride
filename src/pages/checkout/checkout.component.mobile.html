@@ -30,7 +30,7 @@
           <ion-item>
             <ion-icon item-left name="ios-pin"></ion-icon>
             <h2>Viaje a {{trip.destination.shortName}}</h2>
-            <p><b>Fecha:</b> <span>{{trip.departureDate.toLocaleDateString()}}</span> <b>Hora:</b> <span>{{trip.departureTime}}</span><br />
+            <p (click)="presentAlert('Lugar de partida', trip.departureAddress)"><b>Fecha:</b> <span>{{trip.departureDate.toLocaleDateString()}}</span> <b>Hora:</b> <span>{{trip.departureTime}}</span><br />
 						<b>Lugar de salida:</b> <span>{{trip.departureAddress}}</span></p>
           </ion-item>
 
