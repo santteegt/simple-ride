@@ -26,7 +26,7 @@
         <ion-item>
           <ion-label stacked ion-text color="primary">Placa Vehículo(*)</ion-label>
           <!-- <ion-input type="text" formControlName="carRegister" [class.invalid]="!myformGroup.controls.carRegister.valid && (myformGroup.controls.carRegister.dirty || submitAttempt)" placeholder="ej: ABC-09XX"></ion-input> -->
-          <ion-input type="text" [(ngModel)]="carRegister" [class.invalid]="validRegister == false" placeholder="ej: ABC09XX"></ion-input>
+          <ion-input type="text" [(ngModel)]="carRegister" [class.invalid]="validRegister == false && carRegister" placeholder="ej: ABC09XX"></ion-input>
         </ion-item>
 
         <div padding>
