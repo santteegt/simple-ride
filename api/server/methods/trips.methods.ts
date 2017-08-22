@@ -105,8 +105,12 @@ function sendPushNotification(title: string, text: string, user_id?: string, red
 			let from: string = 'info@simpleride-ec.com';
 			let subject: string = title;
 			let html: string = SSR.render("generalEmail", {title: title, content: text});
-			Email.send({ to, from, subject, html });
+			sendEmail(to, from, subject, html);
 		}
+}
+
+async function sendEmail(to: string, from: string, subject: string, html: string){
+	Email.send({ to, from, subject, html });
 }
 
 
@@ -342,7 +346,7 @@ Meteor.methods({
 				let utility = rsvp.total * .15;
 				let expenses = utility / 1.12;
 				let html: string = SSR.render("voucherEmail", {totalPayment: rsvp.total, reservedSits: rsvp.places, origin: trip.origin.shortName, destination: trip.destination.shortName, departureDate: trip.departureDate.toLocaleDateString(), departureTime: trip.departureTime, expenses: expenses.toFixed(2), insurance: (rsvp.total * .1).toFixed(2), iva: (expenses * .12).toFixed(2)});
-				Email.send({ to, from, subject, html });
+				sendEmail(to, from, subject, html);
 			}
     } else {
       sendPushNotification('Viaje a ' + trip.destination.shortName, '¡Tu pago ha sido rechazado!', rsvp.user_id,

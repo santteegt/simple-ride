@@ -41,6 +41,10 @@ function fixLabel(label: string) {
 	return newLabel;
 }
 
+async function sendEmail(to: string, from: string, subject: string, html: string){
+	Email.send({ to, from, subject, html });
+}
+
 Meteor.methods({
 
  	crawlANTCarData: function(user_id: string, car_id: string) {
@@ -106,7 +110,7 @@ Meteor.methods({
 		  		}
 			 } catch (e) {
 				 let html: string = SSR.render("generalEmail", {title: subject, content: 'La url '+url+' parece estar caida. Por favor revisar.'});
-				 Email.send({ to, from, subject, html });
+				 sendEmail(to, from, subject, html);
 				 return {found: false, vehicleData: undefined};
 			 }
   		}
@@ -179,7 +183,7 @@ Meteor.methods({
 		  		}
 			 } catch (e) {
 				 let html: string = SSR.render("generalEmail", {title: subject, content: 'La url '+url+' parece estar caida. Por favor revisar.'});
-				 Email.send({ to, from, subject, html });
+				 sendEmail(to, from, subject, html);
 				 return {found: false, license_info: undefined};
 			 }
 	  	}
@@ -244,7 +248,7 @@ Meteor.methods({
 			} catch (e) {
 				let subject: string = 'Problema con MDI';
 				let html: string = SSR.render("generalEmail", {title: subject, content: 'La url http://www.mdi.gob.ec/minterior1/antecedentes/data.php parece estar caida. Por favor revisar.'});
-				Email.send({ to, from, subject, html });
+				sendEmail(to, from, subject, html);
 				return {found: false, response: {idr: 'error'}};
 			}
 		}

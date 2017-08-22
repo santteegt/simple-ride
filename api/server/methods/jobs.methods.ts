@@ -19,6 +19,10 @@ function generateUserVerificationCode(user_id: string, trip_id: string): string 
 	return trip_id.substr(0, 3) + user_id.substr(0, 3);
 }
 
+async function sendEmail(to: string, from: string, subject: string, html: string){
+	Email.send({ to, from, subject, html });
+}
+
 SyncedCron.add({
   name: 'Activate users on trip mode',
   schedule: function(parser) {
@@ -172,7 +176,7 @@ SyncedCron.add({
 						let from: string = 'info@simpleride-ec.com';
 						let subject: string = 'Viaje a ' + trip.destination.shortName;
 						let html: string = SSR.render("generalEmail", {title: subject, content: 'Gracias por tu viaje. Recuerda calificar tu viaje entrando en nuestra app'});
-						Email.send({ to, from, subject, html });
+						sendEmail(to, from, subject, html);
 					}
 
 			}
@@ -229,7 +233,7 @@ SyncedCron.add({
 						let from: string = 'info@simpleride-ec.com';
 						let subject: string = 'Viaje a ' + trip.destination.shortName;
 						let html: string = SSR.render("generalEmail", {title: subject, content: 'Gracias por tu viaje. Recuerda calificar a tus acompañantes entrando en nuestra app'});
-						Email.send({ to, from, subject, html });
+						sendEmail(to, from, subject, html);
 					}
 
 			}
@@ -296,7 +300,7 @@ SyncedCron.add({
 					let from: string = 'info@simpleride-ec.com';
 					let subject: string = 'Viaje a ' + trip.destination.shortName;
 					let html: string = SSR.render("generalEmail", {title: subject, content: 'Tu viaje ha sido reservado. Recuerda subir tu comprobante de pago desde nuestra app en menos de 24 horas'});
-					Email.send({ to, from, subject, html });
+					sendEmail(to, from, subject, html);
 				}
 
 		});
@@ -342,7 +346,7 @@ SyncedCron.add({
 					let from: string = 'info@simpleride-ec.com';
 					let subject: string = 'Viaje a ' + trip.destination.shortName;
 					let html: string = SSR.render("generalEmail", {title: subject, content: 'Tu reserva para el viaje a '+ trip.destination.shortName +' ha sido cancelada por falta de confirmación. Por favor vuelve a reservar tu lugar.'});
-					Email.send({ to, from, subject, html });
+					sendEmail(to, from, subject, html);
 				}
 			});
 
