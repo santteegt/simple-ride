@@ -341,7 +341,7 @@
 		<div style="border: 0.55px solid #c8c7cc; margin-left: 12px; margin-right: 12px; padding: 0;">
 			<ion-grid no-padding>
 				<ion-row *ngFor="let person of travellers | async ">
-					<ion-col width-75 style="padding: 0 5px">
+					<ion-col col-9 style="padding: 0 5px">
 						<button ion-item no-lines detail-none>
 							<ion-avatar item-left>
 								<img src="assets/nobody.png" [hidden]="loadingImgs[person.personData.profileImg]"  style="width: 50px; height: 50px;"/>
@@ -359,7 +359,7 @@
 					      	</div> -->
 				      	</button>
 					</ion-col>
-					<ion-col width-25 style="text-align: center;font-size: 1.2em">
+					<ion-col col-3 style="text-align: center;font-size: 1.2em">
 						<ion-row>
 							<ion-col ion-text color="app" style="padding-bottom: 0">
 								{{getTravellerReservedPlaces(person._id)}}
