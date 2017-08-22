@@ -24,7 +24,6 @@
     <preference name="SplashScreen" value="screen" />
     <preference name="SplashScreenDelay" value="3000" />
     <preference name="loadUrlTimeoutValue" value="50000" />
-    <preference name="AutoHideSplashScreen" value="false" />
     <platform name="android">
         <allow-intent href="market:*" />
         <icon density="mdpi" src="resources/android/icon/android_mdpi.png" />
@@ -39,6 +38,7 @@
         <splash density="port-xhdpi" src="resources/android/splash/android_xhdpi_portrai.png" />
         <splash density="port-xxhdpi" src="resources/android/splash/android_xxhdpi_portrait.png" />
         <splash density="port-xxxhdpi" src="resources/android/splash/android_xxxhdpi_portrait.png" />
+        <preference name="AutoHideSplashScreen" value="false" />
     </platform>
     <platform name="ios">
         <allow-intent href="itms:*" />

@@ -1,7 +1,6 @@
 // TODO:
 // import { Meteor } from "meteor-client";
 declare var Meteor;
-declare var navigator;
 import { Component } from '@angular/core';
 import { MenuController, Platform, App, ModalController, Config, AlertController, ViewController } from 'ionic-angular';
 import { Subscription } from "rxjs";
@@ -118,8 +117,9 @@ export class MyApp {
 
         this.statusBar.styleDefault();
         this.statusBar.hide();
-        navigator.splashscreen.hide();
-        // splashScreen.hide();
+        if(platform.is('android')) {
+          this.splashScreen.hide();
+        }
 
         this.keyboard.disableScroll(true);
         this.keyboard.hideKeyboardAccessoryBar(false);
