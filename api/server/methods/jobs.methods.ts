@@ -113,6 +113,62 @@ SyncedCron.add({
 });
 
 SyncedCron.add({
+  name: 'Cancel uncomplete reservations when trip starts',
+  schedule: function(parser) {
+    return parser.recur().on(14, 29, 44, 59).minute();
+  },
+  job: function() {
+		let currentTime = new Date();
+		let windowTime = new Date();
+		windowTime.setMinutes(windowTime.getMinutes() + 2);
+
+		let tripList = Trips.find({
+			$and: [
+				{'departureDate': {$gte: currentTime}},
+				{'departureDate': {$lte: windowTime}},
+				{'cancellation_date': undefined}
+			]}).fetch();
+
+		if(tripList.length > 0) {
+			let trip_ids = _.map(tripList, function(trip: Trip) {
+				return trip._id;
+			});
+			let rsvpList = Reservations.find({
+				'trip_id': {$in: trip_ids},
+				'payment_status': RESERVATIONSTATUS.WAITING_USER_ACTION,
+				'cancellation_date': undefined
+			}).fetch();
+			if(rsvpList.length > 0){
+				_.each(rsvpList, function(rsvp: Reservation){
+					Reservations.update({_id: rsvp._id}, {$set: {cancellation_date: currentTime, cancellation_reason: 3}});
+					let trip = Trips.findOne({_id: rsvp.trip_id});
+
+					let push_body: NotificationBody = {
+						title: 'Viaje a ' + trip.destination.shortName,
+						text: 'Tu reserva para el viaje a '+ trip.destination.shortName +' ha sido cancelada por falta de confirmación antes de iniciar el viaje.',
+						from: 'server',
+						badge: 1,
+						query: {userId: rsvp.user_id}
+					}
+
+					Push.send(push_body);
+
+					let recipient = Users.findOne({_id: rsvp.user_id});
+					if(recipient['personData']['email']){
+						let to: string = recipient['personData']['email'];
+						let from: string = 'info@simpleride-ec.com';
+						let subject: string = 'Viaje a ' + trip.destination.shortName;
+						let html: string = SSR.render("generalEmail", {title: subject, content: 'Tu reserva para el viaje a '+ trip.destination.shortName +' ha sido cancelada por falta de confirmación antes de iniciar el viaje.'});
+						sendEmail(to, from, subject, html);
+					}
+				});
+				console.log('CANCELLED ' +rsvpList.length+ ' UNCOMPLETE RESERVATIONS')
+			}
+		}
+  }
+});
+
+SyncedCron.add({
   name: 'Reminder to rate rides',
   schedule: function(parser) {
     // parser is a later.parse object

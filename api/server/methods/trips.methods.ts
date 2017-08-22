@@ -166,6 +166,9 @@ Meteor.methods({
       case 2: // Viaje Cancelado por el conductor
         // Nothing to do. This is managed by the 'deleteTrip' process
         break;
+			case 3: // Viaje Cancelado automáticamente por que no se subio el comprobante
+				// Nothing to do. This is managed on jobs methods
+				break;
       default:
         break;
     }
