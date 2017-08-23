@@ -111,17 +111,18 @@ export class TripListMobileComponent implements OnInit, OnDestroy {
 				this.driverRSVPSub.unsubscribe();
 			}
 
-			this.myTripsSub = MeteorObservable.subscribe('trips', options, true).subscribe(() => {
+			this.myTripsSub = MeteorObservable.subscribe('trips', options, false).subscribe(() => {
 				// let date = new Date();
 		  // 		const threshold = 30 * 60000; // 30 minutes ahead
 		  // 		date = new Date(date.getTime() + threshold);
 		  // 		let time = date.getHours().toString() + ':' + date.getMinutes().toString();
 		  // 		date.setHours(0); date.setMinutes(0); date.setSeconds(0); date.setMilliseconds(0);
 
-		  		let predicate = {
+				let predicate = {
 					'destination.place_id': this.place.place_id,
 					cancellation_reason: undefined,
-					departureDate: {$gte: new Date(dateFrom)}
+					departureDate: {$gte: new Date(dateFrom)},
+					driver_id: {$nin: [ Meteor.userId() ]}
 				};
 
 				if(_.keys(tripOptions).length > 0) {
