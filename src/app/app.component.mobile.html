@@ -17,10 +17,6 @@
   <ion-content>
     <ion-list>
 
-      <button ion-item icon-left detail-none (click)="openPage(driverProfile, {isModal: true})" *ngIf="(user | isDriver)">
-        <ion-icon name="car"></ion-icon>
-        Perfil de Conductor
-      </button>
       <button ion-item icon-left detail-none (click)="openPage(tripsHistory, {isModal: true})" *ngIf="(user | isDriver)">
         <ion-icon name="pin"></ion-icon>
         Historial de Viajes
@@ -28,6 +24,11 @@
       <button ion-item icon-left detail-none (click)="openPage(myTrips, {isModal: true})" *ngIf="!(user | isDriver)">
         <ion-icon name="walk"></ion-icon>
         Mis Viajes
+      </button>
+
+      <button ion-item icon-left detail-none (click)="openPage(driverProfile, {isModal: true})" *ngIf="(user | isDriver)">
+        <ion-icon name="car"></ion-icon>
+        Perfil de Conductor
       </button>
 
       <button ion-item icon-left detail-none (click)="openPage(paymentInfo, {isModal: true})" *ngIf="!(user | isDriver)">

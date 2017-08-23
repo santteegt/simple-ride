@@ -5,6 +5,10 @@
 	color: white;
 }
 
+button.app-color.activated {
+	background-color: color($colors, app);
+}
+
 a, .item-radio-checked.item-md ion-label, .alert-md .alert-button{
 	color: color($colors, app);
 }
