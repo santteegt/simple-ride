@@ -28,6 +28,7 @@
         "@ionic-native/camera": "^3.14.0",
         "@ionic-native/core": "3.10.2",
         "@ionic-native/geolocation": "^3.12.1",
+        "@ionic-native/in-app-browser": "^4.1.0",
         "@ionic-native/keyboard": "^3.12.1",
         "@ionic-native/push": "^4.0.1",
         "@ionic-native/social-sharing": "^4.1.0",
@@ -50,6 +51,7 @@
         "cordova-plugin-facebook4": "git+https://github.com/darkbasic/cordova-plugin-facebook4.git",
         "cordova-plugin-file": "^4.3.3",
         "cordova-plugin-geolocation": "^2.4.3",
+        "cordova-plugin-inappbrowser": "^1.7.1",
         "cordova-plugin-mauron85-background-geolocation": "^2.2.5",
         "cordova-plugin-splashscreen": "^4.0.3",
         "cordova-plugin-statusbar": "^2.2.3",
@@ -128,7 +130,8 @@
                 "ANDROID_SCHEME": " ",
                 "ANDROID_HOST": " ",
                 "ANDROID_PATHPREFIX": "/"
-            }
+            },
+            "cordova-plugin-inappbrowser": {}
         },
         "platforms": [
             "android",

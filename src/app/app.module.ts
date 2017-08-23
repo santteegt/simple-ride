@@ -10,6 +10,7 @@ import { Camera } from '@ionic-native/camera';
 import { Push } from '@ionic-native/push';
 import { AppVersion } from '@ionic-native/app-version';
 import { SocialSharing } from '@ionic-native/social-sharing';
+import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { IonCalendarModule } from "@ionic2-extra/calendar";
 
 import { MyApp } from './app.component.mobile';
@@ -45,7 +46,8 @@ import { SHARED_DECLARATIONS } from '../classes/shared';
     Camera,
     Push,
     AppVersion,
-    SocialSharing
+    SocialSharing,
+    InAppBrowser
   ]
 })
 export class AppModule {}
