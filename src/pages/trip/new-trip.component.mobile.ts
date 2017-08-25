@@ -132,6 +132,8 @@ export class NewTripMobileComponent implements OnInit, OnDestroy {
 					if(targetValue == 'from') {
 						this.originLoc = data;
 						this.originLabel = this.originLoc.description;
+						this.destinationLoc = null;
+						this.destinationLabel = '';
 					} else {
 						this.destinationLoc = data;
 						this.destinationLabel = this.destinationLoc.description;

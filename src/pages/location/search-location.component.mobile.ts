@@ -75,7 +75,7 @@ export class SearchLocationMobileComponent implements OnInit, OnDestroy {
 				let place = trip.destination;
 				place.description = place.name;
 				place.name = place.shortName;
-				place.favicon = this.favoriteItemsIds.indexOf(place.place_id) > -1;
+				place.favicon = this.favoriteItemsIds && this.favoriteItemsIds.indexOf(place.place_id) > -1;
 				return place;
 			});
 			this.recentItems = this.uniq(this.recentItems, 'place_id');
@@ -134,7 +134,7 @@ export class SearchLocationMobileComponent implements OnInit, OnDestroy {
 		if(status == 'OK') {
 			this.nearByItems = results;
 			this.nearByItems.forEach((item) => {
-        item.favicon = this.favoriteItemsIds.indexOf(item.place_id) > -1;
+        item.favicon = this.favoriteItemsIds && this.favoriteItemsIds.indexOf(item.place_id) > -1;
 				item.description = item.name;
       });
 		} else {
@@ -162,7 +162,7 @@ export class SearchLocationMobileComponent implements OnInit, OnDestroy {
 	    					item.description.indexOf(me.fromLocation) == -1 || me.fromLocation.length == 0
     					);
 							me.autocompleteItems.forEach((item) => {
-                item.favicon = me.favoriteItemsIds.indexOf(item.place_id) > -1;
+                item.favicon = me.favoriteItemsIds && me.favoriteItemsIds.indexOf(item.place_id) > -1;
                 item.name = item.terms[0].value;
               });
 	    				break;
@@ -259,10 +259,10 @@ export class SearchLocationMobileComponent implements OnInit, OnDestroy {
       if(response.status == 200){
         this.favoriteItemsIds = this.favoriteItemsIds.filter(i => i!==item.place_id);
         me.nearByItems.forEach((it) => {
-          it.favicon = this.favoriteItemsIds.indexOf(it.place_id) > -1;
+          it.favicon = this.favoriteItemsIds && this.favoriteItemsIds.indexOf(it.place_id) > -1;
         });
 				me.recentItems.forEach((it) => {
-          it.favicon = this.favoriteItemsIds.indexOf(it.place_id) > -1;
+          it.favicon = this.favoriteItemsIds && this.favoriteItemsIds.indexOf(it.place_id) > -1;
         });
       }
     });
