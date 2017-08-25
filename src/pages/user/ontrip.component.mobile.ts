@@ -313,7 +313,7 @@ export class OnTripMobileComponent implements OnInit, OnDestroy {
 	    message_type: MESSAGETYPES.USER,
 	    message_date: today,
 	    message_time: hour + ':' + minutes,
-	    message: this.userTripFlag.code
+	    message: 'Mi código de verificación es: ' + this.userTripFlag.code
 	  });
     this.showAlertMessage('Código Enviado', 'El código se ha envíado al chat del viaje. ¡Gracias por usar SimpleRide!');
   }
