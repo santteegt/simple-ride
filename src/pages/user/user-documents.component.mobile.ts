@@ -53,35 +53,8 @@ export class UserDocumentsMobileComponent implements OnInit, OnDestroy {
 
 		this.imagesSub = MeteorObservable.subscribe('images', this.user._id).subscribe(() => {
 
-			let query = Images.find({doc_type: {$in: [1, 2, 3]}});
+      this.getCurrentStatus();
 
-			this.imagesObs = query.zone();
-
-      		let images = query.fetch();
-
-			let dniDoc = _.filter(images, function(image) {
-				return image.doc_type == 1;
-			});
-
-			if(dniDoc.length > 0) {
-				this.dniStatus = dniDoc[dniDoc.length -1].processed == undefined ? 1 : ( dniDoc[dniDoc.length -1 ].processed ? 2 : 0 );
-			}
-
-			let licenceDoc = _.filter(images, function(image) {
-				return image.doc_type == 2;
-			});
-
-			if(licenceDoc.length > 0) {
-				this.licenceStatus = licenceDoc[licenceDoc.length - 1].processed == undefined ? 1 : ( licenceDoc[licenceDoc.length - 1].processed ? 2 : 0 );
-			}
-
-			let registerDoc = _.filter(images, function(image) {
-				return image.doc_type == 3;
-			});
-			
-			if(registerDoc.length > 0) {
-				this.registerStatus = registerDoc[registerDoc.length - 1].processed == undefined ? 1 : ( registerDoc[registerDoc.length - 1].processed ? 2 : 0 );
-			}
 		});
 	}
 
@@ -89,12 +62,48 @@ export class UserDocumentsMobileComponent implements OnInit, OnDestroy {
 		this.imagesSub.unsubscribe();
 	}
 
+  dismiss() {
+		this.viewCtrl.dismiss();
+	}
+
 	openPage(page: Component, params: any) {
 		let modal = this.modalCtrl.create(page, params);
+    modal.onDidDismiss(data => {
+      this.getCurrentStatus();
+    });
 		modal.present();
 	}
 
-	dismiss() {
-		this.viewCtrl.dismiss();
-	}
+  getCurrentStatus() {
+    let query = Images.find({doc_type: {$in: [1, 2, 3]}});
+
+    this.imagesObs = query.zone();
+
+    let images = query.fetch();
+    console.log('images');
+    console.log(images);
+    let dniDoc = _.filter(images, function(image) {
+      return image.doc_type == 1;
+    });
+
+    if(dniDoc.length > 0) {
+      this.dniStatus = dniDoc[dniDoc.length -1].processed == undefined ? 1 : ( dniDoc[dniDoc.length -1 ].processed ? 2 : 0 );
+    }
+
+    let licenceDoc = _.filter(images, function(image) {
+      return image.doc_type == 2;
+    });
+
+    if(licenceDoc.length > 0) {
+      this.licenceStatus = licenceDoc[licenceDoc.length - 1].processed == undefined ? 1 : ( licenceDoc[licenceDoc.length - 1].processed ? 2 : 0 );
+    }
+
+    let registerDoc = _.filter(images, function(image) {
+      return image.doc_type == 3;
+    });
+
+    if(registerDoc.length > 0) {
+      this.registerStatus = registerDoc[registerDoc.length - 1].processed == undefined ? 1 : ( registerDoc[registerDoc.length - 1].processed ? 2 : 0 );
+    }
+  }
 }
