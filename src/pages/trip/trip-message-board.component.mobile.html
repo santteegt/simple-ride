@@ -29,7 +29,7 @@
 	  		</ion-grid>
 	  	<!-- </ion-list-header> -->
 
-	  	<ion-grid style="padding-right: 10px">
+	  	<ion-grid style="padding-right: 10px"  ngClass="selectable">
 	  		<div *ngFor="let msg of messagesObs | async">
 		  		<ion-row *ngIf="msg.message_type == 'system'">
 		  			<ion-col style="text-align: center; font-style: italic;">
