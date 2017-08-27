@@ -6,7 +6,7 @@ declare var Meteor;
 declare var _;
 
 import { NavController, ViewController, LoadingController, ModalController, NavParams} from 'ionic-angular';
-import { Observable, Subscription } from "rxjs";
+import { Subscription } from "rxjs";
 import { MeteorObservable } from "meteor-rxjs";
 
 import { UploadDocumentsMobileComponent } from '../user/upload-documents.component.mobile';
@@ -76,12 +76,8 @@ export class UserDocumentsMobileComponent implements OnInit, OnDestroy {
 
   getCurrentStatus() {
     let query = Images.find({doc_type: {$in: [1, 2, 3]}});
-
-    this.imagesObs = query.zone();
-
     let images = query.fetch();
-    console.log('images');
-    console.log(images);
+
     let dniDoc = _.filter(images, function(image) {
       return image.doc_type == 1;
     });
