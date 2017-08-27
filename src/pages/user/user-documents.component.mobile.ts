@@ -32,8 +32,6 @@ export class UserDocumentsMobileComponent implements OnInit, OnDestroy {
 	imagesSub: Subscription;
 	images: Image[];
 
-	imagesObs: Observable<Image[]>;
-
 	constructor(private navCtrl: NavController, private viewCtrl: ViewController, private loadingCtrl: LoadingController, private modalCtrl: ModalController, private navParams: NavParams) {
 
 		this.isDriver = Meteor.user()['personData'].isDriver;
