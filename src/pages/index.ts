@@ -22,6 +22,7 @@ import { PaymentInfoMobileComponent } from './user/payment-info.component.mobile
 import { UserNotificationsMobileComponent } from './user/user-notifications.component.mobile';
 import { AboutMobileComponent } from './terms/about.component.mobile';
 import { OfflinePageMobileComponent } from './terms/offline-page.component.mobile';
+import { UploadDocumentsMobileComponent } from './user/upload-documents.component.mobile';
 import { UserDocumentsMobileComponent } from './user/user-documents.component.mobile';
 import { UploadDepositVoucherMobileComponent } from './checkout/upload-deposit-voucher.component.mobile';
 
@@ -51,6 +52,7 @@ export const MOBILE_DECLARATIONS = [
 	UserNotificationsMobileComponent,
 	AboutMobileComponent,
 	OfflinePageMobileComponent,
+	UploadDocumentsMobileComponent,
 	UserDocumentsMobileComponent,
 	UploadDepositVoucherMobileComponent
 ];

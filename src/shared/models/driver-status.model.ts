@@ -1,10 +1,10 @@
 export class DRIVER_STATUS {
 	static NEW: String = "new";
-	static UNVERIFIED_LICENSE: string = "unverified_license";
-	static UPLOADED_LICENSE: string = "uploaded_license";
-	static UNVERIFIED_REGISTER: string = "unverified_register";
-	static UPLOADED_REGISTER: string = "uploaded_register";
-	static BLACKLISTED: string = "blacklisted";
+	static UNVERIFIED: string = "unverified";
+	static UPLOADED_ONE: string = "uploaded_one";
+	static UPLOADED_TWO: string = "uploaded_two";
+	static VERIFIED_ONE: string = "verified_one";
 	static VERIFIED: string = "verified";
+	static BLACKLISTED: string = "blacklisted";
 	static DISABLED: string = "disabled";
 }

@@ -11,7 +11,7 @@ export class UserRegistration {
 	protected driverData: Driver;
 
 	protected isDriver: boolean;
-	
+
 	constructor() {
 		// this.user = Users.findOne({_id: Meteor.userId()});
 		this.person = Meteor.user()["personData"];
@@ -30,7 +30,7 @@ export class UserRegistration {
 	}
 
 	registerCar() {
-		this.driverData.status = DRIVER_STATUS.UNVERIFIED_LICENSE;
+		this.driverData.status = DRIVER_STATUS.UNVERIFIED;
 		Meteor.users.update({_id: Meteor.userId()}, {$set: {'driverData': this.driverData}});
 		return true;
 	}

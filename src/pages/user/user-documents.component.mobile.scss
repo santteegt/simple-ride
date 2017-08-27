@@ -1,0 +1,19 @@
+.text-center{
+    text-align: center;
+}
+
+.documents span{
+  line-height: 36px;
+}
+
+.red{
+  color: color($colors, danger);
+}
+
+.green{
+  color: color($colors, secondary);
+}
+
+.orange{
+  color: color($colors, warning);
+}

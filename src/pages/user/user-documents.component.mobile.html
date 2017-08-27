@@ -1,42 +1,54 @@
 <ion-header>
-	<ion-navbar color="app" style="padding-top: 4px">
-	<ion-buttons start>
-	  <button ion-button (click)="dismiss()" *ngIf="!isPushNav">
-	    <span showWhen="ios">Cerrar</span>
-	    <ion-icon name="md-close" showWhen="android,windows"></ion-icon>
-	  </button>
-	</ion-buttons>
-	<ion-title style="padding-top: 0; text-align: center;">
-      <img src="assets/logo.png" style="padding-top: 5px; width: 75px; height: 44px">
+  <ion-navbar color="app" style="padding-top: 4px">
+    <ion-title style="padding-top: 0; text-align: center">
+      <img src="assets/logo.png" style="padding-top: 5px; width: 75px; height: 44px" />
     </ion-title>
-
-	</ion-navbar>
+    <ion-buttons end>
+      <button ion-button (click)="dismiss()">
+        <span showWhen="ios">OK</span>
+        <ion-icon name="md-close" showWhen="android,windows"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
 </ion-header>
+
 <ion-content>
-	<p *ngIf="!isDriver" class="loading-message">Por favor adjunte su Cédula de Ciudadanía</p>
-	<p *ngIf="isDriver && !verifyRegister" class="loading-message">Paso 1.<br />Por favor adjunte su Licencia de Conducir</p>
-	<p *ngIf="isDriver && verifyRegister" class="loading-message">Paso 2.<br />Por favor adjunte la matricula de su vehículo</p>
-	<div *ngIf="isDevMode() && !isMobile()">
-		<input type="file" (change)="getFile($event)" accept="image/*">
-	</div>
-
-	<div *ngIf="isMobile()" padding>
-		<button ion-button block icon-only icon-center (click)="showUploadOptions()">
-		<!-- <button ion-button block icon-only icon-center (tap)="meteorCapturePhoto()"> -->
-			<ion-icon name="camera"></ion-icon>
-		</button>
-	</div>
-
-	<ion-list [hidden]="isMobile() ? !dataURL:!uploadedFile">
-		<ion-list-header>
-	      <ion-label>Vista Previa</ion-label>
-	    </ion-list-header>
-		<img [src]="isMobile() ? dataURL:uploadedFile" style="padding: 0 10px; width: 100%"/>
-	</ion-list>
+  <ion-list-header style="margin-bottom: 0">
+    <ion-label style="text-align: center">Mis Documentos</ion-label>
+  </ion-list-header>
+  <ion-grid class="documents">
+    <ion-row *ngIf="!isDriver">
+      <ion-col class="text-center">
+        <span>Cédula: </span>
+        <span *ngIf="dniStatus == 0" class="red">No verificado</span>
+        <button *ngIf="dniStatus == 0" ion-button icon-only color="app" (click)="openPage(uploadDocuments, {isModal: true})">
+          <ion-icon name="cloud-upload"></ion-icon>
+        </button>
+        <span *ngIf="dniStatus == 1" class="orange">Verificando</span>
+        <span *ngIf="dniStatus == 2" class="green">Verificado</span>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="isDriver">
+      <ion-col class="text-center">
+        <span>Licencia:</span>
+        <span *ngIf="licenceStatus == 0" class="red">No verificado</span>
+        <button *ngIf="licenceStatus == 0" ion-button icon-only color="app"  (click)="openPage(uploadDocuments, {isModal: true, verifyRegister: false})">
+          <ion-icon name="cloud-upload"></ion-icon>
+        </button>
+        <span *ngIf="licenceStatus == 1" class="orange">Verificando</span>
+        <span *ngIf="licenceStatus == 2" class="green">Verificado</span>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="isDriver">
+      <ion-col class="text-center">
+        <span>Matrícula:</span>
+        <span *ngIf="registerStatus == 0" class="red">No verificado</span>
+        <button *ngIf="registerStatus == 0" ion-button icon-only color="app"  (click)="openPage(uploadDocuments, {isModal: true, verifyRegister: true})">
+          <ion-icon name="cloud-upload"></ion-icon>
+        </button>
+        <span *ngIf="registerStatus == 1" class="orange">Verificando</span>
+        <span *ngIf="registerStatus == 2" class="green">Verificado</span>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
-
-<ion-footer style="padding: 0 10px; text-align: center">
-  <button color="app" ion-button block (click)="uploadDocument(isDriver)" [disabled]="isMobile() ? !uploadedFile:!dataFile">
-    Subir Documento
-  </button>
-</ion-footer>

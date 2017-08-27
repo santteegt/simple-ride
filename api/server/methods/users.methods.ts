@@ -14,14 +14,19 @@ Meteor.methods({
 		  	let users = Users.find({
 		  		$or: [
 		  		{'personData.status': USER_STATUS.UPLOADED_DNI},
-		  		{'driverData.status': DRIVER_STATUS.UPLOADED_LICENSE}
+          {'driverData.status': DRIVER_STATUS.UNVERIFIED},
+          {'driverData.status': DRIVER_STATUS.UPLOADED_ONE},
+          {'driverData.status': DRIVER_STATUS.UPLOADED_TWO},
+          {'driverData.status': DRIVER_STATUS.VERIFIED_ONE}
 	  		]}).fetch();
 		  	return {status:200, message: 'OK', users: users};
   		}
 	},
  	updateUserStatus: function(user_id: string, doc_type: number, approve: boolean){
-		let status = '';
 		if(Meteor.isServer) {
+      let status = '';
+      let user: any;
+      user = Users.findOne({'_id': user_id});
 			switch(doc_type){
 				case DOCTYPES.DNI:
 					status = approve ? USER_STATUS.VERIFIED : USER_STATUS.UNVERIFIED_DNI;
@@ -30,13 +35,22 @@ Meteor.methods({
 					}});
 					break;
 				case DOCTYPES.LICENSE:
-					status = approve ? DRIVER_STATUS.UNVERIFIED_REGISTER : DRIVER_STATUS.UNVERIFIED_LICENSE;
-					Users.update({'_id': user_id}, {$set: {
-						'driverData.status': status
-					}});
-					break;
-				case DOCTYPES.CAR_REGISTER:
-					status = approve ? DRIVER_STATUS.VERIFIED : DRIVER_STATUS.UNVERIFIED_REGISTER;
+        case DOCTYPES.CAR_REGISTER:
+          if( approve ) {
+            if( user.driverData.status == DRIVER_STATUS.UPLOADED_ONE || user.driverData.status == DRIVER_STATUS.UPLOADED_TWO ){
+              status = DRIVER_STATUS.VERIFIED_ONE;
+            }else if( user.driverData.status == DRIVER_STATUS.VERIFIED_ONE ) {
+              status = DRIVER_STATUS.VERIFIED;
+            }
+          }else{
+            if( user.driverData.status == DRIVER_STATUS.UPLOADED_ONE ) {
+              status = DRIVER_STATUS.UNVERIFIED;
+            }else if( user.driverData.status == DRIVER_STATUS.UPLOADED_TWO ) {
+              status = DRIVER_STATUS.UPLOADED_ONE;
+            }else if( user.driverData.status == DRIVER_STATUS.VERIFIED_ONE ) {
+              status = DRIVER_STATUS.VERIFIED_ONE;
+            }
+          }
 					Users.update({'_id': user_id}, {$set: {
 						'driverData.status': status
 					}});

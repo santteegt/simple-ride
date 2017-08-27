@@ -55,8 +55,8 @@
 					  </div>
 					  <div class="media-body">
 					    <h4 class="media-heading">Datos</h4>
-					    <p><strong>Nombre: </strong>{{userArray ? getUser(dni.user_id).first_name : ''}}</p>
-					    <p><strong>Cedula: </strong>{{userArray ? getUser(dni.user_id).dni : ''}}</p>
+					    <p><strong>Nombre: </strong>{{userList ? getUser(dni.user_id).personData.forename + ' ' + getUser(dni.user_id).personData.surname : ''}}</p>
+					    <p><strong>Cedula: </strong>{{userList ? getUser(dni.user_id).personData.dni : ''}}</p>
 					  </div>
 					  <div class="media-right">
 					  	<button type="button" class="btn btn-primary" (click)="approveDocument(dni)">Aprobar</button>
@@ -77,8 +77,8 @@
 					  </div>
 					  <div class="media-body">
 					    <h4 class="media-heading">Datos</h4>
-					    <p><strong>Nombre: </strong>{{userArray ? getUser(license.user_id).forename : ''}}</p>
-					    <p><strong>Cedula: </strong>{{userArray ? getUser(license.user_id).dni : ''}}</p>
+					    <p><strong>Nombre: </strong>{{userList ? getUser(license.user_id).personData.forename + ' ' + getUser(license.user_id).personData.surname : ''}}</p>
+					    <p><strong>Cedula: </strong>{{userList ? getUser(license.user_id).personData.dni : ''}}</p>
 					  </div>
 					  <div class="media-right">
 					  	<button type="button" class="btn btn-primary" (click)="approveDocument(license)">Aprobar</button>
@@ -99,8 +99,8 @@
 					  </div>
 					  <div class="media-body">
 					    <h4 class="media-heading">Datos</h4>
-					    <p><strong>Nombre: </strong>{{userArray ? getUser(register.user_id).forename : ''}}</p>
-					    <p><strong>Cedula: </strong>{{userArray ? getUser(register.user_id).dni : ''}}</p>
+					    <p><strong>Nombre: </strong>{{userList ? getUser(register.user_id).personData.forename + ' ' + getUser(register.user_id).personData.surname : ''}}</p>
+					    <p><strong>Cedula: </strong>{{userList ? getUser(register.user_id).personData.dni : ''}}</p>
 					  </div>
 					  <div class="media-right">
 						<button type="button" class="btn btn-primary" (click)="approveDocument(register)">Aprobar</button>

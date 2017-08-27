@@ -50,7 +50,7 @@ export class MyApp {
   myTrips: Component;
   tripsHistory: Component;
   notificationList: Component;
-  uploadDocuments: Component;
+  userDocuments: Component;
   about: Component;
   paymentInfo: Component;
 
@@ -84,7 +84,7 @@ export class MyApp {
     this.myTrips = MyTripsMobileComponent;
     this.tripsHistory = TripHistoryMobileComponent;
     this.notificationList = UserNotificationsMobileComponent;
-    this.uploadDocuments = UserDocumentsMobileComponent;
+    this.userDocuments = UserDocumentsMobileComponent;
     this.paymentInfo = PaymentInfoMobileComponent;
     this.about = AboutMobileComponent;
 
@@ -161,8 +161,8 @@ export class MyApp {
               me.rootPage = LoginMobileComponent;
             } else if(Meteor.user()) {
               this.user = Meteor.user();
-              this.verified = this.user['personData'].ver ? this.user['driverData'].status == DRIVER_STATUS.VERIFIED : this.user['personData'].status==USER_STATUS.VERIFIED;
-              this.verifing = this.user['personData'].isDriver ? this.user['driverData'].status == DRIVER_STATUS.UPLOADED_REGISTER : this.user['personData'].status == USER_STATUS.UPLOADED_DNI;
+              this.verified = this.user['personData'].isDriver ? this.user['driverData'].status == DRIVER_STATUS.VERIFIED : this.user['personData'].status==USER_STATUS.VERIFIED;
+              this.verifing = this.user['personData'].isDriver ? (this.user['driverData'].status == DRIVER_STATUS.UPLOADED_ONE || this.user['driverData'].status == DRIVER_STATUS.UPLOADED_TWO || this.user['driverData'].status == DRIVER_STATUS.VERIFIED_ONE) : this.user['personData'].status == USER_STATUS.UPLOADED_DNI;
               if(this.user['personData'].status == USER_STATUS.NEW) {
                 me.rootPage = UserRegistrationMobileComponent;
               } else if(this.user['driverData'].status == DRIVER_STATUS.NEW) {

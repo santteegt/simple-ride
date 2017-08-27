@@ -13,7 +13,10 @@
 	</ion-navbar>
 </ion-header>
 <ion-content>
-	<div *ngIf="isDevMode() && !isMobile()">
+	<p *ngIf="!isDriver" class="loading-message">Por favor adjunte su Cédula de Ciudadanía</p>
+	<p *ngIf="isDriver && !verifyRegister" class="loading-message">Paso 1.<br />Por favor adjunte su Licencia de Conducir</p>
+	<p *ngIf="isDriver && verifyRegister" class="loading-message">Paso 2.<br />Por favor adjunte la matricula de su vehículo</p>
+	<div *ngIf="!isMobile()">
 		<input type="file" (change)="getFile($event)" accept="image/*">
 	</div>
 
@@ -25,17 +28,15 @@
 	</div>
 
 	<ion-list [hidden]="isMobile() ? !dataURL:!uploadedFile">
-	<!-- <ion-list> -->
 		<ion-list-header>
 	      <ion-label>Vista Previa</ion-label>
 	    </ion-list-header>
 		<img [src]="isMobile() ? dataURL:uploadedFile" style="padding: 0 10px; width: 100%"/>
-		<!-- <img src="{{uploadedFile}}" style="padding: 0 10px; width: 100%"/> -->
 	</ion-list>
 </ion-content>
 
 <ion-footer style="padding: 0 10px; text-align: center">
-  <button color="app" ion-button block (click)="uploadDeposit()" [disabled]="isMobile() ? !uploadedFile:!dataFile">
-    Subir Comprobante
+  <button color="app" ion-button block (click)="uploadDocument(isDriver)" [disabled]="isMobile() ? !uploadedFile:!dataFile">
+    Subir Documento
   </button>
 </ion-footer>

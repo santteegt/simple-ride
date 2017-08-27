@@ -196,8 +196,7 @@ export class DocumentBrowserComponent implements OnInit, OnDestroy {
 	}
 
 	denyDocument(document: Image) {
-		console.log(document);
-		Images.update({'_id': document._id}, {$set: {processed: true}});
+		Images.update({'_id': document._id}, {$set: {processed: false}});
 		MeteorObservable.call('updateUserStatus', document.user_id, document.doc_type, false).subscribe((response: ServerResponse) => {
   			// nothing to do
   		});
