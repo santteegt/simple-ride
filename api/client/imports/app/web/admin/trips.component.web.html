@@ -26,6 +26,7 @@
 						<th>Hora de Salida</th>
 						<th>Precio</th>
 						<th>Puestos Reservados</th>
+						<th>Acciones</th>
 		      </tr>
 		    </thead>
 				<tbody>
@@ -36,6 +37,7 @@
 						<td>{{ trip.departureTime }}</td>
 						<td>{{ trip.price }}</td>
 						<td>{{ trip.confirmed_places }}</td>
+						<td><a href="/admin/trip/{{ trip._id }}" class="btn" color="app">Ver</a></td>
 					</tr>
 				</tbody>
 			</table>
@@ -52,6 +54,7 @@
 						<th>Puestos Reservados</th>
 						<th>Fecha de Cancelación</th>
 						<th>Motivo</th>
+						<th>Acciones</th>
 		      </tr>
 		    </thead>
 				<tbody>
@@ -64,6 +67,7 @@
 						<td>{{ trip.confirmed_places }}</td>
 						<td>{{ trip.cancellation_date }}</td>
 						<td>{{ trip.cancellation_reason }}</td>
+						<td><a href="/admin/trip/{{ trip._id }}" class="btn" color="app">Ver</a></td>
 					</tr>
 				</tbody>
 			</table>

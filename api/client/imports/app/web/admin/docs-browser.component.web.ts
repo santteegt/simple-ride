@@ -133,7 +133,7 @@ export class DocumentBrowserComponent implements OnInit, OnDestroy {
 					}
 		    });
 			}else if(Meteor.loggingIn()){
-				// nothing to do
+				this.isAdmin = false;
 			}else{
 				this.loginManager.logout();
 				this.router.navigate(['/admin']);

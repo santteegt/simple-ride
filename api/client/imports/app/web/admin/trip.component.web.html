@@ -1,0 +1,63 @@
+<div class="admin" *ngIf="isAdmin">
+	<div class="header row" style="max-height: 15vh;">
+		<div class="col-3">
+			<a href="/admin/trips" type="button" class="btn">Regresar</a>
+		</div>
+		<div class="col-6 text-center"><h2>Administrador</h2></div>
+		<div class="col-3 text-right">
+	    <div class="btn-group" dropdown>
+	      <button dropdownToggle type="button" class="btn dropdown-toggle">{{user.personData.forename}} {{user.personData.surname}}<span class="caret"></span></button>
+	      <ul *dropdownMenu class="dropdown-menu" role="menu">
+	        <li role="menuitem"><a class="dropdown-item" (click)="logout()">Cerrar Sesión</a></li>
+	      </ul>
+	    </div>
+		</div>
+	</div>
+
+	<div class="container" *ngIf="isAdmin && trip">
+		<div class="row">
+			<div class="col-4">
+				<h2>Detalles del viaje</h2>
+				<p>
+				<b>Origen: </b>{{ trip.origin.shortName }}<br />
+				<b>Destino: </b>{{ trip.destination.shortName }}<br />
+				<b>Fecha de Salida: </b>{{ trip.departureDate.toLocaleDateString() }}<br />
+				<b>Hora de Salida: </b>{{ trip.departureTime }}<br />
+				<b>Precio: </b>{{ trip.price | currency }}<br />
+			</div>
+			<div class="col-4">
+				<h2>Reservas</h2>
+				<div class="card" *ngFor="let rsvp of reservationsObs | async">
+				  <div class="card-body">
+				    <h4 class="card-title">{{users && users.length > 0 ? getUserInfo(rsvp.user_id).personData.forename:''}} {{users && users.length > 0 ? getUserInfo(rsvp.user_id).personData.surname:''}}</h4>
+				    <p class="card-text">
+							<b>Espacios: </b>{{ rsvp.places }}<br />
+							<b>Pagado: </b>{{ rsvp.total | currency }}<br />
+						</p>
+				  </div>
+				</div>
+				<div><h3>TOTAL: {{ total | currency }}</h3></div>
+			</div>
+			<div class="col-4" >
+				<h2>Datos de Conductor</h2>
+				<div *ngIf="paymentInfo && paymentInfo.accountnumber">
+					<p>
+					<b>Nombre: </b>{{ paymentInfo.accountname }}<br />
+					<b>Banco: </b>{{ paymentInfo.bankname }}<br />
+					<b>Tipo Cuenta: </b>{{ paymentInfo.accounttype }}<br />
+					<b>Número de Cuenta: </b>{{ paymentInfo.accountnumber }}</p>
+				</div>
+				<div *ngIf="!paymentInfo || !paymentInfo.accountnumber"><p>El conductor no ha ingresado su información de pago.</p></div>
+				<div>
+					<p>
+					<b>Total Recaudado: </b>{{ total | currency }}<br />
+					<b>Seguro: </b>{{ insurance | currency }}<br />
+					<b>Gastos de Gestión: </b>{{ expenses | currency }}<br />
+					<b>Iva: </b>{{ iva | currency }}</p>
+					<h4><b>A Enviar: </b>{{ total - insurance - expenses - iva | currency }}</h4>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>

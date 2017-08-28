@@ -35,30 +35,12 @@
 
 /* Custom Code */
 
-.admin .tabs a{
-	padding: 5px 20px;
-	color: #fff;
-	border: 1px solid #fff;
-	background-color: transparent;
-}
-
-.admin .tab-content .tab-pane{
-	background-color: #472F92;
-	color: #fff;
+.admin .container{
 	height: 100vh;
-}
-
-.admin .tabs .tab-content{
-	height: 100vh;
-}
-
-table{
-	margin: 20px auto;
-	width: 80%;
 	color: #fff;
 }
 
-table th, table td{
-	padding: 10px 20px;
-	border: 1px solid #fff;
+.admin .card-body{
+	color: #472F92;
+	background-color: #fff;
 }
