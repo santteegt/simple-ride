@@ -12,7 +12,7 @@ import { TabsetComponent, BsDropdownModule } from 'ngx-bootstrap';
 import { FacebookLoginManager } from '../../shared-components/login/facebook-login.class';
 
 import { Users, Trips, Reservations } from '../../../../../both/collections';
-import { RESERVATIONSTATUS } from '../../../../../both/models';
+import { User, Reservation, RESERVATIONSTATUS } from '../../../../../both/models';
 
 import template from './trip.component.web.html';
 import style from './trip.component.web.scss';
@@ -65,7 +65,7 @@ export class TripComponent implements OnInit, OnDestroy {
 			if(this.user && !Meteor.loggingIn()){
 
 				MeteorObservable.call('isAdmin', this.user._id).subscribe((response: ServerResponse) => {
-		      if(this.isAdmin = response.status == 200){
+		      if(this.isAdmin = response.status == 200) {
 
 						this.autoSub = this.route.params.subscribe(params => {
 							this.trip_id = params['id'];
@@ -89,9 +89,9 @@ export class TripComponent implements OnInit, OnDestroy {
 								users.push(this.driver_id);
 								rsvpArray.forEach(rsvp => this.total += rsvp.total );
 								let utility = this.total * .15;
-								this.expenses = (utility / 1.12).toFixed(2);
-								this.iva = (this.expenses * .12).toFixed(2);
-								this.insurance = (this.total * .1).toFixed(2);
+								this.expenses = Math.round(utility / 1.12 * 100) / 100;
+								this.iva = Math.round(this.expenses * .12 * 100) / 100;
+								this.insurance = Math.round(this.total * .1 * 100) / 100;
 								this.usersSub = MeteorObservable.subscribe('user-public-data', users).subscribe(() => {
 									this.users = Users.find({_id: {
 										$in: users
@@ -121,7 +121,7 @@ export class TripComponent implements OnInit, OnDestroy {
 	}
 
 	getPaymentInfo(){
-		me = this;
+		let me = this;
 		let driver = _.find(this.users, function(user: User) {
 			return user._id == me.driver_id;
 		});
@@ -134,9 +134,6 @@ export class TripComponent implements OnInit, OnDestroy {
 		}
 		if(this.reservationsSub){
 			this.reservationsSub.unsubscribe();
-		}
-		if(this.driverSub){
-			this.driverSub.unsubscribe();
 		}
 	}
 
