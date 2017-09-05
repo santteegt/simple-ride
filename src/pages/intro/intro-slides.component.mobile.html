@@ -1,0 +1,9 @@
+<ion-content class="slides">
+
+  <ion-slides pager (ionSlideNextStart)="slideChanged()">
+    <ion-slide *ngFor="let source of sources">
+      <div class="slide-image" [style.backgroundImage]="'url(' + source + ')'">
+      </div>
+    </ion-slide>
+  </ion-slides>
+</ion-content>

@@ -25,6 +25,7 @@ import { OfflinePageMobileComponent } from './terms/offline-page.component.mobil
 import { UploadDocumentsMobileComponent } from './user/upload-documents.component.mobile';
 import { UserDocumentsMobileComponent } from './user/user-documents.component.mobile';
 import { UploadDepositVoucherMobileComponent } from './checkout/upload-deposit-voucher.component.mobile';
+import { IntroSlidesMobileComponent } from './intro/intro-slides.component.mobile';
 
 export const MOBILE_DECLARATIONS = [
 
@@ -54,5 +55,6 @@ export const MOBILE_DECLARATIONS = [
 	OfflinePageMobileComponent,
 	UploadDocumentsMobileComponent,
 	UserDocumentsMobileComponent,
-	UploadDepositVoucherMobileComponent
+	UploadDepositVoucherMobileComponent,
+	IntroSlidesMobileComponent
 ];

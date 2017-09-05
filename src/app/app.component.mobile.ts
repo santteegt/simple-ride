@@ -15,6 +15,7 @@ import { Push } from '@ionic-native/push';
 import { LoginMobileComponent } from '../pages/login/login.component.mobile';
 
 import { DashboardMobileComponent } from "../pages/dashboard/dashboard.component.mobile";
+import { IntroSlidesMobileComponent } from "../pages/intro/intro-slides.component.mobile";
 import { UserRegistrationMobileComponent } from "../pages/registration/registration.component.mobile";
 import { CarRegistrationMobileComponent } from "../pages/registration/car-registration.component.mobile";
 import { DriverProfileMobileComponent } from "../pages/driver/driver-profile.component.mobile";
@@ -164,7 +165,7 @@ export class MyApp {
               this.verified = this.user['personData'].isDriver ? this.user['driverData'].status == DRIVER_STATUS.VERIFIED : this.user['personData'].status==USER_STATUS.VERIFIED;
               this.verifing = this.user['personData'].isDriver ? (this.user['driverData'].status == DRIVER_STATUS.UPLOADED_ONE || this.user['driverData'].status == DRIVER_STATUS.UPLOADED_TWO || this.user['driverData'].status == DRIVER_STATUS.VERIFIED_ONE) : this.user['personData'].status == USER_STATUS.UPLOADED_DNI;
               if(this.user['personData'].status == USER_STATUS.NEW) {
-                me.rootPage = UserRegistrationMobileComponent;
+                me.rootPage = IntroSlidesMobileComponent;
               } else if(this.user['driverData'].status == DRIVER_STATUS.NEW) {
                 me.rootPage = CarRegistrationMobileComponent;
               } else {
