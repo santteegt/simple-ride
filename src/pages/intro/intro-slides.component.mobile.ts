@@ -23,7 +23,7 @@ export class IntroSlidesMobileComponent {
   }
 
   slideChanged() {
-    if(this.sources.length == this.slides.getActiveIndex()){
+    if(this.sources.length == this.slides.getActiveIndex()) {
       this.navCtrl.push(UserRegistrationMobileComponent);
     }
   }

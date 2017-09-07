@@ -3,3 +3,12 @@
   background-position: bottom center;
   height: 100vh;
 }
+
+
+ion-content.slides:first-child .scroll-content {
+	padding-top: 0 !important;
+}
+
+.no-scroll .scroll-content{
+     overflow: hidden;
+}
