@@ -306,9 +306,8 @@ Meteor.methods({
   */
   notify: function(sender_id: string, trip_id: string, is_driver: boolean) {
 
-    let query = is_driver ? {'trip_id': trip_id, 'cancellation_reason': null}:
+    let query = is_driver ? {'trip_id': trip_id, 'cancellation_reason': null, 'payment_status': RESERVATIONSTATUS.PROCESSED}:
       {'trip_id': trip_id, 'cancellation_reason': null, 'user_id': {$nin: [sender_id]}};
-
     let rsvpList: Reservation[] = Reservations.find(query).fetch();
     let users_id: string[] = _.map(rsvpList, function(rsvp: Reservation) {
       return rsvp.user_id;

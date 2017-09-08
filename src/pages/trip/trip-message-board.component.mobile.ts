@@ -99,12 +99,11 @@ export class TripMessageBoardMobileComponent implements OnInit, OnDestroy {
 		event.preventDefault();
 
 		let today = new Date();
-  		let hour = today.getHours() < 10 ? '0' + today.getHours():today.getHours();
+		let hour = today.getHours() < 10 ? '0' + today.getHours():today.getHours();
 		let minutes = today.getMinutes() < 10 ? '0' + today.getMinutes():today.getMinutes();
-
-		let is_driver = this.pushNotifIsDriver ? this.pushNotifIsDriver:this.isDriverPipe.transform(Meteor.user());
+		let is_driver = this.trip.driver_id == Meteor.userId();
   		ChatMessages.insert({
-  			trip_id: this.trip._id,
+			trip_id: this.trip._id,
 			user_id: Meteor.userId(),
 			user_forename: Meteor.user()['personData']['forename'],
 			user_surname: Meteor.user()['personData']['surname'],
