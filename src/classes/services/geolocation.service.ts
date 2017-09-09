@@ -25,6 +25,7 @@ interface Location {
 }
 
 declare var google;
+declare var cordova
 
 @Injectable()
 export class GeolocationService {
@@ -95,15 +96,40 @@ export class GeolocationService {
 	  					lat: position.coords.latitude,
 	  					lng: position.coords.longitude
 	  				}
-	  				console.log(me.currentPosition);
 	  				resolve(me.currentPosition);
 	  			}).catch((error) => {
-						me.presentAlert('Error', 'Error al usar la geololización');
-						me.currentPosition = {
-							lat: -2.9004014,
-							lng: -79.00145669999999
-						}
-						resolve(me.currentPosition);
+
+						if(this.platform.is('cordova')) {
+
+							reject();
+
+							let alert = this.alertCtrl.create({
+					         	'title': 'Geolocalización desactivada',
+					        	'subTitle': 'Para una mejor experiencia por favor active la geolocalización',
+					          	buttons: [
+					          	{
+					            	text: 'Activar',
+					            	handler: () => {
+					              		let switchToSettings = this.platform.is('ios') ?
+					                	cordova.plugins.diagnostic.switchToSettings:cordova.plugins.diagnostic.switchToLocationSettings;
+					              		switchToSettings();
+					          		}
+					          	}]
+				            });
+				            alert.present();
+
+				        } else { // Just for testing purposes
+
+				        	me.presentAlert('Error', 'Para una mejor experiencia por favor active la geolocalización');
+
+							me.currentPosition = { // TODO: remove this default values
+								lat: -2.9004014,
+								lng: -79.00145669999999
+							}
+							resolve(me.currentPosition);
+
+				        }
+
 	  			});
 
 	  		} else {
