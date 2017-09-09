@@ -227,7 +227,7 @@ Meteor.methods({
 							query_date: new Date(),
 							active: true,
 							is_passport: is_passport,
-							person_id: data.identity,
+							person_id: data.identity.length > 0 ? data.identity:person_id,
 							name: data.name,
 							antecedent: data.antecedent,
 							seclusion: data.seclusion,
