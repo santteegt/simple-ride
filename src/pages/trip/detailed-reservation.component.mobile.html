@@ -38,7 +38,7 @@
 				      	</ion-avatar>
 				      	<h3>{{driver.personData.forename}}</h3>
 				      	<p>{{driver.personData.surname}}</p>
-				      	<p>{{tripUtils.getDriverAge(driver.personData.birthday)}} años</p>
+				      	<p>{{driver.personData.birthday ? tripUtils.getDriverAge(driver.personData.birthday) + ' años':''}}</p>
 				      	<div class="reviews-score">
 					      	<ion-icon name="{{getDriverRating(trip.driver_id) >= 1 ? 'star':(getDriverRating(trip.driver_id) - 1 > 0 && getDriverRating(trip.driver_id) - 1 < 1 ? 'star-half':'star-outline')}}"></ion-icon>
 					      	<ion-icon name="{{getDriverRating(trip.driver_id) >= 2 ? 'star':(getDriverRating(trip.driver_id) - 2 > 0 && getDriverRating(trip.driver_id) - 2 < 1 ? 'star-half':'star-outline')}}"></ion-icon>

@@ -60,9 +60,9 @@ export class UserProfileMobileComponent implements OnInit, OnDestroy {
 		this.userData = navParams.get("userData");
 		this.isPushNav = navParams.get("isPushNav");
 
-    this.conversationStyle = CONVERSATIONSTYLES.styles.filter((style) => {
-      return style.name == this.userData.personData.conversation;
-    });
+	    this.conversationStyle = CONVERSATIONSTYLES.styles.filter((style) => {
+	      return style.name == this.userData.personData.conversation;
+	    });
 		this.reviewers = [];
 		this.loadingImgs = {};
 	}

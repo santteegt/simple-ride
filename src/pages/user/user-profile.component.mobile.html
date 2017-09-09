@@ -71,12 +71,12 @@
                 </ion-col>
               </ion-row>
 
-              <ion-row style="padding: 0 5px">
+              <ion-row style="padding: 0 5px" [hidden]="userData.personData.conversation == ''">
                 <ion-col ion-text color="app" width-40>
                   <span><strong>Conversación:</strong></span>
                 </ion-col>
                 <ion-col width-60 style="text-align: right">
-                  {{conversationStyle[0].value}}
+                  {{conversationStyle.length == 0 ? '':conversationStyle[0].value}}
                 </ion-col>
               </ion-row>
             </div>

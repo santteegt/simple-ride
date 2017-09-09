@@ -4,7 +4,8 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 // import { Meteor } from 'meteor-client';
 declare var Meteor;
 import {MeteorObservable} from "meteor-rxjs";
-import {NavController, NavParams, ViewController, ToastController, ModalController, LoadingController, Select} from 'ionic-angular';
+import { Platform, NavController, NavParams, ViewController, ToastController, 
+	ModalController, LoadingController, Select } from 'ionic-angular';
 import { Keyboard } from '@ionic-native/keyboard';
 
 import { UserRegistration } from "../../classes/user-registration.class";
@@ -43,18 +44,25 @@ export class UserRegistrationMobileComponent extends UserRegistration implements
 
   conversationStyles: any;
 
-  constructor(private navCtrl: NavController, navParams: NavParams, private viewCtrl: ViewController, private keyboard: Keyboard,
-		private formBuilder: FormBuilder, private toastCtrl: ToastController, private modalCtrl: ModalController,
-		private loadingCtrl: LoadingController, private geoService: GeolocationService, public utils: Utils) {
+  constructor(private platform: Platform, private navCtrl: NavController, navParams: NavParams, 
+  	private viewCtrl: ViewController, private keyboard: Keyboard,
+	private formBuilder: FormBuilder, private toastCtrl: ToastController, private modalCtrl: ModalController,
+	private loadingCtrl: LoadingController, private geoService: GeolocationService, public utils: Utils) {
 
 		super();
 		this.submitAttempt = false;
 		this.isModal = navParams.get("isModal");
 		this.utils = utils;
 		this.loadingImgs = {};
-    this.conversationStyles = CONVERSATIONSTYLES.styles;
+    	this.conversationStyles = CONVERSATIONSTYLES.styles;
 		this.keyboard.disableScroll(false);
-    this.isAdult = false;
+    	this.isAdult = false;
+
+    	this.platform.resume.subscribe((e: any) => {
+	      if(this.platform.is('cordova')) {
+	          this.getGeolocation();
+	        }
+	    });
 	}
 
 	loadGMapsScript(src: string, callback: any) {
@@ -83,24 +91,14 @@ export class UserRegistrationMobileComponent extends UserRegistration implements
 
 		    this.loadGMapsScript('https://maps.google.com/maps/api/js?key=AIzaSyA4o5dp21Sdw7vyUO0iC5mua7f9gMx6_2w&libraries=places',
             () => {
-
-				this.geoService.getCurrentGeolocation().then((position) => {
-
-					this.geoService.getCurrentLocation(position).then((data) => {
-            console.log(data);
-						if(this.myformGroup) {
-							this.myformGroup.patchValue({birthCountry: data.country, birthState: data.state, birthCity: data.city});
-							this.loader.dismiss();
-						}
-					});
-				}).catch((error) => {
-					// JUST FOR TESTING PURPOSES. DELETE ON PRODUCTION
-					/*me.myformGroup.patchValue({birthCountry: 'Ecuador', birthState: 'Azuay', birthCity: 'Cuenca'});*/
-					this.loader.dismiss();
-					console.log('error obtaining geolocation', error);
-				});
+				this.getGeolocation();
 			});
+
+		} else if(!this.person.country) {
+			this.getGeolocation();
 		}
+
+
 
     this.myformGroup = this.formBuilder.group({
       typeid: [this.person.typeid || ''],
@@ -133,6 +131,20 @@ export class UserRegistrationMobileComponent extends UserRegistration implements
 	  //     terms: new FormControl(false)
 	  //   });
 
+	}
+
+	getGeolocation() {
+		this.geoService.getCurrentGeolocation().then((position) => {
+
+			this.geoService.getCurrentLocation(position).then((data) => {
+				if(this.myformGroup) {
+					this.myformGroup.patchValue({birthCountry: data.country, birthState: data.state, birthCity: data.city});
+					this.loader.dismiss();
+				}
+			});
+		}).catch((error) => {
+			this.loader.dismiss();
+		});
 	}
 
 	ngOnDestroy() {

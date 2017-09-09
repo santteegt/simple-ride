@@ -12,7 +12,6 @@ import { MeteorObservable } from "meteor-rxjs";
 import { TripUtils } from '../../classes/trip-utils.class';
 import { UserProfileMobileComponent } from '../user/user-profile.component.mobile';
 import { CheckoutMobileComponent } from '../checkout/checkout.component.mobile';
-import { UserRegistrationMobileComponent } from '../registration/registration.component.mobile';
 
 import { UserRating } from '../../shared/models/reservation.structure';
 import { Trip, User, Reservation, RESERVATIONSTATUS } from '../../shared/models';
@@ -155,34 +154,10 @@ export class DetailedReservationMobileComponent implements OnInit, OnDestroy {
 	}
 
 	openCheckout(trip_id: string) {
-    if(this.isUserIncomplete()){
-			let alert = this.alertCtrl.create({
-				'title': 'Pérfil Incompleto',
-				'subTitle': 'Tu pérfil está incompleto. Por favor llena todos los campos de tu perfil para continuar.',
-				buttons: [
-					{
-						text: 'Cerrar',
-						handler: () => {
-						}
-					},
-					{
-						text: 'Ver Perfil',
-						handler: () => {
-							let modal = this.modalCtrl.create(UserRegistrationMobileComponent, {'isModal': true});
-							modal.present();
-						}
-					}]
-				});
-				alert.present();
-		}else{
-      let modal = this.modalCtrl.create(CheckoutMobileComponent, {'trip_id': trip_id});
-	    modal.present();
-    }
+		let modal = this.modalCtrl.create(CheckoutMobileComponent, {'trip_id': trip_id});
+    	modal.present();
 	}
 
-  isUserIncomplete(){
-		return this.user.personData.typeid == '' || this.user.personData.dni == '' || this.user.personData.phone == '' || this.user.personData.conversation == ''
-	}
 
 	dismiss() {
 		this.viewCtrl.dismiss();

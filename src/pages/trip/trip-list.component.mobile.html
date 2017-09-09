@@ -58,7 +58,7 @@
 							      </ion-avatar>
 							      	<h3>{{drivers && drivers.length > 0 ? getDriverInfo(trip.driver_id).personData.forename:''}}</h3>
 							      	<p>{{drivers && drivers.length > 0 ? getDriverInfo(trip.driver_id).personData.surname:''}}</p>
-							      	<p>{{drivers && drivers.length > 0 ? tripUtils.getDriverAge(getDriverInfo(trip.driver_id).personData.birthday):''}} años</p>
+							      	<p>{{drivers && drivers.length > 0 && getDriverInfo(trip.driver_id).personData.birthday ? tripUtils.getDriverAge(getDriverInfo(trip.driver_id).personData.birthday) + ' años':''}}</p>
 							      	<div class="reviews-score">
 								      	<ion-icon name="{{getDriverRating(trip.driver_id) >= 1 ? 'star':(getDriverRating(trip.driver_id) - 1 > 0 && getDriverRating(trip.driver_id) - 1 < 1 ? 'star-half':'star-outline')}}"></ion-icon>
 								      	<ion-icon name="{{getDriverRating(trip.driver_id) >= 2 ? 'star':(getDriverRating(trip.driver_id) - 2 > 0 && getDriverRating(trip.driver_id) - 2 < 1 ? 'star-half':'star-outline')}}"></ion-icon>

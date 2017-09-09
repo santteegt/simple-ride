@@ -43,7 +43,7 @@
 							      </ion-avatar>
 							      	<h3>{{users && users.length > 0 ? getUserInfo(rsvp.user_id).personData.forename:''}}</h3>
 							      	<p>{{users && users.length > 0 ? getUserInfo(rsvp.user_id).personData.surname:''}}</p>
-							      	<p>{{users && users.length > 0 ? tripUtils.getDriverAge(getUserInfo(rsvp.user_id).personData.birthday):''}} años</p>
+							      	<p>{{users && users.length > 0 && getUserInfo(rsvp.user_id).personData.birthday ? tripUtils.getDriverAge(getUserInfo(rsvp.user_id).personData.birthday) + ' años':''}}</p>
 							      	<div class="reviews-score">
 								      	<ion-icon name="{{getUserRating(rsvp.user_id) >= 1 ? 'star':(getUserRating(rsvp.user_id) - 1 > 0 && getUserRating(rsvp.user_id) - 1 < 1 ? 'star-half':'star-outline')}}"></ion-icon>
 								      	<ion-icon name="{{getUserRating(rsvp.user_id) >= 2 ? 'star':(getUserRating(rsvp.user_id) - 2 > 0 && getUserRating(rsvp.user_id) - 2 < 2 ? 'star-half':'star-outline')}}"></ion-icon>

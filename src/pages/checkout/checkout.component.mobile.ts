@@ -8,9 +8,12 @@ import { MeteorObservable } from "meteor-rxjs"
 
 import { TripUtils } from '../../classes/trip-utils.class';
 import { TermsOfServiceMobileComponent } from "../terms/terms-service.component.mobile";
+import { UserRegistrationMobileComponent } from '../registration/registration.component.mobile';
 
 import { Trip, Reservation, RESERVATIONSTATUS } from '../../shared/models';
 import { Trips } from '../../shared/collections';
+
+import { IsUserIncompletePipe } from '../../classes/shared/is-user-incomplete.pipe';
 
 interface ServerResponse {
 	status: number;
@@ -19,7 +22,8 @@ interface ServerResponse {
 
 @Component({
   selector: 'checkout',
-  templateUrl: 'checkout.component.mobile.html'
+  templateUrl: 'checkout.component.mobile.html',
+  providers: [IsUserIncompletePipe]
 })
 export class CheckoutMobileComponent implements OnInit, OnDestroy {
 
@@ -42,7 +46,8 @@ export class CheckoutMobileComponent implements OnInit, OnDestroy {
 
 	constructor(private navCtrl: NavController, navParams: NavParams, private viewCtrl: ViewController,
 		private alertCtrl: AlertController, private loadingCtrl: LoadingController, private appCtrl: App,
-		private toastCtrl: ToastController, private modalCtrl: ModalController) {
+		private toastCtrl: ToastController, private modalCtrl: ModalController,
+		private isUserIncomplete: IsUserIncompletePipe) {
 
 		this.trip_id = navParams.get("trip_id");
 		this.reservedSits = 1;
@@ -108,45 +113,70 @@ export class CheckoutMobileComponent implements OnInit, OnDestroy {
 	}
 
 	joinTrip(trip: Trip) {
-		this.loader = this.loadingCtrl.create({
-		  content: "Procesando reserva...",
-		  spinner: "crescent"
-		});
-		this.loader.present();
-		let payment_status = trip.rsvp_method == "1" ? RESERVATIONSTATUS.WAITING_DRIVER_CONFIRMATION:
-			(this.paymentMethod == "deposit" ? RESERVATIONSTATUS.WAITING_USER_ACTION:RESERVATIONSTATUS.PROCESSING_PAYMENT);
-		let reservation: Reservation = {
-			trip_id: trip._id,
-			driver_id: trip.driver_id,
-			user_id: Meteor.userId(),
-			departure_date: trip.departureDate,
-			reservation_date: new Date(),
-			places: this.reservedSits,
-			comments: this.comments,
-			payment_method: this.paymentMethod,
-			payment_status: payment_status,
-			total: this.totalPayment,
-			origin: trip.origin.shortName,
-			destination: trip.destination.shortName,
-		}
 
-		MeteorObservable.call('joinTrip', reservation).subscribe((response: ServerResponse) => {
-			this.loader.dismiss();
-			switch (response.status) {
-				case 200:
-					let addemdum = reservation.payment_status == RESERVATIONSTATUS.WAITING_DRIVER_CONFIRMATION ? " El conductor tiene que aprobar su solicitud. Una vez aprobada recuerde subir el registro de su pago en el menú Mis Viajes":
-						(reservation.payment_status == RESERVATIONSTATUS.WAITING_USER_ACTION ? " Recuerde subir el registro de su pago en el menú Mis Viajes en menos de 24 horas":"");
-					this.presentAlert('Reserva', "Su reserva ha sido registrada correctamente." + addemdum, true);
-					this.viewCtrl.dismiss();
-					break;
-				default:
-					this.presentAlert('Error al procesar su reserva', response.message);
-					break;
+		if(this.isUserIncomplete.transform(Meteor.user())) {
+			let alert = this.alertCtrl.create({
+				'title': 'Pérfil Incompleto',
+				'subTitle': 'Tu pérfil está incompleto. Por favor completa los campos de identificación y teléfono en tu perfil para continuar.',
+				buttons: [
+					{
+						text: 'Cerrar',
+						handler: () => {
+						}
+					},
+					{
+						text: 'Ver Perfil',
+						handler: () => {
+							let modal = this.modalCtrl.create(UserRegistrationMobileComponent, {'isModal': true});
+							modal.present();
+						}
+					}]
+				});
+				alert.present();
+
+		} else {
+
+			this.loader = this.loadingCtrl.create({
+			  content: "Procesando reserva...",
+			  spinner: "crescent"
+			});
+			this.loader.present();
+			let payment_status = trip.rsvp_method == "1" ? RESERVATIONSTATUS.WAITING_DRIVER_CONFIRMATION:
+				(this.paymentMethod == "deposit" ? RESERVATIONSTATUS.WAITING_USER_ACTION:RESERVATIONSTATUS.PROCESSING_PAYMENT);
+			let reservation: Reservation = {
+				trip_id: trip._id,
+				driver_id: trip.driver_id,
+				user_id: Meteor.userId(),
+				departure_date: trip.departureDate,
+				reservation_date: new Date(),
+				places: this.reservedSits,
+				comments: this.comments,
+				payment_method: this.paymentMethod,
+				payment_status: payment_status,
+				total: this.totalPayment,
+				origin: trip.origin.shortName,
+				destination: trip.destination.shortName,
 			}
-    	}, (err) => {
-    		this.loader.dismiss();
-				this.presentToast("Error interno. Por favor intenta de nuevo.");
-     	});
+
+			MeteorObservable.call('joinTrip', reservation).subscribe((response: ServerResponse) => {
+				this.loader.dismiss();
+				switch (response.status) {
+					case 200:
+						let addemdum = reservation.payment_status == RESERVATIONSTATUS.WAITING_DRIVER_CONFIRMATION ? " El conductor tiene que aprobar su solicitud. Una vez aprobada recuerde subir el registro de su pago en el menú Mis Viajes":
+							(reservation.payment_status == RESERVATIONSTATUS.WAITING_USER_ACTION ? " Recuerde subir el registro de su pago en el menú Mis Viajes en menos de 24 horas":"");
+						this.presentAlert('Reserva', "Su reserva ha sido registrada correctamente." + addemdum, true);
+						this.viewCtrl.dismiss();
+						break;
+					default:
+						this.presentAlert('Error al procesar su reserva', response.message);
+						break;
+				}
+	    	}, (err) => {
+	    		this.loader.dismiss();
+					this.presentToast("Error interno. Por favor intenta de nuevo.");
+	     	});
+
+		}
 
 	}
 
@@ -179,7 +209,7 @@ export class CheckoutMobileComponent implements OnInit, OnDestroy {
 
 	termsOfService() {
 		let modal = this.modalCtrl.create(TermsOfServiceMobileComponent);
-  	modal.present();
+  		modal.present();
 	}
 
 }

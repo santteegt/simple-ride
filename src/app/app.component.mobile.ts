@@ -30,6 +30,8 @@ import { PaymentInfoMobileComponent } from '../pages/user/payment-info.component
 
 import { UserTripFlags, Users } from "../shared/collections";
 import { UserTripFlag, Person, USER_STATUS, DRIVER_STATUS } from "../shared/models";
+
+import { IsUserIncompletePipe } from '../classes/shared/is-user-incomplete.pipe';
 // import { UserTripFlags, Users } from "api/collections";
 // import { UserTripFlag, Person, USER_STATUS, DRIVER_STATUS } from "api/models";
 
@@ -38,7 +40,8 @@ import { UserTripFlag, Person, USER_STATUS, DRIVER_STATUS } from "../shared/mode
 declare var Counts;
 
 @Component({
-  templateUrl: 'app.component.mobile.html'
+  templateUrl: 'app.component.mobile.html',
+  providers: [IsUserIncompletePipe]
 })
 export class MyApp {
 
@@ -78,7 +81,7 @@ export class MyApp {
 
   constructor(private app: App, private platform: Platform, private statusBar: StatusBar, private splashScreen: SplashScreen,
       private menu: MenuController, private modalCtrl: ModalController, private config: Config, private keyboard: Keyboard,
-      private push: Push, private alertCtrl: AlertController) {
+      private push: Push, private alertCtrl: AlertController, private isUserIncomplete: IsUserIncompletePipe) {
 
     this.profile = UserRegistrationMobileComponent;
     this.driverProfile = DriverProfileMobileComponent;
@@ -242,10 +245,10 @@ export class MyApp {
 
   setActiveProfile() {
 
-    if(this.isDriver && this.isUserIncomplete()){
+    if(this.isDriver && this.isUserIncomplete.transform(this.user)) {
 			let alert = this.alertCtrl.create({
 				'title': 'Pérfil Incompleto',
-				'subTitle': 'Tu pérfil está incompleto. Por favor llena todos los campos de tu perfil para continuar.',
+				'subTitle': 'Tu pérfil está incompleto. Por favor completa los campos de identificación y teléfono en tu perfil para continuar.',
         'enableBackdropDismiss': false,
 				buttons: [
 					{
@@ -268,7 +271,7 @@ export class MyApp {
 					}]
 				});
 				alert.present();
-		}else if(this.isDriver && !Meteor.user()['driverData'].status) {
+		} else if(this.isDriver && !Meteor.user()['driverData'].status) {
       let modal = this.modalCtrl.create(CarRegistrationMobileComponent, {isModal: true});
       modal.present();
       modal.onDidDismiss((data) => {
@@ -303,7 +306,4 @@ export class MyApp {
     this.autorunConnected.unsubscribe();
   }
 
-  isUserIncomplete(){
-		return this.user.personData.typeid == '' || this.user.personData.dni == '' || this.user.personData.phone == '' || this.user.personData.conversation == ''
-	}
 }

@@ -92,43 +92,43 @@
         </ion-item>
 
         <ion-item>
-          <ion-label stacked>Nombres(*)</ion-label>
+          <ion-label stacked color="app">Nombres(*)</ion-label>
           <ion-input type="text" formControlName="forename" [class.invalid]="!myformGroup.controls.forename.valid && (myformGroup.controls.forename.dirty || submitAttempt)" tabindex="3"></ion-input>
         </ion-item>
 
         <ion-item>
-          <ion-label stacked>Apellidos(*)</ion-label>
+          <ion-label stacked color="app">Apellidos(*)</ion-label>
           <ion-input type="text" formControlName="surname" [class.invalid]="!myformGroup.controls.surname.valid && (myformGroup.controls.surname.dirty || submitAttempt)" tabindex="4"></ion-input>
         </ion-item>
 
 
         <ion-item>
-          <ion-label stacked>Fecha Nacimiento</ion-label>
+          <ion-label stacked color="app">Fecha Nacimiento</ion-label>
           <ion-datetime displayFormat="DD MMM YYYY" formControlName="birthday" [class.invalid]="!myformGroup.controls.birthday.valid && (myformGroup.controls.birthday.dirty || submitAttempt)" tabindex="5" monthNames="enero, febrero, marzo, abril, mayo, junio, julio, agosto, septiembre, octubre, noviembre, diciembre" monthShortNames="ene, feb, mar, abr, may, jun, jul, ago, sep, oct, nov, dic" dayNames="domingo, lunes, martes, miércoles, jueves, viernes, sábado" dayShortNames="dom, lun, mar, mie, jue, vie, sab, dom" (ionChange)="validateAge()"></ion-datetime>
         </ion-item>
 
-        <ion-item>
-        <ion-label stacked>País(*)</ion-label>
+        <ion-item [hidden]="true">
+        <ion-label stacked color="app">País(*)</ion-label>
           <ion-input type="text" formControlName="birthCountry" readonly [class.invalid]="!myformGroup.controls.birthCountry.valid && (myformGroup.controls.birthCountry.dirty || submitAttempt)" tabindex="-1"></ion-input>
         </ion-item>
 
-        <ion-item>
-          <ion-label stacked>Provincia(*)</ion-label>
+        <ion-item [hidden]="true">
+          <ion-label stacked color="app">Provincia(*)</ion-label>
           <ion-input type="text" formControlName="birthState" [class.invalid]="!myformGroup.controls.birthState.valid && (myformGroup.controls.birthState.dirty || submitAttempt)" readonly="isModal" tabindex="6"></ion-input>
         </ion-item>
 
-        <ion-item>
-          <ion-label stacked>Ciudad(*)</ion-label>
+        <ion-item [hidden]="true">
+          <ion-label stacked color="app">Ciudad(*)</ion-label>
           <ion-input type="text" formControlName="birthCity" [class.invalid]="!myformGroup.controls.birthCity.valid && (myformGroup.controls.birthCity.dirty || submitAttempt)" readonly="isModal" tabindex="7"></ion-input>
         </ion-item>
 
         <ion-item>
-          <ion-label stacked>email(*)</ion-label>
+          <ion-label stacked color="app">email(*)</ion-label>
           <ion-input type="email" formControlName="email" [class.invalid]="!myformGroup.controls.email.valid && (myformGroup.controls.email.dirty || submitAttempt)" tabindex="8"></ion-input>
         </ion-item>
 
         <ion-item>
-          <ion-label stacked>Celular</ion-label>
+          <ion-label stacked color="app">Celular</ion-label>
           <ion-input type="tel" formControlName="phone" [class.invalid]="!myformGroup.controls.phone.valid && (myformGroup.controls.phone.dirty || submitAttempt)" tabindex="9"></ion-input>
         </ion-item>
 
@@ -145,12 +145,12 @@
         </ion-item>
 
         <ion-item *ngIf="!isModal">
-          <ion-label><a href="#" tappable (click)="termsOfService()">Acepto Términos y Cond.</a></ion-label>
+          <ion-label><a href="#" tappable (click)="termsOfService()">Acepto Términos y Cond.(*)</a></ion-label>
           <ion-toggle checked="false" formControlName="terms"></ion-toggle>
         </ion-item>
 
         <ion-item *ngIf="!isModal && !isAdult">
-          <ion-label><a href="#">Soy Mayor de 18 años</a></ion-label>
+          <ion-label><a href="#">Soy Mayor de 18 años(*)</a></ion-label>
           <ion-toggle checked="false" formControlName="adult"></ion-toggle>
         </ion-item>
 
