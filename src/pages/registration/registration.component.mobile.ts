@@ -1,10 +1,10 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 // TODO:
 // import { Meteor } from 'meteor-client';
 declare var Meteor;
 import {MeteorObservable} from "meteor-rxjs";
-import {NavController, NavParams, ViewController, ToastController, ModalController, LoadingController} from 'ionic-angular';
+import {NavController, NavParams, ViewController, ToastController, ModalController, LoadingController, Select} from 'ionic-angular';
 import { Keyboard } from '@ionic-native/keyboard';
 
 import { UserRegistration } from "../../classes/user-registration.class";
@@ -25,10 +25,12 @@ import { Utils } from '../../classes/shared/utils';
   providers: [GeolocationService, Utils]
 })
 export class UserRegistrationMobileComponent extends UserRegistration implements OnInit, OnDestroy {
+  @ViewChild(Select) typeid: Select;
 
 	myformGroup: FormGroup;
 	submitAttempt: boolean;
 	isModal: boolean;
+  isAdult: boolean;
 
 	policeRecord: PoliceRecord;
 	validId: boolean;
@@ -52,6 +54,7 @@ export class UserRegistrationMobileComponent extends UserRegistration implements
 		this.loadingImgs = {};
     this.conversationStyles = CONVERSATIONSTYLES.styles;
 		this.keyboard.disableScroll(false);
+    this.isAdult = false;
 	}
 
 	loadGMapsScript(src: string, callback: any) {
@@ -99,25 +102,22 @@ export class UserRegistrationMobileComponent extends UserRegistration implements
 			});
 		}
 
-		let date = new Date();
-		date.setFullYear(date.getFullYear() - 18);
-    	this.maxDate = this.utils.dateToString(date);
-
-		this.myformGroup = this.formBuilder.group({
-		  typeid: [{value: this.person.typeid || '', disabled: this.isModal}, Validators.compose([Validators.required])],
-	      dni: [{value: this.person.dni || '', disabled: this.isModal}, Validators.compose([Validators.required])],
-	      forename: [this.person.forename, Validators.compose([Validators.required])],
-	      surname: [this.person.surname, Validators.compose([Validators.required])],
-	      birthday: [this.person.birthday || date.toISOString(), Validators.compose([Validators.required])],
-	      birthCountry: [this.person.country || country, Validators.compose([Validators.required])],
-	      birthState: [this.person.state || state, Validators.compose([Validators.required])],
-	      birthCity: [this.person.city || city, Validators.compose([Validators.required])],
-	      email: [this.person.email, Validators.compose([Validators.required])],
-	      phone: [this.person.phone || '', Validators.compose([Validators.required])],
-        conversation: [this.person.conversation || '', Validators.compose([Validators.required])],
-	      isDriver: [this.driverData.status ? true:false],
-	      terms: [false]
-    	});
+    this.myformGroup = this.formBuilder.group({
+      typeid: [this.person.typeid || ''],
+      dni: [this.person.dni || ''],
+      forename: [this.person.forename, Validators.compose([Validators.required])],
+      surname: [this.person.surname, Validators.compose([Validators.required])],
+      birthday: [this.person.birthday],
+      birthCountry: [this.person.country || country, Validators.compose([Validators.required])],
+      birthState: [this.person.state || state, Validators.compose([Validators.required])],
+      birthCity: [this.person.city || city, Validators.compose([Validators.required])],
+      email: [this.person.email, Validators.compose([Validators.required])],
+      phone: [this.person.phone || ''],
+      conversation: [this.person.conversation || ''],
+      isDriver: [this.driverData.status ? true:false],
+      terms: [false],
+      adult: [false]
+    });
 	 	// this.myformGroup = new FormGroup({
 		 //  typeid: new FormControl({value: this.person.typeid || '', disabled: this.isModal}, Validators.compose([Validators.required])),
 	  //     dni: new FormControl({value: this.person.dni || '', disabled: this.isModal}, Validators.compose([Validators.required])),
@@ -166,7 +166,7 @@ export class UserRegistrationMobileComponent extends UserRegistration implements
 
     validateId(event: any) {
     	let id = this.myformGroup.value.dni;
-    	if(id!=null && id.length > 0 && (!this.validId || id != this.lastId) && !this.isModal) {
+      if(id!=null && id.length > 0 && (!this.validId || id != this.lastId)) {
 	    	this.loader = this.loadingCtrl.create({
 		      content: "Validando...",
 		      spinner: "crescent"
@@ -198,37 +198,33 @@ export class UserRegistrationMobileComponent extends UserRegistration implements
     }
 
     checkIdValidation() {
-
-    	return this.myformGroup.value.typeid == 'passport' || (!this.policeRecord && this.isModal) || (this.policeRecord.found);
-
-	}
+      return this.myformGroup.value.typeid == 'passport' || (!this.policeRecord) || (this.policeRecord.found);
+    }
 
     registerUser() {
-
     	this.submitAttempt = true;
     	if(this.myformGroup.valid) {
     		if(this.checkIdValidation()) {
-          if(!this.isModal){
-    		     this.person.typeid = this.myformGroup.value.typeid;
-             this.person.dni = this.myformGroup.value.dni;
+          this.person.typeid = this.myformGroup.value.typeid;
+          this.person.dni = this.myformGroup.value.dni;
+          this.person.forename = this.myformGroup.value.forename;
+          this.person.surname = this.myformGroup.value.surname;
+          this.person.birthday = this.myformGroup.value.birthday;
+          this.person.country = this.myformGroup.value.birthCountry;
+          this.person.state = this.myformGroup.value.birthState;
+          this.person.city = this.myformGroup.value.birthCity;
+          this.person.email = this.myformGroup.value.email;
+          this.person.phone = this.myformGroup.value.phone;
+          this.person.conversation = this.myformGroup.value.conversation;
+          this.person.policeRecord = this.policeRecord && this.policeRecord.response.antecedent;
+          this.isDriver = this.myformGroup.value.isDriver;
+          if(!this.isModal) {
+            this.person.isDriver = this.isDriver;
           }
-    		this.person.forename = this.myformGroup.value.forename;
-    		this.person.surname = this.myformGroup.value.surname;
-    		this.person.birthday = this.myformGroup.value.birthday;
-    		this.person.country = this.myformGroup.value.birthCountry;
-    		this.person.state = this.myformGroup.value.birthState;
-    		this.person.city = this.myformGroup.value.birthCity;
-    		this.person.email = this.myformGroup.value.email;
-    		this.person.phone = this.myformGroup.value.phone;
-      		this.person.conversation = this.myformGroup.value.conversation;
-    		this.person.policeRecord = this.policeRecord && this.policeRecord.response.antecedent;
-    		this.isDriver = this.myformGroup.value.isDriver;
-    		if(!this.isModal) {
-    			this.person.isDriver = this.isDriver;
-    		}
-
 	    	if(super.registerUser(this.isModal)) {
-
+          if(this.isModal){
+            this.dismiss();
+          }
 	    	} else {
           this.presentToast("Error interno. Por favor intenta de nuevo.");
 	    	}
@@ -262,6 +258,20 @@ export class UserRegistrationMobileComponent extends UserRegistration implements
 		let modal = this.modalCtrl.create(TermsOfServiceMobileComponent);
     	modal.present();
 	}
+
+  openTypeId() {
+    if( this.myformGroup.value.typeid != 'dni' && this.myformGroup.value.typeid != 'passport' ){
+      this.typeid.open();
+    }
+  }
+
+  validateAge(){
+    if(this.myformGroup.value.birthday != ''){
+      let date = new Date();
+      date.setFullYear(date.getFullYear() - 18);
+      this.isAdult = date>this.utils.stringToDate(this.myformGroup.value.birthday);
+    }
+  }
 
 	dismiss() {
 		this.viewCtrl.dismiss();

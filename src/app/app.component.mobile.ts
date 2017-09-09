@@ -242,11 +242,37 @@ export class MyApp {
 
   setActiveProfile() {
 
-    if(this.isDriver && !Meteor.user()['driverData'].status) {
+    if(this.isDriver && this.isUserIncomplete()){
+			let alert = this.alertCtrl.create({
+				'title': 'Pérfil Incompleto',
+				'subTitle': 'Tu pérfil está incompleto. Por favor llena todos los campos de tu perfil para continuar.',
+        'enableBackdropDismiss': false,
+				buttons: [
+					{
+						text: 'Cerrar',
+						handler: () => {
+              this.isDriver = false;
+              let modifier = {'personData.isDriver': false};
+              Users.update({'_id': Meteor.userId()}, {$set: modifier});
+						}
+					},
+					{
+						text: 'Ver Perfil',
+						handler: () => {
+              this.isDriver = false;
+              let modifier = {'personData.isDriver': false};
+              Users.update({'_id': Meteor.userId()}, {$set: modifier});
+							let modal = this.modalCtrl.create(UserRegistrationMobileComponent, {'isModal': true});
+							modal.present();
+						}
+					}]
+				});
+				alert.present();
+		}else if(this.isDriver && !Meteor.user()['driverData'].status) {
       let modal = this.modalCtrl.create(CarRegistrationMobileComponent, {isModal: true});
       modal.present();
       modal.onDidDismiss((data) => {
-        if(data.valid_driver) {
+        if(data && data.valid_driver) {
           let modifier = {'personData.isDriver': true};
           Users.update({'_id': Meteor.userId()}, {$set: modifier});
         } else {
@@ -257,7 +283,6 @@ export class MyApp {
       let modifier = {'personData.isDriver': this.isDriver};
       Users.update({'_id': Meteor.userId()}, {$set: modifier});
     }
-
   }
 
   logout() {
@@ -277,4 +302,8 @@ export class MyApp {
     this.autorunSub.unsubscribe();
     this.autorunConnected.unsubscribe();
   }
+
+  isUserIncomplete(){
+		return this.user.personData.typeid == '' || this.user.personData.dni == '' || this.user.personData.phone == '' || this.user.personData.conversation == ''
+	}
 }

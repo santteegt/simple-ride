@@ -79,7 +79,7 @@
         </ion-item> -->
 
         <ion-item>
-          <ion-label stacked color="app">Tipo Identificación(*)</ion-label>
+          <ion-label stacked color="app">Tipo Identificación</ion-label>
           <ion-select formControlName="typeid" [class.invalid]="!myformGroup.controls.typeid.valid && (myformGroup.controls.typeid.dirty || submitAttempt)" tabindex="1">
             <ion-option value="dni">Cédula</ion-option>
             <ion-option value="passport">Pasaporte</ion-option>
@@ -87,8 +87,8 @@
         </ion-item>
 
         <ion-item>
-          <ion-label stacked color="app">Identificación(*)</ion-label>
-          <ion-input type="number" formControlName="dni" [class.invalid]="(!myformGroup.controls.dni.valid || validId == false) && (myformGroup.controls.dni.dirty || submitAttempt)" (blur)="validateId($event)" tabindex="2"></ion-input>
+          <ion-label stacked color="app">Identificación</ion-label>
+          <ion-input type="text" formControlName="dni" [class.invalid]="(!myformGroup.controls.dni.valid || validId == false) && (myformGroup.controls.dni.dirty || submitAttempt)" (blur)="validateId($event)" (click)="openTypeId()" tabindex="2"></ion-input>
         </ion-item>
 
         <ion-item>
@@ -103,8 +103,8 @@
 
 
         <ion-item>
-          <ion-label stacked>Fecha Nacimiento(*)</ion-label>
-          <ion-datetime displayFormat="DD MMM YYYY" formControlName="birthday" [class.invalid]="!myformGroup.controls.birthday.valid && (myformGroup.controls.birthday.dirty || submitAttempt)" tabindex="5" [max]="maxDate" monthNames="enero, febrero, marzo, abril, mayo, junio, julio, agosto, septiembre, octubre, noviembre, diciembre" monthShortNames="ene, feb, mar, abr, may, jun, jul, ago, sep, oct, nov, dic" dayNames="domingo, lunes, martes, miércoles, jueves, viernes, sábado" dayShortNames="dom, lun, mar, mie, jue, vie, sab, dom"></ion-datetime>
+          <ion-label stacked>Fecha Nacimiento</ion-label>
+          <ion-datetime displayFormat="DD MMM YYYY" formControlName="birthday" [class.invalid]="!myformGroup.controls.birthday.valid && (myformGroup.controls.birthday.dirty || submitAttempt)" tabindex="5" monthNames="enero, febrero, marzo, abril, mayo, junio, julio, agosto, septiembre, octubre, noviembre, diciembre" monthShortNames="ene, feb, mar, abr, may, jun, jul, ago, sep, oct, nov, dic" dayNames="domingo, lunes, martes, miércoles, jueves, viernes, sábado" dayShortNames="dom, lun, mar, mie, jue, vie, sab, dom" (ionChange)="validateAge()"></ion-datetime>
         </ion-item>
 
         <ion-item>
@@ -128,18 +128,18 @@
         </ion-item>
 
         <ion-item>
-          <ion-label stacked>Celular(*)</ion-label>
+          <ion-label stacked>Celular</ion-label>
           <ion-input type="tel" formControlName="phone" [class.invalid]="!myformGroup.controls.phone.valid && (myformGroup.controls.phone.dirty || submitAttempt)" tabindex="9"></ion-input>
         </ion-item>
 
         <ion-item>
-          <ion-label stacked color="app">Conversación(*)</ion-label>
+          <ion-label stacked color="app">Conversación</ion-label>
           <ion-select formControlName="conversation" [class.invalid]="!myformGroup.controls.conversation.valid && (myformGroup.controls.conversation.dirty || submitAttempt)" tabindex="10">
             <ion-option *ngFor="let style of conversationStyles" [value] = "style.name">{{style.value}}</ion-option>
           </ion-select>
         </ion-item>
 
-        <ion-item *ngIf="!isModal">
+        <ion-item *ngIf="!isModal && validId">
           <ion-label>Es Conductor?</ion-label>
           <ion-toggle checked="false" formControlName="isDriver"></ion-toggle>
         </ion-item>
@@ -149,10 +149,15 @@
           <ion-toggle checked="false" formControlName="terms"></ion-toggle>
         </ion-item>
 
+        <ion-item *ngIf="!isModal && !isAdult">
+          <ion-label><a href="#">Soy Mayor de 18 años</a></ion-label>
+          <ion-toggle checked="false" formControlName="adult"></ion-toggle>
+        </ion-item>
+
       </ion-list>
 
       <div padding *ngIf="!isModal">
-        <button [disabled]="myformGroup && !myformGroup.value.terms" ion-button type="submit" color="app" block>
+        <button [disabled]="(myformGroup && !myformGroup.value.terms) || ((!isAdult && !myformGroup.value.adult) && !isAdult)" ion-button type="submit" color="app" block>
           Registrarse
         </button>
       </div>
