@@ -23,6 +23,10 @@
     <!-- <form [formGroup]="myformGroup" (submit)="registerCar()"> -->
       <ion-list style="margin-bottom: 0">
 
+        <ion-list-header [hidden]="isModal">
+            <ion-label style="text-align: center">Registro de Conductor</ion-label>
+        </ion-list-header>
+
         <ion-item>
           <ion-label stacked ion-text color="primary">Placa Vehículo(*)</ion-label>
           <!-- <ion-input type="text" formControlName="carRegister" [class.invalid]="!myformGroup.controls.carRegister.valid && (myformGroup.controls.carRegister.dirty || submitAttempt)" placeholder="ej: ABC-09XX"></ion-input> -->
