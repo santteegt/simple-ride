@@ -4,7 +4,7 @@
     	<button class="app-color" ion-item no-lines detail-none (click)="openPage(profile, {isModal: true})">
 	      <ion-avatar item-left>
           <img src="assets/nobody.png" [hidden]="imgLoaded"/>
-          <img src="{{user | displayImage}}" (load)="imgLoaded = true" [hidden]="!imgLoaded">
+          <img img-cache img-cache-src="{{user | displayImage}}" (load)="imgLoaded = true" [hidden]="!imgLoaded">
 	      </ion-avatar>
 	      	<h2 style="color: white !important;">{{user | displayName}}</h2>
 	      	<p>Status:

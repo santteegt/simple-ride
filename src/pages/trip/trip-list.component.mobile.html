@@ -54,7 +54,7 @@
 		  					<ion-row>
 				  				<button ion-item no-lines detail-none (click)="openDriverProfile(trip.driver_id)">
 							      <ion-avatar item-left>
-							        <img src="{{drivers && drivers.length > 0 ? getDriverInfo(trip.driver_id).personData.profileImg:''}}" style="width: 50px; height: 50px;">
+							        <img img-cache img-cache-src="{{drivers && drivers.length > 0 ? getDriverInfo(trip.driver_id).personData.profileImg:''}}" style="width: 50px; height: 50px;">
 							      </ion-avatar>
 							      	<h3>{{drivers && drivers.length > 0 ? getDriverInfo(trip.driver_id).personData.forename:''}}</h3>
 							      	<p>{{drivers && drivers.length > 0 ? getDriverInfo(trip.driver_id).personData.surname:''}}</p>

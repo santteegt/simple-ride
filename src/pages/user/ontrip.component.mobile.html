@@ -27,7 +27,7 @@
 
   <div class="card-background-page" style="z-index: 902">
     <ion-card style="margin-bottom: 0; z-index: 903" tappable (click)="openTripDetails()">
-      <img src="{{destination ? destination.photoURL:''}}"/>
+      <img img-cache img-cache-src="{{destination ? destination.photoURL:''}}"/>
 
       <div class="card-subtitle">Viajando a</div>
       <div class="card-title">{{destination ? destination.shortName:''}}</div>
@@ -36,7 +36,7 @@
     <div *ngIf="!isDriver()" style="position: relative; z-index: 904; margin-top: -40px;">
       <ion-avatar item-center style="margin-left: 37%" tappable (click)="openUserProfile(true, driver)">
         <img src="assets/nobody.png" [hidden]="driver && loadingImgs[driver.personData.profileImg]" style="border-radius: 40px; height: 80px; width: 80px"/>
-        <img src="{{driver ? driver.personData.profileImg:''}}" (load)="loadedImg(driver ? driver.personData.profileImg:'')" [hidden]="!driver || !loadingImgs[driver ? driver.personData.profileImg:'']" style="border-radius: 40px; height: 80px; width: 80px">
+        <img img-cache img-cache-src="{{driver ? driver.personData.profileImg:''}}" (load)="loadedImg(driver ? driver.personData.profileImg:'')" [hidden]="!driver || !loadingImgs[driver ? driver.personData.profileImg:'']" style="border-radius: 40px; height: 80px; width: 80px">
       </ion-avatar>
     </div>
 
@@ -48,7 +48,7 @@
           <ion-item>
             <ion-avatar item-left>
               <img src="assets/nobody.png" [hidden]="user && loadingImgs[user.personData.profileImg]" style="border-radius: 40px; height: 40px; width: 40px"/>
-              <img src="{{user.personData.profileImg}}" (load)="loadedImg(user ? user.personData.profileImg:'')" [hidden]="!user || !loadingImgs[user ? user.personData.profileImg:'']" tappable (click)="openUserProfile(false, user)">
+              <img img-cache img-cache-src="{{user.personData.profileImg}}" (load)="loadedImg(user ? user.personData.profileImg:'')" [hidden]="!user || !loadingImgs[user ? user.personData.profileImg:'']" tappable (click)="openUserProfile(false, user)">
             </ion-avatar>
             <div tappable (click)="enterUserCode(user)">
 	            <h2>{{user.personData.forename}} - {{user.personData.surname}}</h2>

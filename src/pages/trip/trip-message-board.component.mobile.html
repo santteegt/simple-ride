@@ -58,7 +58,7 @@
 		                <button ion-item no-lines detail-none style="background: transparent;">
 		                  <ion-avatar item-left>
 		                    <img src="assets/nobody.png" [hidden]="loadingImgs[msg.user_id]"  style="width: 35px; height: 35px;"/>
-							<img src="{{msg.user_profileImg}}" (load)="loadedImg(msg.user_id)" [hidden]="!loadingImgs[msg.user_id]" style="width: 35px; height: 35px;">
+							<img img-cache img-cache-src="{{msg.user_profileImg}}" (load)="loadedImg(msg.user_id)" [hidden]="!loadingImgs[msg.user_id]" style="width: 35px; height: 35px;">
 		                  </ion-avatar>
 		                  <!-- <h4 style="color: white">{{'Santiago Gonzalez'}}</h4>
 		                  <p style="color: white">{{'Conductor'}}</p> -->

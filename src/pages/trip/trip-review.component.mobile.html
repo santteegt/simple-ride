@@ -40,7 +40,7 @@
   			<button ion-item no-lines detail-none (click)="openUserProfile(person.user, person.isDriver)">
 				<ion-avatar item-left>
 			        <img src="assets/nobody.png" [hidden]="loadingImgs[person.user.personData.profileImg]"  style="width: 50px; height: 50px;"/>
-					<img src="{{person.user.personData.profileImg}}" (load)="loadedImg(person.user.personData.profileImg)" [hidden]="!loadingImgs[person.user.personData.profileImg]" style="width: 50px; height: 50px;">
+					<img img-cache img-cache-src="{{person.user.personData.profileImg}}" (load)="loadedImg(person.user.personData.profileImg)" [hidden]="!loadingImgs[person.user.personData.profileImg]" style="width: 50px; height: 50px;">
 		      	</ion-avatar>
 		      	<h3>{{person.user.personData.forename}}</h3>
 		      	<p>{{person.user.personData.surname}}</p>

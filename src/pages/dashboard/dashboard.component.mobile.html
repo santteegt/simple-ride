@@ -163,7 +163,7 @@
     <ion-card *ngFor="let place of placesOverview" tappable (click)="openTripListings(place)">
 
       <img src="assets/trip-without-image.jpg" [hidden]="loadingImgs[place.place_id]"/>
-      <img src="{{place.photoURL}}" (load)="loadedPlaceImg(place.place_id)" [hidden]="!loadingImgs[place.place_id]"/>
+      <img img-cache img-cache-src="{{place.photoURL}}" (load)="loadedPlaceImg(place.place_id)" [hidden]="!loadingImgs[place.place_id]"/>
 
       <div class="card-title">{{place.name}}</div>
       <div class="card-subtitle">{{place.totalTrips}} viaje{{place.totalTrips > 1 ? 's':''}}</div>

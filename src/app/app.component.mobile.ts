@@ -11,6 +11,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Keyboard } from '@ionic-native/keyboard';
 import { Push } from '@ionic-native/push';
+import { ImgCacheService } from 'ng-imgcache';
 
 import { LoginMobileComponent } from '../pages/login/login.component.mobile';
 
@@ -81,7 +82,8 @@ export class MyApp {
 
   constructor(private app: App, private platform: Platform, private statusBar: StatusBar, private splashScreen: SplashScreen,
       private menu: MenuController, private modalCtrl: ModalController, private config: Config, private keyboard: Keyboard,
-      private push: Push, private alertCtrl: AlertController, private isUserIncomplete: IsUserIncompletePipe) {
+      private push: Push, private alertCtrl: AlertController, private isUserIncomplete: IsUserIncompletePipe,
+      private imgCache: ImgCacheService) {
 
     this.profile = UserRegistrationMobileComponent;
     this.driverProfile = DriverProfileMobileComponent;
@@ -144,94 +146,98 @@ export class MyApp {
       //   }
       // });
 
-      this.autorunConnected = MeteorObservable.autorun().subscribe(() => {
+      imgCache.init({debug: true, usePersistentCache: true}).then(() => {
 
-        this.app._setDisableScroll(false);
+        this.autorunConnected = MeteorObservable.autorun().subscribe(() => {
 
-        let connected = Meteor.status().connected;
-        console.log('connection alive: ' + connected);
-        if(connected && connected != window['meteor_connection']) {
+          this.app._setDisableScroll(false);
 
-          if(this.autorunSub) {
-            this.autorunSub.unsubscribe();
-          }
+          let connected = Meteor.status().connected;
+          console.log('connection alive: ' + connected);
+          if(connected && connected != window['meteor_connection']) {
 
-          if(this.tripFlagSub) {
-            this.tripFlagSub.unsubscribe();
-          }
-
-          this.autorunSub = MeteorObservable.autorun().subscribe(() => {
-            if(!Meteor.userId()) {
-              me.rootPage = LoginMobileComponent;
-            } else if(Meteor.user()) {
-              this.user = Meteor.user();
-              this.verified = this.user['personData'].isDriver ? this.user['driverData'].status == DRIVER_STATUS.VERIFIED : this.user['personData'].status==USER_STATUS.VERIFIED;
-              this.verifing = this.user['personData'].isDriver ? (this.user['driverData'].status == DRIVER_STATUS.UPLOADED_ONE || this.user['driverData'].status == DRIVER_STATUS.UPLOADED_TWO || this.user['driverData'].status == DRIVER_STATUS.VERIFIED_ONE) : this.user['personData'].status == USER_STATUS.UPLOADED_DNI;
-              if(this.user['personData'].status == USER_STATUS.NEW) {
-                me.rootPage = IntroSlidesMobileComponent;
-              } else if(this.user['driverData'].status == DRIVER_STATUS.NEW) {
-                me.rootPage = CarRegistrationMobileComponent;
-              } else {
-                this.isDriver = this.user['personData'].isDriver;
-
-                if(this.tripFlagSub) {
-                  this.tripFlagSub.unsubscribe();
-                }
-
-                this.tripFlagSub = MeteorObservable.subscribe('trip-flags').subscribe(() => {
-                  this.tripFlags = UserTripFlags.find({'user_id': Meteor.userId()});
-
-                  if(this.tripFlags.fetch().length == 0) {
-                    console.log('no active trips');
-                    this.rootPage = DashboardMobileComponent;
-                  } else {
-                    this.rootPage = OnTripMobileComponent;
-                  }
-                  this.tripFlags.subscribe((data: UserTripFlag[]) => {
-                    if(data.length > 0) {
-                      console.log('user is on a trip');
-                      console.log(data);
-                      if(this.rootPage != OnTripMobileComponent) {
-                        me.rootPage = OnTripMobileComponent;
-                      }
-                    } else {
-                      me.rootPage = DashboardMobileComponent;
-                    }
-                  });
-
-                });
-
-                if(this.autorunSubC) {
-                  this.autorunSubC.unsubscribe();
-                }
-                if(this.myNotifSub) {
-                  this.myNotifSub.unsubscribe();
-                }
-                this.myNotifSub = MeteorObservable.subscribe('notifications', Meteor.userId()).subscribe(() => {
-                  this.autorunSubC = MeteorObservable.autorun().subscribe(() => {
-                    this.notificationsCount = Counts.get('notificationsCount');
-                  });
-                });
-
-              }
+            if(this.autorunSub) {
+              this.autorunSub.unsubscribe();
             }
-          });
 
-        } else if(!connected && connected != window['meteor_connection']) {
-          if(!Meteor.user()) {
-            this.app._setDisableScroll(true);
-            me.rootPage = OfflinePageMobileComponent;
+            if(this.tripFlagSub) {
+              this.tripFlagSub.unsubscribe();
+            }
 
+            this.autorunSub = MeteorObservable.autorun().subscribe(() => {
+              if(!Meteor.userId()) {
+                me.rootPage = LoginMobileComponent;
+              } else if(Meteor.user()) {
+                this.user = Meteor.user();
+                this.verified = this.user['personData'].isDriver ? this.user['driverData'].status == DRIVER_STATUS.VERIFIED : this.user['personData'].status==USER_STATUS.VERIFIED;
+                this.verifing = this.user['personData'].isDriver ? (this.user['driverData'].status == DRIVER_STATUS.UPLOADED_ONE || this.user['driverData'].status == DRIVER_STATUS.UPLOADED_TWO || this.user['driverData'].status == DRIVER_STATUS.VERIFIED_ONE) : this.user['personData'].status == USER_STATUS.UPLOADED_DNI;
+                if(this.user['personData'].status == USER_STATUS.NEW) {
+                  me.rootPage = IntroSlidesMobileComponent;
+                } else if(this.user['driverData'].status == DRIVER_STATUS.NEW) {
+                  me.rootPage = CarRegistrationMobileComponent;
+                } else {
+                  this.isDriver = this.user['personData'].isDriver;
+
+                  if(this.tripFlagSub) {
+                    this.tripFlagSub.unsubscribe();
+                  }
+
+                  this.tripFlagSub = MeteorObservable.subscribe('trip-flags').subscribe(() => {
+                    this.tripFlags = UserTripFlags.find({'user_id': Meteor.userId()});
+
+                    if(this.tripFlags.fetch().length == 0) {
+                      console.log('no active trips');
+                      this.rootPage = DashboardMobileComponent;
+                    } else {
+                      this.rootPage = OnTripMobileComponent;
+                    }
+                    this.tripFlags.subscribe((data: UserTripFlag[]) => {
+                      if(data.length > 0) {
+                        console.log('user is on a trip');
+                        console.log(data);
+                        if(this.rootPage != OnTripMobileComponent) {
+                          me.rootPage = OnTripMobileComponent;
+                        }
+                      } else {
+                        me.rootPage = DashboardMobileComponent;
+                      }
+                    });
+
+                  });
+
+                  if(this.autorunSubC) {
+                    this.autorunSubC.unsubscribe();
+                  }
+                  if(this.myNotifSub) {
+                    this.myNotifSub.unsubscribe();
+                  }
+                  this.myNotifSub = MeteorObservable.subscribe('notifications', Meteor.userId()).subscribe(() => {
+                    this.autorunSubC = MeteorObservable.autorun().subscribe(() => {
+                      this.notificationsCount = Counts.get('notificationsCount');
+                    });
+                  });
+
+                }
+              }
+            });
+
+          } else if(!connected && connected != window['meteor_connection']) {
+            if(!Meteor.user()) {
+              this.app._setDisableScroll(true);
+              me.rootPage = OfflinePageMobileComponent;
+
+            }
           }
-        }
 
-        if(Meteor.status().retryCount == 5 && Meteor.status().status == "waiting") {
-          alert("Error al conectarse al servicio. Compruebe que su dispositivo tenga conexión a internet");
-        }
+          if(Meteor.status().retryCount == 5 && Meteor.status().status == "waiting") {
+            alert("Error al conectarse al servicio. Compruebe que su dispositivo tenga conexión a internet");
+          }
 
-        window['meteor_connection'] = connected;
+          window['meteor_connection'] = connected;
 
-      });
+        });
+
+      }); // End ImgcacheService
 
     });
   }

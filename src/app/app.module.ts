@@ -12,6 +12,7 @@ import { AppVersion } from '@ionic-native/app-version';
 import { SocialSharing } from '@ionic-native/social-sharing';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { IonCalendarModule } from "@ionic2-extra/calendar";
+import { ImgCacheModule, ImgCacheService } from 'ng-imgcache';
 
 import { MyApp } from './app.component.mobile';
 import { MOBILE_DECLARATIONS } from '../pages/index';
@@ -26,6 +27,7 @@ import { SHARED_DECLARATIONS } from '../classes/shared';
   imports: [
     BrowserModule,
     IonCalendarModule,
+    ImgCacheModule,
     IonicModule.forRoot(MyApp, {
       scrollAssist: false,
       autoFocusAssist: false
@@ -47,7 +49,8 @@ import { SHARED_DECLARATIONS } from '../classes/shared';
     Push,
     AppVersion,
     SocialSharing,
-    InAppBrowser
+    InAppBrowser,
+    ImgCacheService
   ]
 })
 export class AppModule {}

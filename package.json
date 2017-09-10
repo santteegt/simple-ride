@@ -50,6 +50,7 @@
         "cordova-plugin-device": "^1.1.6",
         "cordova-plugin-facebook4": "git+https://github.com/darkbasic/cordova-plugin-facebook4.git",
         "cordova-plugin-file": "^4.3.3",
+        "cordova-plugin-file-transfer": "^1.6.3",
         "cordova-plugin-geolocation": "^2.4.3",
         "cordova-plugin-inappbrowser": "^1.7.1",
         "cordova-plugin-mauron85-background-geolocation": "^2.2.5",
@@ -64,6 +65,7 @@
         "ionicons": "3.0.0",
         "meteor-node-stubs": "^0.2.8",
         "meteor-rxjs": "^0.4.7",
+        "ng-imgcache": "^1.0.1",
         "phonegap-plugin-push": "^1.10.5",
         "rxjs": "5.1.1",
         "sw-toolbox": "3.6.0",
@@ -131,7 +133,8 @@
                 "ANDROID_HOST": " ",
                 "ANDROID_PATHPREFIX": "/"
             },
-            "cordova-plugin-inappbrowser": {}
+            "cordova-plugin-inappbrowser": {},
+            "cordova-plugin-file-transfer": {}
         },
         "platforms": [
             "android",

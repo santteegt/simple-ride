@@ -42,7 +42,7 @@
                 <!-- <ion-icon color="app" item-left name="ios-person"></ion-icon> -->
                 <ion-avatar item-left>
                   <img src="assets/nobody.png" [hidden]="loadingImgs[userData.personData.profileImg]"  style="width: 50px; height: 50px;"/>
-                  <img src="{{userData.personData.profileImg}}" (load)="loadedImg(userData.personData.profileImg)" [hidden]="!loadingImgs[userData.personData.profileImg]" style="width: 50px; height: 50px;">
+                  <img img-cache img-cache-src="{{userData.personData.profileImg}}" (load)="loadedImg(userData.personData.profileImg)" [hidden]="!loadingImgs[userData.personData.profileImg]" style="width: 50px; height: 50px;">
                 </ion-avatar>
                 <div style="font-size: 0.6em">{{myUserRecord.name}}</div>
                 <p><span>{{userData.personData.city}}, {{userData.personData.state}}</span></p>
@@ -229,7 +229,7 @@
                 <button ion-item no-lines detail-none style="background: transparent;">
                   <ion-avatar item-left>
                     <img src="assets/nobody.png" [hidden]="loadingImgs[getUserInfo(review).personData.profileImg]"  style="width: 50px; height: 50px;"/>
-                    <img src="{{reviewers && reviewers.length > 0 ? getUserInfo(review).personData.profileImg:''}}" (load)="loadedImg(getUserInfo(review).personData.profileImg)" [hidden]="!loadingImgs[getUserInfo(review).personData.profileImg]" style="width: 50px; height: 50px;">
+                    <img img-cache img-cache-src="{{reviewers && reviewers.length > 0 ? getUserInfo(review).personData.profileImg:''}}" (load)="loadedImg(getUserInfo(review).personData.profileImg)" [hidden]="!loadingImgs[getUserInfo(review).personData.profileImg]" style="width: 50px; height: 50px;">
                   </ion-avatar>
                   <h4>{{reviewers && reviewers.length > 0 ? getUserInfo(review).personData.forename + ' ' + getUserInfo(review).personData.surname:''}}</h4>
                   <p>{{reviewers && reviewers.length > 0 ? getUserInfo(review).personData.city + ', ' + getUserInfo(review).personData.state:''}}</p>

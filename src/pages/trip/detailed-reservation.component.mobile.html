@@ -34,7 +34,7 @@
 					<button ion-item no-lines detail-none (click)="openDriverProfile()">
 						<ion-avatar item-left>
 							<img src="assets/nobody.png" [hidden]="loadingImgs[driver.personData.profileImg]"  style="width: 50px; height: 50px;"/>
-							<img src="{{driver.personData.profileImg}}" (load)="loadedImg(driver.personData.profileImg)" [hidden]="!loadingImgs[driver.personData.profileImg]" style="width: 50px; height: 50px;">
+							<img img-cache img-cache-src="{{driver.personData.profileImg}}" (load)="loadedImg(driver.personData.profileImg)" [hidden]="!loadingImgs[driver.personData.profileImg]" style="width: 50px; height: 50px;">
 				      	</ion-avatar>
 				      	<h3>{{driver.personData.forename}}</h3>
 				      	<p>{{driver.personData.surname}}</p>
@@ -345,7 +345,7 @@
 						<button ion-item no-lines detail-none>
 							<ion-avatar item-left>
 								<img src="assets/nobody.png" [hidden]="loadingImgs[person.personData.profileImg]"  style="width: 50px; height: 50px;"/>
-					        	<img src="{{person.personData.profileImg}}" (load)="loadedImg(person.personData.profileImg)" [hidden]="!loadingImgs[person.personData.profileImg]" style="width: 50px; height: 50px;">
+					        	<img img-cache img-cache-src="{{person.personData.profileImg}}" (load)="loadedImg(person.personData.profileImg)" [hidden]="!loadingImgs[person.personData.profileImg]" style="width: 50px; height: 50px;">
 					      	</ion-avatar>
 					      	<h4>{{person.personData.forename}}</h4>
 					      	<h4>{{person.personData.surname}}</h4>

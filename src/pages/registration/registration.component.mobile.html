@@ -18,13 +18,13 @@
     <ion-item>
       <ion-avatar item-left>
           <img src="assets/nobody.png" [hidden]="loadingImgs[person.dni]"/>
-          <img src="{{person.profileImg}}" (load)="loadedImg(person.dni)" [hidden]="!loadingImgs[person.dni]"/>
+          <img img-cache img-cache-src="{{person.profileImg}}" (load)="loadedImg(person.dni)" [hidden]="!loadingImgs[person.dni]"/>
       </ion-avatar>
       <h2>{{person.forename}}</h2>
       <p>{{person.surname}}</p>
     </ion-item>
 
-    <ion-list-header>
+    <ion-list-header [hidden]="isModal">
         <ion-label style="text-align: center">Registro de Viajero</ion-label>
     </ion-list-header>
 
