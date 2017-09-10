@@ -132,7 +132,7 @@ export class CheckoutMobileComponent implements OnInit, OnDestroy {
 						}
 					}]
 				});
-				alert.present();
+			alert.present();
 
 		} else {
 
@@ -164,8 +164,8 @@ export class CheckoutMobileComponent implements OnInit, OnDestroy {
 					case 200:
 						let addemdum = reservation.payment_status == RESERVATIONSTATUS.WAITING_DRIVER_CONFIRMATION ? " El conductor tiene que aprobar su solicitud. Una vez aprobada recuerde subir el registro de su pago en el menú Mis Viajes":
 							(reservation.payment_status == RESERVATIONSTATUS.WAITING_USER_ACTION ? " Recuerde subir el registro de su pago en el menú Mis Viajes en menos de 24 horas":"");
-						this.presentAlert('Reserva', "Su reserva ha sido registrada correctamente." + addemdum, true);
-						this.viewCtrl.dismiss();
+						this.presentAlert('Reserva', "Su reserva ha sido registrada correctamente." + addemdum);
+						this.viewCtrl.dismiss({close: true});
 						break;
 					default:
 						this.presentAlert('Error al procesar su reserva', response.message);

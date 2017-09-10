@@ -156,6 +156,11 @@ export class DetailedReservationMobileComponent implements OnInit, OnDestroy {
 	openCheckout(trip_id: string) {
 		let modal = this.modalCtrl.create(CheckoutMobileComponent, {'trip_id': trip_id});
     	modal.present();
+    	modal.onDidDismiss((data) => {
+    		if(data && data.close) {
+    			this.viewCtrl.dismiss(data);
+    		}
+    	});
 	}
 
 
