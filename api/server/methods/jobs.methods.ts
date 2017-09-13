@@ -13,6 +13,8 @@ import { Notifications } from '../../both/collections/notifications.collection';
 import { Notification, NotificationBody } from '../../both/models/notification.model';
 import { Users } from '../../both/collections/users.collection';
 
+import { cancelReservation } from '../methods/trips.methods';
+
 declare var SyncedCron;
 
 function generateUserVerificationCode(user_id: string, trip_id: string): string {
@@ -140,27 +142,7 @@ SyncedCron.add({
 			}).fetch();
 			if(rsvpList.length > 0){
 				_.each(rsvpList, function(rsvp: Reservation){
-					Reservations.update({_id: rsvp._id}, {$set: {cancellation_date: currentTime, cancellation_reason: 3}});
-					let trip = Trips.findOne({_id: rsvp.trip_id});
-
-					let push_body: NotificationBody = {
-						title: 'Viaje a ' + trip.destination.shortName,
-						text: 'Tu reserva para el viaje a '+ trip.destination.shortName +' ha sido cancelada por falta de confirmación antes de iniciar el viaje.',
-						from: 'server',
-						badge: 1,
-						query: {userId: rsvp.user_id}
-					}
-
-					Push.send(push_body);
-
-					let recipient = Users.findOne({_id: rsvp.user_id});
-					if(recipient['personData']['email']){
-						let to: string = recipient['personData']['email'];
-						let from: string = 'info@simpleride-ec.com';
-						let subject: string = 'Viaje a ' + trip.destination.shortName;
-						let html: string = SSR.render("generalEmail", {title: subject, content: 'Tu reserva para el viaje a '+ trip.destination.shortName +' ha sido cancelada por falta de confirmación antes de iniciar el viaje.'});
-						sendEmail(to, from, subject, html);
-					}
+					cancelReservation(rsvp, 3);
 				});
 				console.log('CANCELLED ' +rsvpList.length+ ' UNCOMPLETE RESERVATIONS')
 			}
@@ -368,7 +350,7 @@ SyncedCron.add({
 });
 
 SyncedCron.add({
-  name: 'Remove uncomplete reservations after 24 hours',
+  name: 'Cancel uncomplete reservations after 24 hours',
   schedule: function(parser) {
     return parser.recur().on(59).minute();
   },
@@ -383,30 +365,10 @@ SyncedCron.add({
 		}).fetch();
 		if(rsvpList.length > 0){
 			_.each(rsvpList, function(rsvp: Reservation){
-				Reservations.remove({ '_id': rsvp._id });
-				let trip = Trips.findOne({_id: rsvp.trip_id});
-
-				let push_body: NotificationBody = {
-		      title: 'Viaje a ' + trip.destination.shortName,
-					text: 'Tu reserva para el viaje a '+ trip.destination.shortName +' ha sido cancelada por falta de confirmación. Por favor vuelve a reservar tu lugar.',
-		      from: 'server',
-		      badge: 1,
-		      query: {userId: rsvp.user_id}
-		    }
-
-		    Push.send(push_body);
-
-		    let recipient = Users.findOne({_id: rsvp.user_id});
-				if(recipient['personData']['email']){
-					let to: string = recipient['personData']['email'];
-					let from: string = 'info@simpleride-ec.com';
-					let subject: string = 'Viaje a ' + trip.destination.shortName;
-					let html: string = SSR.render("generalEmail", {title: subject, content: 'Tu reserva para el viaje a '+ trip.destination.shortName +' ha sido cancelada por falta de confirmación. Por favor vuelve a reservar tu lugar.'});
-					sendEmail(to, from, subject, html);
-				}
+				cancelReservation(rsvp, 4);
 			});
 
-			console.log('REMOVED ' +rsvpList.length+ ' UNCOMPLETE RESERVATIONS')
+			console.log('CANCELLED ' +rsvpList.length+ ' UNCOMPLETE RESERVATIONS')
 		}
 	}
 });

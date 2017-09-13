@@ -113,6 +113,40 @@ async function sendEmail(to: string, from: string, subject: string, html: string
 	Email.send({ to, from, subject, html });
 }
 
+export function cancelReservation(rsvp: Reservation, reason: number){
+	let user = Users.findOne({_id: rsvp.user_id});
+	let trip = Trips.findOne({_id: rsvp.trip_id});
+	Trips.update({_id: trip._id}, {$set: {available_places: trip.available_places + rsvp.places}});
+	Reservations.update({_id: rsvp._id}, {$set: {cancellation_date: new Date, cancellation_reason: reason}});
+	switch (reason) {
+		case 0: // He decidido no viajar
+			sendSystemMessage(rsvp.user_id, rsvp.trip_id, false, 'ha cancelado su reserva');
+
+			trip = Trips.findOne({_id: rsvp.trip_id});
+			sendPushNotification('¡Viaje a ' + trip.destination.shortName, user['personData'].forename + ' ha cancelado su reserva!',
+				rsvp.driver_id, 'TripMobileComponent', {'trip': trip}, rsvp.user_id, rsvp.trip_id, true);
+			break;
+		case 1: // Reserva Cancelada por el conductor
+			sendSystemMessage(rsvp.driver_id, rsvp.trip_id, true, 'no aceptó la reserva de ' + user['personData'].forename);
+
+			sendPushNotification('¡Viaje a ' + trip.destination.shortName, 'El conductor no ha aceptado tu reserva!', rsvp.user_id,
+			'MyTripsMobileComponent', {}, rsvp.driver_id, rsvp.trip_id, true);
+			break;
+		case 2: // Viaje Cancelado por el conductor
+			sendSystemMessage(trip.driver_id, trip._id, true, 'ha cancelado el viaje');
+
+			sendPushNotification('Viaje a ' + trip.destination.shortName, '¡El conductor ha cancelado su viaje!', rsvp.user_id, 'MyTripsMobileComponent', {}, rsvp.driver_id, rsvp.trip_id, true);
+			break;
+		case 3: // Viaje Cancelado automáticamente antes de iniciar el viaje por que no se subio el comprobante
+			sendPushNotification('¡Viaje a ' + trip.destination.shortName, 'Tu reserva para el viaje a '+ trip.destination.shortName +' ha sido cancelada por falta de confirmación antes de iniciar el viaje.', rsvp.user_id, '', {}, 'server', rsvp.trip_id, false);
+			break;
+		case 4: // Viaje Cancelado automáticamente despues de 24 horas que no se subio el comprobante
+			sendPushNotification('¡Viaje a ' + trip.destination.shortName, 'Tu reserva para el viaje a '+ trip.destination.shortName +' ha sido cancelada por falta de confirmación. Por favor vuelve a reservar tu lugar.', rsvp.user_id, '', {}, 'server', rsvp.trip_id, false);
+			break;
+		default:
+			break;
+	}
+}
 
 Meteor.methods({
   registerPlace: function (place_id: string, place: Place) {
@@ -129,51 +163,19 @@ Meteor.methods({
     let rsvpList: Reservation[] = Reservations.find({'trip_id': trip._id, 'cancellation_reason': null}).fetch();
 
     _.each(rsvpList, function(rsvp: Reservation) {
-      Reservations.update({_id: rsvp._id}, {$set: {cancellation_date: new Date(), cancellation_reason: 2}});
-      sendPushNotification('Viaje a ' + trip.destination.shortName, '¡El conductor ha cancelado su viaje!', rsvp.user_id,
-        'MyTripsMobileComponent', {}, rsvp.driver_id, rsvp.trip_id, true);
+			cancelReservation(rsvp, 2);
     });
 
   	let rs = Trips.update({_id: trip._id}, {$set: {cancellation_date: new Date(), cancellation_reason: reason}});
   	// throw new Meteor.Error("logged-out", "The user must be logged in to post a comment.");
-
-    sendSystemMessage(trip.driver_id, trip._id, true, 'ha cancelado el viaje');
 
   	return {processed: true, result: rs};
 
   },
 
   cancelReservation: function(rsvp: Reservation, reason: number) {
-    let trip = Trips.findOne({_id: rsvp.trip_id});
-    let user = Users.findOne({_id: rsvp.user_id});
-    Trips.update({_id: trip._id}, {$set: {available_places: trip.available_places + rsvp.places}});
-    let rs = Reservations.update({_id: rsvp._id}, {$set: {cancellation_date: new Date, cancellation_reason: reason}});
-
-    switch (reason) {
-      case 0: // He decidido no viajar
-        sendSystemMessage(rsvp.user_id, rsvp.trip_id, false, 'ha cancelado su reserva');
-
-        trip = Trips.findOne({_id: rsvp.trip_id});
-        sendPushNotification('¡Viaje a ' + trip.destination.shortName, user['personData'].forename + ' ha cancelado su reserva!',
-          rsvp.driver_id, 'TripMobileComponent', {'trip': trip}, rsvp.user_id, rsvp.trip_id, true);
-        break;
-      case 1: // Reserva Cancelada por el conductor
-        sendSystemMessage(rsvp.driver_id, rsvp.trip_id, true, 'no aceptó la reserva de ' + user['personData'].forename);
-
-        sendPushNotification('¡Viaje a ' + trip.destination.shortName, 'El conductor no ha aceptado tu reserva!', rsvp.user_id,
-        'MyTripsMobileComponent', {}, rsvp.driver_id, rsvp.trip_id, true);
-        break;
-      case 2: // Viaje Cancelado por el conductor
-        // Nothing to do. This is managed by the 'deleteTrip' process
-        break;
-			case 3: // Viaje Cancelado automáticamente por que no se subio el comprobante
-				// Nothing to do. This is managed on jobs methods
-				break;
-      default:
-        break;
-    }
-
-    return {processed: true, result: rs};
+		cancelReservation(rsvp, reason);
+    return {processed: true, result: rsvp};
   },
 
   joinTrip: function(reservation: Reservation) {
