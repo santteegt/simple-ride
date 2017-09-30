@@ -31,3 +31,7 @@ textarea {
 	-o-user-select: text;
 	user-select: text;
 }
+
+textarea.text-input {
+	margin: 2px 0 0 0 !important;
+}

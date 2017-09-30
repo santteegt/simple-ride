@@ -91,14 +91,10 @@
     <ion-toolbar>
       	<ion-grid no-padding>
 			<ion-row>
-				<ion-col col-10 style="border: 1px solid #c4c4c4; border-radius: 5px;" no-padding>
-					<ion-textarea keyboardFix [(ngModel)]="message" type="text" placeholder="Escribe un mensaje..." style="border: 1px solid black #C4C4C4" #messageInput></ion-textarea>
-				</ion-col>
-				<ion-col col-2>
-					<button color="app" ion-button icon-only [disabled]="!message || message.length == 0" (click)="sendMessage($event)">
-			    		<ion-icon name="send"></ion-icon>
-			    	</button>
-				</ion-col>
+		        <ion-textarea keyboardFix [(ngModel)]="message" type="text" placeholder="Escribe un mensaje..." #messageInput></ion-textarea>
+
+		        <button color="app" ion-button small [disabled]="!message || message.length == 0" (click)="sendMessage($event)" class="message-form-button">Enviar  <ion-icon name="send"></ion-icon></button>
+
 			</ion-row>
 		</ion-grid>
     </ion-toolbar>
