@@ -118,14 +118,48 @@
         </ion-card-title>
       <ion-item tappable (click)="editTripModal(trip)">
 
-        <ion-icon item-left name="car" style="margin-right: 5px"></ion-icon>
+
+        <ion-icon item-left name="car" color="app" style="margin-right: 5px"></ion-icon>
         <ion-icon item-left name="ios-more-outline" style="margin-right: 5px"></ion-icon>
-        <ion-icon item-left name="ios-pin"></ion-icon>
+        <ion-icon item-left name="ios-pin" color="marker"></ion-icon>
+
+        <ion-grid style="font-size: 0.8em;" no-padding>
+          <ion-row>
+            <ion-col col-1>
+              <ion-icon name="md-calendar" color="danger"></ion-icon>
+            </ion-col>
+            <ion-col col-6 style="padding-left: 5px">
+              {{trip.departureDate.toLocaleDateString()}}
+            </ion-col>
+            <ion-col col-2 style="padding-left: 5px">
+              <ion-icon name="md-clock"></ion-icon>
+            </ion-col>
+            <ion-col>
+              {{trip.departureTime}}
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col col-1>
+              <ion-icon name="md-cash" color="secondary"></ion-icon>
+            </ion-col>
+            <ion-col style="padding-left: 5px">
+              <span>${{trip.price}} por asiento</span>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col col-1>
+              <ion-icon name="md-contacts" color="app"></ion-icon>
+            </ion-col>
+            <ion-col style="padding-left: 5px">
+              <span *ngIf="trip.available_places > 0">{{trip.available_places}} libre(s)</span><span *ngIf="trip.available_places == 0" ion-text color="secondary"><strong>Completo</strong></span>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
         <!-- <span></span> -->
-        <p><b>Fecha:</b> <span>{{trip.departureDate.toLocaleDateString()}}</span></p>
+        <!-- <p><b>Fecha:</b> <span>{{trip.departureDate.toLocaleDateString()}}</span></p>
         <p><b>Hora:</b> <span>{{trip.departureTime}}</span></p>
         <p><b>Lugares disp.:</b> <span *ngIf="trip.available_places > 0">{{trip.available_places}}/{{trip.places}}</span><span *ngIf="trip.available_places == 0" ion-text color="secondary"><strong>Completo</strong></span></p>
-        
+         -->
       </ion-item>
       
       <!-- <ion-card-content>
