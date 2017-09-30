@@ -105,7 +105,8 @@ export class MyApp {
       if(platform.is('cordova')) {
         // Handle back button on Android
         let unregister = platform.registerBackButtonAction(() => {
-          let nav = app.getActiveNav();
+          // let nav = app.getActiveNav(); // DEPRECATED IN ionic-angular 3.5.2
+          let nav = this.app.getActiveNavs()[0];
           let activeView: ViewController = nav.getActive();
 
           if(activeView != null){

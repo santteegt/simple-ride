@@ -51,7 +51,7 @@ export class LoginMobileComponent implements OnInit, OnDestroy {
 
 			const options: PushOptions = {
 	          android: {
-	            senderID: "93847795927",
+	            // senderID: "93847795927",
 	            sound: true,
 	            vibrate: true,
 	            clearBadge: true
