@@ -13,9 +13,12 @@
 	</ion-navbar>
 </ion-header>
 <ion-content>
-	<p *ngIf="!isDriver" class="loading-message">Por favor adjunte su Cédula de Ciudadanía</p>
-	<p *ngIf="isDriver && !verifyRegister" class="loading-message">Paso 1.<br />Por favor adjunte su Licencia de Conducir</p>
-	<p *ngIf="isDriver && verifyRegister" class="loading-message">Paso 2.<br />Por favor adjunte la matricula de su vehículo</p>
+	<ion-list-header style="margin: 0; font-size: 0.7em">
+	    <ion-label *ngIf="!isDriver" style="padding-top: 0; text-align: center">Subir Cédula de Ciudadanía</ion-label>
+	    <ion-label *ngIf="isDriver && !verifyRegister" style="padding-top: 0; text-align: center">Paso 1. Subir Licencia de Conducir</ion-label>
+		<ion-label *ngIf="isDriver && verifyRegister" style="padding-top: 0; text-align: center">Paso 2. Subir Matricula de su Vehículo</ion-label>
+	</ion-list-header>
+	
 	<div *ngIf="!isMobile()">
 		<input type="file" (change)="getFile($event)" accept="image/*">
 	</div>

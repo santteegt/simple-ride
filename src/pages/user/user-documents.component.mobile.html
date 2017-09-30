@@ -17,38 +17,66 @@
     <ion-label style="text-align: center">Mis Documentos</ion-label>
   </ion-list-header>
   <ion-grid class="documents">
+
     <ion-row *ngIf="!isDriver">
       <ion-col class="text-center">
         <span>Cédula: </span>
         <span *ngIf="dniStatus == 0" class="red">No verificado</span>
-        <button *ngIf="dniStatus == 0" ion-button icon-only color="app" (click)="openPage(uploadDocuments, {isModal: true})">
-          <ion-icon name="cloud-upload"></ion-icon>
-        </button>
         <span *ngIf="dniStatus == 1" class="orange">Verificando</span>
         <span *ngIf="dniStatus == 2" class="green">Verificado</span>
       </ion-col>
     </ion-row>
+    <ion-row *ngIf="!isDriver">
+      <ion-col class="text-center">
+
+        <button *ngIf="dniStatus == 0" ion-button icon-only color="app" (click)="openPage(uploadDocuments, {isModal: true})">
+          <ion-icon name="cloud-upload"></ion-icon>
+        </button>
+
+        <ion-icon *ngIf="dniStatus == 2" name="checkmark-circle" color="secondary" font-size="50px"></ion-icon>
+
+      </ion-col>
+    </ion-row>
+
     <ion-row *ngIf="isDriver">
       <ion-col class="text-center">
         <span>Licencia:</span>
         <span *ngIf="licenceStatus == 0" class="red">No verificado</span>
-        <button *ngIf="licenceStatus == 0" ion-button icon-only color="app"  (click)="openPage(uploadDocuments, {isModal: true, verifyRegister: false})">
-          <ion-icon name="cloud-upload"></ion-icon>
-        </button>
         <span *ngIf="licenceStatus == 1" class="orange">Verificando</span>
         <span *ngIf="licenceStatus == 2" class="green">Verificado</span>
       </ion-col>
     </ion-row>
     <ion-row *ngIf="isDriver">
+        <ion-col class="text-center">
+
+          <button *ngIf="licenceStatus == 0" ion-button icon-only color="app" (click)="openPage(uploadDocuments, {isModal: true, verifyRegister: false})">
+            <ion-icon name="cloud-upload"></ion-icon>
+          </button>
+
+          <ion-icon *ngIf="licenceStatus == 2" name="checkmark-circle" color="secondary" font-size="50px"></ion-icon>
+
+        </ion-col>
+    </ion-row>
+
+    <ion-row *ngIf="isDriver">
       <ion-col class="text-center">
         <span>Matrícula:</span>
         <span *ngIf="registerStatus == 0" class="red">No verificado</span>
-        <button *ngIf="registerStatus == 0" ion-button icon-only color="app"  (click)="openPage(uploadDocuments, {isModal: true, verifyRegister: true})">
-          <ion-icon name="cloud-upload"></ion-icon>
-        </button>
         <span *ngIf="registerStatus == 1" class="orange">Verificando</span>
         <span *ngIf="registerStatus == 2" class="green">Verificado</span>
       </ion-col>
     </ion-row>
+    <ion-row *ngIf="isDriver">
+      <ion-col class="text-center">
+
+        <button *ngIf="registerStatus == 0" ion-button icon-only color="app" (click)="openPage(uploadDocuments, {isModal: true, verifyRegister: true})">
+            <ion-icon name="cloud-upload"></ion-icon>
+        </button>
+
+        <ion-icon *ngIf="registerStatus == 2" name="checkmark-circle" color="secondary" font-size="50px"></ion-icon>
+
+      </ion-col>
+    </ion-row>
+
   </ion-grid>
 </ion-content>
