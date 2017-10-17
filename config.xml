@@ -61,13 +61,14 @@
         <icon height="29" src="resources/ios/icon/icon-small.png" width="29" />
         <icon height="58" src="resources/ios/icon/icon-small@2x.png" width="58" />
         <icon height="87" src="resources/ios/icon/icon-small@3x.png" width="87" />
+        <icon height="1024" src="resources/ios/icon/icon-83.5@2x.png" width="1024" />
         <splash height="1136" src="resources/ios/splash/iphone5.png" width="640" />
         <splash height="1334" src="resources/ios/splash/iphone6.png" width="750" />
         <splash height="2208" src="resources/ios/splash/iphone6p_portrait.png" width="1242" />
         <splash height="960" src="resources/ios/splash/iphone_2x.png" width="640" />
     </platform>
     <engine name="android" spec="^6.2.3" />
-    <engine name="ios" spec="^4.4.0" />
+    <engine name="ios" spec="^4.5.1" />
     <plugin name="cordova-plugin-app-version" spec="^0.1.9" />
     <plugin name="cordova-plugin-camera" spec="^2.4.1">
         <variable name="CAMERA_USAGE_DESCRIPTION" value=" " />
