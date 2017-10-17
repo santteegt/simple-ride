@@ -4,6 +4,7 @@ import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/co
 declare var Meteor;
 import {NavController, NavParams, ViewController, ToastController, ModalController, Slides,
 	AlertController, LoadingController, Content} from 'ionic-angular';
+import { Keyboard } from '@ionic-native/keyboard';
 
 import { MeteorObservable } from "meteor-rxjs"
 
@@ -47,7 +48,8 @@ export class NewTripMobileComponent implements OnInit, OnDestroy {
 	destinationLoc: any;
 	destinationLabel: string;
 
-	searchLocationModal: Component;
+	searchLocationModal: any;
+	// searchLocationModal: Component;
 
 	departureTime: string;
 	minDate: Date;
@@ -81,8 +83,12 @@ export class NewTripMobileComponent implements OnInit, OnDestroy {
 
 	currentPosition: any;
 
+	promoCode: string;
+	promoMessage: string;
+	validPromo: boolean;
+
 	constructor(private navCtrl: NavController, navParams: NavParams, private viewCtrl: ViewController,
-		private toastCtrl: ToastController, private modalCtrl: ModalController,
+		private toastCtrl: ToastController, private modalCtrl: ModalController, private keyboard: Keyboard,
 		private alertCtrl: AlertController, private loadingCtrl: LoadingController) {
 
 		this.currentPosition = navParams.get("geolocation");
@@ -100,6 +106,10 @@ export class NewTripMobileComponent implements OnInit, OnDestroy {
 		this.departureAddress = '';
 		this.rsvpMethod = "1";
 
+		this.promoMessage = "";
+		this.validPromo = false;
+		this.keyboard.disableScroll(false);
+
 	}
 
 	ngOnInit() {
@@ -108,6 +118,7 @@ export class NewTripMobileComponent implements OnInit, OnDestroy {
 	}
 
 	ngOnDestroy() {
+		this.keyboard.disableScroll(true);
 
 	}
 
@@ -423,6 +434,11 @@ export class NewTripMobileComponent implements OnInit, OnDestroy {
 
 	focusPrice() {
 		this.priceInput.setFocus();
+	}
+
+	sendPromoCode() {
+		this.promoMessage = "Felicitaciones!. No cobraremos comisión por reservas en tu viaje!";
+		this.validPromo = true;
 	}
 
 }
