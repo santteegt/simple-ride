@@ -259,14 +259,14 @@
               <ion-textarea keyboardFix type="text" [(ngModel)]="comments" placeholder="Escribe comentarios acerca del viaje..." tabindex="5"></ion-textarea>
             </ion-item>
 
-            <ion-item>
+            <!-- <ion-item>
               <ion-label color="app" stacked>Código promocional (*)</ion-label>
               <ion-input keyboardFix type="text" [(ngModel)]="promoCode" placeholder="Código promocional" tabindex="6"></ion-input>
               <button ion-button small color="app" item-right (click)="sendPromoCode()">Canjear</button>
             </ion-item>
             <div *ngIf="promoMessage.length > 0">
               <span class="small-text">{{promoMessage}}</span>
-            </div>
+            </div> -->
 
             <ion-item>
               <ion-label>Aceptar Reservas</ion-label>
@@ -290,7 +290,8 @@
                   <button color="light" ion-button block (click)="prevStep()">Atras</button>
                 </ion-col>
                 <ion-col width-50 style="padding: 0; padding-left: 5px">
-                  <button color="app" ion-button block (click)="nextStep()" [disabled]="departureAddress.length == 0 || !validPromo">Siguiente</button>
+                  <!-- <button color="app" ion-button block (click)="nextStep()" [disabled]="departureAddress.length == 0 || !validPromo">Siguiente</button> -->
+                  <button color="app" ion-button block (click)="nextStep()" [disabled]="departureAddress.length == 0">Siguiente</button>
                 </ion-col>
               </ion-row>
             </ion-grid>
