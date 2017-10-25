@@ -17,6 +17,8 @@ import { ChatMessages } from '../../both/collections/chat-messages.collection';
 import { MESSAGETYPES } from '../../both/models/chat-message.model';
 import { Notifications } from '../../both/collections/notifications.collection';
 import { Notification, NotificationBody } from '../../both/models/notification.model';
+import { PromoCodes } from '../../both/collections/promo-codes.collection';
+import { PromoCode, PROMOTYPES } from '../../both/models/promo-code.model';
 
 SSR.compileTemplate('generalEmail', Assets.getText("email-templates/general-email.html"));
 SSR.compileTemplate('voucherEmail', Assets.getText("email-templates/voucher-email.html"));
@@ -178,6 +180,19 @@ Meteor.methods({
     return {processed: true, result: rsvp};
   },
 
+  validatePin: function(travelPin: string) {
+
+    let pin = PromoCodes.findOne({
+      'promoType': PROMOTYPES.PIN, 
+      'code': travelPin, 
+      'expirationDate': {$gte: new Date()},
+      'active': true
+    });
+
+    return {valid: pin ? true:false}
+
+  },
+
   joinTrip: function(reservation: Reservation) {
   	if(Meteor.isServer) {
   		let reservations = Reservations.find({
@@ -197,15 +212,18 @@ Meteor.methods({
   			return {status: 400, message: 'El conductor ya no dispone de ' + reservation.places + ' lugare(s) en su viaje. Revise el detalle del viaje nuevamente.'};
   		}
   		switch (reservation.payment_method) {
+        case "pin":
+          //do nothing.  Wait for user action if driver needs to approve reservation
+          break;
   			case "deposit":
   				// do nothing. Wait for user action.
   				break;
-			case "card":
-				break;
-			case "electronic-money":
-				break;
-			case "promo":
-				break;
+  			case "card":
+  				break;
+  			case "electronic-money":
+  				break;
+  			case "promo":
+  				break;
   			default:
   				break;
   		}
@@ -226,12 +244,13 @@ Meteor.methods({
   acceptReservation: function(rsvp: Reservation) {
     let user = Users.findOne({_id: rsvp.user_id});
     let trip = Trips.findOne({_id: rsvp.trip_id});
-    let status = rsvp.payment_method == "deposit" ? RESERVATIONSTATUS.WAITING_USER_ACTION:RESERVATIONSTATUS.PROCESSING_PAYMENT;
+    let status = rsvp.payment_method == "pin" ? RESERVATIONSTATUS.PROCESSED:
+      (rsvp.payment_method == "deposit" ? RESERVATIONSTATUS.WAITING_USER_ACTION:RESERVATIONSTATUS.PROCESSING_PAYMENT);
     Reservations.update({'_id': rsvp._id}, {$set: {payment_status: status}});
 
     sendSystemMessage(rsvp.driver_id, rsvp.trip_id, true, 'ha aceptado a ' + user['personData']['forename']);
 
-    sendPushNotification('Viaje a ' + trip.destination.shortName, '¡El conductor ha pre aprobado tu reserva!', rsvp.user_id,
+    sendPushNotification('Viaje a ' + trip.destination.shortName, '¡El conductor ha aprobado tu reserva!', rsvp.user_id,
         'MyTripsMobileComponent', {}, null, rsvp.trip_id, true);
 
     return {processed: true, result: {}};
@@ -241,16 +260,19 @@ Meteor.methods({
   	if(Meteor.isServer) {
   		let rs = {};
 	  	switch (payment_method) {
+        case "pin":
+          //do nothing
+          break;
   			case "deposit":
   				Reservations.update({'_id': rsvp_id}, {$set: {payment_status: RESERVATIONSTATUS.PROCESSING_PAYMENT}});
   				rs = {status: 200, message: 'OK'};
   				break;
-			case "card":
-				break;
-			case "electronic-money":
-				break;
-			case "promo":
-				break;
+  			case "card":
+  				break;
+  			case "electronic-money":
+  				break;
+  			case "promo":
+  				break;
   			default:
   				rs = {status: 400, message: 'No existe ese método de pago'};
   				break;
