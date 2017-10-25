@@ -338,7 +338,7 @@ export class MyTripsMobileComponent implements OnInit, OnDestroy {
 				message = "ESPERANDO CONFIRMACIÓN"
 				break;
 			case RESERVATIONSTATUS.PROCESSED:
-				message = "PAGO CONFIRMADO"
+				message = rsvp.payment_method == 'pin' ? "CONFIRMADO":"PAGO CONFIRMADO";
 				break;
 			default:
 				message = "";
@@ -414,7 +414,8 @@ export class MyTripsMobileComponent implements OnInit, OnDestroy {
 		let alert = this.alertCtrl.create({
 	      title: 'Reserva cancelada!',
 	      subTitle: 'Su reserva ha sido cancelada!'
-	      	+ (rsvp.payment_status == RESERVATIONSTATUS.PROCESSED ? ' Su reembolso será procesado dentro de 48 horas':''),
+	      	+ (rsvp.payment_status == RESERVATIONSTATUS.PROCESSED && rsvp.payment_method != 'pin' ? 
+	      		' Su reembolso será procesado dentro de 48 horas':''),
 	      buttons: [
 	      {
 	      	text: 'OK',

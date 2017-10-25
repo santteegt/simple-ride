@@ -20,6 +20,11 @@ interface ServerResponse {
 	message: string;
 }
 
+interface PromoResponse {
+	valid: boolean;
+	discountPercentage?: number;
+}
+
 @Component({
   selector: 'checkout',
   templateUrl: 'checkout.component.mobile.html',
@@ -44,6 +49,10 @@ export class CheckoutMobileComponent implements OnInit, OnDestroy {
 
 	loader;
 
+	travelPin: string;
+	pinMessage: string;
+	validPin: boolean;
+
 	constructor(private navCtrl: NavController, navParams: NavParams, private viewCtrl: ViewController,
 		private alertCtrl: AlertController, private loadingCtrl: LoadingController, private appCtrl: App,
 		private toastCtrl: ToastController, private modalCtrl: ModalController,
@@ -51,8 +60,12 @@ export class CheckoutMobileComponent implements OnInit, OnDestroy {
 
 		this.trip_id = navParams.get("trip_id");
 		this.reservedSits = 1;
-		this.paymentMethod = "deposit";
+		this.paymentMethod = "pin";
 		this.terms = false;
+
+		this.travelPin = "";
+		this.pinMessage = "";
+		this.validPin = false;
 
 	}
 
@@ -142,7 +155,10 @@ export class CheckoutMobileComponent implements OnInit, OnDestroy {
 			});
 			this.loader.present();
 			let payment_status = trip.rsvp_method == "1" ? RESERVATIONSTATUS.WAITING_DRIVER_CONFIRMATION:
-				(this.paymentMethod == "deposit" ? RESERVATIONSTATUS.WAITING_USER_ACTION:RESERVATIONSTATUS.PROCESSING_PAYMENT);
+				(this.paymentMethod == "pin" ? RESERVATIONSTATUS.PROCESSED:
+					(this.paymentMethod == "deposit" ? 
+						RESERVATIONSTATUS.WAITING_USER_ACTION:RESERVATIONSTATUS.PROCESSING_PAYMENT)
+				);
 			let reservation: Reservation = {
 				trip_id: trip._id,
 				driver_id: trip.driver_id,
@@ -162,8 +178,9 @@ export class CheckoutMobileComponent implements OnInit, OnDestroy {
 				this.loader.dismiss();
 				switch (response.status) {
 					case 200:
-						let addemdum = reservation.payment_status == RESERVATIONSTATUS.WAITING_DRIVER_CONFIRMATION ? " El conductor tiene que aprobar su solicitud. Una vez aprobada recuerde subir el registro de su pago en el menú Mis Viajes":
-							(reservation.payment_status == RESERVATIONSTATUS.WAITING_USER_ACTION ? " Recuerde subir el registro de su pago en el menú Mis Viajes en menos de 24 horas":"");
+
+
+						let addemdum = this.getAddemdumMessage(reservation);
 						this.presentAlert('Reserva', "Su reserva ha sido registrada correctamente." + addemdum);
 						this.viewCtrl.dismiss({close: true});
 						break;
@@ -179,6 +196,29 @@ export class CheckoutMobileComponent implements OnInit, OnDestroy {
 		}
 
 	}
+
+	getAddemdumMessage(rsvp: Reservation) {
+		
+		let message: string = "";
+
+		switch (rsvp.payment_status) {
+			case RESERVATIONSTATUS.WAITING_DRIVER_CONFIRMATION:
+				message = " El conductor tiene que aprobar su solicitud."
+				message += this.paymentMethod == 'deposit' ? 
+				" Una vez aprobada recuerde subir el registro de su pago en el menú Mis Viajes":""
+				break;
+
+			case RESERVATIONSTATUS.WAITING_USER_ACTION:
+				message += " Recuerde subir el registro de su pago en el menú Mis Viajes en menos de 24 horas";
+			
+			default:
+				// code...
+				break;
+		}
+
+		return message;
+	}
+
 
 	presentToast(message: string) {
 		let toast = this.toastCtrl.create({
@@ -210,6 +250,29 @@ export class CheckoutMobileComponent implements OnInit, OnDestroy {
 	termsOfService() {
 		let modal = this.modalCtrl.create(TermsOfServiceMobileComponent);
   		modal.present();
+	}
+
+	sendPinCode() {
+
+		this.loader = this.loadingCtrl.create({
+		  content: "Validando PIN...",
+		  spinner: "crescent"
+		});
+
+		MeteorObservable.call('validatePin', this.travelPin).subscribe((response: PromoResponse) => {
+			this.loader.dismiss();
+
+			this.validPin = response.valid;
+
+			this.pinMessage = this.validPin ? "Código valido! Disfruta de tu viaje":"Error! PIN inválido";
+
+    	}, (err) => {
+    		this.loader.dismiss();
+			this.presentToast("Error interno. Por favor intentelo de nuevo.");
+     	});
+		
+		
+
 	}
 
 }

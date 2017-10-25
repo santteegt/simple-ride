@@ -183,15 +183,20 @@
 		-->
     </ion-list>
 
-    <ion-list radio-group [(ngModel)]="paymentMethod" color="app">
+    <ion-list radio-group [(ngModel)]="paymentMethod" color="app" style="margin-bottom: 10px">
 
       <ion-list-header>
         <ion-label style="text-align: center">Paso 2. Método de Pago</ion-label>
       </ion-list-header>
 
       <ion-item>
+        <ion-label>Efectivo (Early Adopters)</ion-label>
+        <ion-radio value="pin"></ion-radio>
+      </ion-item>
+
+      <ion-item>
         <ion-label>Depósito Bancario</ion-label>
-        <ion-radio value="deposit"></ion-radio>
+        <ion-radio value="deposit" [disabled]="true"></ion-radio>
       </ion-item>
 
       <ion-item>
@@ -209,7 +214,18 @@
         <ion-radio value="promo" [disabled]="true"></ion-radio>
       </ion-item>
 
+
+
     </ion-list>
+
+    <ion-item *ngIf="paymentMethod == 'pin'">
+      <ion-label color="app" stacked>Pin de Viaje (*)</ion-label>
+      <ion-input keyboardFix type="text" #inputPin (input)="inputPin.value=$event.target.value.toUpperCase()" [(ngModel)]="travelPin" placeholder="Ingrese código"></ion-input>
+      <button ion-button small color="app" item-right (click)="sendPinCode()" [disabled]="travelPin.length == 0">Validar</button>
+    </ion-item>
+    <div class="pin-message" *ngIf="pinMessage.length > 0">
+      <span color="app"><strong>{{pinMessage}}</strong></span>
+    </div>
 
     <ion-grid>
       <ion-row>
@@ -228,7 +244,7 @@
     </ion-item>
 
     <div padding>
-      <button color="app" ion-button block (click)="joinTrip(trip)" [disabled]="!terms">Unirse al Viaje</button>
+      <button color="app" ion-button block (click)="joinTrip(trip)" [disabled]="!terms || (paymentMethod == 'pin' && !validPin)">Unirse al Viaje</button>
     </div>
 
   </div>
