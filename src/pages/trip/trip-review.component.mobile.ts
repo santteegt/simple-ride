@@ -171,7 +171,7 @@ export class TripReviewMobileComponent implements OnInit, OnDestroy {
 			let me = this;
 			_.each(this.myNotifList, function(notif: Notification){
 				if(notif.user_id == me.rsvp.user_id){
-					Notifications.update({ '_id': notif._id }, {$set: { 'archived': true }});
+					Notifications.update({ '_id': notif._id }, {$set: { 'archived': true, 'read': true }});
 				}
 			});
 			this.viewCtrl.dismiss();
@@ -187,7 +187,7 @@ export class TripReviewMobileComponent implements OnInit, OnDestroy {
 			);
 			_.each(this.myNotifList, function(notif: Notification){
 				if(notif.user_id == rsvp.driver_id){
-					Notifications.update({ '_id': notif._id }, {$set: { 'archived': true }});
+					Notifications.update({ '_id': notif._id }, {$set: { 'archived': true, 'read': true }});
 				}
 			});
 		}
