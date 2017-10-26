@@ -227,7 +227,7 @@ export class ReservationListMobileComponent implements OnInit, OnDestroy {
 		let user = this.getUserInfo(rsvp.user_id);
 		let alert = this.alertCtrl.create({
 	      title: 'Confirmación de Cancelación',
-	      message: '¿Esta seguro de cancelar la reserva?',
+	      message: '¿Esta seguro de rechazar esta reserva?',
 	      buttons: [
 					{
 		      	text: 'Cerrar',
@@ -236,7 +236,7 @@ export class ReservationListMobileComponent implements OnInit, OnDestroy {
 		      	}
 		  	  },
 		      {
-		      	text: 'Cancelar',
+		      	text: 'Confirmar',
 		      	handler: () => {
 		      		MeteorObservable.call('cancelReservation', rsvp, 1).subscribe((response: ServerResponse) => {
 						if(response.processed) {
