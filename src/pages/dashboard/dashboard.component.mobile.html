@@ -151,7 +151,7 @@
               <ion-icon name="md-contacts" color="app"></ion-icon>
             </ion-col>
             <ion-col style="padding-left: 5px">
-              <span *ngIf="trip.available_places > 0">{{trip.available_places}} libre(s)</span><span *ngIf="trip.available_places == 0" ion-text color="secondary"><strong>Completo</strong></span>
+              <span *ngIf="trip.available_places > 0">{{trip.available_places}}/{{trip.places}} libre(s)</span><span *ngIf="trip.available_places == 0" ion-text color="secondary"><strong>Completo</strong></span>
             </ion-col>
           </ion-row>
         </ion-grid>
