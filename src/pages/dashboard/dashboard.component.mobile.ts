@@ -455,18 +455,29 @@ export class DashboardMobileComponent extends Dashboard implements OnInit, OnDes
       let tripDay: String = this.getTripDay(trip.departureDate);
       let message = 'Estoy viajando a ' + trip.destination.shortName + ' el ' + tripDay + ' ' + trip.departureDate.toLocaleDateString();
 
-      this.socialSharing.shareViaFacebookWithPasteMessageHint('Message via Facebook', 'https://simpleride-ec.com/sharing-image.png',
-        'https://simpleride-ec.com/' + 'share/trip/' + trip._id, message)
-      .then(() => {
-          this.loader.dismiss();
-      })
-      .catch((errormsg) => {
-          this.loader.dismiss();
-          if(errormsg != 'cancelled') {
-            this.presentAlert('Error', 'Ha ocurrido un error al compartir. Inténtelo nuevamente');
-          }
-          console.log(errormsg);
-      });
+      // this.socialSharing.canShareVia('com.apple.social.facebook').then(() => {
+
+
+        // this.socialSharing.shareViaFacebookWithPasteMessageHint('Message via Facebook', 'https://simpleride-ec.com/sharing-image.png',
+        //   'https://simpleride-ec.com/' + 'share/trip/' + trip._id, message)
+        this.socialSharing.shareViaFacebook('Message via Facebook', 'https://simpleride-ec.com/sharing-image.png',
+          'https://simpleride-ec.com/' + 'share/trip/' + trip._id)
+        .then(() => {
+            this.loader.dismiss();
+        })
+        .catch((errormsg) => {
+            this.loader.dismiss();
+            if(errormsg != 'cancelled' && errormsg != 'not available') {
+              console.log(errormsg);
+              // alert(errormsg);
+              this.presentAlert('Error', 'Ha ocurrido un error al compartir. Inténtelo nuevamente');
+            }
+        });
+
+      // }).catch((error) => {
+      //   this.presentAlert('Error', 'Compartir no habilitado en tu plataforma');
+      // });
+      
 
     } else {
 
