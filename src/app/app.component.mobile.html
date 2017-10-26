@@ -31,10 +31,10 @@
         Perfil de Conductor
       </button>
 
-      <button ion-item icon-left detail-none (click)="openPage(paymentInfo, {isModal: true})" *ngIf="!(user | isDriver)">
+      <!-- <button ion-item icon-left detail-none (click)="openPage(paymentInfo, {isModal: true})" *ngIf="!(user | isDriver)">
       	<ion-icon name="card"></ion-icon>
         Métodos de Pago
-      </button>
+      </button> -->
       <button ion-item icon-left detail-none (click)="openPage(paymentInfo, {isModal: true})" *ngIf="(user | isDriver)">
       	<ion-icon name="card"></ion-icon>
         Info de Pagos
@@ -48,15 +48,21 @@
         Notificaciones
         <ion-badge color="{{notificationsCount == null || notificationsCount == 0 ? 'primary':'danger'}}" item-right>{{notificationsCount && notificationsCount > 0 ? notificationsCount:0}}</ion-badge>
       </ion-item>
+
+      <ion-item>
+        <ion-label>Perfil: <strong>{{isDriver ? 'Conductor':'Viajero'}}</strong></ion-label>
+        <ion-toggle checked="false" [(ngModel)]="isDriver" color="app" (ionChange)="setActiveProfile()"></ion-toggle>
+      </ion-item>
+
+
+      <button ion-item icon-left detail-none (click)="openPage(intro, {manual: true})">
+        <ion-icon name="help-circle" style="font-size: 1.2em"></ion-icon>
+        Guía de uso
+      </button>
       <button ion-item icon-left detail-none (click)="openPage(about, {})">
         <ion-icon name="information-circle" style="font-size: 1.2em"></ion-icon>
         Acerca de nosotros
       </button>
-
-      <ion-item>
-    		<ion-label>Perfil: <strong>{{isDriver ? 'Conductor':'Viajero'}}</strong></ion-label>
-    		<ion-toggle checked="false" [(ngModel)]="isDriver" color="app" (ionChange)="setActiveProfile()"></ion-toggle>
-  	  </ion-item>
 
       <button  ion-item icon-left detail-none (click)="logout()">
       	<ion-icon name="log-out" color="danger"></ion-icon>

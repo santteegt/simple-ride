@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Slides, NavController } from 'ionic-angular';
+import { Slides, NavController, NavParams, ViewController } from 'ionic-angular';
 
 import { UserRegistrationMobileComponent } from '../registration/registration.component.mobile';
 
@@ -18,13 +18,22 @@ export class IntroSlidesMobileComponent {
     "assets/intro/slide-5.jpg"
   ];
 
-  constructor(private navCtrl: NavController){
+  calledFromMenu: boolean;
+
+  constructor(private navCtrl: NavController, private navParams: NavParams, private viewCtrl: ViewController) {
+
+    this.calledFromMenu = this.navParams.get('manual');
 
   }
 
   slideChanged() {
     if(this.sources.length == this.slides.getActiveIndex()) {
-      this.navCtrl.push(UserRegistrationMobileComponent);
+      
+      if(!this.calledFromMenu) {
+        this.navCtrl.push(UserRegistrationMobileComponent);  
+      } else {
+        this.viewCtrl.dismiss();
+      }
     }
   }
 }

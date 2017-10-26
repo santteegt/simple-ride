@@ -58,6 +58,7 @@ export class MyApp {
   userDocuments: Component;
   about: Component;
   paymentInfo: Component;
+  intro: Component;
 
   autorunSub: Subscription;
 
@@ -93,6 +94,7 @@ export class MyApp {
     this.userDocuments = UserDocumentsMobileComponent;
     this.paymentInfo = PaymentInfoMobileComponent;
     this.about = AboutMobileComponent;
+    this.intro = IntroSlidesMobileComponent;
 
     this.menu.enable(true);
 
@@ -197,6 +199,7 @@ export class MyApp {
                         console.log('user is on a trip');
                         console.log(data);
                         if(this.rootPage != OnTripMobileComponent) {
+                          this.statusBar.show();
                           me.rootPage = OnTripMobileComponent;
                         }
                       } else {
