@@ -50,6 +50,9 @@
         </button>
       </ion-item-options>
     </ion-item-sliding>
+    <button *ngIf="hasNotifications" class="delete-button" ion-button color="danger" (click)="archiveNotifications()">
+      Borrar todo
+    </button>
   </ion-list>
 
 </ion-content>

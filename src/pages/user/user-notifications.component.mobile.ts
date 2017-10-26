@@ -34,6 +34,9 @@ export class UserNotificationsMobileComponent implements OnInit, OnDestroy {
   tripUtils: TripUtils;
   loader;
 
+  user: any;
+  notifications: any;
+
   constructor(private navCtrl: NavController, navParams: NavParams, private viewCtrl: ViewController,
   	private modalCtrl: ModalController, private loadingCtrl: LoadingController) {
 
@@ -58,6 +61,7 @@ export class UserNotificationsMobileComponent implements OnInit, OnDestroy {
       this.myNotifOb = Notifications.find({},{sort: {sent_date: -1}});
 
       this.myNotifOb.subscribe((data: Notification[]) => {
+        this.notifications = data;
         this.hasNotifications = data.length > 0;
       });
       this.loader.dismiss();
@@ -109,7 +113,9 @@ export class UserNotificationsMobileComponent implements OnInit, OnDestroy {
   }
 
   archiveNotifications() {
-
+      _.each(this.notifications, function(notification: any){
+          Notifications.update({_id: notification._id}, {$set: {read:true, archived: true}});
+      });
   }
 
   archiveNotification(notification: Notification) {
