@@ -4,7 +4,8 @@ declare var Meteor;
 import { NavController, NavParams, ViewController, AlertController,
 		LoadingController, ToastController, ModalController, App } from 'ionic-angular';
 import { Observable, Subscription } from "rxjs";
-import { MeteorObservable } from "meteor-rxjs"
+import { MeteorObservable } from "meteor-rxjs";
+import { Keyboard } from '@ionic-native/keyboard';
 
 import { TripUtils } from '../../classes/trip-utils.class';
 import { TermsOfServiceMobileComponent } from "../terms/terms-service.component.mobile";
@@ -55,7 +56,7 @@ export class CheckoutMobileComponent implements OnInit, OnDestroy {
 
 	constructor(private navCtrl: NavController, navParams: NavParams, private viewCtrl: ViewController,
 		private alertCtrl: AlertController, private loadingCtrl: LoadingController, private appCtrl: App,
-		private toastCtrl: ToastController, private modalCtrl: ModalController,
+		private toastCtrl: ToastController, private modalCtrl: ModalController, private keyboard: Keyboard,
 		private isUserIncomplete: IsUserIncompletePipe) {
 
 		this.trip_id = navParams.get("trip_id");
@@ -70,6 +71,15 @@ export class CheckoutMobileComponent implements OnInit, OnDestroy {
 	}
 
 	ngOnInit() {
+
+		this.loader = this.loadingCtrl.create({
+		  content: "Cargando...",
+		  spinner: "crescent"
+		});
+
+		this.loader.present();
+
+		this.keyboard.disableScroll(false);
 
 		if (this.myTripsSub) {
 			this.myTripsSub.unsubscribe();
@@ -96,11 +106,13 @@ export class CheckoutMobileComponent implements OnInit, OnDestroy {
 			this.last_available_sits = trip.available_places;
 
 			this.trips = trips.zone();
+			this.loader.dismiss();
 		});
 
 	}
 
 	ngOnDestroy() {
+		this.keyboard.disableScroll(true);
 		this.myTripsSub.unsubscribe();
 
 	}
@@ -258,6 +270,8 @@ export class CheckoutMobileComponent implements OnInit, OnDestroy {
 		  content: "Validando PIN...",
 		  spinner: "crescent"
 		});
+
+		this.loader.present();
 
 		MeteorObservable.call('validatePin', this.travelPin).subscribe((response: PromoResponse) => {
 			this.loader.dismiss();
