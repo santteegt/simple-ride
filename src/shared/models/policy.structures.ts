@@ -2,7 +2,8 @@ import { UserRecord } from './user-record.model';
 
 export interface PoliceRecord {
 	found: boolean,
-	response: UserRecord
+	response: UserRecord,
+	registered: boolean
 }
 
 export interface CarRecord {

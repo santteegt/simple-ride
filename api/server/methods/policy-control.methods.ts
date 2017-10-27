@@ -4,6 +4,7 @@ import { CarRecords } from '../../both/collections/car-records.collection';
 import { CarRecord } from '../../both/models/car-record.model';
 import { UserRecord } from '../../both/models/user-record.model';
 import { UserRecords } from '../../both/collections/user-records.collection';
+import { Users } from '../../both/collections/users.collection';
 import { Email } from 'meteor/email';
 import { SSR } from 'meteor/meteorhacks:ssr';
 
@@ -39,6 +40,13 @@ function fixLabel(label: string) {
 			break;
 	}
 	return newLabel;
+}
+
+function verifyExistingUser(user_id: string){
+	let user = Users.findOne({'personData.dni':user_id});
+	if(user){
+		return true;
+	}
 }
 
 async function sendEmail(to: string, from: string, subject: string, html: string){
@@ -193,6 +201,10 @@ Meteor.methods({
   		check(user_id, String);
   		check(person_id, String);
   		check(is_passport, Boolean);
+
+			if(verifyExistingUser(person_id)){
+				return {found: true, response: undefined, registered: true};
+			}
 
   		if(Meteor.isServer) {
 			try {

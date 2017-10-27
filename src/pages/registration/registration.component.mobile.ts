@@ -4,7 +4,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 // import { Meteor } from 'meteor-client';
 declare var Meteor;
 import {MeteorObservable} from "meteor-rxjs";
-import { Platform, NavController, NavParams, ViewController, ToastController, 
+import { Platform, NavController, NavParams, ViewController, ToastController,
 	ModalController, LoadingController, Select } from 'ionic-angular';
 import { Keyboard } from '@ionic-native/keyboard';
 
@@ -44,7 +44,7 @@ export class UserRegistrationMobileComponent extends UserRegistration implements
 
   conversationStyles: any;
 
-  constructor(private platform: Platform, private navCtrl: NavController, navParams: NavParams, 
+  constructor(private platform: Platform, private navCtrl: NavController, navParams: NavParams,
   	private viewCtrl: ViewController, private keyboard: Keyboard,
 	private formBuilder: FormBuilder, private toastCtrl: ToastController, private modalCtrl: ModalController,
 	private loadingCtrl: LoadingController, private geoService: GeolocationService, public utils: Utils) {
@@ -195,7 +195,12 @@ export class UserRegistrationMobileComponent extends UserRegistration implements
 	    		this.validId = this.policeRecord.found || (!this.policeRecord.found  && this.myformGroup.value.typeid == 'passport')
 	    		me.loader.dismiss();
 
-          if(!this.policeRecord.found && this.policeRecord.response.idr == 'error') {
+					if(this.policeRecord.registered){
+						this.presentToast("El documento de identificación ya existe.");
+						this.validId = false;
+					}
+
+          if(!this.policeRecord.found && this.policeRecord.response && this.policeRecord.response.idr == 'error') {
             this.presentToast("Tenemos problemas verificando tú información. Asegurate de haber ingresado correctamente tú número de cédula.");
             this.validId = true;
           }else if(!this.policeRecord.found && this.myformGroup.value.typeid == 'dni') {
