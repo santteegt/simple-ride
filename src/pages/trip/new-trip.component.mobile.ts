@@ -222,7 +222,7 @@ export class NewTripMobileComponent implements OnInit, OnDestroy {
           } else {
 						me.estimatedTime = 1800;
 						me.distance = 60000;
-						me.suggestedPrice = me.minPrice = 0;
+						me.suggestedPrice = me.minPrice = 1;
 						me.origin = me.originLoc.description;
 						me.origin = me.origin.substr(0, me.origin.indexOf(',') > 0 ? me.origin.indexOf(','):me.origin.length);
 						me.destination = me.destinationLoc.description;
