@@ -26,6 +26,7 @@ export interface Person {
 	isDriver: boolean;
 	locale?: string;
 	policeRecord?: boolean;
+	device_type: string;
 }
 
 export interface Driver {

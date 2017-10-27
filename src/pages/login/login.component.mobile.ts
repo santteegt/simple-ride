@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit, NgZone } from '@angular/core';
 import { Platform, NavController, MenuController, AlertController } from 'ionic-angular';
 import { Subscription } from 'rxjs/Subscription';
 import { Push, PushObject, PushOptions } from '@ionic-native/push';
+import { MeteorObservable } from "meteor-rxjs";
 // TODO:
 // import { Meteor } from 'meteor-client';
 declare var Meteor;
@@ -48,7 +49,8 @@ export class LoginMobileComponent implements OnInit, OnDestroy {
 
   	login() {
   		this.loginManager.login().then(msg => { //redirection is handled automatically by the AppMobileComponent
-
+      let device_type = this.platform.is('ios') ? 'ios':(this.platform.is('android') ? 'android':'other');
+      MeteorObservable.call('updateUserDevice', Meteor.userId(), device_type).subscribe((rs) => {});
 			const options: PushOptions = {
 	          android: {
 	            // senderID: "93847795927",

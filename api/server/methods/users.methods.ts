@@ -95,5 +95,11 @@ Meteor.methods({
         return {status: 500, message: 'Unauthorized', };
       }
     }
+  },
+  updateUserDevice: function(user_id: String, device_type: String){
+    if(Meteor.isServer){
+      Users.update({_id: user_id}, {$set:{'personData.device_type': device_type}});
+      return {status: 200, message: 'OK'}
+    }
   }
 });
