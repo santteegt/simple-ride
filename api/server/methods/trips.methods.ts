@@ -211,9 +211,11 @@ Meteor.methods({
   		if(reservation.places > trip.available_places) {
   			return {status: 400, message: 'El conductor ya no dispone de ' + reservation.places + ' lugare(s) en su viaje. Revise el detalle del viaje nuevamente.'};
   		}
+      let confirmed_places = trip.confirmed_places;
   		switch (reservation.payment_method) {
         case "pin":
-          //do nothing.  Wait for user action if driver needs to approve reservation
+          confirmed_places = trip.rsvp_method == 'Manual' ? confirmed_places:confirmed_places + reservation.places;
+          //And wait for user action if driver needs to approve reservation
           break;
   			case "deposit":
   				// do nothing. Wait for user action.
@@ -227,7 +229,10 @@ Meteor.methods({
   			default:
   				break;
   		}
-  		Trips.update({'_id': reservation.trip_id}, {$set: {'available_places': trip.available_places - reservation.places}});
+  		Trips.update({'_id': reservation.trip_id}, {$set: {
+        'available_places': trip.available_places - reservation.places,
+        'confirmed_places': confirmed_places
+      }});
   		Reservations.insert(reservation);
 
       sendSystemMessage(reservation.user_id, reservation.trip_id, false, 'se ha unido a este viaje');
@@ -246,7 +251,12 @@ Meteor.methods({
     let trip = Trips.findOne({_id: rsvp.trip_id});
     let status = rsvp.payment_method == "pin" ? RESERVATIONSTATUS.PROCESSED:
       (rsvp.payment_method == "deposit" ? RESERVATIONSTATUS.WAITING_USER_ACTION:RESERVATIONSTATUS.PROCESSING_PAYMENT);
-    Reservations.update({'_id': rsvp._id}, {$set: {payment_status: status}});
+
+    let confirmed_places = rsvp.payment_method == "pin" ? (trip.confirmed_places + rsvp.places):trip.confirmed_places;
+    Reservations.update({'_id': rsvp._id}, {$set: {
+      payment_status: status,
+      confirmed_places: confirmed_places
+    }});
 
     sendSystemMessage(rsvp.driver_id, rsvp.trip_id, true, 'ha aceptado a ' + user['personData']['forename']);
 
