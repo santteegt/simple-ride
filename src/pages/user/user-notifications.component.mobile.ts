@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { NavController, NavParams, ViewController, ModalController, LoadingController } from 'ionic-angular';
+import { NavController, NavParams, ViewController, ModalController, LoadingController,
+        AlertController } from 'ionic-angular';
 import { Observable, Subscription } from "rxjs";
 import { MeteorObservable } from "meteor-rxjs";
 // TODO:
@@ -38,7 +39,8 @@ export class UserNotificationsMobileComponent implements OnInit, OnDestroy {
   notifications: any;
 
   constructor(private navCtrl: NavController, navParams: NavParams, private viewCtrl: ViewController,
-  	private modalCtrl: ModalController, private loadingCtrl: LoadingController) {
+  	private modalCtrl: ModalController, private loadingCtrl: LoadingController,
+    private alertCtrl: AlertController) {
 
     this.hasNotifications = false;
     this.utils = new Utils();
@@ -113,9 +115,29 @@ export class UserNotificationsMobileComponent implements OnInit, OnDestroy {
   }
 
   archiveNotifications() {
-      _.each(this.notifications, function(notification: any){
-          Notifications.update({_id: notification._id}, {$set: {read:true, archived: true}});
-      });
+    let alert = this.alertCtrl.create({
+      title: 'Eliminar notificaciones',
+      message: '¿Esta seguro de eliminar todas las notificaciones?',
+      buttons: [
+        {
+          text: 'No',
+          handler: () => {
+
+          }
+        },
+        {
+          text: 'Si',
+          handler: () => {
+
+            _.each(this.notifications, function(notification: any){
+              Notifications.update({_id: notification._id}, {$set: {read:true, archived: true}});
+            });
+            
+          }
+        }
+      ]
+    });
+    alert.present();
   }
 
   archiveNotification(notification: Notification) {
