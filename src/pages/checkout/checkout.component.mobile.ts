@@ -72,6 +72,13 @@ export class CheckoutMobileComponent implements OnInit, OnDestroy {
 
 	ngOnInit() {
 
+		this.loader = this.loadingCtrl.create({
+		  content: "Cargando...",
+		  spinner: "crescent"
+		});
+
+		this.loader.present();
+
 		this.keyboard.disableScroll(false);
 
 		if (this.myTripsSub) {
@@ -99,6 +106,7 @@ export class CheckoutMobileComponent implements OnInit, OnDestroy {
 			this.last_available_sits = trip.available_places;
 
 			this.trips = trips.zone();
+			this.loader.dismiss();
 		});
 
 	}
@@ -262,6 +270,8 @@ export class CheckoutMobileComponent implements OnInit, OnDestroy {
 		  content: "Validando PIN...",
 		  spinner: "crescent"
 		});
+
+		this.loader.present();
 
 		MeteorObservable.call('validatePin', this.travelPin).subscribe((response: PromoResponse) => {
 			this.loader.dismiss();
