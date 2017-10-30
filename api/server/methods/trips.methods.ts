@@ -322,8 +322,8 @@ Meteor.methods({
 		}
 		suggestedPrice = kmPrice * distance * 1.39 / 1000;
 		minPrice = Math.round(suggestedPrice - (20*suggestedPrice/100));
-		if(suggestedPrice<0.5) {
-			suggestedPrice = minPrice = 0.5;
+		if(suggestedPrice<1) {
+			suggestedPrice = minPrice = 1;
 		}
 		return {
 			processed: true,
