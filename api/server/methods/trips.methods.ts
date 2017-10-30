@@ -118,7 +118,7 @@ async function sendEmail(to: string, from: string, subject: string, html: string
 export function cancelReservation(rsvp: Reservation, reason: number){
 	let user = Users.findOne({_id: rsvp.user_id});
 	let trip = Trips.findOne({_id: rsvp.trip_id});
-	Trips.update({_id: trip._id}, {$set: {available_places: trip.available_places + rsvp.places}});
+	Trips.update({_id: trip._id}, {$set: {available_places: trip.available_places + rsvp.places, confirmed_places: trip.confirmed_places - rsvp.places}});
 	Reservations.update({_id: rsvp._id}, {$set: {cancellation_date: new Date, cancellation_reason: reason}});
 	switch (reason) {
 		case 0: // He decidido no viajar
@@ -183,8 +183,8 @@ Meteor.methods({
   validatePin: function(travelPin: string) {
 
     let pin = PromoCodes.findOne({
-      'promoType': PROMOTYPES.PIN, 
-      'code': travelPin, 
+      'promoType': PROMOTYPES.PIN,
+      'code': travelPin,
       'expirationDate': {$gte: new Date()},
       'active': true
     });
