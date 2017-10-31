@@ -23,9 +23,9 @@
       <img src="assets/logo.png" style="padding-top: 5px; width: 75px; height: 44px">
     </div>
 
-    <ion-buttons end showWHen="ios">
-      <button ion-button icon-only (tap)="archiveNotifications()">
-        <ion-icon name="archive"></ion-icon>
+    <ion-buttons end showWhen="ios">
+      <button ion-button icon-only [disabled]="!hasNotifications" (click)="archiveNotifications()">
+        <ion-icon name="trash"></ion-icon>
       </button>
     </ion-buttons>
 
