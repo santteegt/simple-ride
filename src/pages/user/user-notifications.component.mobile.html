@@ -1,5 +1,12 @@
 <ion-header>
+
   <ion-navbar color="app" style="padding-top: 4px">
+
+    <ion-buttons left showWhen="android,windows">
+      <button ion-button icon-only [disabled]="!hasNotifications" (click)="archiveNotifications()">
+        <ion-icon name="trash"></ion-icon>
+      </button>
+    </ion-buttons>
 
     <ion-buttons start>
       <button ion-button (click)="dismiss()">
@@ -16,17 +23,11 @@
       <img src="assets/logo.png" style="padding-top: 5px; width: 75px; height: 44px">
     </div>
 
-    <ion-buttons end>
-      <button ion-button icon-only [disabled]="!hasNotifications" (click)="archiveNotifications()">
-        <ion-icon name="trash"></ion-icon>
-      </button>
-    </ion-buttons>
-
-    <!-- <ion-buttons end>
+    <ion-buttons end showWHen="ios">
       <button ion-button icon-only (tap)="archiveNotifications()">
         <ion-icon name="archive"></ion-icon>
       </button>
-    </ion-buttons> -->
+    </ion-buttons>
 
   </ion-navbar>
 </ion-header>
