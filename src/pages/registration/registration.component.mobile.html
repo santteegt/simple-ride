@@ -84,7 +84,8 @@
 
         <ion-item>
           <ion-label stacked color="app">Tipo Identificación</ion-label>
-          <ion-select formControlName="typeid" [disabled]="isModal" [class.invalid]="!myformGroup.controls.typeid.valid && (myformGroup.controls.typeid.dirty || submitAttempt)" tabindex="1">
+          <!-- <ion-select formControlName="typeid" [disabled]="isModal && person.dni != ''" [class.invalid]="!myformGroup.controls.typeid.valid && (myformGroup.controls.typeid.dirty || submitAttempt)" tabindex="1"> -->
+          <ion-select formControlName="typeid" [class.invalid]="!myformGroup.controls.typeid.valid && (myformGroup.controls.typeid.dirty || submitAttempt)" tabindex="1">
             <ion-option value="dni">Cédula</ion-option>
             <ion-option value="passport">Pasaporte</ion-option>
           </ion-select>
@@ -92,7 +93,8 @@
 
         <ion-item>
           <ion-label stacked color="app">Identificación</ion-label>
-          <ion-input type="text" formControlName="dni" [disabled]="isModal" [class.invalid]="(!myformGroup.controls.dni.valid || validId == false) && (myformGroup.controls.dni.dirty || submitAttempt)" (blur)="validateId($event)" (click)="openTypeId()" tabindex="2"></ion-input>
+          <!-- <ion-input type="text" formControlName="dni" [disabled]="isModal && person.dni != ''" [class.invalid]="(!myformGroup.controls.dni.valid || validId == false) && (myformGroup.controls.dni.dirty || submitAttempt)" (blur)="validateId($event)" (click)="openTypeId()" tabindex="2"></ion-input> -->
+          <ion-input type="text" formControlName="dni" [class.invalid]="(!myformGroup.controls.dni.valid || validId == false) && (myformGroup.controls.dni.dirty || submitAttempt)" (blur)="validateId($event)" (click)="openTypeId()" tabindex="2"></ion-input>
         </ion-item>
 
         <ion-item>
