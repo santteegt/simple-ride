@@ -10,7 +10,8 @@ import { SSR } from 'meteor/meteorhacks:ssr';
 
 declare var cheerio;
 
-let url = 'http://sistemaunico.ant.gob.ec:6033';
+// let url = 'http://sistemaunico.ant.gob.ec:6033';
+let url = 'https://sistemaunico.ant.gob.ec:5038';
 let to: string = 'malgia@hotmail.com';
 let from: string = 'info@simpleride-ec.com';
 let subject: string = 'Problema con ANT'
