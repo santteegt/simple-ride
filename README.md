@@ -12,11 +12,6 @@ Webapp for the Simple Ride platform based on Ionic 3.x.x and Meteor framework >1
 
 ## Deploy/Build app for production
 
-
-### Backend Setup
-
-* Configure Server IP address in the `api/package.json` script accordingly
-
 * Execute the following command
 
 ```
@@ -134,3 +129,6 @@ More info about conf: [click here](https://github.com/kadirahq/meteor-up)
 cd api/.deploy
 mup logs -f
 ```
+### Backend Setup
+
+* Configure Server IP address in the `api/package.json` script accordingly
