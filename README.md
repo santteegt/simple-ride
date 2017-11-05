@@ -50,6 +50,10 @@ _require('core-js/modules/es6.typed.uint8-array'); // 56
 _require('core-js/modules/es6.typed.uint32-array'); // 57
 ```
 
+## MongoDB Backup
+
+* To **manually** backup the mongodb schema see this [instructions](https://github.com/xpressabhi/mup-data-backup)
+
 #### Android setup
 
 * Generate keystore file
