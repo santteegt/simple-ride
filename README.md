@@ -45,10 +45,6 @@ _require('core-js/modules/es6.typed.uint8-array'); // 56
 _require('core-js/modules/es6.typed.uint32-array'); // 57
 ```
 
-## MongoDB Backup
-
-* To **manually** backup the mongodb schema see this [instructions](https://github.com/xpressabhi/mup-data-backup)
-
 #### Android setup
 
 * Generate keystore file
@@ -70,6 +66,20 @@ configurations.all {
     }
 }
 ```
+
+#### iOS setup
+
+* After building the app, open the project on XCode. Do not forget to check the following parameters on the info.plist properties file:
+
+NSLocationWhenInUseUsageDescription: string description
+
+NSCameraUsageDescription: string description
+
+NSPhotoLibraryUsageDescription: string description of the need of accessing the user photo library
+
+NSMotionUsageDescription: string description of the need of accesing the user geolocation while he is in motion
+
+* When building the app, a missing `SimpleRide.pod` file should appear as an error. You must delete it under `Build Phases/Embed Pods Frameworks`
 
 ### Run the mobile app locally
 
@@ -132,3 +142,71 @@ mup logs -f
 ### Backend Setup
 
 * Configure Server IP address in the `api/package.json` script accordingly
+
+## MongoDB Backup
+
+* To **manually** backup the mongodb schema see this [instructions](https://github.com/xpressabhi/mup-data-backup)
+
+
+## Push Notifications Setup
+
+1. Enable the following code under the `server/main.js` file
+
+```
+import "./imports/push.js"; // ENABLE PUSH NOTIFICATIONS
+```
+
+### iOS
+
+2. If you already have valid certificates, jump through to step 8
+3. Generate Push Notification Certificates for development and production through the Apple Developer site. (aps_development.cer & aps.cer)
+4. Import them into the KeyChain Access
+5. Export them into .p12 certificates (name them as CertificateDev.p12 & CertificateProd.p12 respectively)
+6. Run the following commands:
+
+```
+$ openssl x509 -in aps_development.cer -inform DER -outform PEM -out SimpleRide-dev.pem
+$ openssl pkcs12 -in CertificateDev.p12 -out SimpleRideKey-dev.pem -nodes
+$ openssl x509 -in aps.cer -inform DER -outform PEM -out SimpleRide-prod.pem
+$ openssl pkcs12 -in CertificateProd.p12 -out SimpleRideKey-prod.pem -nodes
+```
+
+7. Optionally, you can test the certificates by running the following:
+
+```
+# Development
+$ openssl s_client -connect gateway.sandbox.push.apple.com:2195 -cert meteorApp-cert-dev.pem -key meteorApp-key-dev.pem
+# Production
+$ openssl s_client -connect gateway.push.apple.com:2195 -cert meteorApp-cert-prod.pem -key meteorApp-key-prod.pem
+```
+
+8. Paste the generated files on the `private/push_certs` folder
+9. If you are testing push notifications under development, enable the following lines on the `server/main.js` file:
+
+```
+// For testing push notifications under development
+declare var process;
+process.env.NODE_ENV = "development";
+```
+
+10. Configure the `server/imports/push.js` file accordingly
+
+11. Remember to enable Push Notifications on XCode before Archiving the app to be uploaded to the App Store, or for local development
+
+### Android
+
+2. You need to obtain a Server API Key and a SENDERID from the Firebase Cloud Messaging console
+
+3. Update the SENDERID value on the files `client/imports/app/mobile/push.ts` and `mobile-config.js`
+
+4. Update the gcm apikey on the file `server/imports/push.js`
+
+5. **REMINDER** If developing only for android devices, remember to disable the APN configuration on the previous file
+
+6. If you are testing push notifications under development, enable the following lines on the `server/main.js` file:
+
+```
+// For testing push notifications under development
+declare var process;
+process.env.NODE_ENV = "development";
+```
