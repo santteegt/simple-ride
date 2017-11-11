@@ -178,6 +178,9 @@ SyncedCron.add({
 
 		_.each(rsvpList, function(rsvp: Reservation) {
 			let trip: Trip = undefined;
+
+			// Insert notifications for travellers
+
 			if(!rsvp.user_rating && _.indexOf(notifiedUsers, rsvp.trip_id + '|' + rsvp.user_id) == -1) {
 
 				trip = Trips.findOne({_id: rsvp.trip_id});
@@ -219,12 +222,15 @@ SyncedCron.add({
 
 			}
 
+			// Insert notifications to driver
+
 			if(!rsvp.driver_rating && _.indexOf(notifiedUsers, rsvp.trip_id + '|' + rsvp.driver_id) == -1) {
 
 				trip = trip ? trip:Trips.findOne({_id: rsvp.trip_id});
 
 				let rsvpArray = Reservations.find({
 					'trip_id': rsvp.trip_id,
+					'cancellation_date': undefined,
 					'payment_status': RESERVATIONSTATUS.PROCESSED,
 					'driver_rating': undefined
 				}).fetch();
