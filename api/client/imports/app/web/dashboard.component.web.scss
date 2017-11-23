@@ -71,7 +71,6 @@ h1.slogan-home {
 	text-align: center;
 	font-size: 2.5rem;
 	font-weight: 300;
-	padding-bottom: 80px;
 }
 
 #home .btn-outline-primary, #tyc .btn-outline-primary{
@@ -88,6 +87,11 @@ h1.slogan-home {
 #home .btn-outline-primary:hover, #tyc .btn-outline-primary:hover {
 	background-color: transparent;
 	border-color: #FF9600;
+}
+
+.stores img{
+	height: 70px;
+	margin: 30px 5px;
 }
 
 #CTA-home {
@@ -296,6 +300,15 @@ h1.slogan-home {
 	opacity: 1;
 }
 
+
+.promo-modal .modal-body{
+	background-color: #FF9600;
+	color: #fff;
+	font-size: 24px;
+	text-align: center;
+	border: 2px solid #fff;
+}
+
 #footer{
 	padding-bottom: 15px;
 }
@@ -353,11 +366,19 @@ h1.slogan-home {
 		display: none;
 	}
 	#home{
-		height: 100vh;
-		padding: 15vh 10vh;
+		height: auto;
+		padding: 0vh 10vh;
 	}
 	img.logo-home{
 		width: 40vw;
+		height: 130px;
+	}
+	.stores img{
+		margin: 10px;
+		height: 60px;
+	}
+	.slogan-home{
+		margin-bottom: 30px;
 	}
 	#seguridad{
 		padding-top: 25px;

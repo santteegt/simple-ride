@@ -21,6 +21,10 @@
     <img class="logo-home" src="assets/logo-home.svg" width="387px" height="205px" alt="">
     </br>
     <h1 class="slogan-home">Conectamos viajeros con conductores que compartan el mismo destino.</h1>
+    <div class="stores">
+      <a href="https://goo.gl/sp6869"><img src="assets/app-store-logo.png" class="pointer"></a>
+      <a href="https://goo.gl/x71Cqc"><img src="assets/google-play-logo.png" class="pointer"></a>
+    </div>
     <button id="CTA-home" type="button" class="btn btn-outline-primary center-block mobile-hidden" (click)="scrollToTarget('simpleride')">Aprender más</button>
   </div>
   <div id="simpleride" class="row">
@@ -131,7 +135,7 @@
           <li><a (click)="showPrivacyModal = true">Políticas de Privacidad</a></li>
           <li><a (click)="faqModal.show()">Preguntas Frecuentes</a></li>
         </ul>
-        <div *ngIf="showTyCModal" [config]="{ show: true }"class="modal fade" bsModal #tycModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="tycModalLabel" aria-hidden="true">
+        <div *ngIf="showTyCModal" [config]="{ show: true }" class="modal fade" bsModal #tycModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="tycModalLabel" aria-hidden="true">
           <div class="modal-dialog modal-lg">
             <div class="modal-content">
               <div class="modal-header">
@@ -1305,7 +1309,15 @@
             </div>
           </div>
         </div>
-
+        <div [config]="{ show: true }" class="promo-modal modal fade" bsModal #promoModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="promoModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+              <div class="modal-body">
+                <p>¡Usa el código <br><b>PAGOENEFECTIVO</b><br> y viaja durante noviembre y diciembre de 2017 sin costos de comisión!</p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
