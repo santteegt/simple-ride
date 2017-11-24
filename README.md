@@ -16,7 +16,7 @@ Webapp for the Simple Ride platform based on Ionic 3.x.x and Meteor framework >1
 
 ```
 $ cd api && meteor npm install
-npm run api # Configure api script parameters accordingly in the packages.json file
+$ npm run api # Configure api script parameters accordingly in the packages.json file
 ```
 
 ### Mobile app setup
