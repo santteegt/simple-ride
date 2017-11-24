@@ -15,6 +15,7 @@ Webapp for the Simple Ride platform based on Ionic 3.x.x and Meteor framework >1
 * Execute the following command
 
 ```
+$ cd api && meteor npm install
 npm run api # Configure api script parameters accordingly in the packages.json file
 ```
 
@@ -111,6 +112,14 @@ server {
 ```
 
 For a complete config file example, take a look to the [nginx.conf.example](nginx.conf.example) file.
+
+To restart nginx service you can use the following commands:
+
+```
+$ kill -QUIT $( cat /run/nginx.pid )
+$ /usr/sbin/nginx -t -c /etc/nginx/nginx.conf # IF YOU WANT TO TEST THE CONFIG FILE FIRST
+$ /usr/sbin/nginx -c /etc/nginx/nginx.conf # START THE SERVICE. In UBUNTU, you can use systemctl [stop|start] nginx.service
+```
 
 Finally, to start serving the mobile app in your local machine, run the following command:
 
