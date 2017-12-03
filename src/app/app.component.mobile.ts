@@ -341,11 +341,13 @@ export class MyApp {
 
   login() {
     this.menu.close();
+    this.statusBar.hide();
     this.app.getRootNav().setRoot(LoginMobileComponent, {});  
   }
 
   logout() {
     this.menu.close();
+    this.statusBar.hide();
     Meteor.logout();
   }
 
