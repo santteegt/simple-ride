@@ -12,6 +12,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { Keyboard } from '@ionic-native/keyboard';
 import { Push } from '@ionic-native/push';
 import { ImgCacheService } from 'ng-imgcache';
+import { NativeStorage } from '@ionic-native/native-storage';
 
 import { LoginMobileComponent } from '../pages/login/login.component.mobile';
 
@@ -84,7 +85,7 @@ export class MyApp {
   constructor(private app: App, private platform: Platform, private statusBar: StatusBar, private splashScreen: SplashScreen,
       private menu: MenuController, private modalCtrl: ModalController, private config: Config, private keyboard: Keyboard,
       private push: Push, private alertCtrl: AlertController, private isUserIncomplete: IsUserIncompletePipe,
-      private imgCache: ImgCacheService) {
+      private imgCache: ImgCacheService, private nativeStorage: NativeStorage) {
 
     this.profile = UserRegistrationMobileComponent;
     this.driverProfile = DriverProfileMobileComponent;
@@ -169,13 +170,25 @@ export class MyApp {
 
             this.autorunSub = MeteorObservable.autorun().subscribe(() => {
               if(!Meteor.userId()) {
-                me.rootPage = LoginMobileComponent;
+
+                this.rootPage = LoginMobileComponent;
+                
               } else if(Meteor.user()) {
+
+                if(this.platform.is('cordova')) {
+                  this.nativeStorage.setItem('user_data', {loggedIn: true})
+                  .then(
+                    () => console.log('Cached user data updated!'),
+                    error => console.error('Error while trying to update cached user data', error)
+                  );
+                }
+
                 this.user = Meteor.user();
                 this.verified = this.user['personData'].isDriver ? this.user['driverData'].status == DRIVER_STATUS.VERIFIED : this.user['personData'].status==USER_STATUS.VERIFIED;
                 this.verifing = this.user['personData'].isDriver ? (this.user['driverData'].status == DRIVER_STATUS.UPLOADED_ONE || this.user['driverData'].status == DRIVER_STATUS.UPLOADED_TWO || this.user['driverData'].status == DRIVER_STATUS.VERIFIED_ONE) : this.user['personData'].status == USER_STATUS.UPLOADED_DNI;
                 if(this.user['personData'].status == USER_STATUS.NEW) {
-                  me.rootPage = IntroSlidesMobileComponent;
+                  // me.rootPage = IntroSlidesMobileComponent;
+                  me.rootPage = UserRegistrationMobileComponent;
                 } else if(this.user['driverData'].status == DRIVER_STATUS.NEW) {
                   me.rootPage = CarRegistrationMobileComponent;
                 } else {
@@ -255,6 +268,34 @@ export class MyApp {
 
   setActiveProfile() {
 
+    if(!this.user) {
+      if (this.isDriver) {
+        let alert = this.alertCtrl.create({
+          'title': 'No has iniciado sesión',
+          'subTitle': 'Para poder utilizar las funcionalidades de conductor es necesario que inicies sesión',
+          'enableBackdropDismiss': false,
+          buttons: [
+            {
+              text: 'Cerrar',
+              role: 'cancel',
+              handler: () => {
+                this.isDriver = false;
+              }
+            },
+            {
+              text: 'Iniciar Sesión',
+              handler: () => {
+                this.isDriver = false;
+                this.login();
+              }
+            }]
+        });
+        alert.present();
+        return false;
+      } else {
+        return false;
+      }
+    }
     if(this.isDriver && this.isUserIncomplete.transform(this.user)) {
 			let alert = this.alertCtrl.create({
 				'title': 'Pérfil Incompleto',
@@ -292,21 +333,23 @@ export class MyApp {
           this.isDriver = false;
         }
       });
-    } else {
+    } else if(this.user) {
       let modifier = {'personData.isDriver': this.isDriver};
       Users.update({'_id': Meteor.userId()}, {$set: modifier});
     }
   }
 
+  login() {
+    this.menu.close();
+    this.app.getRootNav().setRoot(LoginMobileComponent, {});  
+  }
+
   logout() {
     this.menu.close();
     Meteor.logout();
-    this.app.getRootNav().setRoot(LoginMobileComponent, {});
   }
 
-  openNotificationList() {
-    console.log('open notitications');
-  }
+
 
   ngOnDestroy() {
     this.tripFlagSub.unsubscribe();

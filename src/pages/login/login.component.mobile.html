@@ -19,4 +19,12 @@
     <ion-icon name="logo-facebook" class="facebook"></ion-icon>
     Iniciar Sesión con Facebook
   </button>
+  <div *ngIf="skipEnabled">
+    <span ion-text color="light">- o -</span>
+  </div>
+  <button ion-button text-color="app" color="light" icon-left id="login-button" full round (click)="exploreApp()" *ngIf="skipEnabled">
+    <ion-icon name="eye"></ion-icon>
+    Explorar la Aplicación
+  </button>
+
 </ion-footer>

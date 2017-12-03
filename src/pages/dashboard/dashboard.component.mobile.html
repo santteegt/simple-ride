@@ -21,7 +21,7 @@
       </button>
     </ion-buttons> -->
 
-    <ion-buttons end>
+    <ion-buttons end *ngIf="user">
       <button ion-button icon-only (click)="openNotificationsBoard()">
         <ion-icon name="notifications"></ion-icon>
         <ion-badge class="notifications-badge-right" color="danger" [hidden]="notificationsCount == null || notificationsCount == 0"><span style="font-size: 0.8em">{{notificationsCount}}</span></ion-badge>

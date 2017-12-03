@@ -375,7 +375,7 @@
 			</ion-grid>
 		</div>
 	</ion-list>
-	<ion-row>
+	<ion-row *ngIf="user">
 		<ion-col>
 			<button *ngIf="rsvp === undefined" color="app" ion-button block (click)="openCheckout(trip._id)"><ion-icon name='hand'></ion-icon>   Unirme</button>
 		</ion-col>

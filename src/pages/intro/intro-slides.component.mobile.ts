@@ -1,8 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { Slides, NavController, NavParams, ViewController } from 'ionic-angular';
 
-import { UserRegistrationMobileComponent } from '../registration/registration.component.mobile';
-
 @Component({
   templateUrl: 'intro-slides.component.mobile.html'
 })
@@ -29,11 +27,8 @@ export class IntroSlidesMobileComponent {
   slideChanged() {
     if(this.sources.length == this.slides.getActiveIndex()) {
       
-      if(!this.calledFromMenu) {
-        this.navCtrl.push(UserRegistrationMobileComponent);  
-      } else {
-        this.viewCtrl.dismiss();
-      }
+      this.viewCtrl.dismiss();
+
     }
   }
 }

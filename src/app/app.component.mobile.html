@@ -1,7 +1,7 @@
 <ion-menu [content]="content" persistent class="sp-menu">
   <ion-header>
     <ion-toolbar color="app" style="padding-top: 5px">
-    	<button class="app-color" ion-item no-lines detail-none (click)="openPage(profile, {isModal: true})">
+    	<button class="app-color" ion-item no-lines detail-none (click)="openPage(profile, {isModal: true})" *ngIf="user">
 	      <ion-avatar item-left>
           <img src="assets/nobody.png" [hidden]="imgLoaded"/>
           <img img-cache img-cache-src="{{user | displayImage}}" (load)="imgLoaded = true" [hidden]="!imgLoaded">
@@ -12,21 +12,33 @@
             <span ion-text *ngIf="verified" color="secondary">Verificado</span>
           </p>
 	    </button>
+      <button class="app-color" ion-item no-lines detail-none *ngIf="!user">
+        <ion-avatar item-left>
+          <img src="assets/nobody.png" [hidden]="imgLoaded"/>
+        </ion-avatar>
+        <h2 style="color: white !important;">Anónimo</h2>
+        <p style="color: white !important;">No has iniciado sesión</p>
+      </button>
     </ion-toolbar>
   </ion-header>
   <ion-content>
     <ion-list>
 
-      <button ion-item icon-left detail-none (click)="openPage(tripsHistory, {isModal: true})" *ngIf="(user | isDriver)">
+      <button  ion-item icon-left detail-none (click)="login()" *ngIf="!user">
+        <ion-icon name="log-in" color="secondary"></ion-icon>
+        <span ion-text>Iniciar Sesión</span>
+      </button>
+
+      <button ion-item icon-left detail-none (click)="openPage(tripsHistory, {isModal: true})" *ngIf="user && (user | isDriver)">
         <ion-icon name="pin"></ion-icon>
         Historial de Viajes
       </button>
-      <button ion-item icon-left detail-none (click)="openPage(myTrips, {isModal: true})" *ngIf="!(user | isDriver)">
+      <button ion-item icon-left detail-none (click)="openPage(myTrips, {isModal: true})" *ngIf="user && !(user | isDriver)">
         <ion-icon name="walk"></ion-icon>
         Mis Viajes
       </button>
 
-      <button ion-item icon-left detail-none (click)="openPage(driverProfile, {isModal: true})" *ngIf="(user | isDriver)">
+      <button ion-item icon-left detail-none (click)="openPage(driverProfile, {isModal: true})" *ngIf="user && (user | isDriver)">
         <ion-icon name="car"></ion-icon>
         Perfil de Conductor
       </button>
@@ -39,11 +51,11 @@
       	<ion-icon name="card"></ion-icon>
         Info de Pagos
       </button> -->
-      <ion-item tappable (click)="openPage(userDocuments, {isModal: true})">
+      <ion-item tappable (click)="openPage(userDocuments, {isModal: true})" *ngIf="user">
         <ion-icon name="person"></ion-icon>
         Verificar Usuario
       </ion-item>
-      <ion-item tappable (click)="openPage(notificationList, {isModal: true})">
+      <ion-item tappable (click)="openPage(notificationList, {isModal: true})" *ngIf="user">
         <ion-icon name="notifications"></ion-icon>
         Notificaciones
         <ion-badge color="{{notificationsCount == null || notificationsCount == 0 ? 'primary':'danger'}}" item-right>{{notificationsCount && notificationsCount > 0 ? notificationsCount:0}}</ion-badge>
@@ -64,7 +76,7 @@
         Acerca de nosotros
       </button>
 
-      <button  ion-item icon-left detail-none (click)="logout()">
+      <button  ion-item icon-left detail-none (click)="logout()" *ngIf="user">
       	<ion-icon name="log-out" color="danger"></ion-icon>
         <span ion-text color="danger">Cerrar Sesión</span>
       </button>

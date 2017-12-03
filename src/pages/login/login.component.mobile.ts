@@ -1,12 +1,16 @@
 import { Component, OnDestroy, OnInit, NgZone } from '@angular/core';
-import { Platform, NavController, MenuController, AlertController } from 'ionic-angular';
+import { App, Platform, NavController, MenuController, AlertController, NavParams,
+	ModalController } from 'ionic-angular';
 import { Subscription } from 'rxjs/Subscription';
 import { Push, PushObject, PushOptions } from '@ionic-native/push';
+import { NativeStorage } from '@ionic-native/native-storage';
 import { MeteorObservable } from "meteor-rxjs";
 // TODO:
 // import { Meteor } from 'meteor-client';
 declare var Meteor;
 
+import { DashboardMobileComponent } from '../dashboard/dashboard.component.mobile';
+import { IntroSlidesMobileComponent } from '../intro/intro-slides.component.mobile';
 import { FacebookLoginManager } from '../../classes/facebook-login.class';
 import { User } from "../../shared/models";
 
@@ -22,9 +26,12 @@ export class LoginMobileComponent implements OnInit, OnDestroy {
 	usersSub: Subscription;
 	user: User;
 
-	constructor(private navCtrl: NavController, private loginManager: FacebookLoginManager, private ngZone: NgZone,
-		private platform: Platform, private menuCtrl: MenuController, private alertCtrl: AlertController, private push: Push) {
+	skipEnabled: Boolean;
 
+	constructor(private app: App, private navCtrl: NavController, private loginManager: FacebookLoginManager, 
+		private ngZone: NgZone, private platform: Platform, private menuCtrl: MenuController, 
+		private alertCtrl: AlertController, private push: Push, private navParams: NavParams,
+		private modalCtrl: ModalController, private nativeStorage: NativeStorage) {
 
 		this.platform.resume.subscribe((e: any) => {
 			if(this.platform.is('cordova')) {
@@ -41,10 +48,53 @@ export class LoginMobileComponent implements OnInit, OnDestroy {
 
   	ngOnInit() {
 		this.menuCtrl.enable(false);
+		if(this.platform.is('cordova')) {
+
+			this.nativeStorage.getItem('user_data')
+			.then(
+			data => this.skipEnabled = !data || !data.loggedIn,
+			error => {
+				if(error.code != 2) {
+			    	console.error('An error occured while trying to use native storage ', error);
+			  	}
+			  	this.skipEnabled = true; //item not found
+			});
+		} else { //just for development purposes
+			this.skipEnabled = true;
+		}
+	}
+
+	ionViewDidEnter() {
+
+		if(this.platform.is('cordova')) {
+
+			this.nativeStorage.getItem('user_data')
+			.then(
+			data => {
+				const _loggedIn = data && data.loggedIn;
+				if(!_loggedIn) {
+					this.modalCtrl.create(IntroSlidesMobileComponent).present();
+				}
+			},
+			error => {
+				if(error.code != 2) {
+			    	console.error('An error occured while trying to use native storage ', error);
+			  	} else {
+			  		this.modalCtrl.create(IntroSlidesMobileComponent).present();
+			  	}
+			});
+		} else { // just for development purposes
+			this.modalCtrl.create(IntroSlidesMobileComponent).present();
+		}
+
 	}
 
 	ngOnDestroy() {
 
+	}
+
+	exploreApp() {
+		this.app.getRootNav().setRoot(DashboardMobileComponent, {});
 	}
 
   	login() {

@@ -4,13 +4,14 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 // import { _ } from 'underscore';
 declare var Meteor;
 declare var _;
-import { NavController, NavParams, ViewController, AlertController,
+import { App, NavController, NavParams, ViewController, AlertController,
 		LoadingController, PopoverController, ModalController} from 'ionic-angular';
 import { Observable, Subscription, Subject } from "rxjs";
 import { MeteorObservable } from "meteor-rxjs"
 // TODO:
 // import { InjectUser } from "angular2-meteor-accounts-ui";
 
+import { LoginMobileComponent } from '../login/login.component.mobile';
 import { TripFilterMobileComponent } from './trip-filter.component.mobile';
 import { UserProfileMobileComponent } from '../user/user-profile.component.mobile';
 import { CheckoutMobileComponent } from '../checkout/checkout.component.mobile';
@@ -64,7 +65,7 @@ export class TripListMobileComponent implements OnInit, OnDestroy {
 	user: any;
 
 	constructor(private navCtrl: NavController, navParams: NavParams, private viewCtrl: ViewController,
-		private alertCtrl: AlertController, private loadingCtrl: LoadingController,
+		private alertCtrl: AlertController, private loadingCtrl: LoadingController, private app: App,
 		private modalCtrl: ModalController, private popoverCtrl: PopoverController) {
 
 		this.place = navParams.get("place");
@@ -277,13 +278,36 @@ export class TripListMobileComponent implements OnInit, OnDestroy {
 	}
 
 	openCheckout(trip_id: string) {
-		let modal = this.modalCtrl.create(CheckoutMobileComponent, {'trip_id': trip_id});
-		modal.present();
-		modal.onDidDismiss((data) => {
-			if(data && data.close) {
-    			this.viewCtrl.dismiss();
-    		}
-    	});
+		if(!this.user) {
+			let alert = this.alertCtrl.create({
+	          'title': 'No has iniciado sesión',
+	          'subTitle': 'Para poder unirte a un viaje es necesario que inicies sesión',
+	          'enableBackdropDismiss': false,
+	          buttons: [
+	            {
+	              text: 'Cerrar',
+	              role: 'cancel',
+	              handler: () => {
+	              }
+	            },
+	            {
+	              text: 'Iniciar Sesión',
+	              handler: () => {
+	              	this.viewCtrl.dismiss();
+	                this.app.getRootNav().setRoot(LoginMobileComponent, {'skip_enabled': true});
+	              }
+	            }]
+	        });
+	        alert.present();
+		} else {
+			let modal = this.modalCtrl.create(CheckoutMobileComponent, {'trip_id': trip_id});
+			modal.present();
+			modal.onDidDismiss((data) => {
+				if(data && data.close) {
+	    			this.viewCtrl.dismiss();
+	    		}
+	    	});
+		}
 	}
 
 	dismiss() {
