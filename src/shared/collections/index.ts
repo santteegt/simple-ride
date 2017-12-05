@@ -1,3 +1,5 @@
+export * from './campaings.collection';
+export * from './campaing-logs.collection';
 export * from './car-records.collection';
 export * from './chat-messages.collection';
 export * from './images.collection';

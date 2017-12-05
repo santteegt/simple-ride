@@ -1,3 +1,5 @@
+export * from './campaing.model';
+export * from './campaing-log.model';
 export * from './car-record.model';
 export * from './chat-message.model';
 export * from './driver-status.model';

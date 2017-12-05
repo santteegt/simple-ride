@@ -4,6 +4,7 @@ import { LoginComponent } from './admin/login.component.web';
 import { TripsComponent } from './admin/trips.component.web';
 import { TripComponent } from './admin/trip.component.web';
 import { SharedTripComponent } from './share/shared-trip.component.web';
+import { CampaingsComponent } from './admin/campaings.component.web';
 
 export const WEB_DECLARATIONS = [
 	DashboardComponent,
@@ -11,5 +12,6 @@ export const WEB_DECLARATIONS = [
 	LoginComponent,
 	TripsComponent,
 	TripComponent,
-	SharedTripComponent
+	SharedTripComponent,
+	CampaingsComponent
 ]

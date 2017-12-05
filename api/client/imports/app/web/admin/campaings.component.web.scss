@@ -1,0 +1,108 @@
+.admin{
+	background-color: #472F92;
+	color: #000;
+}
+
+.admin .header{
+	color: #fff;
+}
+
+.admin .header{
+	min-height: 10vh;
+}
+
+.admin .header h2{
+	line-height: 50px;
+}
+
+.admin .header button{
+	margin-top: 10px;
+	color: #fff;
+	border-color: #fff;
+	background-color: transparent;
+}
+
+.admin .header a:not(.dropdown-item){
+	margin-top: 10px;
+	color: #fff;
+	border: 1px solid #fff;
+	background-color: transparent;
+}
+
+.open .dropdown-menu{
+	display: block;
+}
+
+/* Custom Code */
+
+.admin .tabs a{
+	padding: 5px 20px;
+	color: #fff;
+	border: 1px solid #fff;
+	background-color: transparent;
+}
+
+.admin .tab-content .tab-pane{
+	background-color: #472F92;
+	color: #fff;
+	height: 100vh;
+}
+
+.admin .tabs .tab-content{
+	height: 100vh;
+}
+
+table{
+	margin: 20px auto;
+	width: 80%;
+	color: #fff;
+}
+
+table th, table td{
+	padding: 10px 20px;
+	border: 1px solid #fff;
+}
+
+.campaings{
+	height: 90vh;
+}
+
+.campaings h2{
+	color: #fff;
+}
+
+.campaings input[type="text"]{
+	width: 100%;
+	padding: 5px;
+	margin-bottom: 10px;
+}
+
+.campaings textarea{
+	width: 100%;
+	padding: 5px;
+}
+
+.campaings .audience{
+	color: #fff;
+	font-size: 18px;
+	padding: 10px;
+}
+
+.campaings button{
+	width: 100%;
+	padding: 10px;
+}
+
+.add-campaing{
+	width: 250px;
+	float: left;
+	overflow: hidden;
+	padding: 25px;
+}
+
+.list-campaings{
+	width: calc(100% - 250px);
+	float: left;
+	max-height: 90vh;
+	overflow: auto;
+}

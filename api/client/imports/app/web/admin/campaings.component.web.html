@@ -1,0 +1,53 @@
+<div class="admin" *ngIf="isAdmin">
+	<div class="header row" style="max-height: 15vh;">
+		<div class="col-3">
+			<a href="/admin" type="button" class="btn">Regresar</a>
+		</div>
+		<div class="col-6 text-center"><h2>Administrador</h2></div>
+		<div class="col-3 text-right">
+	    <div class="btn-group" dropdown>
+	      <button dropdownToggle type="button" class="btn dropdown-toggle">{{user.personData.forename}} {{user.personData.surname}}<span class="caret"></span></button>
+	      <ul *dropdownMenu class="dropdown-menu" role="menu">
+	        <li role="menuitem"><a class="dropdown-item" (click)="logout()">Cerrar Sesión</a></li>
+	      </ul>
+	    </div>
+		</div>
+	</div>
+
+	<div class="campaings text-center">
+		<div class="add-campaing">
+			<h2>Campañas</h2>
+			<input type="text" placeholder="Título" [(ngModel)]="title"/><br>
+			<textarea rows="4" cols="50" placeholder="Mensaje" [(ngModel)]="message"></textarea><br>
+			<div class="audience">
+				<input type="radio" [(ngModel)]="audience" value="all"> Todos ({{ totalDrivers + totalTravellers }})<br>
+			  <input type="radio" [(ngModel)]="audience" value="drivers"> Conductores ({{ totalDrivers }})<br>
+			  <input type="radio" [(ngModel)]="audience" value="travellers"> Pasajeros ({{ totalTravellers }})<br>
+			</div>
+			<button type="button" class="btn btn-primary" (click)="addCampaing()">Agregar</button>
+		</div>
+		<div class="list-campaings">
+			<table>
+				<thead>
+					<tr>
+						<td>Título</td>
+						<td>Mensaje</td>
+						<td>Público</td>
+						<td>Enviados</td>
+						<td>Acciones</td>
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let campaing of campaingsObs | async">
+						<td>{{ campaing.title }}</td>
+						<td>{{ campaing.message }}</td>
+						<td>{{ campaing.audience }}</td>
+						<td>{{ campaing.total_sent }}</td>
+						<td><button type="button" class="btn btn-primary" (click)="sendCampaing(campaing._id)">Enviar</button><button type="button" class="btn btn-danger" (click)="deleteCampaing(campaing._id)">Eliminar</button></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+</div>

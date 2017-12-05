@@ -11,6 +11,8 @@ import "./imports/publications/chat-messages";
 import "./imports/publications/trip-flags";
 import "./imports/publications/notifications";
 import "./imports/publications/user-places.ts";
+import "./imports/publications/campaings.ts";
+import "./imports/publications/campaing-logs.ts";
 import "./imports/push"; // ENABLE PUSH NOTIFICATIONS
 
 declare var SyncedCron;

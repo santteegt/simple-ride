@@ -1,6 +1,10 @@
 import { Meteor } from 'meteor/meteor';
 import { _ } from 'underscore';
 
+import { Push } from 'meteor/raix:push';
+import { Notifications } from '../../both/collections/notifications.collection';
+import { Notification, NotificationBody } from '../../both/models/notification.model';
+import { User } from '../../both/models/user.model';
 import { Users } from '../../both/collections/users.collection';
 import { UserPlaces } from '../../both/collections/user-places.collection';
 
@@ -85,16 +89,6 @@ Meteor.methods({
     });
     }
     return {status: 200, message: 'OK'}
-  },
-  isAdmin: function(user_id: String){
-    if(Meteor.isServer){
-      let user = Users.findOne({_id: user_id});
-      if(user && user['adminData'] && user['adminData']['isAdmin']){
-        return {status: 200, message: 'OK', };
-      }else{
-        return {status: 500, message: 'Unauthorized', };
-      }
-    }
   },
   updateUserDevice: function(user_id: String, device_type: String){
     if(Meteor.isServer){
