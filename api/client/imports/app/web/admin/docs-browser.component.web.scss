@@ -29,30 +29,13 @@
 	background-color: transparent;
 }
 
-.admin .container{
-	height: 100vh;
-	text-align: center;
-}
-
-.admin .container img{
-	margin: 50px auto;
-}
-
-.admin .container button{
-	color: #fff;
-	border-color: #FFF;
-	background-color: transparent;
-	margin: 50px auto;
-	font-size: 2rem;
-}
-
 .open .dropdown-menu{
 	display: block;
 }
 
 .voucher-object {
 	display: block;
-	height: 200px;
+	height: auto;
 	width: 250px;
 	padding-right: 50px;
 }
@@ -61,4 +44,45 @@
 	background-color: #472F92;
 	color: #fff;
 	height: 100vh;
+}
+
+.admin h4{
+	font-size: 36px;
+	margin-bottom: 20px;
+}
+
+.admin p{
+	font-size: 18px;
+}
+
+.media-right button{
+	padding: 10px 40px;
+	width: 200px;
+	border-radius: 25px;
+	height: 50px;
+	line-height: 30px;
+	display: block;
+	margin: 10px auto;
+	cursor: pointer;
+}
+
+@media screen and (max-width: 768px) {
+	.media {
+    display: block;
+	}
+
+	.media-left{
+		width: 100%;
+	}
+
+	.voucher-object{
+		padding: 0px;
+		margin: 0 auto;
+	}
+
+	.media-body{
+		width: 100%;
+		text-align: center;
+	}
+
 }

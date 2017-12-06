@@ -31,20 +31,44 @@
 	color: #fff;
 	border-color: #fff;
 	background-color: transparent;
-	margin: 50px auto;
+	margin: 30px auto 20px;
 	font-size: 2rem;
+	border-radius: 25px;
+	height: 50px;
+	line-height: 30px;
+	width: 200px;
+	text-decoration: none;
+	cursor: pointer;
 }
 
 .admin .container a{
 	color: #fff;
-	border: 1px solid #fff;
+	border: 2px solid #fff;
 	background-color: transparent;
-	margin: 50px auto;
+	margin: 30px auto 20px;
 	padding: 10px 20px;
 	font-size: 2rem;
 	display: inline-block;
+	height: 100px;
+	line-height: 80px;
+	border-radius: 25px;
+	width: 100%;
+	text-decoration: none;
+}
+
+.admin .container a:hover, .admin .container button:hover{
+	background-color: #fff;
+	color: #472F92;
 }
 
 .open .dropdown-menu{
 	display: block;
+}
+
+@media screen and (max-width: 768px) {
+	.admin .container{
+		height: auto;
+		overflow: hidden;
+		min-height: calc(100vh - 100px);
+	}
 }

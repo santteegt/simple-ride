@@ -101,6 +101,7 @@
 					    <h4 class="media-heading">Datos</h4>
 					    <p><strong>Nombre: </strong>{{userList ? getUser(register.user_id).personData.forename + ' ' + getUser(register.user_id).personData.surname : ''}}</p>
 					    <p><strong>Cedula: </strong>{{userList ? getUser(register.user_id).personData.dni : ''}}</p>
+							<p><strong>Placa: </strong>{{userList ? getUser(register.user_id).driverData.carRegister : ''}}</p>
 					  </div>
 					  <div class="media-right">
 						<button type="button" class="btn btn-primary" (click)="approveDocument(register)">Aprobar</button>

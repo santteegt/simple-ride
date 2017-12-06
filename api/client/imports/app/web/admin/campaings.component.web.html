@@ -27,26 +27,16 @@
 			<button type="button" class="btn btn-primary" (click)="addCampaing()">Agregar</button>
 		</div>
 		<div class="list-campaings">
-			<table>
-				<thead>
-					<tr>
-						<td>Título</td>
-						<td>Mensaje</td>
-						<td>Público</td>
-						<td>Enviados</td>
-						<td>Acciones</td>
-					</tr>
-				</thead>
-				<tbody>
-					<tr *ngFor="let campaing of campaingsObs | async">
-						<td>{{ campaing.title }}</td>
-						<td>{{ campaing.message }}</td>
-						<td>{{ campaing.audience }}</td>
-						<td>{{ campaing.total_sent }}</td>
-						<td><button type="button" class="btn btn-primary" (click)="sendCampaing(campaing._id)">Enviar</button><button type="button" class="btn btn-danger" (click)="deleteCampaing(campaing._id)">Eliminar</button></td>
-					</tr>
-				</tbody>
-			</table>
+			<h2>Campañas</h2>
+			<div class="row" *ngFor="let campaing of campaingsObs | async">
+				<div class="col-sm-12 col-md-6 text-left">
+					<b>{{ campaing.title }}</b>
+					<p>{{ campaing.message }}</p>
+					<p>Audiencia: {{ campaing.audience }}</p>
+					<p>Enviado: {{ campaing.total_sent }}</p>
+				</div>
+				<div class="col-sm-12 col-md-6"><button type="button" class="btn btn-primary" (click)="sendCampaing(campaing._id)">Enviar</button><button type="button" class="btn btn-danger" (click)="deleteCampaing(campaing._id)">Eliminar</button></div>
+			</div>
 		</div>
 	</div>
 

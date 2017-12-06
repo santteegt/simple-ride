@@ -10,7 +10,7 @@ function loggedIn() {
 
 
 Campaings.allow({
-  insert: loggedIn,
-  update: loggedIn,
+  insert: () => { return false; },
+  update: () => { return false; },
   remove: () => { return false; }
 });
