@@ -128,7 +128,7 @@ ionic serve # run on the desktop
 
 ```
 
-### Develop/Teset admin pages locally
+### Develop/Test admin pages locally
 
 * In order to develop/test admin features make sure to specity port 3000 in the ROOT_URL environment variable on the `api` script defined in the packages.json file. For example: `ROOT_URL=http://<local_IP_address>:<3000>`. This is very important to configure if you don't have to experiment any issues with facebook login
 
