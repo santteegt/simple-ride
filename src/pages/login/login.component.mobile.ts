@@ -28,8 +28,8 @@ export class LoginMobileComponent implements OnInit, OnDestroy {
 
 	skipEnabled: Boolean;
 
-	constructor(private app: App, private navCtrl: NavController, private loginManager: FacebookLoginManager, 
-		private ngZone: NgZone, private platform: Platform, private menuCtrl: MenuController, 
+	constructor(private app: App, private navCtrl: NavController, private loginManager: FacebookLoginManager,
+		private ngZone: NgZone, private platform: Platform, private menuCtrl: MenuController,
 		private alertCtrl: AlertController, private push: Push, private navParams: NavParams,
 		private modalCtrl: ModalController, private nativeStorage: NativeStorage) {
 
@@ -99,11 +99,10 @@ export class LoginMobileComponent implements OnInit, OnDestroy {
 
   	login() {
   		this.loginManager.login().then(msg => { //redirection is handled automatically by the AppMobileComponent
-      let device_type = this.platform.is('ios') ? 'ios':(this.platform.is('android') ? 'android':'other');
-      MeteorObservable.call('updateUserDevice', Meteor.userId(), device_type).subscribe((rs) => {});
-			const options: PushOptions = {
+			const options: any = {
+			// const options: PushOptions = {
 	          android: {
-	            // senderID: "93847795927",
+	            senderID: "93847795927",
 	            sound: true,
 	            vibrate: true,
 	            clearBadge: true
@@ -136,7 +135,8 @@ export class LoginMobileComponent implements OnInit, OnDestroy {
 		      	}
 	        });
 	        pushObject.on('error').subscribe(error => console.error('Error with Push plugin', error));
-
+			let device_type = this.platform.is('ios') ? 'ios':(this.platform.is('android') ? 'android':'other');
+	        MeteorObservable.call('updateUserDevice', Meteor.userId(), device_type).subscribe((rs) => {});
   		})
   		.catch((error) => {
   			console.log(error);
