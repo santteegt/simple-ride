@@ -206,7 +206,7 @@ process.env.NODE_ENV = "development";
 
 2. You need to obtain a Server API Key and a SENDERID from the Firebase Cloud Messaging console
 
-3. Update the SENDERID value on the files `client/imports/app/mobile/push.ts` and `mobile-config.js`
+3. Update the SENDERID value on the files `src/app/main.ts` and `api/server/mobile-config.js`
 
 4. Update the gcm apikey on the file `server/imports/push.js`
 
@@ -219,3 +219,5 @@ process.env.NODE_ENV = "development";
 declare var process;
 process.env.NODE_ENV = "development";
 ```
+
+7. In production, remember to link your FCM APi Key with the app in Google Play. Take a look at this [README](https://github.com/raix/push/blob/master/docs/ANDROID.md#linking-the-fcm-service-to-your-android-app) for instructions
