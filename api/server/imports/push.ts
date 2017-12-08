@@ -18,6 +18,7 @@ Push.Configure({
   },
   gcm: {
     apiKey: 'AAAAFdnDuNc:APA91bEgzEvj-4MwU9xvEoyYSt1bmzzMD-naR-02ZPwlQvUWrpxCIHIKbDtsMU1WytYaLcagYI8qldvpAynpiL47hBYEnZMfPDQHsd0u-bK1QgaEGlBYj3EFzMQQgSImFL5RwwS2TQe3',
+    projectNumber: 93847795927
   }
 });
 
