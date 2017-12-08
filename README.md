@@ -128,6 +128,10 @@ ionic serve # run on the desktop
 
 ```
 
+### Develop/Teset admin pages locally
+
+In order to develop/test admin features make sure to specity port 3000 in the ROOT_URL environment variable on the `api` script defined in the packages.json file. For example: `ROOT_URL=http://<local_IP_address>:<3000>`. This is very important to configure if you don't have to experiment any issues with facebook login
+
 ### Deploying the Server under a AWS EC2 instance using mup
 
 * Configure `api/.deploy/mup.js` accordingly
@@ -206,11 +210,9 @@ process.env.NODE_ENV = "development";
 
 2. You need to obtain a Server API Key and a SENDERID from the Firebase Cloud Messaging console
 
-3. Update the SENDERID value on the files `src/app/main.ts` and `api/server/mobile-config.js`
+3. Update the SENDERID value on the `src/app/pages/login/login.component.mobile.ts` component
 
-4. Update the gcm apikey on the file `server/imports/push.js`
-
-5. **REMINDER** If developing only for android devices, remember to disable the APN configuration on the previous file
+4. Update the FCM API key on the file `server/imports/push.js`
 
 6. If you are testing push notifications under development, enable the following lines on the `server/main.js` file:
 
