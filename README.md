@@ -130,7 +130,9 @@ ionic serve # run on the desktop
 
 ### Develop/Teset admin pages locally
 
-In order to develop/test admin features make sure to specity port 3000 in the ROOT_URL environment variable on the `api` script defined in the packages.json file. For example: `ROOT_URL=http://<local_IP_address>:<3000>`. This is very important to configure if you don't have to experiment any issues with facebook login
+* In order to develop/test admin features make sure to specity port 3000 in the ROOT_URL environment variable on the `api` script defined in the packages.json file. For example: `ROOT_URL=http://<local_IP_address>:<3000>`. This is very important to configure if you don't have to experiment any issues with facebook login
+
+* Make sure to shutdown any NGINX server configured to make the mobile app work locally.
 
 ### Deploying the Server under a AWS EC2 instance using mup
 
@@ -214,7 +216,7 @@ process.env.NODE_ENV = "development";
 
 4. Update the FCM API key on the file `server/imports/push.js`
 
-6. If you are testing push notifications under development, enable the following lines on the `server/main.js` file:
+5. If you are testing push notifications under development, enable the following lines on the `server/main.js` file:
 
 ```
 // For testing push notifications under development
@@ -222,4 +224,4 @@ declare var process;
 process.env.NODE_ENV = "development";
 ```
 
-7. In production, remember to link your FCM APi Key with the app in Google Play. Take a look at this [README](https://github.com/raix/push/blob/master/docs/ANDROID.md#linking-the-fcm-service-to-your-android-app) for instructions
+6. In production, remember to link your FCM APi Key with the app in Google Play. Take a look at this [README](https://github.com/raix/push/blob/master/docs/ANDROID.md#linking-the-fcm-service-to-your-android-app) for instructions
