@@ -15,3 +15,4 @@ export * from './user-ride-monitor.model';
 export * from './user-status.model';
 export * from './user-trip-flag.model';
 export * from './user.model';
+export * from './app-activity-log.model';
