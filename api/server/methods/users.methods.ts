@@ -7,6 +7,9 @@ import { Notification, NotificationBody } from '../../both/models/notification.m
 import { User } from '../../both/models/user.model';
 import { Users } from '../../both/collections/users.collection';
 import { UserPlaces } from '../../both/collections/user-places.collection';
+import { AppActivityLog } from '../../both/models/app-activity-log.model';
+import { AppActivityLogs } from '../../both/collections/app-activity-logs.collection';
+
 
 import { USER_STATUS } from '../../both/models/user-status.model';
 import { DRIVER_STATUS } from '../../both/models/driver-status.model';
@@ -95,5 +98,20 @@ Meteor.methods({
       Users.update({_id: user_id}, {$set:{'personData.device_type': device_type}});
       return {status: 200, message: 'OK'}
     }
+  },
+
+  registerUserActivity: function(user_id: string, activity: string) {
+
+    let record: AppActivityLog = {
+      user_id: user_id,
+      activity: activity,
+      timelog: new Date
+    }
+
+    AppActivityLogs.insert(record);
+
+    return {status: 200, message: 'OK'};
+
   }
+  
 });
