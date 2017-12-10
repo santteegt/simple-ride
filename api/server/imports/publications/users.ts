@@ -75,6 +75,7 @@ Meteor.publish('user-public-data', function(users_id: string[]) {
         'personData.city': 1,
         'personData.state': 1,
         'personData.conversation': 1,
+        'personData.status': 1,
         'driverData': 1
       }
     });
