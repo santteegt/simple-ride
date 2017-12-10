@@ -81,7 +81,7 @@ export class TripHistoryMobileComponent implements OnInit, OnDestroy {
 			// limit: pageSize as number,
 			// skip: ((curPage as number) - 1) * (pageSize as number),
 			sort: {
-				departureDate: 1,
+				departureDate: -1
 				// departureTime: -1
 			}
 		};
@@ -100,7 +100,7 @@ export class TripHistoryMobileComponent implements OnInit, OnDestroy {
 					{cancellation_date: {$ne: undefined }},
 					{departureDate: {$lt: new Date()}}
 					]
-			});
+			}, options);
 
 			this.hasPastTrips = trips.fetch().length > 0;
 
