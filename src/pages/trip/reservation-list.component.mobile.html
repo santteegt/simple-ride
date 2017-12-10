@@ -38,8 +38,13 @@
 		  					<ion-row>
 				  				<button ion-item no-lines detail-none (click)="openUserProfile(rsvp.user_id)">
 							      <ion-avatar item-left>
-							        <img src="assets/nobody.png" [hidden]="loadingImgs[rsvp.user_id]"  style="width: 50px; height: 50px;"/>
-									<img img-cache img-cache-src="{{users && users.length > 0 ? getUserInfo(rsvp.user_id).personData.profileImg:''}}" (load)="loadedImg(rsvp.user_id)" [hidden]="!loadingImgs[rsvp.user_id]" style="width: 50px; height: 50px;">
+							      	<div>
+								        <img src="assets/nobody.png" [hidden]="loadingImgs[rsvp.user_id]"  style="width: 50px; height: 50px;"/>
+										<img img-cache img-cache-src="{{users && users.length > 0 ? getUserInfo(rsvp.user_id).personData.profileImg:''}}" (load)="loadedImg(rsvp.user_id)" [hidden]="!loadingImgs[rsvp.user_id]" style="width: 50px; height: 50px;">
+										<div class='verified-user' *ngIf="users && users.length > 0 && getUserInfo(rsvp.user_id).personData.status == 'verified'">
+					                      <ion-icon name="checkmark-circle" color="secondary"></ion-icon>
+					                    </div>
+									</div>
 							      </ion-avatar>
 							      	<h3>{{users && users.length > 0 ? getUserInfo(rsvp.user_id).personData.forename:''}}</h3>
 							      	<p>{{users && users.length > 0 ? getUserInfo(rsvp.user_id).personData.surname:''}}</p>

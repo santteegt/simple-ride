@@ -10,7 +10,8 @@ import { Observable, Subscription } from "rxjs";
 import { MeteorObservable } from "meteor-rxjs";
 
 import { UserRating } from '../../shared/models/reservation.structure';
-import { User, CarRecord, UserRecord, Reservation, CONVERSATIONSTYLES } from '../../shared/models';
+import { User, CarRecord, UserRecord, Reservation, CONVERSATIONSTYLES, 
+	USER_STATUS, DRIVER_STATUS } from '../../shared/models';
 import { Users, CarRecords, UserRecords, Reservations } from '../../shared/collections';
 
 import { TripUtils } from '../../classes/trip-utils.class';
@@ -41,6 +42,7 @@ export class UserProfileMobileComponent implements OnInit, OnDestroy {
 
 	user_id: string;
 	userData;
+	verified: boolean;
 	isDriver: boolean;
 	isPushNav: boolean;
 
@@ -58,6 +60,10 @@ export class UserProfileMobileComponent implements OnInit, OnDestroy {
 		this.user_id = navParams.get("user_id");
 		this.isDriver = navParams.get("isDriver");
 		this.userData = navParams.get("userData");
+		this.verified = this.isDriver ? 
+			this.userData['driverData'].status == DRIVER_STATUS.VERIFIED:
+			this.userData['personData'].status == USER_STATUS.VERIFIED;
+
 		this.isPushNav = navParams.get("isPushNav");
 
 	    this.conversationStyle = CONVERSATIONSTYLES.styles.filter((style) => {
@@ -111,8 +117,6 @@ export class UserProfileMobileComponent implements OnInit, OnDestroy {
       		let driverRSVPList = driverRSVP.fetch();
 
 			this.userRating = this.tripUtils.calculateUsersRating(driverRSVPList, this.isDriver);
-
-			console.log(this.userRating);
 
 			let reviewers_ids = _.map(driverRSVPList, (reservation: Reservation) => {
 				return reservation[this.isDriver ? 'user_id':'driver_id'];

@@ -1,0 +1,15 @@
+@import "../../theme/colorsvar";
+
+.verified-icon {
+	position: absolute;
+    top: 45px;
+    left: 50px;
+}
+
+.verified-color {
+	color: $secondary;
+}
+
+.unverified-color {
+	color: $danger;	
+}

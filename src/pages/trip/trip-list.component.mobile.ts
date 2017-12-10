@@ -64,6 +64,8 @@ export class TripListMobileComponent implements OnInit, OnDestroy {
 
 	user: any;
 
+	loadingImgs: any;
+
 	constructor(private navCtrl: NavController, navParams: NavParams, private viewCtrl: ViewController,
 		private alertCtrl: AlertController, private loadingCtrl: LoadingController, private app: App,
 		private modalCtrl: ModalController, private popoverCtrl: PopoverController) {
@@ -71,6 +73,7 @@ export class TripListMobileComponent implements OnInit, OnDestroy {
 		this.place = navParams.get("place");
 
 		this.driverRating = [];
+		this.loadingImgs = {};
 
 	}
 
@@ -182,6 +185,10 @@ export class TripListMobileComponent implements OnInit, OnDestroy {
 		this.driverRSVPSub.unsubscribe();
 		this.filterSub.unsubscribe();
 
+	}
+
+	loadedImg(id: string) {
+		this.loadingImgs[id] = true;
 	}
 
 	getDriverRating(driver_id: string) {
