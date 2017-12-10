@@ -31,7 +31,7 @@ import { OfflinePageMobileComponent } from '../pages/terms/offline-page.componen
 import { PaymentInfoMobileComponent } from '../pages/user/payment-info.component.mobile';
 
 import { UserTripFlags, Users } from "../shared/collections";
-import { UserTripFlag, Person, USER_STATUS, DRIVER_STATUS } from "../shared/models";
+import { UserTripFlag, Person, USER_STATUS, DRIVER_STATUS, ACTIVITIES } from "../shared/models";
 
 import { IsUserIncompletePipe } from '../classes/shared/is-user-incomplete.pipe';
 // import { UserTripFlags, Users } from "api/collections";
@@ -150,11 +150,11 @@ export class MyApp {
       //   }
       // });
 
+      this.app._setDisableScroll(false);
+
       imgCache.init({debug: true, usePersistentCache: true}).then(() => {
 
         this.autorunConnected = MeteorObservable.autorun().subscribe(() => {
-
-          this.app._setDisableScroll(false);
 
           let connected = Meteor.status().connected;
           console.log('connection alive: ' + connected);
@@ -174,6 +174,8 @@ export class MyApp {
                 this.rootPage = LoginMobileComponent;
                 
               } else if(Meteor.user()) {
+
+                this.registerUserActivity(ACTIVITIES.APPOPENED);
 
                 if(this.platform.is('cordova')) {
                   this.nativeStorage.setItem('user_data', {loggedIn: true})
@@ -351,7 +353,10 @@ export class MyApp {
     Meteor.logout();
   }
 
-
+  registerUserActivity(activity: string) {
+    MeteorObservable.call('registerUserActivity', Meteor.userId(), activity).subscribe((rs) => {/*console.log(rs)*/});
+    
+  }
 
   ngOnDestroy() {
     this.tripFlagSub.unsubscribe();
