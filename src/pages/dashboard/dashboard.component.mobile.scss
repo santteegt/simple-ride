@@ -107,3 +107,19 @@
 ion-toolbar.toolbar-ios ion-title {
   padding: 0;
 }
+
+.toast-loading .toast-message:before {
+  content: '\f1bc';
+  color: white;
+  display: inline-block;
+  font-family: "Ionicons";
+  font-style: normal;
+  font-weight: bolder;
+  font-variant: normal;
+  text-transform: none;
+  text-rendering: auto;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  padding-right: 10px;
+  font-size: 2rem;
+}

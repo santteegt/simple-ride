@@ -1,7 +1,13 @@
+@import "../../theme/colorsvar";
+
 .invalid {
 	border: 1px solid #ea6153;
 }
 
 .app-color.item-md.activated{
 	background-color: color($colors, app);
+}
+
+.toast-error > div.toast-top {
+	background: $danger;
 }

@@ -5,7 +5,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 declare var Meteor;
 import {MeteorObservable} from "meteor-rxjs";
 import { Platform, NavController, NavParams, ViewController, ToastController,
-	ModalController, LoadingController, Select } from 'ionic-angular';
+	ModalController, LoadingController, Select, AlertController } from 'ionic-angular';
 import { Keyboard } from '@ionic-native/keyboard';
 
 import { UserRegistration } from "../../classes/user-registration.class";
@@ -18,12 +18,13 @@ import { CONVERSATIONSTYLES } from '../../shared/models';
 import { PoliceRecord } from '../../shared/models/policy.structures';
 
 import { GeolocationService } from "../../classes/services/geolocation.service";
+import { UIUtilsService } from "../../classes/services/ui-utils.service";
 import { Utils } from '../../classes/shared/utils';
 
 @Component({
   selector: 'registration',
   templateUrl: 'registration.component.mobile.html',
-  providers: [GeolocationService, Utils]
+  providers: [GeolocationService, UIUtilsService, Utils]
 })
 export class UserRegistrationMobileComponent extends UserRegistration implements OnInit, OnDestroy {
   @ViewChild(Select) typeid: Select;
@@ -46,8 +47,9 @@ export class UserRegistrationMobileComponent extends UserRegistration implements
 
   constructor(private platform: Platform, private navCtrl: NavController, navParams: NavParams,
   	private viewCtrl: ViewController, private keyboard: Keyboard,
-	private formBuilder: FormBuilder, private toastCtrl: ToastController, private modalCtrl: ModalController,
-	private loadingCtrl: LoadingController, private geoService: GeolocationService, public utils: Utils) {
+	private formBuilder: FormBuilder, private modalCtrl: ModalController,
+	private loadingCtrl: LoadingController, private geoService: GeolocationService, 
+	private uiUtils: UIUtilsService, public utils: Utils) {
 
 		super();
 		this.submitAttempt = false;
@@ -177,10 +179,21 @@ export class UserRegistrationMobileComponent extends UserRegistration implements
     // }
 
     validateId(event: any) {
+
+    	if(this.uiUtils.toastInstance) {
+    		this.uiUtils.toastInstance.dismiss();
+    	}
+
     	let id = this.myformGroup.value.dni;
+    	// if(id == '1111111111') { //this fake id is registered in the service used for validation
+    	// 	this.validId = false;
+    	// 	this.uiUtils.presentToast("El documento de identificación no es válido", 'toast-error', true, 'Cerrar');
+    	// 	return;
+    	// }
+
       if(id!=null && id.length > 0 && (!this.validId || id != this.lastId)) {
 	    	this.loader = this.loadingCtrl.create({
-		      content: "Validando...",
+		      content: "Validando ID...",
 		      spinner: "crescent"
 		    });
 		    this.lastId = id;
@@ -196,19 +209,21 @@ export class UserRegistrationMobileComponent extends UserRegistration implements
 	    		me.loader.dismiss();
 
 					if(this.policeRecord.registered){
-						this.presentToast("El documento de identificación ya existe.");
+						this.uiUtils.presentToast("El documento de identificación ya se encuentra registrado con otro usuario.", 
+							'toast-error', true, 'OK');
 						this.validId = false;
 					}
 
-          if(!this.policeRecord.found && this.policeRecord.response && this.policeRecord.response.idr == 'error') {
-            this.presentToast("Tenemos problemas verificando tú información. Asegurate de haber ingresado correctamente tú número de cédula.");
-            this.validId = true;
-          }else if(!this.policeRecord.found && this.myformGroup.value.typeid == 'dni') {
-	    			this.presentToast("El documento de identificación no es válido");
-	    		}
-	       }, (err) => {
-	       	me.loader.dismiss();
-          this.presentToast("Error interno. Por favor intenta de nuevo.");
+				if(!this.policeRecord.found && this.policeRecord.response && this.policeRecord.response.idr == 'error') {
+					const errorMsg = "Tenemos problemas verificando tú información. Asegurate de haber ingresado correctamente tú número de cédula.";
+					this.uiUtils.presentToast(errorMsg, 'toast-error', true, 'Cerrar');
+					this.validId = true;
+				} else if(!this.policeRecord.found && this.myformGroup.value.typeid == 'dni') {
+					this.uiUtils.presentToast("El documento de identificación no es válido", 'toast-error', true, 'Cerrar');
+				}
+	        }, (err) => {
+	       		me.loader.dismiss();
+          		this.uiUtils.presentToast("Error interno. Por favor intenta de nuevo.", 'toast-error', false, undefined, 3000);
 	       });
 	    }
 
@@ -219,6 +234,9 @@ export class UserRegistrationMobileComponent extends UserRegistration implements
     }
 
     registerUser() {
+    	if(this.uiUtils.toastInstance) {
+    		this.uiUtils.toastInstance.dismiss();
+    	}
     	this.submitAttempt = true;
     	if(this.myformGroup.valid) {
     		if(this.checkIdValidation()) {
@@ -243,16 +261,16 @@ export class UserRegistrationMobileComponent extends UserRegistration implements
             this.dismiss();
           }
 	    	} else {
-          this.presentToast("Error interno. Por favor intenta de nuevo.");
+          this.uiUtils.presentToast("Error interno. Por favor intenta de nuevo.", 'toast-error', false, undefined, 3000);
 	    	}
 	    	//this.navCtrl.push(this.isDriver && !this.isModal ? CarRegistrationMobileComponent:DashboardMobileComponent, {});
 	    	return true;
 	    } else {
 	    	this.validId = false;
-	    	this.presentToast("El documento de identificación no es válido");
+	    	this.uiUtils.presentToast("El documento de identificación no es válido", 'toast-error', true, 'Cerrar');
 	    }
 	    } else {
-	    	this.presentToast("Debes rellenar todos los campos requeridos (*)");
+	    	this.uiUtils.presentToast("Debes rellenar todos los campos requeridos (*)", 'toast-error', false, undefined, 3000);
 	    }
 	    return false;
 
@@ -262,16 +280,10 @@ export class UserRegistrationMobileComponent extends UserRegistration implements
 		this.loadingImgs[id] = true;
 	}
 
-    presentToast(message: string) {
-		let toast = this.toastCtrl.create({
-		  message: message,
-		  position: 'top',
-		  duration: 3000
-		});
-		toast.present();
-	}
-
 	termsOfService() {
+		if(this.uiUtils.toastInstance) {
+    		this.uiUtils.toastInstance.dismiss();
+    	}
 		let modal = this.modalCtrl.create(TermsOfServiceMobileComponent);
     	modal.present();
 	}
@@ -291,6 +303,9 @@ export class UserRegistrationMobileComponent extends UserRegistration implements
   }
 
 	dismiss() {
+		if(this.uiUtils.toastInstance) {
+    		this.uiUtils.toastInstance.dismiss();
+    	}
 		this.viewCtrl.dismiss();
 	}
 

@@ -1,0 +1,10 @@
+@import "../../theme/colorsvar";
+
+
+.toast-error > div.toast-top {
+	background: $danger;
+}
+
+.toast-ok > div.toast-top {
+	background: $secondary;
+}

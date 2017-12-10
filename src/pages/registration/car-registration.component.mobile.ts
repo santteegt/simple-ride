@@ -3,12 +3,12 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 // TODO:
 // import { Meteor } from 'meteor-client';
 declare var Meteor;
-import {NavController, NavParams, ViewController, ToastController,
-	ModalController, LoadingController, AlertController, App} from 'ionic-angular';
+import {NavController, NavParams, ViewController, ModalController, LoadingController, AlertController, App} from 'ionic-angular';
 
 import {MeteorObservable} from "meteor-rxjs";
 
 import { UserRegistration } from "../../classes/user-registration.class";
+import { UIUtilsService } from "../../classes/services/ui-utils.service";
 import { Utils } from '../../classes/shared/utils';
 
 import { DashboardMobileComponent } from "../dashboard/dashboard.component.mobile";
@@ -21,7 +21,7 @@ import { Users } from "../../shared/collections";
 @Component({
   selector: 'car-registration',
   templateUrl: 'car-registration.component.mobile.html',
-  providers: [Utils]
+  providers: [UIUtilsService, Utils]
 })
 export class CarRegistrationMobileComponent extends UserRegistration implements OnInit, OnDestroy {
 
@@ -43,18 +43,21 @@ export class CarRegistrationMobileComponent extends UserRegistration implements 
 	carRecord: CarRecord;
 	licenseRecord: LicenseRecord;
 
+	queried: boolean;
 	updated: boolean;
 
 	hasInsurance: boolean;
 
+
 	constructor(private navCtrl: NavController, navParams: NavParams, private viewCtrl: ViewController,
-		private formBuilder: FormBuilder, private toastCtrl: ToastController, private modalCtrl: ModalController,
+		private formBuilder: FormBuilder, private uiUtils: UIUtilsService, private modalCtrl: ModalController,
 		private loadingCtrl: LoadingController, private alertCtrl: AlertController, private utils: Utils, private app: App) {
 		super();
 		this.card = "Matricula";
 		this.submitAttempt = false;
 		this.isModal = navParams.get("isModal");
 		this.utils = utils;
+		this.queried = false;
 		this.updated = false;
 		this.hasLicense = false;
 		this.validRegister = false;
@@ -75,7 +78,7 @@ export class CarRegistrationMobileComponent extends UserRegistration implements 
 
 	ngOnDestroy() {
 		if(this.isModal && this.updated) {
-			this.showAlert('Perfil actualizado', '¡El vehículo ha sido registrado exitosamente!');
+			this.uiUtils.presentAlert('Perfil actualizado', '¡Su perfil ha sido actualizado exitosamente!');
 		}
 	}
 
@@ -84,6 +87,10 @@ export class CarRegistrationMobileComponent extends UserRegistration implements 
     }
 
     validateCar() {
+
+    	if(this.uiUtils.toastInstance) {
+    		this.uiUtils.toastInstance.dismiss();
+    	}
 
     	// let person_id = Meteor.user()['personData']['dni'];
 
@@ -102,46 +109,31 @@ export class CarRegistrationMobileComponent extends UserRegistration implements 
 
 	    	MeteorObservable.call('crawlANTCarData', Meteor.userId(), this.carRegister)
 	    	.subscribe((response: CarRecord) => {
+	    		this.queried = true;
 	    		me.carRecord = response;
 	    		me.validRegister = this.carRecord.found;
 
 	    		if(!me.validRegister) {
 	    			me.loader.dismiss();
-	    			me.presentToast("El número de placa no es válido");
+	    			this.uiUtils.presentToast("El número de placa no es válido", 'toast-error', true, 'Cerrar');
 	    		}else if(this.utils.stringToDate(me.carRecord.vehicleData.fcaducidad_matricula) < new Date()){
 					me.loader.dismiss();
-					me.presentToast("La matrícula de este vehículo expiro");
+					this.uiUtils.presentToast("La matrícula de este vehículo expiro", 'toast-error', true, 'Cerrar');
 					me.validRegister = false;
 				} else {
+					this.uiUtils.presentToast("¡El vehículo ha sido registrado exitosamente!", 'toast-ok', false, undefined, 3000);
 					me.loader.dismiss();
-					// MeteorObservable.call('crawlANTPersonData', Meteor.userId(), person_id)
-					// .subscribe((response: LicenseRecord) => {
-					// 	console.log(response);
-					// 	me.licenseRecord = response;
-					// 	me.hasLicense = response.found;
-					// 	me.loader.dismiss();
-					// 	if(!me.hasLicense || me.licenseRecord.license_info.points === "0") {
-					// 		me.presentToast("Usted no registra una licencia válida");
-					// 	}else if(this.utils.stringToDate(me.licenseRecord.license_info.license_expire) < new Date()){
-					// 		me.presentToast("Su licencia expiro");
-					// 		me.hasLicense = false;
-					// 	}
-
-					// }, (err) => {
-				 //    	me.loader.dismiss();
-				 //       	me.presentToast("Internal error. Something went wrong!");
-			  //       });
 				}
 
 	       }, (err) => {
 	       	me.loader.dismiss();
-					me.presentToast("Error interno. Por favor intenta de nuevo.");
+				this.uiUtils.presentToast("Error interno. Por favor intenta de nuevo.", 'toast-error', false, undefined, 3000);
 	       });
 	    }
 
     }
 
-    validateLicence(){
+    validateLicence() {
 
     	let person_id = Meteor.user()['personData']['dni'];
     	const me = this;
@@ -153,43 +145,37 @@ export class CarRegistrationMobileComponent extends UserRegistration implements 
 				let prevMonth = new Date();
 				prevMonth.setDate(prevMonth.getDate() - 30);
 				if(!me.hasLicense || me.licenseRecord.license_info.points === "0") {
-					me.showAlert('Licencia no válida','Usted no registra una licencia válida');
+					this.uiUtils.presentAlert('Licencia no válida','Usted no registra una licencia válida de circulación en el País donde se encuentra');
+					if(this.isModal) {
+						this.viewCtrl.dismiss({valid_driver: this.updated && this.hasLicense && this.validRegister});
+					}
 					me.hasLicense = false;
 				} else if(this.utils.stringToDate(me.licenseRecord.license_info.license_expire) < prevMonth){
-					me.showAlert('Licencia no válida','Su licencia ha caducado');
+					this.uiUtils.presentAlert('Licencia no válida','Su licencia ha caducado');
+					if(this.isModal) {
+						this.viewCtrl.dismiss({valid_driver: this.updated && this.hasLicense && this.validRegister});
+					}
 					me.hasLicense = false;
 				}
 			}, (err) => {
-				me.presentToast('Error interno. Por favor intenta de nuevo.');
+				this.uiUtils.presentToast("Error interno. Por favor intenta de nuevo.", 'toast-error', false, undefined, 3000);
 	    });
     }
 
     registerCar() {
+
+    	if(this.uiUtils.toastInstance) {
+    		this.uiUtils.toastInstance.dismiss();
+    	}
+
     	this.submitAttempt = true;
 
-    	// if(this.myformGroup.valid) {
-    	// 	this.driverData.carBrand = this.myformGroup.value.carBrand;
-    	// 	this.driverData.carColor = this.myformGroup.value.carColor;
-    	// 	this.driverData.carRegister = this.myformGroup.value.carRegister;
-    	// 	this.driverData.noDoors = this.myformGroup.value.noDoors;
-	    // 	if(super.registerCar()) {
-
-	    // 	} else {
-	    // 		alert("Something went wrong!");
-	    // 	}
-	    // 	this.navCtrl.push(DashboardMobileComponent, {
-	    // 	});
-	    // 	return true;
-	    // } else {
-	    // 	this.presentToast("Debes rellenar todos los campos requeridos (*)");
-	    // }
-	    // return false;
 	    this.driverData.carBrand = this.carRecord.vehicleData.marca + " " + this.carRecord.vehicleData.modelo;
 			this.driverData.carColor = this.carRecord.vehicleData.color;
 			this.driverData.carRegister = this.lastRegister;
 			this.driverData.hasInsurance = this.hasInsurance;
     	if(!super.registerCar()) {
-    		this.presentToast("Error interno. Por favor intenta de nuevo.");
+    		this.uiUtils.presentToast("Error interno. Por favor intenta de nuevo.", 'toast-error', false, undefined, 3000);
     		return false;
     	}
     	this.updated = true;
@@ -203,6 +189,11 @@ export class CarRegistrationMobileComponent extends UserRegistration implements 
     }
 
     skipStep() {
+
+    	if(this.uiUtils.toastInstance) {
+    		this.uiUtils.toastInstance.dismiss();
+    	}
+
 		Users.update({'_id': Meteor.userId()}, {$set: {
 			'personData.isDriver': false ,
 			'driverData': {}}
@@ -210,30 +201,28 @@ export class CarRegistrationMobileComponent extends UserRegistration implements 
 		this.navCtrl.push(DashboardMobileComponent, {});
     }
 
-    presentToast(message: string) {
-		let toast = this.toastCtrl.create({
-		  message: message,
-		  position: 'top',
-		  duration: 3000
-		});
-		toast.present();
-	}
-
 	termsOfService() {
+
+		if(this.uiUtils.toastInstance) {
+    		this.uiUtils.toastInstance.dismiss();
+    	}
+
 		let modal = this.modalCtrl.create(TermsOfServiceMobileComponent);
     	modal.present();
 	}
 
 	dismiss() {
-		this.viewCtrl.dismiss({valid_driver: this.updated && this.hasLicense && this.validRegister});
+
+		if(this.uiUtils.toastInstance) {
+    		this.uiUtils.toastInstance.dismiss();
+    	}
+    	if(this.queried && this.validRegister && !this.updated) {
+    		this.uiUtils.presentAlert('Perfil incompleto','Es necesario que acepte los términos y condiciones para continuar');
+    	} else {
+    		this.viewCtrl.dismiss({valid_driver: this.updated && this.hasLicense && this.validRegister});	
+    	}
+
+		
 	}
 
-	showAlert(title: string, subtitle: string) {
-		let alert = this.alertCtrl.create({
-	      title: title,
-	      subTitle: subtitle,
-	      buttons: ['OK']
-	    });
-	    alert.present();
-	}
 }

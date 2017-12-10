@@ -17,6 +17,7 @@ declare var Counts;
 
 import { Dashboard } from "../../classes/dashboard.class";
 import { GeolocationService } from "../../classes/services/geolocation.service";
+import { UIUtilsService } from "../../classes/services/ui-utils.service";
 import { NewTripMobileComponent } from '../trip/new-trip.component.mobile';
 import { TripListMobileComponent } from '../trip/trip-list.component.mobile';
 import { TripMobileComponent } from '../trip/trip.component.mobile';
@@ -33,7 +34,7 @@ declare var cordova;
 @Component({
   selector: 'dashboard',
   templateUrl: 'dashboard.component.mobile.html',
-  providers: [GeolocationService, IsDriverPipe],
+  providers: [GeolocationService, UIUtilsService, IsDriverPipe],
   animations: [
   	trigger('popSearchBox', [
       state('in', style({
@@ -129,7 +130,7 @@ export class DashboardMobileComponent extends Dashboard implements OnInit, OnDes
   constructor(private platform: Platform, private navCtrl: NavController, navParams: NavParams, private viewCtrl: ViewController,
   	private modalCtrl: ModalController, private loadingCtrl: LoadingController, private menuCtrl: MenuController,
   	private geoService: GeolocationService, private isDriverPipe: IsDriverPipe, private alertCtrl: AlertController,
-    private statusBar: StatusBar, private socialSharing: SocialSharing) {
+    private statusBar: StatusBar, private socialSharing: SocialSharing, private uiUtils: UIUtilsService) {
     super("Hello mobile World!");
 
     this.searchBar = false;
@@ -366,6 +367,7 @@ export class DashboardMobileComponent extends Dashboard implements OnInit, OnDes
   }
 
   getCurrentGeolocation() {
+    this.uiUtils.presentToast('Obteniendo ubicación...', 'toast-loading');
     this.originSearch = this.destinationSearch = '';
     // this.loader = this.loadingCtrl.create({
     //   content: "Cargando...",
@@ -379,6 +381,7 @@ export class DashboardMobileComponent extends Dashboard implements OnInit, OnDes
       if(!this.isDriverPipe.transform(Meteor.user())) {
         this.getCurrentLocation();
       } else {
+        this.uiUtils.toastInstance.dismiss();
         // this.loader.dismissAll();
       }
 
@@ -392,10 +395,12 @@ export class DashboardMobileComponent extends Dashboard implements OnInit, OnDes
   getCurrentLocation() {
   	this.geoService.getCurrentLocation(this.currentPosition).then((position) => {
 		this.originSearch = position.city;
+    this.uiUtils.toastInstance.dismiss();
     // this.loader.dismissAll();
   	}).catch((error) => {
       this.presentAlert('Error', 'Error al obtener su ubicación actual');
       console.log(error);
+      this.uiUtils.toastInstance.dismiss();
       // this.loader.dismissAll();
   	});
   }
