@@ -74,9 +74,6 @@ Meteor.methods({
 
 		  			if(rs.content.length > 0) {
 
-						let updated = CarRecords.update({driver_id: user_id, active: true}, // deactivate old record
-						{$set: {active: false}});
-
 	  					let $ = cheerio.load(rs.content);
 	  					let data = $('table tr:has(td.detalle_formulario)');
 
@@ -93,23 +90,29 @@ Meteor.methods({
 	  						});
 	  					});
 	  					console.log(vehicleData);
-	  					CarRecords.insert({
-	  						driver_id: user_id,
-	  						creationDate: new Date(),
-	  						active: true,
-	  						brand: vehicleData['marca'],
-	  						color: vehicleData['color'],
-	  						model: vehicleData['modelo'],
-	  						class: vehicleData['clase'],
-	  						year: vehicleData['anio'],
-	  						register_year: vehicleData['anio_matricula'],
-	  						register_date: vehicleData['fecha_matricula'],
-	  						service_type: vehicleData['servicio'],
-	  						register_expiryDate: vehicleData['fcaducidad_matricula']
 
+	  					let found = vehicleData['marca'] ? true:false;
 
-	  					});
-	  					return {found: vehicleData['marca'] ? true:false, vehicleData: vehicleData};
+	  					if(found) {
+	  						let updated = CarRecords.update({driver_id: user_id, active: true}, // deactivate old record
+							{$set: {active: false}});
+	  						CarRecords.insert({
+		  						driver_id: user_id,
+		  						creationDate: new Date(),
+		  						active: true,
+		  						brand: vehicleData['marca'],
+		  						color: vehicleData['color'],
+		  						model: vehicleData['modelo'],
+		  						class: vehicleData['clase'],
+		  						year: vehicleData['anio'],
+		  						register_year: vehicleData['anio_matricula'],
+		  						register_date: vehicleData['fecha_matricula'],
+		  						service_type: vehicleData['servicio'],
+		  						register_expiryDate: vehicleData['fcaducidad_matricula']
+		  					});
+	  					}
+
+	  					return {found: found, vehicleData: vehicleData};	  					
 
 	  				}
 	  				return {found: false, vehicleData: undefined};
@@ -174,7 +177,7 @@ Meteor.methods({
 						});
 						console.log(personData);
 
-						let updated = UserRecords.update({user_id: user_id},
+						let updated = UserRecords.update({user_id: user_id, active: true},
 						{$set: {
 							license_info: {
 								name: personData['name'],
