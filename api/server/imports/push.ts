@@ -5,10 +5,13 @@ import { Notification, NotificationBody } from '../../both/models/notification.m
 
 Push.debug = true;
 
+declare var process;
+
+
 Push.Configure({
   apn: {
-    certData: Assets.getText('push_certs/SimpleRide-dev.pem'), // development
-    keyData: Assets.getText('push_certs/SimpleRideKey-dev.pem'), // development
+    certData: process.env.APN_CERT ? process.env.APN_CERT:Assets.getText('push_certs/SimpleRide-dev.pem'), // development
+    keyData: process.env.APN_KEY ? process.env.APN_KEY:Assets.getText('push_certs/SimpleRideKey-dev.pem'), // development
     // certData: Assets.getText('push_certs/SimpleRide-prod.pem'), // production
     // keyData: Assets.getText('push_certs/SimpleRideKey-prod.pem'), // production
     passphrase: 'simpleride',
