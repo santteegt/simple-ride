@@ -228,11 +228,11 @@ process.env.NODE_ENV = "development";
 
 ## Deploy/Build development environment using Heroku
 
-A development environment is available in [Heroku](https://simpleride.herokuapp.com)
+A development environment is available in this [instance](https://simpleride.herokuapp.com) on Heroku
 
-If deploying to Heroku for the first time, follow the instructions in this [link](https://medium.com/@leonardykris/how-to-run-a-meteor-js-application-on-heroku-in-10-steps-7aceb12de234) if you're creating a Heroku instance. On the other hand, if you want to deploy the app into an existing Heroku instance, run `heroku git:clone -a simpleride` and add the origin remote to sync the repo.
+If deploying to Heroku for the first time, follow the instructions in this [link](https://medium.com/@leonardykris/how-to-run-a-meteor-js-application-on-heroku-in-10-steps-7aceb12de234). On the other hand, if you want to deploy the app into an existing Heroku instance, run `heroku git:clone -a simpleride` and add the origin remote to sync the repo.
 
-In case the Heroky instance is not already configured, remember to configure the following environment variables in order to deploy the app
+In case your Heroku instance is not already configured, remember to configure the following environment variables in order to successfully deploy the app
 
 ```
 heroku config:add APN_CERT="$(cat $PATH_TO_SimpleRide-dev.pem)"
