@@ -225,3 +225,5 @@ process.env.NODE_ENV = "development";
 ```
 
 6. In production, remember to link your FCM APi Key with the app in Google Play. Take a look at this [README](https://github.com/raix/push/blob/master/docs/ANDROID.md#linking-the-fcm-service-to-your-android-app) for instructions
+
+## Development environment using Heroku
