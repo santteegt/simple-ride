@@ -45,13 +45,13 @@ export class LoginComponent implements OnInit, OnDestroy {
 		this.autoSub = MeteorObservable.autorun().subscribe(() => {
 			this.user = Meteor.user();
 			if(this.user){
-				MeteorObservable.call('isAdmin', this.user._id).subscribe((response: ServerResponse) => {
-		      if(this.isAdmin = response.status == 200){
+				MeteorObservable.call('isAdmin').subscribe((response: ServerResponse) => {
+					if(this.isAdmin = response.status == 200){
 						//nothing to do
 					}else{
 						this.loginManager.logout();
 					}
-		    });
+				});
 			}
 		});
 	}

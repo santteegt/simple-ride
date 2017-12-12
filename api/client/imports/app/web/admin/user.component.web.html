@@ -1,0 +1,54 @@
+<div class="admin" *ngIf="isAdmin">
+	<div class="header row" style="max-height: 15vh;">
+		<div class="col-3">
+			<a href="/admin/users" type="button" class="btn">Regresar</a>
+		</div>
+		<div class="col-6 text-center"><h2>Administrador</h2></div>
+		<div class="col-3 text-right">
+	    <div class="btn-group" dropdown>
+	      <button dropdownToggle type="button" class="btn dropdown-toggle">{{sruser.personData.forename}} {{sruser.personData.surname}}<span class="caret"></span></button>
+	      <ul *dropdownMenu class="dropdown-menu" role="menu">
+	        <li role="menuitem"><a class="dropdown-item" (click)="logout()">Cerrar Sesión</a></li>
+	      </ul>
+	    </div>
+		</div>
+	</div>
+	<div *ngIf="sruser" class="content">
+
+		<div class="row">
+			<div class="col-sm-12 col-md-4">
+				<h3>Datos Viajero</h3>
+				<img src="{{ sruser.personData.profileImg }}" />
+				<p>Nombre: <a href="{{ sruser.services.link }}">{{ sruser.personData.forename }} {{ sruser.personData.surname }}</a><br>
+				Cédula: {{ sruser.personData.dni }}<br>
+				Celular: {{ sruser.personData.phone }}<br>
+				Email: {{ sruser.personData.email }}<br>
+				Estado: {{ sruser.personData.status }}<br>
+				Dispositivo: {{ sruser.personData.device_type }}<br>
+				Ciudad: {{ sruser.personData.city }}<br>
+				Record Policial: {{ sruser.personData.policeRecord }}</p>
+				<div class="media-object" *ngFor="let dni of dniObs | async">
+					<img src="{{dni.url}}" class="img-thumbnail" />
+				</div>
+			</div>
+			<div class="col-sm-12 col-md-4" *ngIf="sruser.personData.isDriver">
+				<h3>Datos Conductor</h3>
+				<p>Placa: {{ carRegister }}<br>
+				Marca Vehiculo: {{ sruser.personData.carBrand }}<br>
+				Color: {{ sruser.personData.carColor }}<br>
+				Tiene Seguro: {{ sruser.personData.hasInsurance }}<br>
+				Estado: {{ sruser.personData.status }}</p>
+				<div class="media-object" *ngFor="let license of licenseObs | async">
+					<img src="{{license.url}}" class="img-thumbnail" />
+				</div>
+				<div class="media-object" *ngFor="let register of registerObs | async">
+					<img src="{{register.url}}" class="img-thumbnail" />
+				</div>
+			</div>
+			<div class="col-sm-12 col-md-4">
+				<h3>Datos Admin</h3>
+				<p>Es Admin: {{ sruser.adminData.isAdmin }}</p>
+			</div>
+		</div>
+	</div>
+</div>

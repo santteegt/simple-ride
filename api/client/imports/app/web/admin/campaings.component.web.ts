@@ -55,21 +55,21 @@ export class CampaingsComponent implements OnInit, OnDestroy {
 		this.autoSub = MeteorObservable.autorun().subscribe(() => {
 			this.user = Meteor.user();
 			if(this.user && !Meteor.loggingIn()){
-				MeteorObservable.call('isAdmin', this.user._id).subscribe((response: ServerResponse) => {
-		      if(this.isAdmin = response.status == 200){
+				MeteorObservable.call('isAdmin').subscribe((response: ServerResponse) => {
+					if(this.isAdmin = response.status == 200){
 						this.campaingsSub = MeteorObservable.subscribe('campaings').subscribe(() => {
 							this.campaingsObs = Campaings.find({}).zone();
-						});
-						MeteorObservable.call('getTotalUsers').subscribe((response: any) => {
-							this.totalDrivers = response.users.totalDrivers;
-							this.totalTravellers = response.users.totalTravellers;
+							MeteorObservable.call('getTotalUsers').subscribe((response: any) => {
+								this.totalDrivers = response.users.totalDrivers;
+								this.totalTravellers = response.users.totalTravellers;
+							});
 						});
 					}else{
 						this.loginManager.logout();
 						this.router.navigate(['/admin']);
 					}
-		    });
-			}else if(Meteor.loggingIn()){
+				});
+			}else if(Meteor.loggingIn()) {
 				this.isAdmin = false;
 			}else{
 				this.loginManager.logout();

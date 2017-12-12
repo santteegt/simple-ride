@@ -7,6 +7,8 @@ import { TripsComponent } from './web/admin/trips.component.web';
 import { TripComponent } from './web/admin/trip.component.web';
 import { SharedTripComponent } from './web/share/shared-trip.component.web';
 import { CampaingsComponent } from './web/admin/campaings.component.web';
+import { UsersComponent } from './web/admin/users.component.web';
+import { UserComponent } from './web/admin/user.component.web';
 
 export const routes: Route[] = [
   { path: '', component: DashboardComponent},
@@ -17,7 +19,9 @@ export const routes: Route[] = [
   { path: 'admin/trips', component: TripsComponent },
   { path: 'admin/trip/:id', component: TripComponent },
   { path: 'share/trip/:id', component: SharedTripComponent },
-  { path: 'admin/campaings', component: CampaingsComponent }
+  { path: 'admin/campaings', component: CampaingsComponent },
+  { path: 'admin/users', component: UsersComponent },
+  { path: 'admin/user/:id', component: UserComponent },
   // { path: 'party/:partyId', component: PartyDetailsComponent, canActivate: ['canActivateForLoggedIn'] },
 ];
 

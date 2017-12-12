@@ -1,0 +1,44 @@
+<div class="admin" *ngIf="isAdmin">
+	<div class="header row" style="max-height: 15vh;">
+		<div class="col-3">
+			<a href="/admin" type="button" class="btn">Regresar</a>
+		</div>
+		<div class="col-6 text-center"><h2>Administrador</h2></div>
+		<div class="col-3 text-right">
+	    <div class="btn-group" dropdown>
+	      <button dropdownToggle type="button" class="btn dropdown-toggle">{{user.personData.forename}} {{user.personData.surname}}<span class="caret"></span></button>
+	      <ul *dropdownMenu class="dropdown-menu" role="menu">
+	        <li role="menuitem"><a class="dropdown-item" (click)="logout()">Cerrar Sesión</a></li>
+	      </ul>
+	    </div>
+		</div>
+	</div>
+	<div *ngIf="users" class="content">
+
+		<div class="row">
+			<div class="col-sm-12 col-md-3">
+				<div class="filters">
+					<h3>Filtros:</h3>
+					<input type="text" placeholder="DNI" [(ngModel)]="dni" (change)="updateUsers()"/><br>
+					<div class="radios">
+						<input type="radio" [(ngModel)]="typeFilter" value="all" (change)="updateUsers()"> Todos ({{ totalDrivers + totalTravellers }})
+						<input type="radio" [(ngModel)]="typeFilter" value="drivers" (change)="updateUsers()"> Conductores ({{ totalDrivers }})
+						<input type="radio" [(ngModel)]="typeFilter" value="travellers" (change)="updateUsers()"> Pasajeros ({{ totalTravellers }})
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-12 col-md-6 text-center">
+				<h2>Usuarios</h2>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-6 col-md-3" *ngFor="let sruser of users">
+				<img class="profile-picture" src="{{ sruser.personData.profileImg }}" />
+				<p class="user-data"><a href="/admin/user/{{ sruser._id }}">{{ sruser.personData.forename }} {{ sruser.personData.surname }}</a><br>
+					Email: {{ sruser.personData.email }}<br>
+					Estado: {{ sruser.personData.status }}
+				</p>
+			</div>
+		</div>
+	</div>
+</div>

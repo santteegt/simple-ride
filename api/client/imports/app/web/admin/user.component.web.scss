@@ -1,0 +1,49 @@
+.admin{
+	background-color: #472F92;
+	color: #fff;
+}
+
+.admin .header{
+	color: #fff;
+}
+
+.admin .header{
+	min-height: 10vh;
+}
+
+.admin .content{
+	height: 90vh;
+	overflow-y: auto;
+}
+
+.admin .content .radios{
+	float: left;
+	margin: 10px 5px;
+}
+
+.admin .header h2{
+	line-height: 50px;
+}
+
+.admin .header button{
+	margin-top: 10px;
+	color: #fff;
+	border-color: #fff;
+	background-color: transparent;
+}
+
+.admin .header a:not(.dropdown-item){
+	margin-top: 10px;
+	color: #fff;
+	border: 1px solid #fff;
+	background-color: transparent;
+}
+
+.open .dropdown-menu{
+	display: block;
+}
+
+.media-object{
+	width: 50%;
+	float: left;
+}
