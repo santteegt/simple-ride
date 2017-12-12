@@ -226,4 +226,21 @@ process.env.NODE_ENV = "development";
 
 6. In production, remember to link your FCM APi Key with the app in Google Play. Take a look at this [README](https://github.com/raix/push/blob/master/docs/ANDROID.md#linking-the-fcm-service-to-your-android-app) for instructions
 
-## Development environment using Heroku
+## Deploy/Build development environment using Heroku
+
+A development environment is available in [Heroku](https://simpleride.herokuapp.com)
+
+If deploying to Heroku for the first time, follow the instructions in this [link](https://medium.com/@leonardykris/how-to-run-a-meteor-js-application-on-heroku-in-10-steps-7aceb12de234) if you're creating a Heroku instance. On the other hand, if you want to deploy the app into an existing Heroku instance, run `heroku git:clone -a simpleride` and add the origin remote to sync the repo.
+
+In case the Heroky instance is not already configured, remember to configure the following environment variables in order to deploy the app
+
+```
+heroku config:add APN_CERT="$(cat $PATH_TO_SimpleRide-dev.pem)"
+heroku config:add APN_CERT="$(cat $PATH_TO_SimpleRideKey-dev.pem)"
+heroku config:add BUILDPACK_PRELAUNCH_METEOR=1
+heroku config:add METEOR_APP_DIR=api/
+heroku config:add METEOR_SETTINGS="$(cat $PATH_TO_settings.json)"
+heroku config:add MONGODB_URI=$URL_TO_mLab_INSTANCE
+heroku config:add ROOT_URL=https://simpleride.herokuapp.com # in case you're using existing Heroku instance 'simpleride'
+```
+
