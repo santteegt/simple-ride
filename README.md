@@ -1,4 +1,4 @@
-# simple-ride
+# SimpleRide
 
 Webapp for the Simple Ride platform based on Ionic 3.x.x and Meteor framework >1.4 as backend
 
