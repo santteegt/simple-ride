@@ -43,6 +43,15 @@ export class UserComponent implements OnInit, OnDestroy {
 
 	user_id: string;
 
+	dniSub: Subscription;
+	dniObs: Observable<Image[]>;
+
+	licenseSub: Subscription;
+	licenseObs: Observable<Image[]>;
+
+	registerSub: Subscription;
+	registerObs: Observable<Image[]>;
+
 	constructor(private loginManager: FacebookLoginManager, private router: Router, private route: ActivatedRoute) {
 
 	}
