@@ -214,7 +214,7 @@ Meteor.methods({
       let confirmed_places = trip.confirmed_places;
   		switch (reservation.payment_method) {
         case "pin":
-          confirmed_places = trip.rsvp_method == 'Manual' ? confirmed_places:confirmed_places + reservation.places;
+          confirmed_places = trip.rsvp_method == '1' ? confirmed_places:confirmed_places + reservation.places;
           //And wait for user action if driver needs to approve reservation
           break;
   			case "deposit":

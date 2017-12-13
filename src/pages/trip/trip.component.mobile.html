@@ -115,10 +115,14 @@
           </ion-col>
         </ion-row>
 
-				<ion-row font-size="11px">
+		<ion-row font-size="11px">
           <ion-col style="text-align: right">
+			  <ion-icon name="ios-flash" *ngIf="trip.rsvp_method == 0"></ion-icon>
+			  <ion-icon name="ios-eye" *ngIf="trip.rsvp_method == 1"></ion-icon>
           </ion-col>
           <ion-col col-4 style="text-align: left">
+			  <span *ngIf="trip.rsvp_method == 0">Res. Automática</span>
+			  <span *ngIf="trip.rsvp_method == 1">Reserva Manual</span>
           </ion-col>
           <ion-col style="text-align: right">
             <ion-icon name="man"></ion-icon>

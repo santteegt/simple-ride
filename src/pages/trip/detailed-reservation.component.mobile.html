@@ -60,6 +60,11 @@
   							<ion-col ion-text color="app" class="trip-label" style="margin: 0 5px; border-bottom: 1px solid #C4C4C4; padding-bottom: 10px;">{{rsvp ? 'pagar':'lugar'}}</ion-col>
   						</ion-row>
   					</div>
+					<div class="automatic-reservation">
+						<ion-row>
+							<ion-col ion-text color="secondary" *ngIf="trip.rsvp_method == 0">Reserva Inmediata</ion-col>
+						</ion-row>
+					</div>
 				</ion-col>
 			</ion-row>
 
@@ -280,7 +285,7 @@
 		<ion-card-content style="padding: 5px 5px">
 			<ion-grid no-padding style="padding-bottom: 10px">
 				<ion-row>
-					<ion-col ion-text color="app" no-padding>
+					<ion-col ion-text color="app" no-padding col-6>
 						<strong>Permitido</strong>
 					</ion-col>
 				</ion-row>

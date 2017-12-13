@@ -34,7 +34,8 @@
 				  			<!-- <strong>{{trip.origin.shortName}} - {{trip.destination.shortName}}</strong> -->
 			  			</ion-col>
 			  			<ion-col col-3 style="text-align: right; padding-right: 8px">
-				  			<ion-icon name="clock" style="vertical-align: bottom"></ion-icon>
+							<ion-icon name="ios-flash" style="vertical-align: bottom" *ngIf="trip.rsvp_method == 0"></ion-icon>
+							<ion-icon name="clock" style="vertical-align: bottom"></ion-icon>
 				  			<strong>{{trip.departureTime}}</strong>
 			  			</ion-col>
 			  		</ion-row>
