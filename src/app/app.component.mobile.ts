@@ -150,14 +150,14 @@ export class MyApp {
       //   }
       // });
 
-      this.app._setDisableScroll(false);
-
       imgCache.init({debug: true, usePersistentCache: true}).then(() => {
 
         this.autorunConnected = MeteorObservable.autorun().subscribe(() => {
 
           let connected = Meteor.status().connected;
           console.log('connection alive: ' + connected);
+
+          this.app._setDisableScroll(false);
           if(connected && connected != window['meteor_connection']) {
 
             if(this.autorunSub) {
