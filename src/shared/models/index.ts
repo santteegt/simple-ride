@@ -16,3 +16,4 @@ export * from './user-status.model';
 export * from './user-trip-flag.model';
 export * from './user.model';
 export * from './app-activity-log.model';
+export * from './config-var.model';

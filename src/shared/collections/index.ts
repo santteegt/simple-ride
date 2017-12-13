@@ -14,3 +14,4 @@ export * from './user-ride-monitors.collection';
 export * from './user-trip-flags.collection';
 export * from './users.collection';
 export * from './app-activity-logs.collection';
+export * from './config-vars.collection';

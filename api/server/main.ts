@@ -13,6 +13,7 @@ import "./imports/publications/notifications";
 import "./imports/publications/user-places.ts";
 import "./imports/publications/campaings.ts";
 import "./imports/publications/campaing-logs.ts";
+import { SystemUtils } from "./imports/utils/system";
 import "./imports/push"; // ENABLE PUSH NOTIFICATIONS
 
 declare var SyncedCron;
@@ -24,6 +25,8 @@ process.env.NODE_ENV = "development";
 
 Meteor.startup(() => {
   // code to run on server at startup
+
+  	SystemUtils.initConfig();
 
 	// Configuring oAuth services
 	const services = Meteor.settings.private.oAuth;

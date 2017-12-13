@@ -7,6 +7,7 @@ import { UserRecords } from '../../both/collections/user-records.collection';
 import { Users } from '../../both/collections/users.collection';
 import { Email } from 'meteor/email';
 import { SSR } from 'meteor/meteorhacks:ssr';
+import { SystemUtils } from '../imports/utils/system';
 
 declare var cheerio;
 
@@ -65,10 +66,12 @@ Meteor.methods({
 			    npmRequestOptions: {
 			      rejectUnauthorized: false
 			    }
-			 }
+			}
 
-			 try {
-				 let rs = Meteor['http'].call("GET", url + "/PortalWEB/paginas/clientes/clp_grid_citaciones.jsp?ps_tipo_identificacion=PLA&ps_identificacion="
+			const antServiceURL = SystemUtils.getANTServiceURL();
+
+			try {
+				 let rs = Meteor['http'].call("GET", antServiceURL + "/PortalWEB/paginas/clientes/clp_grid_citaciones.jsp?ps_tipo_identificacion=PLA&ps_identificacion="
 					+ car_id.toUpperCase() + "&ps_placa=", requestOptions);
 		  		if(rs.statusCode == 200) {
 
@@ -137,10 +140,12 @@ Meteor.methods({
 			    npmRequestOptions: {
 			      rejectUnauthorized: false
 			    }
-			 }
+			}
 
-			 try {
-				 let rs = Meteor['http'].call("GET", url + "/PortalWEB/paginas/clientes/clp_grid_citaciones.jsp?ps_tipo_identificacion=CED&ps_identificacion="
+			const antServiceURL = SystemUtils.getANTServiceURL();
+
+			try {
+				 let rs = Meteor['http'].call("GET", antServiceURL + "/PortalWEB/paginas/clientes/clp_grid_citaciones.jsp?ps_tipo_identificacion=CED&ps_identificacion="
 					+ person_id + "&ps_placa=", requestOptions);
 
 		  		if(rs.statusCode == 200) {
