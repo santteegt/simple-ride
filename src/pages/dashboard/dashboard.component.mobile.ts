@@ -387,6 +387,7 @@ export class DashboardMobileComponent extends Dashboard implements OnInit, OnDes
 
     }).catch((error) => {
       this.presentAlert('Error', 'Error al obtener la geolocalización');
+      this.uiUtils.toastInstance.dismiss();
       console.log(error);
       // this.loader.dismissAll();
     });
@@ -482,7 +483,7 @@ export class DashboardMobileComponent extends Dashboard implements OnInit, OnDes
       // }).catch((error) => {
       //   this.presentAlert('Error', 'Compartir no habilitado en tu plataforma');
       // });
-      
+
 
     } else {
 
