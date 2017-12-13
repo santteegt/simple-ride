@@ -184,7 +184,7 @@ Meteor.methods({
 
     let pin = PromoCodes.findOne({
       'promoType': PROMOTYPES.PIN,
-      'code': travelPin,
+      'code': travelPin.trim(),
       'expirationDate': {$gte: new Date()},
       'active': true
     });
