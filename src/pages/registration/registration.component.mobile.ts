@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 // TODO:
 // import { Meteor } from 'meteor-client';
 declare var Meteor;
+declare var cordova;
 import {MeteorObservable} from "meteor-rxjs";
 import { Platform, NavController, NavParams, ViewController, ToastController,
 	ModalController, LoadingController, Select, AlertController } from 'ionic-angular';
@@ -45,8 +46,10 @@ export class UserRegistrationMobileComponent extends UserRegistration implements
 
   conversationStyles: any;
 
+  alert: any;
+
   constructor(private platform: Platform, private navCtrl: NavController, navParams: NavParams,
-  	private viewCtrl: ViewController, private keyboard: Keyboard,
+  	private viewCtrl: ViewController, private keyboard: Keyboard, private alertCtrl: AlertController,
 	private formBuilder: FormBuilder, private modalCtrl: ModalController,
 	private loadingCtrl: LoadingController, private geoService: GeolocationService, 
 	private uiUtils: UIUtilsService, public utils: Utils) {
@@ -62,9 +65,15 @@ export class UserRegistrationMobileComponent extends UserRegistration implements
 
     	this.platform.resume.subscribe((e: any) => {
 	      if(this.platform.is('cordova')) {
-	          this.getGeolocation();
-	        }
+	      	this.validateGeolocation();
+	      }
 	    });
+
+		this.platform.ready().then(() => {
+			if(this.platform.is('cordova')) {
+				this.validateGeolocation();
+			}
+		});
 	}
 
 	loadGMapsScript(src: string, callback: any) {
@@ -134,6 +143,44 @@ export class UserRegistrationMobileComponent extends UserRegistration implements
 	  //   });
 
 	}
+
+	validateGeolocation() {
+
+		if(this.alert) {
+			this.alert.dismiss();
+		}
+
+      	let isLocationEnabled = this.platform.is('ios') ?
+        	cordova.plugins.diagnostic.isLocationEnabled:cordova.plugins.diagnostic.isGpsLocationEnabled;
+
+      	isLocationEnabled((enabled) => {
+          	if(enabled) {
+            	this.loadGMapsScript('https://maps.google.com/maps/api/js?key=AIzaSyA4o5dp21Sdw7vyUO0iC5mua7f9gMx6_2w&libraries=places',
+              	() => {
+                	console.log('google api loaded');
+                	this.getGeolocation();
+            	});
+          	} else {
+              	this.alert = this.alertCtrl.create({
+              		'title': 'Geolocalización desactivada',
+          			'subTitle': 'Por favor activa la geolocolazación para continuar',
+          			buttons: [
+					{
+						text: 'OK',
+						handler: () => {
+						  let switchToSettings = this.platform.is('ios') ?
+						    cordova.plugins.diagnostic.switchToSettings:cordova.plugins.diagnostic.switchToLocationSettings;
+						  switchToSettings();
+						}
+					}]
+				});
+				this.alert.present();
+			}
+        },
+        (error) => {
+          console.log(error);
+        });
+    }
 
 	getGeolocation() {
 		this.geoService.getCurrentGeolocation().then((position) => {

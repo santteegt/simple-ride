@@ -33,17 +33,6 @@ export class LoginMobileComponent implements OnInit, OnDestroy {
 		private alertCtrl: AlertController, private push: Push, private navParams: NavParams,
 		private modalCtrl: ModalController, private nativeStorage: NativeStorage) {
 
-		this.platform.resume.subscribe((e: any) => {
-			if(this.platform.is('cordova')) {
-				this.validateGeolocation();
-			}
-		});
-
-		this.platform.ready().then(() => {
-			if(this.platform.is('cordova')) {
-				this.validateGeolocation();
-			}
-		});
   	}
 
   	ngOnInit() {
@@ -144,31 +133,4 @@ export class LoginMobileComponent implements OnInit, OnDestroy {
   		});
   	}
 
-	validateGeolocation(){
-
-		let isLocationEnabled = this.platform.is('ios') ?
-			cordova.plugins.diagnostic.isLocationEnabled:cordova.plugins.diagnostic.isGpsLocationEnabled;
-
-		isLocationEnabled((enabled) => {
-			if(!enabled) {
-				let alert = this.alertCtrl.create({
-				'title': 'Geolocalización desactivada',
-				'subTitle': 'Por favor activa la geolocolazación para continuar',
-				buttons: [
-					{
-					text: 'OK',
-					handler: () => {
-						let switchToSettings = this.platform.is('ios') ?
-						cordova.plugins.diagnostic.switchToSettings:cordova.plugins.diagnostic.switchToLocationSettings;
-						switchToSettings();
-					}
-					}]
-				});
-				alert.present();
-			}
-		},
-		(error) => {
-			console.log(error);
-		});
-	}
 }
