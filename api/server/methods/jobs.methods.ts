@@ -21,7 +21,7 @@ function generateUserVerificationCode(user_id: string, trip_id: string): string 
 	return trip_id.substr(0, 3) + user_id.substr(0, 3);
 }
 
-async function sendEmail(to: string, from: string, subject: string, html: string){
+async function sendEmail(to: string, from: string, subject: string, html: string) {
 	Email.send({ to, from, subject, html });
 }
 
@@ -137,11 +137,11 @@ SyncedCron.add({
 			});
 			let rsvpList = Reservations.find({
 				'trip_id': {$in: trip_ids},
-				'payment_status': RESERVATIONSTATUS.WAITING_USER_ACTION,
+				'payment_status': {$in: [RESERVATIONSTATUS.WAITING_USER_ACTION, RESERVATIONSTATUS.WAITING_DRIVER_CONFIRMATION]},
 				'cancellation_date': undefined
 			}).fetch();
-			if(rsvpList.length > 0){
-				_.each(rsvpList, function(rsvp: Reservation){
+			if(rsvpList.length > 0) {
+				_.each(rsvpList, function(rsvp: Reservation) {
 					cancelReservation(rsvp, 3);
 				});
 				console.log('CANCELLED ' +rsvpList.length+ ' UNCOMPLETE RESERVATIONS')
@@ -212,7 +212,7 @@ SyncedCron.add({
 			    Push.send(push_body);
 
 			    let recipient = Users.findOne({_id: rsvp.user_id});
-					if(recipient['personData']['email']){
+					if(recipient['personData']['email']) {
 						let to: string = recipient['personData']['email'];
 						let from: string = 'info@simpleride-ec.com';
 						let subject: string = 'Viaje a ' + trip.destination.shortName;
@@ -272,7 +272,7 @@ SyncedCron.add({
 			    Push.send(push_body);
 
 			    let recipient = Users.findOne({_id: rsvp.driver_id});
-					if(recipient['personData']['email']){
+					if(recipient['personData']['email']) {
 						let to: string = recipient['personData']['email'];
 						let from: string = 'info@simpleride-ec.com';
 						let subject: string = 'Viaje a ' + trip.destination.shortName;
@@ -339,7 +339,7 @@ SyncedCron.add({
 		    Push.send(push_body);
 
 		    let recipient = Users.findOne({_id: rsvp.user_id});
-				if(recipient['personData']['email']){
+				if(recipient['personData']['email']) {
 					let to: string = recipient['personData']['email'];
 					let from: string = 'info@simpleride-ec.com';
 					let subject: string = 'Viaje a ' + trip.destination.shortName;
@@ -369,8 +369,8 @@ SyncedCron.add({
 			'payment_status': RESERVATIONSTATUS.WAITING_USER_ACTION,
 			'reservation_date': {$lte: windowTime}
 		}).fetch();
-		if(rsvpList.length > 0){
-			_.each(rsvpList, function(rsvp: Reservation){
+		if(rsvpList.length > 0) {
+			_.each(rsvpList, function(rsvp: Reservation) {
 				cancelReservation(rsvp, 4);
 			});
 
