@@ -33,8 +33,13 @@
 				<ion-col col-9>
 					<button ion-item no-lines detail-none (click)="openDriverProfile()">
 						<ion-avatar item-left>
-							<img src="assets/nobody.png" [hidden]="loadingImgs[driver.personData.profileImg]"  style="width: 50px; height: 50px;"/>
-							<img img-cache img-cache-src="{{driver.personData.profileImg}}" (load)="loadedImg(driver.personData.profileImg)" [hidden]="!loadingImgs[driver.personData.profileImg]" style="width: 50px; height: 50px;">
+							<div>
+								<img src="assets/nobody.png" [hidden]="loadingImgs[driver.personData.profileImg]"  style="width: 50px; height: 50px;"/>
+								<img img-cache img-cache-src="{{driver.personData.profileImg}}" (load)="loadedImg(driver.personData.profileImg)" [hidden]="!loadingImgs[driver.personData.profileImg]" style="width: 50px; height: 50px;">
+								<div class='verified-driver' *ngIf="driver.driverData.status == 'verified'">
+			                      <ion-icon name="checkmark-circle" color="secondary"></ion-icon>
+			                    </div>
+							</div>
 				      	</ion-avatar>
 				      	<h3>{{driver.personData.forename}}</h3>
 				      	<p>{{driver.personData.surname}}</p>

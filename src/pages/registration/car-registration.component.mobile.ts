@@ -138,13 +138,24 @@ export class CarRegistrationMobileComponent extends UserRegistration implements 
     	let person_id = Meteor.user()['personData']['dni'];
     	const me = this;
 
+    	this.loader = this.loadingCtrl.create({
+	      content: "Buscando licencia de conducir...",
+	      spinner: "crescent"
+	    });
+
+	    this.loader.present();
+
     	MeteorObservable.call('crawlANTPersonData', Meteor.userId(), person_id)
 			.subscribe((response: LicenseRecord) => {
 				me.licenseRecord = response;
 				me.hasLicense = response.found;
 				let prevMonth = new Date();
 				prevMonth.setDate(prevMonth.getDate() - 30);
-				if(!me.hasLicense || me.licenseRecord.license_info.points === "0") {
+				this.loader.dismiss();
+				if(!me.hasLicense && !me.licenseRecord.license_info) { //TODO: Manage ANT service crashes
+					this.uiUtils.presentToast("Error interno al tratar de encontrar tu licencia. Por favor intentalo más tarde", 'toast-error', true, 'Cerrar');
+					this.viewCtrl.dismiss({valid_driver: this.updated && this.hasLicense && this.validRegister});
+				} else if(me.licenseRecord.license_info.points === "0") {
 					this.uiUtils.presentAlert('Licencia no válida','Usted no registra una licencia válida de circulación en el País donde se encuentra');
 					if(this.isModal) {
 						this.viewCtrl.dismiss({valid_driver: this.updated && this.hasLicense && this.validRegister});
@@ -158,7 +169,8 @@ export class CarRegistrationMobileComponent extends UserRegistration implements 
 					me.hasLicense = false;
 				}
 			}, (err) => {
-				this.uiUtils.presentToast("Error interno. Por favor intenta de nuevo.", 'toast-error', false, undefined, 3000);
+				this.loader.dismiss();
+				this.uiUtils.presentToast("Error interno. Por favor intenta de nuevo.", 'toast-error', true, 'Cerrar');
 	    });
     }
 
