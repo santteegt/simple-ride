@@ -16,7 +16,6 @@ import { DOCTYPES } from '../../both/models/image.model';
 
 function isAdmin() {
     let user = Meteor.user();
-    console.log(user);
     if(user && user['adminData'] && user['adminData']['isAdmin']) {
         return true;
     }else{
@@ -28,17 +27,15 @@ Meteor.methods({
     isAdmin: function() {
     if(Meteor.isServer) {
         if(isAdmin()) {
-            console.log('isAdmin');
             return {status: 200, message: 'OK', };
         }else{
-            console.log('!isAdmin');
             return {status: 500, message: 'Unauthorized', };
         }
     }
     },
     getTotalUsers: function() {
     if(Meteor.isServer) {
-        if(isAdmin()){
+        if(isAdmin()) {
             let drivers = Users.find({"personData.isDriver": true}).fetch();
             let travellers = Users.find({$or: [{"personData.isDriver": {$exists: false}}, {"personData.isDriver": false}]}).fetch();
             return {status: 200, message: 'OK', users: {totalDrivers: drivers.length, totalTravellers: travellers.length}}
@@ -49,7 +46,7 @@ Meteor.methods({
     },
     addCampaing: function(audience: string, title: string, message: string) {
     if(Meteor.isServer) {
-        if(isAdmin()){
+        if(isAdmin()) {
             Campaings.insert({
                 audience: audience,
                 title: title,
@@ -65,7 +62,7 @@ Meteor.methods({
     },
     deleteCampaing: function(campaing_id: string) {
     if(Meteor.isServer) {
-        if(isAdmin()){
+        if(isAdmin()) {
             Campaings.update({_id: campaing_id}, {$set: {active: false}});
             return {status: 200, message: 'OK'}
         }else{
@@ -75,7 +72,7 @@ Meteor.methods({
     },
     sendCampaing: function(campaing_id: string) {
     if(Meteor.isServer) {
-        if(isAdmin()){
+        if(isAdmin()) {
             let campaing = Campaings.findOne({'_id': campaing_id});
             let sendedUsers = CampaingLogs.find({'campaing_id': campaing_id}).fetch().map(function(campaing) {
             return campaing.user_id;
@@ -115,15 +112,20 @@ Meteor.methods({
         }
     }
     },
-    getUsers: function(dni?: string, drivers?: boolean){
-    if(Meteor.isServer){
-        if(isAdmin()){
+    getUsers: function(dni?: string, drivers?: boolean) {
+    if(Meteor.isServer) {
+        if(isAdmin()) {
             let selector = {};
-            if(dni){
-                selector['personData.dni'] = dni;
-            }
-            if(drivers){
+            if(drivers) {
                 selector['personData.isDriver'] = drivers;
+            }else if(drivers == false) {
+                selector = {$or: [
+                    {'personData.isDriver': false},
+                    {'personData.isDriver': {$exists: false}}
+                ]};
+            }
+            if(dni) {
+                selector['personData.dni'] = dni;
             }
             let users = Users.find(selector, {fields: {'personData': 1}}).fetch();
             return {status: 200, message: 'OK', users: users}
@@ -132,9 +134,9 @@ Meteor.methods({
         }
     }
     },
-    getUser: function(user_id: string){
-    if(Meteor.isServer){
-        if(isAdmin()){
+    getUser: function(user_id: string) {
+    if(Meteor.isServer) {
+        if(isAdmin()) {
             let selector = {'_id': user_id};
             let user = Users.findOne(selector, {fields: {'personData': 1, 'driverData': 1, 'adminData': 1, 'services': 1}});
             return {status: 200, message: 'OK', user: user}
