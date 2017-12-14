@@ -153,7 +153,7 @@ process.env.NODE_ENV = "development";
 
 #### 2.3.2 Configuring mup
 
-* Configure `api/.deploy/mup.js` accordingly
+* Configure `api/.deploy/mup.js` accordingly. **REMEMBER** to set the `path` property to the location of the local api sourcecode
 
 * Run the following commands:
 
