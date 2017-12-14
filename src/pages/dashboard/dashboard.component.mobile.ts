@@ -367,7 +367,7 @@ export class DashboardMobileComponent extends Dashboard implements OnInit, OnDes
   }
 
   getCurrentGeolocation() {
-    this.uiUtils.presentToast('Obteniendo ubicación...', 'toast-loading');
+    this.uiUtils.presentToast('Obteniendo ubicación...', 'toast-loading', undefined, undefined, 10000);
     this.originSearch = this.destinationSearch = '';
     // this.loader = this.loadingCtrl.create({
     //   content: "Cargando...",
