@@ -395,7 +395,8 @@ export class DashboardMobileComponent extends Dashboard implements OnInit, OnDes
 
   getCurrentLocation() {
   	this.geoService.getCurrentLocation(this.currentPosition).then((position) => {
-		this.originSearch = position.city;
+	this.originSearch = position.city;
+    this.getPlacesOverview();
     this.uiUtils.toastInstance.dismiss();
     // this.loader.dismissAll();
   	}).catch((error) => {
