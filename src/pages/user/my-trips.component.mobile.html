@@ -329,6 +329,11 @@
 					      Ver Detalles Viaje
 					    </button>
 
+						<button ion-item (click)="navigateTo(messageBoardModal, {'trip': getTripInfo(rsvp.trip_id), 'isPushNav': true, 'readOnly': true})">
+					      <ion-icon name="ios-chatbubbles" item-left></ion-icon>
+					      Mensajes
+					    </button>
+
 					    <button ion-item [hidden]="rsvp.cancellation_date != undefined || rsvp.user_rating || rsvp.payment_status!='processed'" (click)="navigateTo(tripReviewModal, {'trip': getTripInfo(rsvp.trip_id), 'rsvp': rsvp, 'persons': [{'isDriver': true, 'user': getDriverInfo(rsvp.driver_id)}], 'isPushNav': true})">
 					      <ion-icon name="star" item-left></ion-icon>
 					      Calificar Viaje

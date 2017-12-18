@@ -293,8 +293,12 @@ Meteor.methods({
   },
 
 
-  finishTrip: function(trip_id: string) {
-    UserTripFlags.update({'trip_id': trip_id}, {$set: {active: false, arrival_date: new Date()}}, {'multi': true});
+  finishTrip: function(trip_id: string, user_id?: string) {
+	if(user_id){
+		UserTripFlags.update({'trip_id': trip_id, 'user_id': user_id}, {$set: {code_sent: true}});
+	}else{
+	    UserTripFlags.update({'trip_id': trip_id}, {$set: {active: false, arrival_date: new Date()}}, {'multi': true});
+	}
     let rs = {status: 200, message: 'OK'};
     return rs;
 

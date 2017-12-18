@@ -10,7 +10,7 @@ export interface UserTripFlag extends CollectionObject {
 	code?: string; // only for users
 	meeting_point?: GeoPoint;
 	arrival_date?: Date;
-
+	code_sent?: boolean;
 }
 
 interface GeoPoint {

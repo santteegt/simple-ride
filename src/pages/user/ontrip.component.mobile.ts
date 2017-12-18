@@ -315,7 +315,12 @@ export class OnTripMobileComponent implements OnInit, OnDestroy {
 	    message_time: hour + ':' + minutes,
 	    message: 'Mi código de verificación es: ' + this.userTripFlag.code
 	  });
-    this.showAlertMessage('Código Enviado', 'El código se ha envíado al chat del viaje. ¡Gracias por usar SimpleRide!');
+      MeteorObservable.call('finishTrip', this.mytrip._id, this.user._id).subscribe((response: ServerResponse) => {
+          if(response.status == 200) {
+              this.showAlertMessage('Código Enviado', 'El código se ha envíado al chat del viaje. ¡Gracias por usar SimpleRide!');
+          }
+      });
+
   }
 
   isDriver(): boolean {

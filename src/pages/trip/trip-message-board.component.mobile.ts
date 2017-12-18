@@ -53,6 +53,7 @@ export class TripMessageBoardMobileComponent implements OnInit, OnDestroy {
 	loadingImgs: any;
 
 	user: any;
+	readOnly: boolean;
 
 	constructor(private navCtrl: NavController, navParams: NavParams, private viewCtrl: ViewController,
 		private alertCtrl: AlertController, private loadingCtrl: LoadingController,
@@ -60,7 +61,7 @@ export class TripMessageBoardMobileComponent implements OnInit, OnDestroy {
 
 		this.trip = navParams.get("trip");
 		this.isPushNav = navParams.get("isPushNav");
-
+		this.readOnly = navParams.get("readOnly");
 		this.pushNotifIsDriver = navParams.get("push_is_driver");
 		this.loadingImgs = {};
 		this.keyboard.hideKeyboardAccessoryBar(true);

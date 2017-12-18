@@ -172,7 +172,7 @@ export class MyApp {
               if(!Meteor.userId()) {
 
                 this.rootPage = LoginMobileComponent;
-                
+
               } else if(Meteor.user()) {
 
                 this.registerUserActivity(ACTIVITIES.APPOPENED);
@@ -203,23 +203,27 @@ export class MyApp {
                   this.tripFlagSub = MeteorObservable.subscribe('trip-flags').subscribe(() => {
                     this.tripFlags = UserTripFlags.find({'user_id': Meteor.userId()});
 
-                    if(this.tripFlags.fetch().length == 0) {
-                      console.log('no active trips');
-                      this.rootPage = DashboardMobileComponent;
+                    let trip_flags = this.tripFlags.fetch();
+                    if(trip_flags.length == 0 || (trip_flags.length > 0 && !trip_flags[0].isDriver && trip_flags[0].code_sent)) {
+                        console.log('no active trips');
+                        this.rootPage = DashboardMobileComponent;
                     } else {
-                      this.rootPage = OnTripMobileComponent;
+                        this.rootPage = OnTripMobileComponent;
                     }
                     this.tripFlags.subscribe((data: UserTripFlag[]) => {
-                      if(data.length > 0) {
-                        console.log('user is on a trip');
-                        console.log(data);
-                        if(this.rootPage != OnTripMobileComponent) {
-                          this.statusBar.show();
-                          me.rootPage = OnTripMobileComponent;
+                        if(data.length > 0) {
+                            if(!data[0].isDriver && data[0].code_sent) {
+                                me.rootPage = DashboardMobileComponent;
+                            } else {
+                                console.log('user is on a trip');
+                                if(this.rootPage != OnTripMobileComponent) {
+                                    this.statusBar.show();
+                                    me.rootPage = OnTripMobileComponent;
+                                }
+                            }
+                        } else {
+                            me.rootPage = DashboardMobileComponent;
                         }
-                      } else {
-                        me.rootPage = DashboardMobileComponent;
-                      }
                     });
 
                   });
@@ -344,7 +348,7 @@ export class MyApp {
   login() {
     this.menu.close();
     this.statusBar.hide();
-    this.app.getRootNav().setRoot(LoginMobileComponent, {});  
+    this.app.getRootNav().setRoot(LoginMobileComponent, {});
   }
 
   logout() {
@@ -355,7 +359,7 @@ export class MyApp {
 
   registerUserActivity(activity: string) {
     MeteorObservable.call('registerUserActivity', Meteor.userId(), activity).subscribe((rs) => {/*console.log(rs)*/});
-    
+
   }
 
   ngOnDestroy() {

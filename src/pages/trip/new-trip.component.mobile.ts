@@ -86,6 +86,7 @@ export class NewTripMobileComponent implements OnInit, OnDestroy {
 	promoCode: string;
 	promoMessage: string;
 	validPromo: boolean;
+	validDate: boolean;
 
 	constructor(private navCtrl: NavController, navParams: NavParams, private viewCtrl: ViewController,
 		private toastCtrl: ToastController, private modalCtrl: ModalController, private keyboard: Keyboard,
@@ -108,6 +109,7 @@ export class NewTripMobileComponent implements OnInit, OnDestroy {
 
 		this.promoMessage = "";
 		this.validPromo = false;
+		this.validDate = false;
 		this.keyboard.disableScroll(false);
 
 	}
@@ -129,7 +131,7 @@ export class NewTripMobileComponent implements OnInit, OnDestroy {
   	}
 
   	searchLocation(event: any, targetValue: string) {
-			if(targetValue=='to' && !this.originLoc){
+			if(targetValue=='to' && !this.originLoc) {
 				return;
 			}
 	  	let modal = this.modalCtrl.create(this.searchLocationModal, {
@@ -191,7 +193,7 @@ export class NewTripMobileComponent implements OnInit, OnDestroy {
 
 	}
 
-  	loadMap(){
+  	loadMap() {
 			let latLng: any;
 			latLng = new google.maps.LatLng(this.currentPosition.lat, this.currentPosition.lng);
 
@@ -287,7 +289,7 @@ export class NewTripMobileComponent implements OnInit, OnDestroy {
 		alert.present();
 	}
 
-	backButtonAction(){
+	backButtonAction() {
 		this.dismiss();
 	}
 
@@ -409,17 +411,33 @@ export class NewTripMobileComponent implements OnInit, OnDestroy {
 	    this.viewCtrl.dismiss();
 	}
 
-	validatePrice(){
-		if(this.price<this.minPrice || this.price>this.maxPrice){
+	validatePrice() {
+		if(this.price<this.minPrice || this.price>this.maxPrice) {
 			this.presentToast("El precio tiene que ser entre "+this.minPrice+" y "+this.maxPrice);
 			this.price = undefined;
 		}
 	}
 
-	validateSeats(){
-		if(this.places>4){
+	validateSeats() {
+		if(this.places>4) {
 			this.presentToast("No se pueden llevar más de 4 pasajeros");
 			this.places = undefined;
+		}
+	}
+
+	validateDate() {
+		this.validDate = true;
+		let today = new Date();
+		let selected = this.departureDate.startDate;
+		if(selected.toDateString()==today.toDateString()) {
+			let depTime = this.departureTime.split(":");
+			if(today.getHours()>parseInt(depTime[0])){
+				this.validDate = false;
+				this.presentToast("La hora de salida debe ser mayor a la hora actual");
+			}else if(today.getHours() == parseInt(depTime[0]) && today.getMinutes()>parseInt(depTime[1])){
+				this.validDate = false;
+				this.presentToast("La hora de salida  debe ser mayor a la hora actual");
+			}
 		}
 	}
 
