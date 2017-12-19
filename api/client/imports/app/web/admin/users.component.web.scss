@@ -47,10 +47,14 @@
 	width: 80px;
 	float: left;
 	height: auto;
+	border-radius: 50%;
 }
 
 .user-data{
 	float: left;
-	font-size: 16px;
-	padding-left: 20px;
+	font-size: 12px;
+	padding: 10px;
+	line-height: 20px;
+	margin-bottom: 20px;
+	width: calc(100% - 80px);
 }
