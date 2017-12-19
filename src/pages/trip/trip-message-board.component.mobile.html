@@ -87,11 +87,11 @@
 
 </ion-content>
 
-<ion-footer [keyboardAttach]="content">
+<ion-footer [keyboardAttach]="content" *ngIf="!readOnly">
     <ion-toolbar>
       	<ion-grid no-padding>
 			<ion-row>
-		        <ion-textarea keyboardFix [(ngModel)]="message" type="text" placeholder="Escribe un mensaje..." #messageInput [disabled]="readOnly"></ion-textarea>
+		        <ion-textarea keyboardFix [(ngModel)]="message" type="text" placeholder="Escribe un mensaje..." #messageInput></ion-textarea>
 
 		        <button color="app" ion-button small [disabled]="!message || message.length == 0" (click)="sendMessage($event)" class="message-form-button">Enviar  <ion-icon name="send"></ion-icon></button>
 

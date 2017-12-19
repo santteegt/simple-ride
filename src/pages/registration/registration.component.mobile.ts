@@ -33,10 +33,11 @@ export class UserRegistrationMobileComponent extends UserRegistration implements
 	myformGroup: FormGroup;
 	submitAttempt: boolean;
 	isModal: boolean;
-  isAdult: boolean;
+	isAdult: boolean;
 
 	policeRecord: PoliceRecord;
 	validId: boolean;
+	correctId: boolean;
 	lastId: string;
 	maxDate: string;
 
@@ -44,14 +45,14 @@ export class UserRegistrationMobileComponent extends UserRegistration implements
 
 	loadingImgs: any;
 
-  conversationStyles: any;
+	conversationStyles: any;
 
-  alert: any;
+	alert: any;
 
   constructor(private platform: Platform, private navCtrl: NavController, navParams: NavParams,
   	private viewCtrl: ViewController, private keyboard: Keyboard, private alertCtrl: AlertController,
 	private formBuilder: FormBuilder, private modalCtrl: ModalController,
-	private loadingCtrl: LoadingController, private geoService: GeolocationService, 
+	private loadingCtrl: LoadingController, private geoService: GeolocationService,
 	private uiUtils: UIUtilsService, public utils: Utils) {
 
 		super();
@@ -237,43 +238,48 @@ export class UserRegistrationMobileComponent extends UserRegistration implements
     	// 	this.uiUtils.presentToast("El documento de identificación no es válido", 'toast-error', true, 'Cerrar');
     	// 	return;
     	// }
+		this.correctId = true;
+		if(this.myformGroup.value.typeid=='dni'){
+			this.correctId = this.uiUtils.validateId(id);
+		}
+		if(this.correctId){
+			if(id!=null && id.length > 0 && (!this.validId || id != this.lastId)) {
+				this.loader = this.loadingCtrl.create({
+			      content: "Validando ID...",
+			      spinner: "crescent"
+			    });
+			    this.lastId = id;
+			    this.loader.present();
 
-      if(id!=null && id.length > 0 && (!this.validId || id != this.lastId)) {
-	    	this.loader = this.loadingCtrl.create({
-		      content: "Validando ID...",
-		      spinner: "crescent"
-		    });
-		    this.lastId = id;
-		    this.loader.present();
+				const me = this;
+				// let rs = Meteor.call('getPoliceRec', Meteor.userId(), id, this.myformGroup.value.typeid == 'passport')
+				MeteorObservable.call('getPoliceRecord', Meteor.userId(), id, this.myformGroup.value.typeid == 'passport')
+				.subscribe((response: PoliceRecord) => { // {found: boolean, response: UserRecord}
+					this.policeRecord = response;
+					this.validId = this.policeRecord.found || (!this.policeRecord.found  && this.myformGroup.value.typeid == 'passport')
+					me.loader.dismiss();
 
-    		const me = this;
-	    	// let rs = Meteor.call('getPoliceRec', Meteor.userId(), id, this.myformGroup.value.typeid == 'passport')
-	    	MeteorObservable.call('getPoliceRecord', Meteor.userId(), id, this.myformGroup.value.typeid == 'passport')
-	    	.subscribe((response: PoliceRecord) => { // {found: boolean, response: UserRecord}
-	    		console.log(response);
-	    		this.policeRecord = response;
-	    		this.validId = this.policeRecord.found || (!this.policeRecord.found  && this.myformGroup.value.typeid == 'passport')
-	    		me.loader.dismiss();
+						if(this.policeRecord.registered){
+							this.uiUtils.presentToast("El documento de identificación ya se encuentra registrado con otro usuario.",
+								'toast-error', true, 'OK');
+							this.validId = false;
+						}
 
-					if(this.policeRecord.registered){
-						this.uiUtils.presentToast("El documento de identificación ya se encuentra registrado con otro usuario.", 
-							'toast-error', true, 'OK');
-						this.validId = false;
+					if(!this.policeRecord.found && this.policeRecord.response && this.policeRecord.response.idr == 'error') {
+						const errorMsg = "Tenemos problemas verificando tú información. Asegurate de haber ingresado correctamente tú número de cédula.";
+						this.uiUtils.presentToast(errorMsg, 'toast-error', true, 'Cerrar');
+						this.validId = true;
+					} else if(!this.policeRecord.found && this.myformGroup.value.typeid == 'dni') {
+						this.uiUtils.presentToast("El documento de identificación no es válido", 'toast-error', true, 'Cerrar');
 					}
-
-				if(!this.policeRecord.found && this.policeRecord.response && this.policeRecord.response.idr == 'error') {
-					const errorMsg = "Tenemos problemas verificando tú información. Asegurate de haber ingresado correctamente tú número de cédula.";
-					this.uiUtils.presentToast(errorMsg, 'toast-error', true, 'Cerrar');
-					this.validId = true;
-				} else if(!this.policeRecord.found && this.myformGroup.value.typeid == 'dni') {
-					this.uiUtils.presentToast("El documento de identificación no es válido", 'toast-error', true, 'Cerrar');
-				}
-	        }, (err) => {
-	       		me.loader.dismiss();
-          		this.uiUtils.presentToast("Error interno. Por favor intenta de nuevo.", 'toast-error', false, undefined, 3000);
-	       });
-	    }
-
+				}, (err) => {
+					me.loader.dismiss();
+					this.uiUtils.presentToast("Error interno. Por favor intenta de nuevo.", 'toast-error', false, undefined, 3000);
+		       });
+		    }
+		}else{
+			this.uiUtils.presentToast("El documento de identificación no es válido", 'toast-error', true, 'Cerrar');
+		}
     }
 
     checkIdValidation() {
