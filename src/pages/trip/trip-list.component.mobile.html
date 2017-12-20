@@ -29,11 +29,11 @@
 		  	<ion-card-header no-padding class="trip-card-header">
 		  		<ion-grid>
 		  			<ion-row>
-		  				<ion-col col-9 style="padding-left: 8px; text-align: left">
+						<ion-col col-8 style="padding-left: 8px; text-align: left">
 		  					<strong>{{getTripDay(trip.departureDate)}}, {{trip.departureDate.toLocaleDateString()}}</strong>
 				  			<!-- <strong>{{trip.origin.shortName}} - {{trip.destination.shortName}}</strong> -->
 			  			</ion-col>
-			  			<ion-col col-3 style="text-align: right; padding-right: 8px">
+						<ion-col col-4 style="text-align: right; padding-right: 8px">
 							<ion-icon name="ios-flash" style="vertical-align: bottom" *ngIf="trip.rsvp_method == 0"></ion-icon>
 							<ion-icon name="clock" style="vertical-align: bottom"></ion-icon>
 				  			<strong>{{trip.departureTime}}</strong>

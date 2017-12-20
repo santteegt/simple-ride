@@ -63,6 +63,7 @@ export class UserRegistrationMobileComponent extends UserRegistration implements
     	this.conversationStyles = CONVERSATIONSTYLES.styles;
 		this.keyboard.disableScroll(false);
     	this.isAdult = false;
+		this.correctId = true;
 
     	this.platform.resume.subscribe((e: any) => {
 	      if(this.platform.is('cordova')) {
@@ -239,8 +240,8 @@ export class UserRegistrationMobileComponent extends UserRegistration implements
     	// 	return;
     	// }
 		this.correctId = true;
-		if(this.myformGroup.value.typeid=='dni'){
-			this.correctId = this.uiUtils.validateId(id);
+		if(this.myformGroup.value.typeid=='dni' && id!=''){
+			this.correctId = this.utils.validateId(id);
 		}
 		if(this.correctId){
 			if(id!=null && id.length > 0 && (!this.validId || id != this.lastId)) {
@@ -263,6 +264,7 @@ export class UserRegistrationMobileComponent extends UserRegistration implements
 							this.uiUtils.presentToast("El documento de identificación ya se encuentra registrado con otro usuario.",
 								'toast-error', true, 'OK');
 							this.validId = false;
+							this.correctId = false;
 						}
 
 					if(!this.policeRecord.found && this.policeRecord.response && this.policeRecord.response.idr == 'error') {

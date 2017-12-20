@@ -270,8 +270,12 @@ export class DashboardMobileComponent extends Dashboard implements OnInit, OnDes
 	this.placesSub = MeteorObservable.subscribe('places').subscribe(() => {
 		me.autorunPlacesSub = MeteorObservable.autorun().subscribe(() => {
 			this.places = Places.find({}).fetch();
-			this.getPlacesOverview();
-
+            this.geoService.getCurrentLocation(this.currentPosition).then((position) => {
+                this.originSearch = position.city;
+                this.getPlacesOverview();
+            }).catch((error) => {
+                this.presentAlert('Error', 'Error al obtener su ubicación actual');
+            });
 		});
 
 	});

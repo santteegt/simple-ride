@@ -163,12 +163,12 @@
       </ion-list>
 
       <div padding *ngIf="!isModal">
-        <button [disabled]="(myformGroup && !myformGroup.value.terms) || ((!isAdult && !myformGroup.value.adult) && !isAdult)" ion-button type="submit" color="app" block>
+        <button [disabled]="(myformGroup && !myformGroup.value.terms) || ((!isAdult && !myformGroup.value.adult) && !isAdult) || (myformGroup.value.typeid=='dni' && myformGroup.value.id!='' && !correctId)" ion-button type="submit" color="app" block>
           Registrarse
         </button>
       </div>
       <div padding *ngIf="isModal">
-        <button ion-button type="submit" color="app" block>Guardar</button>
+        <button [disabled]="myformGroup.value.typeid=='dni' && myformGroup.value.id!='' && !correctId" ion-button type="submit" color="app" block>Guardar</button>
       </div>
     </form>
 

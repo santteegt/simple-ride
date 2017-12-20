@@ -228,7 +228,7 @@
       <button ion-button small color="app" item-right (click)="sendPinCode()" [disabled]="travelPin.length == 0">Validar</button>
     </ion-item>
     <div class="pin-message" *ngIf="pinMessage.length > 0">
-      <span color="app"><strong>{{pinMessage}}</strong></span>
+      <span ion-text color="{{this.validPin ? 'app' : 'danger' }}"><strong>{{pinMessage}}</strong></span>
     </div>
 
     <ion-grid>
