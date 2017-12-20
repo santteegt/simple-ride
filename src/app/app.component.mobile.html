@@ -30,7 +30,7 @@
       </button>
 
       <button ion-item icon-left detail-none (click)="openPage(tripsHistory, {isModal: true})" *ngIf="user && (user | isDriver)">
-        <ion-icon name="pin"></ion-icon>
+        <ion-icon name="pin" class="line-height-1"></ion-icon>
         Historial de Viajes
       </button>
       <button ion-item icon-left detail-none (click)="openPage(myTrips, {isModal: true})" *ngIf="user && !(user | isDriver)">
@@ -39,7 +39,7 @@
       </button>
 
       <button ion-item icon-left detail-none (click)="openPage(driverProfile, {isModal: true})" *ngIf="user && (user | isDriver)">
-        <ion-icon name="car"></ion-icon>
+        <ion-icon name="car" class="line-height-1"></ion-icon>
         Perfil de Conductor
       </button>
 
@@ -68,16 +68,16 @@
 
 
       <button ion-item icon-left detail-none (click)="openPage(intro, {manual: true})">
-        <ion-icon name="help-circle" style="font-size: 1.2em"></ion-icon>
+        <ion-icon name="help-circle" style="font-size: 1.2em;" class="line-height-1"></ion-icon>
         Guía de uso
       </button>
       <button ion-item icon-left detail-none (click)="openPage(about, {})">
-        <ion-icon name="information-circle" style="font-size: 1.2em"></ion-icon>
+        <ion-icon name="information-circle" style="font-size: 1.2em" class="line-height-1"></ion-icon>
         Acerca de nosotros
       </button>
 
       <button  ion-item icon-left detail-none (click)="logout()" *ngIf="user">
-      	<ion-icon name="log-out" color="danger"></ion-icon>
+          <ion-icon name="log-out" color="danger" class="line-height-1"></ion-icon>
         <span ion-text color="danger">Cerrar Sesión</span>
       </button>
     </ion-list>
