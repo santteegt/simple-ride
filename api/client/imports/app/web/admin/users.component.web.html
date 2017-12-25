@@ -21,7 +21,7 @@
 					<h3>Filtros:</h3>
 					<input type="text" placeholder="DNI" [(ngModel)]="dni" (change)="updateUsers()"/><br>
 					<div class="radios">
-						<input type="radio" [(ngModel)]="typeFilter" value="all" (change)="updateUsers()"> Todos ({{ totalDrivers + totalTravellers }})
+						<input type="radio" [(ngModel)]="typeFilter" value="all" (change)="updateUsers()"> Todos ({{ totalUsers }})
 						<input type="radio" [(ngModel)]="typeFilter" value="drivers" (change)="updateUsers()"> Conductores ({{ totalDrivers }})
 						<input type="radio" [(ngModel)]="typeFilter" value="travellers" (change)="updateUsers()"> Pasajeros ({{ totalTravellers }})
 					</div>

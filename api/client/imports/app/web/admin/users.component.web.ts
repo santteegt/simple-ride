@@ -37,6 +37,7 @@ export class UsersComponent implements OnInit, OnDestroy {
 	isAdmin: boolean;
 	user: any;
 	users: any;
+	totalUsers: number;
 	totalDrivers: number;
 	totalTravellers: number;
 
@@ -60,6 +61,7 @@ export class UsersComponent implements OnInit, OnDestroy {
 			      	if(this.isAdmin = response.status == 200){
 						this.users = response.users;
 						MeteorObservable.call('getTotalUsers').subscribe((response:UsersResponse) => {
+							this.totalUsers = response.users.totalUsers;
 							this.totalDrivers = response.users.totalDrivers;
 							this.totalTravellers = response.users.totalTravellers;
 						})

@@ -36,9 +36,10 @@ Meteor.methods({
     getTotalUsers: function() {
     if(Meteor.isServer) {
         if(isAdmin()) {
+            let users = Users.find({}).fetch();
             let drivers = Users.find({"driverData.carRegister": {$exists: true}}).fetch();
             let travellers = Users.find({$or: [{"personData.isDriver": {$exists: false}}, {"personData.isDriver": false}]}).fetch();
-            return {status: 200, message: 'OK', users: {totalDrivers: drivers.length, totalTravellers: travellers.length}}
+            return {status: 200, message: 'OK', users: {totalUsers: users.length, totalDrivers: drivers.length, totalTravellers: travellers.length}}
         }else{
             return {status: 401, message: 'Unauthorized'}
         }

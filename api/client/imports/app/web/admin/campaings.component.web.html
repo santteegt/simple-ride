@@ -20,7 +20,7 @@
 			<input type="text" placeholder="Título" [(ngModel)]="title"/><br>
 			<textarea rows="4" cols="50" placeholder="Mensaje" [(ngModel)]="message"></textarea><br>
 			<div class="audience">
-				<input type="radio" [(ngModel)]="audience" value="all"> Todos ({{ totalDrivers + totalTravellers }})<br>
+				<input type="radio" [(ngModel)]="audience" value="all"> Todos ({{ totalUsers }})<br>
 			  <input type="radio" [(ngModel)]="audience" value="drivers"> Conductores ({{ totalDrivers }})<br>
 			  <input type="radio" [(ngModel)]="audience" value="travellers"> Pasajeros ({{ totalTravellers }})<br>
 			</div>

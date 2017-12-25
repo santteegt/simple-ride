@@ -41,6 +41,7 @@ export class CampaingsComponent implements OnInit, OnDestroy {
 	message: any;
 	audience: any;
 
+	totalUsers: number;
 	totalDrivers: number;
 	totalTravellers: number;
 
@@ -60,6 +61,7 @@ export class CampaingsComponent implements OnInit, OnDestroy {
 						this.campaingsSub = MeteorObservable.subscribe('campaings').subscribe(() => {
 							this.campaingsObs = Campaings.find({}).zone();
 							MeteorObservable.call('getTotalUsers').subscribe((response: any) => {
+								this.totalUsers = response.users.totalUsers;
 								this.totalDrivers = response.users.totalDrivers;
 								this.totalTravellers = response.users.totalTravellers;
 							});
