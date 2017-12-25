@@ -11,7 +11,7 @@ import { SystemUtils } from '../imports/utils/system';
 
 declare var cheerio;
 
-let url = 'http://sistemaunico.ant.gob.ec:6033';
+// let url = 'http://sistemaunico.ant.gob.ec:6033';
 // let url = 'https://sistemaunico.ant.gob.ec:5038';
 let to: string = 'malgia@hotmail.com';
 let from: string = 'info@simpleride-ec.com';
@@ -115,7 +115,7 @@ Meteor.methods({
 		  					});
 	  					}
 
-	  					return {found: found, vehicleData: vehicleData};	  					
+						return {found: found, vehicleData: vehicleData};
 
 	  				}
 	  				return {found: false, vehicleData: undefined};
@@ -124,7 +124,7 @@ Meteor.methods({
 		  			throw new Meteor.Error("crawler-error", "Cannot crawl data from ANT");
 		  		}
 			 } catch (e) {
-				 let html: string = SSR.render("generalEmail", {title: subject, content: 'La url '+url+' parece estar caida. Por favor revisar.'});
+				 let html: string = SSR.render("generalEmail", {title: subject, content: 'La url '+antServiceURL+' parece estar caida. Por favor revisar.'});
 				 sendEmail(to, from, subject, html);
 				 return {found: false, vehicleData: undefined};
 			 }
@@ -199,7 +199,7 @@ Meteor.methods({
 		  			throw new Meteor.Error("crawler-error", "Cannot crawl data from ANT");
 		  		}
 			 } catch (e) {
-				 let html: string = SSR.render("generalEmail", {title: subject, content: 'La url '+url+' parece estar caida. Por favor revisar.'});
+				 let html: string = SSR.render("generalEmail", {title: subject, content: 'La url '+antServiceURL+' parece estar caida. Por favor revisar.'});
 				 sendEmail(to, from, subject, html);
 				 return {found: false, license_info: undefined};
 			 }

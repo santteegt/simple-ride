@@ -36,7 +36,7 @@ Meteor.methods({
     getTotalUsers: function() {
     if(Meteor.isServer) {
         if(isAdmin()) {
-            let drivers = Users.find({"personData.isDriver": true}).fetch();
+            let drivers = Users.find({"driverData.carRegister": {$exists: true}}).fetch();
             let travellers = Users.find({$or: [{"personData.isDriver": {$exists: false}}, {"personData.isDriver": false}]}).fetch();
             return {status: 200, message: 'OK', users: {totalDrivers: drivers.length, totalTravellers: travellers.length}}
         }else{
@@ -81,7 +81,7 @@ Meteor.methods({
                 if(campaing.audience=='all') {
                     userList = Users.find({'_id': {$nin: sendedUsers}}).fetch();
                 }else if(campaing.audience=='drivers') {
-                    userList = Users.find({"personData.isDriver":true, '_id': {$nin: sendedUsers}}).fetch();
+                    userList = Users.find({"driverData.carRegister": {$exists: true}, '_id': {$nin: sendedUsers}}).fetch();
                 }else{
                     userList = Users.find({$or: [{"personData.isDriver": {$exists: false}}, {"personData.isDriver": false}], '_id': {$nin: sendedUsers}}).fetch();
                 }
@@ -117,7 +117,7 @@ Meteor.methods({
         if(isAdmin()) {
             let selector = {};
             if(drivers) {
-                selector['personData.isDriver'] = drivers;
+                selector = {'driverData.carRegister': {$exists: true}};
             }else if(drivers == false) {
                 selector = {$or: [
                     {'personData.isDriver': false},
