@@ -95,7 +95,8 @@ export class TripHistoryMobileComponent implements OnInit, OnDestroy {
 		}
 
 		this.myTripsSub = MeteorObservable.subscribe('trips', options, true).subscribe(() => {
-			let trips = Trips.find({
+			const user_id = Meteor.userId();
+			let trips = Trips.find({driver_id: user_id,
 				$or: [
 					{cancellation_date: {$ne: undefined }},
 					{departureDate: {$lt: new Date()}}
