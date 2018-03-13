@@ -5,7 +5,7 @@ Webapp for the Simple Ride platform based on Ionic 3.x.x and Meteor framework >1
 ## 1. Prerequisites
 
 * NPM ([How-to](https://nodejs.org/en/))
-* Meteor 1.6.0.x ([How-to](https://www.meteor.com/install)) -> curl https://install.meteor.com/?release=1.6.0.1 | sh
+* Meteor 1.6.0.x ([How-to](https://www.meteor.com/install)) -> curl "https://install.meteor.com/?release=1.6.0.1" | sh
 * Meteor Client Bundler -> Install it running the command `npm install -g meteor-client-bundler`
 * Ionic 3.8.0 ([How-to](https://ionicframework.com/getting-started/))
 * Android SDK with tools 25.1.6 and platform-tools 25.0.1
