@@ -94,7 +94,13 @@ configurations.all {
 }
 ```
 
-Also configure the following variable in the same build file:
+* In order to fix the issue with multipleAPK compilation, move the following file to `platforms/android`:
+
+```
+mv build-extras.gradle.example platforms/android/build-extras.gradle
+```
+
+* Finally, configure the following variable in the same build file:
 
 ```
 android {
