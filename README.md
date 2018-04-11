@@ -6,47 +6,73 @@ Webapp for the Simple Ride platform based on Ionic 3.x.x and Meteor framework >1
 
 * NPM ([How-to](https://nodejs.org/en/))
 * Meteor 1.6.0.x ([How-to](https://www.meteor.com/install)) -> curl "https://install.meteor.com/?release=1.6.0.1" | sh
-* Meteor Client Bundler -> Install it running the command `npm install -g meteor-client-bundler`
+* Meteor Client Bundler 0.2.1 -> Install it running the command `npm install -g meteor-client-bundler`
 * Ionic 3.8.0 ([How-to](https://ionicframework.com/getting-started/))
 * Android SDK with tools 25.1.6 and platform-tools 25.0.1
+* Gradle 4.5.1
+
+In case you are some releases ahead Meteor required version, downgrade using the following steps:
+
+```
+$ sudo rm /usr/local/bin/meteor
+$ rm -rf ~/.meteor
+$ sudo chown -R $(whoami) ~/.npm
+$ curl "https://install.meteor.com/?release=1.6.0.1" | sh
+```
 
 ## 2. Deploy/Build app for production
 
-* Execute the following command
+* To run the API, execute the following commands:
 
 ```
 $ cd api && meteor npm install
 $ npm run api # Configure api script parameters accordingly in the packages.json file
 ```
 
+**REMEMBER** to configure environment variabled under `api` script definition in the `packages.json` file.
+
 ### 2.1 Mobile app setup
 
-* After cloning the repo, run the following command:
+* Run the following command in the project root:
 
 ```
 npm install
 ```
 
-* In order to run the app on a mobile device or build the app in production mode, you **MUST** temporarily remove the following packages in the Meteor backend. **REMEMBER** to discard those changes before deploying the backend
+* In order to run the app on a mobile device or build the app in production mode, you **MUST** temporarily remove the following packages in the Meteor backend. **REMEMBER** to discard those changes before deploying the backend in case you're working with both modules under the same project folder
 
 ```
-cd api
-meteor remove angular2-compilers barbatus:angular2-polyfills
-meteor add ecmascript
-cd ..
-npm run meteor-client:bundle # Configure meteor-client.config.json accordingly
-ionic cordova run [android|ios] # run on a connected device
-ionic cordova run [android|ios] --prod --release # run on a connected device for production testing
+$ cd api
+$ meteor [--release 1.6.0.1] remove angular2-compilers barbatus:angular2-polyfills
+$ meteor [--release 1.6.0.1] add ecmascript
+$ cd ..
+$ npm run meteor-client:bundle # Configure meteor-client.config.json accordingly
+$ ionic cordova run [android|ios] # run on a connected device
+$ ionic cordova run [android|ios] --prod --release # run on a connected device for production testing
 ```
+#### 2.1.1 Common issues when trying to run the app
 
-* `uint8` and `uint32` gives problems on some browsers. To avoid this, comment these lines on `node_modules/meteor-client.js`
+##### 2.1.1.1 meteor-client-bundler is automatically updating meteor version?
+
+* If this is happening, you must tweak the meteor-client-bundler cli script under the `~/.nvm` folder. **TODO**: update to latest version of the script, which allows to send the version as parameter 
+
+##### 2.1.1.2 uint8 problem in meteor-client
+
+* **REMEMBER** `uint8` and `uint32` are giving problems on some browsers and iOS devices with OS < 10. To avoid this, comment these lines on `node_modules/meteor-client.js`
 
 ```
 _require('core-js/modules/es6.typed.uint8-array'); // 56
 _require('core-js/modules/es6.typed.uint32-array'); // 57
 ```
+#### 2.1.1.3 cordova-plugin-file-transfer problem
 
-#### 2.1.1 Android setup
+* When running the application on a device for the first time, you may get an error regarding **cordova-plugin-file-transfer**. To solve this issue, run the following:
+
+```
+ionic cordova plugin add cordova-plugin-file-transfer@1.6.3 --force
+```
+
+#### 2.1.2 Android setup
 
 * Generate keystore file
 ```
@@ -68,7 +94,18 @@ configurations.all {
 }
 ```
 
-#### 2.1.2 iOS setup
+Also configure the following variable in the same build file:
+
+```
+android {
+  ...
+  ...
+  flavordimensions "default"
+  ...
+  ...
+```
+
+#### 2.1.3 iOS setup
 
 * After building the app, open the project on XCode. Do not forget to check the following parameters on the info.plist properties file:
 
