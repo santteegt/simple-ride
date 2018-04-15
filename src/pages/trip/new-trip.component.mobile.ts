@@ -323,12 +323,30 @@ export class NewTripMobileComponent implements OnInit, OnDestroy {
 		  		name: this.originLoc.description, shortName: this.origin});
 
 		  	let ditem = this.destinationLoc.item ? this.destinationLoc.item:this.destinationLoc.nitem;
-		  	MeteorObservable.call('registerPlace', ditem.place_id, {country_id: country_id, place_id: ditem.place_id,
-		  		name: this.destinationLoc.description, shortName: this.destination}).subscribe((response: ServerResponse) => {
 
-						let departureDate = this.departureDate.startDate;
-				  	departureDate.setHours(this.departureTime.substr(0, this.departureTime.indexOf(':')));
-				  	departureDate.setMinutes(this.departureTime.substr(this.departureTime.indexOf(':') + 1, this.departureTime.length));
+			let departureDate = this.departureDate.startDate;
+			departureDate.setHours(this.departureTime.substr(0, this.departureTime.indexOf(':')));
+			departureDate.setMinutes(this.departureTime.substr(this.departureTime.indexOf(':') + 1, this.departureTime.length));
+
+			let same_trip = Trips.findOne({ 'driver_id': Meteor.userId(), 'origin.place_id': oitem.place_id, 'destination.place_id': ditem.place_id, 'departureDate': departureDate, departureTime: this.departureTime });
+
+			if(same_trip) {
+				loader.dismiss();
+				let alert = this.alertCtrl.create({
+					title: 'Viaje duplicado',
+					subTitle: 'Ya has creado un viaje con esta ruta para esa fecha',
+					buttons: [
+						{
+						text: 'Cerrar',
+						handler: () => {
+						this.viewCtrl.dismiss();
+						}
+					}]
+				});
+				alert.present();
+			} else {
+				MeteorObservable.call('registerPlace', ditem.place_id, {country_id: country_id, place_id: ditem.place_id,
+					name: this.destinationLoc.description, shortName: this.destination}).subscribe((response: ServerResponse) => {
 
 						let rsObs = Trips.insert({
 				  		driver_id: Meteor.userId(),
@@ -366,7 +384,7 @@ export class NewTripMobileComponent implements OnInit, OnDestroy {
 
 				  	});
 
-						rsObs.subscribe((trip_id: string) => {
+					rsObs.subscribe((trip_id: string) => {
 				  		let today = new Date();
 				  		let hour = today.getHours() < 10 ? '0' + today.getHours():today.getHours();
 		      			let minutes = today.getMinutes() < 10 ? '0' + today.getMinutes():today.getMinutes();
@@ -385,8 +403,9 @@ export class NewTripMobileComponent implements OnInit, OnDestroy {
 				  		});
 				  		loader.dismiss();
 				  		this.finishRegistration();
-						});
 					});
+				});
+			}
 		  }
 		}
 		]
