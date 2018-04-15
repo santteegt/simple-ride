@@ -254,9 +254,12 @@ Meteor.methods({
 
     let confirmed_places = rsvp.payment_method == "pin" ? (trip.confirmed_places + rsvp.places):trip.confirmed_places;
     Reservations.update({'_id': rsvp._id}, {$set: {
-      payment_status: status,
-      confirmed_places: confirmed_places
+		payment_status: status
     }});
+
+	Trips.update({'_id': trip._id}, {$set: {
+		confirmed_places: confirmed_places
+	}});
 
     sendSystemMessage(rsvp.driver_id, rsvp.trip_id, true, 'ha aceptado a ' + user['personData']['forename']);
 
