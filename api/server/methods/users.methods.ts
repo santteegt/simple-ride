@@ -7,6 +7,7 @@ import { Notification, NotificationBody } from '../../both/models/notification.m
 import { User } from '../../both/models/user.model';
 import { Users } from '../../both/collections/users.collection';
 import { UserPlaces } from '../../both/collections/user-places.collection';
+import { Images } from '../../both/collections/images.collection';
 import { AppActivityLog } from '../../both/models/app-activity-log.model';
 import { AppActivityLogs } from '../../both/collections/app-activity-logs.collection';
 
@@ -99,7 +100,6 @@ Meteor.methods({
       return {status: 200, message: 'OK'}
     }
   },
-
   registerUserActivity: function(user_id: string, activity: string) {
 
     let record: AppActivityLog = {
@@ -112,6 +112,14 @@ Meteor.methods({
 
     return {status: 200, message: 'OK'};
 
+},
+  changeUserDocumentStatus: function(user_id: string, doc_type: number, processed: boolean) {
+      let userDocument = Images.findOne({user_id: user_id, doc_type: doc_type, processed: !processed});
+      if(userDocument) {
+            Images.update({_id: userDocument._id}, {$set: {'processed': processed}});
+            Users.update({_id: user_id}, { $set: {'driverData.status': DRIVER_STATUS.VERIFIED_ONE }});
+      }
+      return {status: 200, message: 'OK'};
   }
 
 });
