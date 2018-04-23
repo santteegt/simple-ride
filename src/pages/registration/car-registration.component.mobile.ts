@@ -183,13 +183,14 @@ export class CarRegistrationMobileComponent extends UserRegistration implements 
     	this.submitAttempt = true;
 
 	    this.driverData.carBrand = this.carRecord.vehicleData.marca + " " + this.carRecord.vehicleData.modelo;
-			this.driverData.carColor = this.carRecord.vehicleData.color;
-			this.driverData.carRegister = this.lastRegister;
-			this.driverData.hasInsurance = this.hasInsurance;
+		this.driverData.carColor = this.carRecord.vehicleData.color;
+		this.driverData.carRegister = this.lastRegister;
+		this.driverData.hasInsurance = this.hasInsurance;
     	if(!super.registerCar()) {
     		this.uiUtils.presentToast("Error interno. Por favor intenta de nuevo.", 'toast-error', false, undefined, 3000);
     		return false;
     	}
+        MeteorObservable.call('changeUserDocumentStatus', Meteor.userId(), 3, false).subscribe((rs) => {});
     	this.updated = true;
     	if(this.isModal) {
     		this.dismiss();
@@ -231,10 +232,10 @@ export class CarRegistrationMobileComponent extends UserRegistration implements 
     	if(this.queried && this.validRegister && !this.updated) {
     		this.uiUtils.presentAlert('Perfil incompleto','Es necesario que acepte los términos y condiciones para continuar');
     	} else {
-    		this.viewCtrl.dismiss({valid_driver: this.updated && this.hasLicense && this.validRegister});	
+            this.viewCtrl.dismiss({valid_driver: this.updated && this.hasLicense && this.validRegister});
     	}
 
-		
+
 	}
 
 }

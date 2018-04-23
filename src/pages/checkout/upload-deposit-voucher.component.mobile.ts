@@ -136,19 +136,34 @@ export class UploadDepositVoucherMobileComponent implements OnInit, OnDestroy {
 
 	capturePhoto(sourceType: any, isCamera?: boolean) {
 
-		let cameraOptions = {
-			// sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
-			sourceType: sourceType,
-			destinationType: this.camera.DestinationType.FILE_URI,
-			// destinationType: Camera.DestinationType.DATA_URL,
-			quality: 40,
-			// targetWidth: 1000,
-			// targetHeight: 1000,
-			encodingType: this.camera.EncodingType.JPEG,
-			correctOrientation: true,
-			saveToPhotoAlbum: isCamera
-		}
+		let cameraOptions = {};
 
+		if(!this.platform.is('android')) {
+
+			cameraOptions = {
+				// sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
+				sourceType: sourceType,
+				destinationType: this.camera.DestinationType.FILE_URI,
+				// destinationType: Camera.DestinationType.DATA_URL,
+				quality: 40,
+				// targetWidth: 1000,
+				// targetHeight: 1000,
+				encodingType: this.camera.EncodingType.JPEG,
+				correctOrientation: true,
+				saveToPhotoAlbum: isCamera
+			}
+		} else {
+			cameraOptions = {
+				sourceType: sourceType,
+				destinationType: this.camera.DestinationType.FILE_URI,
+				quality: 40,
+				targetWidth: 500,
+				targetHeight: 500,
+				encodingType: this.camera.EncodingType.JPEG,
+				correctOrientation: true,
+				saveToPhotoAlbum: isCamera
+			}
+		}
 
 		this.camera.getPicture(cameraOptions).then((file_uri) => {
 
