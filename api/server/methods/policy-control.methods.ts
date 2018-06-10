@@ -217,7 +217,7 @@ Meteor.methods({
 
   		if(Meteor.isServer) {
 			try {
-				let rs = Meteor['http'].call("POST", "http://www.mdi.gob.ec/minterior1/antecedentes/data.php",
+				let rs = Meteor['http'].call("POST", "http://www.mdi.gob.ec/gestorcertificados/antecedentes/data.php",
 											{
 												headers: {
 													"Content-Type": "application/x-www-form-urlencoded",
