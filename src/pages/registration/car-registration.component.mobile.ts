@@ -1,9 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { HTTP } from '@ionic-native/http';
 // TODO:
 // import { Meteor } from 'meteor-client';
 declare var Meteor;
-import {NavController, NavParams, ViewController, ModalController, LoadingController, AlertController, App} from 'ionic-angular';
+declare var cheerio;
+import {NavController, NavParams, ViewController, ModalController, LoadingController} from 'ionic-angular';
 
 import {MeteorObservable} from "meteor-rxjs";
 
@@ -24,8 +25,6 @@ import { Users } from "../../shared/collections";
   providers: [UIUtilsService, Utils]
 })
 export class CarRegistrationMobileComponent extends UserRegistration implements OnInit, OnDestroy {
-
-	myformGroup: FormGroup;
 	submitAttempt: boolean;
 	isModal: boolean;
 
@@ -50,8 +49,8 @@ export class CarRegistrationMobileComponent extends UserRegistration implements 
 
 
 	constructor(private navCtrl: NavController, navParams: NavParams, private viewCtrl: ViewController,
-		private formBuilder: FormBuilder, private uiUtils: UIUtilsService, private modalCtrl: ModalController,
-		private loadingCtrl: LoadingController, private alertCtrl: AlertController, private utils: Utils, private app: App) {
+		private uiUtils: UIUtilsService, private modalCtrl: ModalController,
+		private loadingCtrl: LoadingController, private utils: Utils, private http: HTTP) {
 		super();
 		this.card = "Matricula";
 		this.submitAttempt = false;
@@ -107,7 +106,49 @@ export class CarRegistrationMobileComponent extends UserRegistration implements 
 
     		const me = this;
 
-	    	MeteorObservable.call('crawlANTCarData', Meteor.userId(), this.carRegister)
+            MeteorObservable.call('getANTURL', 'PLA', this.carRegister)
+            .subscribe((response: any) => {
+
+                try {
+                    this.http.acceptAllCerts(true);
+                    this.http.get(response.url, {}, {}).then(res => {
+
+                        MeteorObservable.call('parseANTCarData', Meteor.userId(), this.carRegister, res.data)
+                        .subscribe((response: CarRecord) => {
+                            this.queried = true;
+                            me.carRecord = response;
+                            me.validRegister = this.carRecord.found;
+                            if(!me.validRegister) {
+                                me.loader.dismiss();
+                                this.uiUtils.presentToast("El número de placa no es válido", 'toast-error', true, 'Cerrar');
+                            }else if(this.utils.stringToDate(me.carRecord.vehicleData.fcaducidad_matricula) < new Date()){
+                                me.loader.dismiss();
+                                this.uiUtils.presentToast("La matrícula de este vehículo expiro", 'toast-error', true, 'Cerrar');
+                                me.validRegister = false;
+                            } else {
+                                this.uiUtils.presentToast("¡El vehículo ha sido registrado exitosamente!", 'toast-ok', false, undefined, 3000);
+                                me.loader.dismiss();
+                            }
+
+                        }, (err) => {
+                                me.loader.dismiss();
+                                this.uiUtils.presentToast("Error interno. Por favor intenta de nuevo.", 'toast-error', false, undefined, 3000);
+                        });
+                    }).catch(error => {
+                        me.loader.dismiss();
+                        this.uiUtils.presentToast("Error interno. Por favor intenta de nuevo.", 'toast-error', false, undefined, 3000);
+                    });
+                } catch (e) {
+                    me.loader.dismiss();
+                    this.uiUtils.presentToast("Error interno. Por favor intenta de nuevo.", 'toast-error', false, undefined, 3000);
+                }
+                me.loader.dismiss();
+            }, (err) => {
+                me.loader.dismiss();
+            });
+
+            /*
+            MeteorObservable.call('crawlANTCarData', Meteor.userId(), this.carRegister)
 	    	.subscribe((response: CarRecord) => {
 	    		this.queried = true;
 	    		me.carRecord = response;
@@ -129,6 +170,8 @@ export class CarRegistrationMobileComponent extends UserRegistration implements 
 	       	me.loader.dismiss();
 				this.uiUtils.presentToast("Error interno. Por favor intenta de nuevo.", 'toast-error', false, undefined, 3000);
 	       });
+           */
+
 	    }
 
     }
@@ -145,7 +188,53 @@ export class CarRegistrationMobileComponent extends UserRegistration implements 
 
 	    this.loader.present();
 
-    	MeteorObservable.call('crawlANTPersonData', Meteor.userId(), person_id)
+        MeteorObservable.call('getANTURL', 'CED', person_id)
+        .subscribe((response: any) => {
+
+            try {
+                this.http.acceptAllCerts(true);
+                this.http.get(response.url, {}, {}).then(res => {
+                    MeteorObservable.call('parseANTPersonData', Meteor.userId(), person_id, res.data)
+                    .subscribe((response: LicenseRecord) => {
+                        me.licenseRecord = response;
+                        me.hasLicense = response.found;
+                        let prevMonth = new Date();
+                        prevMonth.setDate(prevMonth.getDate() - 30);
+                        this.loader.dismiss();
+                        if(!me.hasLicense && !me.licenseRecord.license_info) {
+                            this.uiUtils.presentToast("Error interno al tratar de encontrar tu licencia. Por favor intentalo más tarde", 'toast-error', true, 'Cerrar');
+                            this.viewCtrl.dismiss({valid_driver: this.updated && this.hasLicense && this.validRegister});
+                        } else if(me.licenseRecord.license_info.points === "0") {
+                            this.uiUtils.presentAlert('Licencia no válida','Usted no registra una licencia válida de circulación en el País donde se encuentra');
+                            if(this.isModal) {
+                                this.viewCtrl.dismiss({valid_driver: this.updated && this.hasLicense && this.validRegister});
+                            }
+                            me.hasLicense = false;
+                        } else if(this.utils.stringToDate(me.licenseRecord.license_info.license_expire) < prevMonth){
+                            this.uiUtils.presentAlert('Licencia no válida','Su licencia ha caducado');
+                            if(this.isModal) {
+                                this.viewCtrl.dismiss({valid_driver: this.updated && this.hasLicense && this.validRegister});
+                            }
+                            me.hasLicense = false;
+                        }
+                    }, (err) => {
+                        this.loader.dismiss();
+                        this.uiUtils.presentToast("Error interno. Por favor intenta de nuevo.", 'toast-error', true, 'Cerrar');
+                    });
+                }).catch(error => {
+                    me.loader.dismiss();
+                    console.log(error);
+                });
+            } catch (e) {
+                me.loader.dismiss();
+                console.log(e);
+            }
+            me.loader.dismiss();
+        }, (err) => {
+            me.loader.dismiss();
+        });
+
+        /*MeteorObservable.call('crawlANTPersonData', Meteor.userId(), person_id)
 			.subscribe((response: LicenseRecord) => {
 				me.licenseRecord = response;
 				me.hasLicense = response.found;
@@ -171,7 +260,7 @@ export class CarRegistrationMobileComponent extends UserRegistration implements 
 			}, (err) => {
 				this.loader.dismiss();
 				this.uiUtils.presentToast("Error interno. Por favor intenta de nuevo.", 'toast-error', true, 'Cerrar');
-	    });
+	    });*/
     }
 
     registerCar() {
@@ -237,5 +326,27 @@ export class CarRegistrationMobileComponent extends UserRegistration implements 
 
 
 	}
+
+    fixLabel(label: string) {
+        let newLabel = ''
+        switch (label) {
+            case "A&#xF1;o de Matr&#xED;cul":
+                newLabel = 'anio_matricula'
+                break;
+            case "Fecha de Matr&#xED;cula":
+                newLabel = 'fecha_matricula';
+                break;
+            case "A&#xF1;o":
+                newLabel = 'anio';
+                break;
+            case "Fecha de Caducidad":
+                newLabel = 'fcaducidad_matricula';
+                break;
+            default:
+                newLabel = label.toLowerCase();
+                break;
+        }
+        return newLabel;
+    }
 
 }

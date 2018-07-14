@@ -42,6 +42,7 @@
         "cordova-android": "^6.2.3",
         "cordova-ios": "^4.5.4",
         "cordova-plugin-add-swift-support": "^1.6.0",
+        "cordova-plugin-advanced-http": "^1.11.1",
         "cordova-plugin-app-version": "^0.1.9",
         "cordova-plugin-camera": "^2.4.1",
         "cordova-plugin-compat": "^1.1.0",
@@ -135,7 +136,8 @@
             "cordova-plugin-inappbrowser": {},
             "cordova-plugin-file-transfer": {},
             "cordova-plugin-console": {},
-            "cordova-plugin-nativestorage": {}
+            "cordova-plugin-nativestorage": {},
+            "cordova-plugin-advanced-http": {}
         },
         "platforms": [
             "android",

@@ -14,11 +14,12 @@ import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { IonCalendarModule } from "@ionic2-extra/calendar";
 import { ImgCacheModule, ImgCacheService } from 'ng-imgcache';
 import { NativeStorage } from '@ionic-native/native-storage';
+import { HTTP } from '@ionic-native/http';
 
 import { MyApp } from './app.component.mobile';
 import { MOBILE_DECLARATIONS } from '../pages/index';
 import { SHARED_DECLARATIONS } from '../classes/shared';
- 
+
 @NgModule({
   declarations: [
     MyApp,
@@ -32,7 +33,7 @@ import { SHARED_DECLARATIONS } from '../classes/shared';
     IonicModule.forRoot(MyApp, {
       scrollAssist: false,
       autoFocusAssist: false
-    })
+  })
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -52,7 +53,8 @@ import { SHARED_DECLARATIONS } from '../classes/shared';
     SocialSharing,
     InAppBrowser,
     ImgCacheService,
-    NativeStorage
+    NativeStorage,
+    HTTP
   ]
 })
 export class AppModule {}
