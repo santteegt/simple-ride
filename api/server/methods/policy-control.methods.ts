@@ -57,6 +57,15 @@ async function sendEmail(to: string, from: string, subject: string, html: string
 
 Meteor.methods({
 
+	getANTURL: function(type: string, id: string) {
+		if(Meteor.isServer) {
+			let antServiceURL = SystemUtils.getANTServiceURL();
+			antServiceURL += "/PortalWEB/paginas/clientes/clp_grid_citaciones.jsp?ps_tipo_identificacion=" + type + "&ps_identificacion="
+			   + id.toUpperCase() + "&ps_placa=";
+			return {url: antServiceURL};
+		}
+	},
+
  	crawlANTCarData: function(user_id: string, car_id: string) {
 		check(car_id, String);
 
@@ -131,6 +140,56 @@ Meteor.methods({
   		}
   	},
 
+	parseANTCarData: function(user_id: string, car_id: string, content: string) {
+		check(car_id, String);
+		if(Meteor.isServer) {
+			let vehicleData = {};
+
+			if(content.length > 0) {
+
+				let $ = cheerio.load(content);
+				let data = $('table tr:has(td.detalle_formulario)');
+
+				data.each(function(row, data) {
+					let currentLabel = '';
+					$(data).find('td').each(function(col, dataCol) {
+						let className = $(dataCol).attr('class');
+						let value = $(dataCol).html();
+						if(className == 'titulo') {
+							currentLabel = fixLabel(value.substr(0, value.length - 1));
+						} else if(className == 'detalle_formulario') {
+							vehicleData[currentLabel] = value;
+						}
+					});
+				});
+				console.log(vehicleData);
+
+				let found = vehicleData['marca'] ? true:false;
+
+				if(found) {
+					let updated = CarRecords.update({driver_id: user_id, active: true}, // deactivate old record
+				{$set: {active: false}});
+					CarRecords.insert({
+						driver_id: user_id,
+						creationDate: new Date(),
+						active: true,
+						brand: vehicleData['marca'],
+						color: vehicleData['color'],
+						model: vehicleData['modelo'],
+						class: vehicleData['clase'],
+						year: vehicleData['anio'],
+						register_year: vehicleData['anio_matricula'],
+						register_date: vehicleData['fecha_matricula'],
+						service_type: vehicleData['servicio'],
+						register_expiryDate: vehicleData['fcaducidad_matricula']
+					});
+				}
+				return {found: found, vehicleData: vehicleData};
+			}
+			return {found: false, vehicleData: undefined};
+		}
+	},
+
   	crawlANTPersonData: function(user_id: string, person_id: string) {
   		check(person_id, String);
 
@@ -204,6 +263,55 @@ Meteor.methods({
 				 return {found: false, license_info: undefined};
 			 }
 	  	}
+	},
+
+	parseANTPersonData: function(user_id: string, person_id: string, content: string) {
+		check(person_id, String);
+		if(Meteor.isServer) {
+			let personData = {};
+			if(content.length > 0) {
+				let $ = cheerio.load(content);
+				let data = $('table.MarcoTitulo tr:has(td.titulo1, td.detalle_formulario)');
+				data.each(function(row, data) {
+					let currentLabel = '';
+					$(data).find('td').each(function(col, dataCol) {
+						let value = $(dataCol).html();
+						if(row == 0) { //name and license points
+							switch (col) {
+								case 0:
+									personData['name'] = value.substr(0,value.indexOf('&'));
+									break;
+							case 2:
+								personData['points'] = value;
+								break;
+								default:
+									break;
+							}
+						}
+						if(row == 1) { //license description
+							let license_type = value.substr(value.indexOf("TIPO: ") + 6, 2).trim();
+							license_type = license_type.indexOf('&') > -1 ?
+								license_type.substr(0, license_type.indexOf('&')):license_type;
+							personData['license_type'] = license_type;
+							personData['license_expire'] = value.substr(value.indexOf(" - ") + 3, 10);
+						}
+					});
+				});
+				console.log(personData);
+
+				let updated = UserRecords.update({user_id: user_id, active: true},
+				{$set: {
+					license_info: {
+						name: personData['name'],
+						points: personData['points'],
+						license_type: personData['license_type'],
+						license_expire: personData['license_expire']
+					}
+				}});
+				return {found: true, license_info: personData};
+			}
+			return {found: false, license_info: undefined};
+		}
 	},
 
 	getPoliceRecord: function(user_id: string, person_id: string, is_passport: boolean) {
