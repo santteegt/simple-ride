@@ -22,14 +22,15 @@ $ curl "https://install.meteor.com/?release=1.6.0.1" | sh
 
 ## 2. Deploy/Build app for production
 
+**REMEMBER** to configure environment variabled under `api` script definition in the `packages.json` file.
+**REMEMBER** to copy your iOS push certificates into api/private/push_certs
+
 * To run the API, execute the following commands:
 
 ```
 $ cd api && meteor npm install
 $ npm run api # Configure api script parameters accordingly in the packages.json file
 ```
-
-**REMEMBER** to configure environment variabled under `api` script definition in the `packages.json` file.
 
 ### 2.1 Mobile app setup
 
