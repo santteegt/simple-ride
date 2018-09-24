@@ -56,7 +56,13 @@ $ ionic cordova run [android|ios] --prod --release # run on a connected device f
 
 ##### 2.1.1.1 meteor-client-bundler is automatically updating meteor version?
 
-* If this is happening, you must tweak the meteor-client-bundler cli script under the `~/.nvm` folder. **TODO**: update to latest version of the script, which allows to send the version as parameter 
+* If this is happening, you must tweak the meteor-client-bundler cli script. **TODO**: update to latest version of the script, which allows to send the version as parameter
+
+```
+vi meteor-client-bundler
+line 35 to -> Execa.sync("meteor", ["create", "--release", "1.6.0.1", tempDir], {
+line 79 to -> Execa.sync("meteor", ["--release", "1.6.0.1", "build", "--debug", "--directory", "."], {
+```
 
 ##### 2.1.1.2 uint8 problem in meteor-client
 
