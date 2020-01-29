@@ -23,9 +23,11 @@ import { PromoCode, PROMOTYPES } from '../../both/models/promo-code.model';
 SSR.compileTemplate('generalEmail', Assets.getText("email-templates/general-email.html"));
 SSR.compileTemplate('voucherEmail', Assets.getText("email-templates/voucher-email.html"));
 
+const GMAPS_API_KEY= ''
+
 function getPlaceDetails(place_id: string, place: Place) {
 	return Meteor['http'].call("GET",
-		"https://maps.googleapis.com/maps/api/place/details/json?key=AIzaSyA4o5dp21Sdw7vyUO0iC5mua7f9gMx6_2w&placeid=" + place_id,
+		`https://maps.googleapis.com/maps/api/place/details/json?key=${GMAPS_API_KEY}&placeid=${place_id}`,
 		function(error, result) {
 			if(!error) {
 				let placeDetails = JSON.parse(result.content);
